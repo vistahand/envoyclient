@@ -122,15 +122,14 @@ const Navbar = () => {
                 </div>
 
                 <div className="hidden md:flex justify-end w-full">
-                    <div className='flex gap-10 items-center'>
-                        <button className='bg-primary text-[13px] py-3 px-5
-                        text-white rounded-[10px] grow4 cursor-pointer w-[160px]'
-                        // onClick={() => {
-                        //     setToggle(!toggle);
-                        // }}
-                        >
-                            Book a Shipment
-                        </button>
+                    <div className='bg-primary text-[13px] py-3 px-5 flex gap-3
+                    text-white rounded-full grow4 cursor-pointer w-[160px]
+                    items-center'
+                    // onClick={() => {
+                    //     setToggle(!toggle);
+                    // }}
+                    >
+                        Book a Shipment
                     </div>
                 </div>
 
@@ -218,12 +217,15 @@ const Navbar = () => {
                         ))}
                         </ul>
 
-                        <button className='bg-primary ss:py-4 
-                        py-3 px-4 w-full text-white rounded-[8px] 
-                        mt-4 ss:text-[17px] text-[13px]' 
-                        onClick={() => setToggle(!toggle)}>
+                        <div className='bg-primary text-[13px] py-3 px-5 flex gap-3
+                        text-white rounded-full grow4 cursor-pointer w-[160px]
+                        items-center'
+                        // onClick={() => {
+                        //     setToggle(!toggle);
+                        // }}
+                        >
                             Book a Shipment
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
