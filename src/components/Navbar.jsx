@@ -3,7 +3,7 @@ import { BsX } from 'react-icons/bs';
 import styles from '../styles';
 import { navLinks } from '../constants';
 import { logo } from '../assets';
-import { TiArrowSortedDown } from "react-icons/ti";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoMenu } from "react-icons/io5";
 import { useNavigate  } from 'react-router-dom';
 
@@ -70,21 +70,21 @@ const Navbar = () => {
                 <div className='flex justify-center relative
                     items-center hidden md:flex'>
                     <div className="flex items-center w-full">
-                        <ul className="list-none flex flex-row gap-6">
+                        <ul className="list-none flex flex-row gap-8">
                             {navLinks.map((link, index) => (
                             <li
                                 key={link.id}
                                 className='text-decoration-none cursor-pointer 
-                                py-2 flex flex-row gap-1 items-center relative'
+                                py-2 flex flex-row gap-1.5 items-center relative'
                                 onMouseEnter={() => toggleMenu(link.id)}
                                 onMouseLeave={() => toggleMenu(null)}
                             >
-                                <h3 className='text-main text-[13px] font-medium'>
+                                <h3 className='text-main text-[14px] font-medium'>
                                     {link.title}
                                 </h3>
                                 
-                                <TiArrowSortedDown 
-                                    className='text-main text-[15px]'
+                                <MdKeyboardArrowDown
+                                    className='text-main text-[16px]'
                                 />
 
                                 {openMenuId === link.id && (
@@ -121,7 +121,12 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div className="hidden md:flex justify-end">
+                <div className="hidden md:flex justify-end items-center
+                gap-4">
+                    <h1 className='text-primary text-[14px]'>
+                        Log In
+                    </h1>
+
                     <div className='bg-primary text-[13px] py-3 px-5 flex gap-3
                     text-white rounded-full grow4 cursor-pointer w-[160px]
                     items-center'
@@ -188,7 +193,7 @@ const Navbar = () => {
                                         {link.title}
                                     </h3>
 
-                                    <TiArrowSortedDown 
+                                    <MdKeyboardArrowDown 
                                         className='text-main ss:text-[18px]
                                         text-[16px]' 
                                     />
