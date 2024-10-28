@@ -56,8 +56,8 @@ const Navbar = () => {
     <nav className='w-full flex items-center fixed top-0 z-20 navsmooth'>    
         <div className={`w-full flex bg-white ${styles.paddingX}`}>
             <div className='w-full flex justify-between items-center 
-            max-w-[72rem] mx-auto py-3'>
-                <div className='w-2/5'>
+            max-w-[68rem] mx-auto py-5'>
+                <div className='w-1/6'>
                     <a href='/'>
                         <img
                             src={logo} alt='logo'
@@ -67,7 +67,7 @@ const Navbar = () => {
                 </div>
                 
 
-                <div className='flex w-full justify-center relative
+                <div className='flex justify-center relative
                     items-center hidden md:flex'>
                     <div className="flex items-center w-full">
                         <ul className="list-none flex flex-row gap-6">
@@ -121,7 +121,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div className="hidden md:flex justify-end w-full">
+                <div className="hidden md:flex justify-end">
                     <div className='bg-primary text-[13px] py-3 px-5 flex gap-3
                     text-white rounded-full grow4 cursor-pointer w-[160px]
                     items-center'
