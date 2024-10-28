@@ -79,12 +79,12 @@ const Navbar = () => {
                                 onMouseEnter={() => toggleMenu(link.id)}
                                 onMouseLeave={() => toggleMenu(null)}
                             >
-                                <h3 className='text-main text-[14px] font-medium'>
+                                <h3 className='text-primary text-[14px] font-medium'>
                                     {link.title}
                                 </h3>
                                 
                                 <MdKeyboardArrowDown
-                                    className='text-main text-[16px]'
+                                    className='text-primary text-[16px]'
                                 />
 
                                 {openMenuId === link.id && (
@@ -100,7 +100,7 @@ const Navbar = () => {
                                                 <a
                                                     key={index}
                                                     href={subLink.route}
-                                                    className="flex text-[13px] text-main
+                                                    className="flex text-[13px] text-primary
                                                     hover:font-medium"
                                                 >
                                                     {subLink.name}
