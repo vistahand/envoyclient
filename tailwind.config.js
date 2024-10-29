@@ -19,7 +19,7 @@ module.exports = {
         brightRed: "#EA4335"
       },
       fontFamily: {
-        'encode-sans': ["Encode Sans", "sans-serif"],
+        'manrope': ["Manrope", "sans-serif"],
       },
     },
     screens: {

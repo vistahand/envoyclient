@@ -5,6 +5,7 @@ import { navLinks } from '../constants';
 import { logo } from '../assets';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoMenu } from "react-icons/io5";
+import { BsArrowRight } from "react-icons/bs";
 import { useNavigate  } from 'react-router-dom';
 
 const Navbar = () => {
@@ -79,7 +80,7 @@ const Navbar = () => {
                                 onMouseEnter={() => toggleMenu(link.id)}
                                 onMouseLeave={() => toggleMenu(null)}
                             >
-                                <h3 className='text-primary text-[14px] font-medium'>
+                                <h3 className='text-primary text-[15px] font-semibold'>
                                     {link.title}
                                 </h3>
                                 
@@ -122,19 +123,24 @@ const Navbar = () => {
                 </div>
 
                 <div className="hidden md:flex justify-end items-center
-                gap-4">
-                    <h1 className='text-primary text-[14px]'>
+                gap-5">
+                    <h1 className='text-primary text-[15px] font-semibold
+                    cursor-pointer'>
                         Log In
                     </h1>
 
-                    <div className='bg-primary text-[13px] py-3 px-5 flex gap-3
-                    text-white rounded-full grow4 cursor-pointer w-[160px]
-                    items-center'
+                    <div className='bg-primary text-[13px] py-3 px-5 flex
+                    text-white rounded-full grow4 cursor-pointer w-1/8
+                    items-center gap-3'
                     // onClick={() => {
                     //     setToggle(!toggle);
                     // }}
                     >
-                        Book a Shipment
+                        <p>
+                            Book a Shipment
+                        </p>
+                        
+                        <BsArrowRight className='text-[14px]'/>
                     </div>
                 </div>
 
