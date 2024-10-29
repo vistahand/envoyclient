@@ -80,7 +80,7 @@ const Navbar = () => {
                                 onMouseEnter={() => toggleMenu(link.id)}
                                 onMouseLeave={() => toggleMenu(null)}
                             >
-                                <h3 className='text-primary text-[15px] font-semibold'>
+                                <h3 className='text-primary text-[14px] font-semibold'>
                                     {link.title}
                                 </h3>
                                 
@@ -124,7 +124,7 @@ const Navbar = () => {
 
                 <div className="hidden md:flex justify-end items-center
                 gap-5">
-                    <h1 className='text-primary text-[15px] font-semibold
+                    <h1 className='text-primary text-[14px] font-semibold
                     cursor-pointer'>
                         Log In
                     </h1>
