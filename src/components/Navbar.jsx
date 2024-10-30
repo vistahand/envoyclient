@@ -89,9 +89,7 @@ const Navbar = () => {
                                     />
 
                                     {openMenuId === link.id && (
-                                        <div className={`absolute top-full ${index === 0 ? 
-                                        'left-0 transform-none' 
-                                        : 'left-1/2 transform -translate-x-1/2'} 
+                                        <div className={`absolute top-full left-1/2 transform -translate-x-1/2 
                                         fade-in border-[1px] border-main2 z-10`}>
                                             <div className="bg-white shadow-xl p-6
                                             flex flex-col gap-1.5 z-20"
@@ -108,11 +106,9 @@ const Navbar = () => {
                                                     </a>
                                                 ))}
                                             </div>
-                                            <div className={`absolute top-0 ${index === 0 
-                                            ? 'left-[15%] z-[-10]' 
-                                            : 'left-1/2 z-[-10]'} 
-                                            transform -translate-x-1/2 w-10 h-10
-                                            bg-white rotate-45 border-[1px] border-main2`}>
+                                            <div className='absolute top-0 left-1/2 z-[-10]
+                                            transform -translate-x-1/2 w-10 h-10 bg-white
+                                            rotate-45 border-[1px] border-main2'>
                                             </div>
                                         </div>
                                     )}
