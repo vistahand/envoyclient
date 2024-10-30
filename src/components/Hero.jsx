@@ -10,16 +10,14 @@ const Hero = () => {
 
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
-    items-center flex md:mb-0 ss:mb-52 mb-36'>
-        <div className='relative items-center w-full max-w-[72rem] p-6
-        md:mt-24 ss:mt-0 mt-10 md:rounded-[30px] flex md:p-10 ss:p-10 '
+    items-center flex'>
+        <div className='relative items-center w-full max-w-[72rem]
+        md:mt-24 ss:mt-0 mt-10 flex'
         >
             <div className='relative md:items-center ss:items-center 
-            justify-between w-full flex flex-col md:gap-20 
-            ss:gap-6 gap-6'>
+            w-full flex flex-col md:gap-20 ss:gap-6 gap-6'>
                 <motion.div variants={textVariant()}
-                className='flex justify-center md:gap-6
-                ss:gap-6 gap-4 flex-col'
+                className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4'
                 >
                     <h1 className='text-primary font-[700] md:text-[60px]
                     ss:text-[50px] text-[33px] md:leading-[4.5rem] tracking-tight
@@ -28,15 +26,14 @@ const Hero = () => {
                         Secure and seamless deliveries across borders
                     </h1>
 
-                    <p className='text-white md:text-[16px] md:leading-[24px] 
-                    ss:leading-[28px] leading-[18px] ss:text-[18px] 
-                    text-[14px] md:max-w-[600px] ss:max-w-[620px]
-                    max-w-[320px]'>
-                        Buy your desired tiles, marble, granite, sanitary
-                        wares, doors, wall and flooring materials. We've
-                        got you covered with a wide selection of
-                        high-quality products to make your dream home a 
-                        reality.
+                    <p className='text-main font-[500] md:text-[16px] 
+                    md:leading-[1.3rem] ss:leading-[1.3rem] leading-[1.3rem] 
+                    ss:text-[18px] text-[14px] md:max-w-[90ch] ss:max-w-[620px]
+                    max-w-[320px] text-center tracking-tight'>
+                        With Envoy Angel, your shipments are in safe hands. 
+                        From quick and easy bookings to 24/7 tracking, we're 
+                        here to ensure a smooth logistics experience for 
+                        every shipment, big or small.
                     </p>
 
                     <div className='flex flex-row bg-main2 w-full
