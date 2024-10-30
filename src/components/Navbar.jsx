@@ -83,7 +83,9 @@ const Navbar = () => {
                                     </h3>
                                     
                                     <MdKeyboardArrowDown
-                                        className='text-primary text-[16px] font-medium'
+                                        className={`text-primary text-[16px] font-medium transition-transform duration-300 ${
+                                            openMenuId === link.id ? 'rotate-180' : ''
+                                        }`}
                                     />
 
                                     {openMenuId === link.id && (
