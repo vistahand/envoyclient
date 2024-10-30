@@ -4,6 +4,7 @@ import { fadeIn, textVariant } from '../utils/motion';
 import { SectionWrapper2 } from '../hoc';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
+import { websearch } from '../assets';
 
 
 const Hero = () => {
@@ -39,7 +40,7 @@ const Hero = () => {
                 </motion.div>
 
                 <motion.div variants={textVariant(0.8)}>
-                    <div className='flex flex-row md:gap-5 ss:gap-5 gap-3 
+                    <div className='flex flex-row md:gap-6 ss:gap-5 gap-3 
                     items-center text-white'>
                         <a href='/'
                         className='bg-primary text-[13px] py-3 px-6 flex
@@ -50,7 +51,7 @@ const Hero = () => {
                                 Book a Shipment
                             </p>
                             
-                            <HiOutlineArrowRight className='text-[14px] font-bold'/>
+                            <HiOutlineArrowRight className='text-[14px]'/>
                         </a>
                         
                         <a href='/'
@@ -62,7 +63,7 @@ const Hero = () => {
                                 Track Shipment
                             </p>
                             
-                            <HiOutlineArrowRight className='text-[14px] font-bold'/>
+                            <img src={websearch} className='w-3 h-3'/>
                         </a>
                     </div>  
                 </motion.div> 

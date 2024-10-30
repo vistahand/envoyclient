@@ -134,7 +134,7 @@ const Navbar = () => {
                             Book a Shipment
                         </p>
                         
-                        <HiOutlineArrowRight className='text-[14px] font-bold'/>
+                        <HiOutlineArrowRight className='text-[14px]'/>
                     </a>
                 </div>
 
