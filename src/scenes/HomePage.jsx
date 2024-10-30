@@ -3,7 +3,7 @@ import {
     Hero,
     Cards,
     Hands,
-    // Help,
+    Move,
     // CTA,
     // Footer,
     // Categories,
@@ -26,10 +26,10 @@ const HomePage = () => {
             <Cards />
             <Hands />
 
-            {/* <div className='footer'>
-                <Top />
+            <div className='move'>
+                <Move />
             </div>
-
+            {/* 
             <Discover />
             <Steps />
 

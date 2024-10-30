@@ -80,19 +80,6 @@ body, html {
   transition: all 0.2s ease-in-out;
 }
 
-/* .hero {
-  background-image: url('./assets/heroImage.jpg');
-  object-fit: cover;
-  background-position: center;
-  height: 80vh;
-} */
-
-/* @media (min-height: 700px) and (max-height: 810px) {
-  .hero {
-    height: 90vh;
-  }
-} */
-
 @keyframes slide {
   0% {
     transform: translateX(100%);
@@ -103,12 +90,11 @@ body, html {
 }
 
 
-/* .cta {
-  background-image: url('./assets/cta.jpg');
-  background-position: center;
-  background-size: cover;
+.move {
+  background-color: #122A53;
 }
 
+/* 
 @media (min-width: 1060px) {
   .help {
     background-image: url('./assets/helpImg.png');
