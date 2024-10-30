@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { websearch, heroImages } from '../assets';
+import { websearch, heroImages, socialproof } from '../assets';
+import { SectionWrapper2 } from '../hoc';
 
 
 const ImageCard = ({ image }) => {
@@ -26,7 +27,7 @@ const Hero = () => {
 
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
-    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-48 ss:mt-0 
+    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-32 ss:mt-0 
     mt-10'>
         <div className='relative items-center w-full max-w-[68rem] flex'
         >
@@ -87,7 +88,7 @@ const Hero = () => {
             </div>
         </div>
 
-        <div className='flex items-center justify-center w-full'>
+        <div className='flex items-center justify-center w-full relative'>
             <div className='overflow-hidden w-full flex'
                 ref={carouselRef}
             >
@@ -101,9 +102,17 @@ const Hero = () => {
                     ))}
                 </div>
             </div>
+
+            <div className='absolute top-[50%] w-1/4'>
+                <img 
+                    src={socialproof} 
+                    alt='socialproof'
+                    className='w-[100%]'
+                />
+            </div>
         </div>
     </section>  
   )
 };
 
-export default Hero;
+export default SectionWrapper2(Hero, 'hero');

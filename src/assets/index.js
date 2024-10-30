@@ -3,6 +3,7 @@ import websearch from './websearch.svg';
 import frame1 from './Frame 1.jpg';
 import frame2 from './Frame 2.jpg';
 import frame3 from './Frame 3.jpg';
+import socialproof from './social-proof.png';
 
 export {
     logo,
@@ -10,6 +11,7 @@ export {
     frame1,
     frame2,
     frame3,
+    socialproof,
 }
 
 export const heroImages = [
