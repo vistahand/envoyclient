@@ -1,13 +1,13 @@
 import {
-    Hero,
+    // Hero,
     Navbar,
-    Discover,
-    Steps,
-    Help,
-    CTA,
-    Footer,
-    Categories,
-    Top
+    // Discover,
+    // Steps,
+    // Help,
+    // CTA,
+    // Footer,
+    // Categories,
+    // Top
 } from '../components';
 
 import { Helmet } from 'react-helmet';

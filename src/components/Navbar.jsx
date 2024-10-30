@@ -12,7 +12,6 @@ const Navbar = () => {
     const [toggle, setToggle] = useState(false);
     const menuRef = useRef(null);
     const [openMenuId, setOpenMenuId] = useState(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const navigate = useNavigate();
     const [scrollPosition, setScrollPosition] = useState(0);
 
