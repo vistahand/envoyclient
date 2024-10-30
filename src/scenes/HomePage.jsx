@@ -1,6 +1,6 @@
 import {
-    // Hero,
     Navbar,
+    Hero,
     // Discover,
     // Steps,
     // Help,
@@ -22,8 +22,8 @@ const HomePage = () => {
             </Helmet>
 
             <Navbar />
-            {/* <Hero />
-            <Categories />
+            <Hero />
+            {/*<Categories />
 
             <div className='footer'>
                 <Top />
