@@ -13,7 +13,7 @@ const Hero = () => {
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
     items-center flex'>
-        <div className='relative items-center w-full max-w-[72rem]
+        <div className='relative items-center w-full max-w-[68rem]
         md:mt-24 ss:mt-0 mt-10 flex'
         >
             <div className='relative md:items-center ss:items-center 
