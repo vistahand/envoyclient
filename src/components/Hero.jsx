@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
-import { SectionWrapper2 } from '../hoc';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { websearch, heroImages } from '../assets';
@@ -9,11 +8,11 @@ import { websearch, heroImages } from '../assets';
 
 const ImageCard = ({ image }) => {
     return (
-        <div className='w-auto h-[200px]'>
+        <div className='w-[550px] h-[250px]'>
             <img 
                 src={image}
                 alt='heroImage'
-                className='rounded-lg object-cover w-full h-full'
+                className='rounded-2xl w-full'
             />
         </div>
     );
@@ -27,7 +26,7 @@ const Hero = () => {
 
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
-    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-36 ss:mt-0 
+    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-48 ss:mt-0 
     mt-10'>
         <div className='relative items-center w-full max-w-[68rem] flex'
         >
@@ -92,7 +91,7 @@ const Hero = () => {
             <div className='overflow-hidden w-full flex'
                 ref={carouselRef}
             >
-                <div className='flex gap-6'>
+                <div className='flex gap-6 w-full items-center justify-center'>
                     {heroImages.map((item, index) => (
                         <div key={index}>
                             <ImageCard 
@@ -107,4 +106,4 @@ const Hero = () => {
   )
 };
 
-export default SectionWrapper2(Hero, 'hero');
+export default Hero;

@@ -14,7 +14,19 @@ const Navbar = () => {
     const [openMenuId, setOpenMenuId] = useState(null);
     const navigate = useNavigate();
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [isScrolled, setIsScrolled] = useState(false);
 
+    useEffect(() => {
+        const handleScroll = () => {
+        setIsScrolled(window.scrollY > 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+        window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const toggleMenu = (id) => {
         setOpenMenuId((prevId) => (prevId === id ? null : id));
@@ -53,7 +65,8 @@ const Navbar = () => {
 
 
   return (
-    <nav className='w-full flex items-center fixed top-0 z-20 navsmooth'>    
+    <nav className={`w-full flex items-center fixed top-0 z-20 navsmooth
+    ${ isScrolled ? 'shadow-lg' : '' }`}>    
         <div className={`w-full flex bg-white ${styles.paddingX}`}>
             <div className='w-full flex justify-between items-center 
             max-w-[68rem] mx-auto py-5'>
