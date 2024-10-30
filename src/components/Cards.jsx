@@ -8,7 +8,7 @@ const CardItem = ({ index, title, image, description }) => {
 
     return (
         <motion.div className='bg-mainalt rounded-3xl hover:shadow-xl
-        md:basis-1/3 ss:basis-1/2 basis-full h-[400px] flex'
+        md:basis-1/3 ss:basis-1/2 basis-full h-[400px] flex navsmooth'
         variants={fadeIn('', 'spring', index * 0.5, 0.75)}>
             <div className='flex flex-col items-center justify-center
             md:gap-10 ss:gap-8 gap-6 md:p-6 ss:p-10 p-8'>

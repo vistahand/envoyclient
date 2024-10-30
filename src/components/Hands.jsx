@@ -1,5 +1,4 @@
 import { SectionWrapper } from "../hoc";
-import { layout } from '../styles';
 import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
 import { hands, websearch } from '../assets';
