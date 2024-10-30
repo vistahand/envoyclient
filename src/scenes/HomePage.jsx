@@ -1,7 +1,7 @@
 import {
     Navbar,
     Hero,
-    // Discover,
+    Cards,
     // Steps,
     // Help,
     // CTA,
@@ -23,9 +23,9 @@ const HomePage = () => {
 
             <Navbar />
             <Hero />
-            {/*<Categories />
+            <Cards />
 
-            <div className='footer'>
+            {/* <div className='footer'>
                 <Top />
             </div>
 

@@ -64,3 +64,21 @@ export const navLinks = [
         ],
     },
 ];
+
+export const cards = [
+    {
+        image: search,
+        title: "Real-time package tracking",
+        description: "Get updates in real time for every drop-off point your shipment package arrives at, completely keeping you in the loop.",
+    },
+    {
+        image: select,
+        title: "Safe and secure packaging",
+        description: "Be rest assured that your shipments are properly boxed and safely packaged to withstand whatever.",
+    },
+    {
+        image: place,
+        title: "24/7 Customer support service",
+        description: "Our dedicated customer care team is ready to attend to your complaints swiftly and effectively.",
+    }
+];

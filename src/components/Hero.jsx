@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { fadeIn, textVariant } from '../utils/motion';
+import { textVariant } from '../utils/motion';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { websearch, heroImages, socialproof, curve } from '../assets';
