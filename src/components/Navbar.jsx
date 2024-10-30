@@ -135,11 +135,11 @@ const Navbar = () => {
                     //     setToggle(!toggle);
                     // }}
                     >
-                        <p>
+                        <p className='grow4-text'>
                             Book a Shipment
                         </p>
                         
-                        <BsArrowRight className='text-[14px]'/>
+                        <BsArrowRight className='text-[14px] grow4-arrow'/>
                     </div>
                 </div>
 

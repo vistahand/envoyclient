@@ -293,9 +293,24 @@ body, html {
   transform: scale(1.05);
 }
 
-.grow4 {
-  transition: all .2s ease-in-out;
+@keyframes separate {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-2px); }
 }
+
+@keyframes separateArrow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(2px); }
+}
+
+.grow4:hover .grow4-text {
+  animation: separate 0.2s ease-in-out forwards;
+}
+
+.grow4:hover .grow4-arrow {
+  animation: separateArrow 0.2s ease-in-out forwards;
+}
+
 
 .grow5 {
   transition: all .2s ease-in-out;
