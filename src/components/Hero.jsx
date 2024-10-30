@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
 import { SectionWrapper2 } from '../hoc';
 import { useNavigate } from 'react-router-dom';
+import { HiOutlineArrowRight } from "react-icons/hi";
 
 
 const Hero = () => {
@@ -38,22 +39,30 @@ const Hero = () => {
                 </motion.div>
 
                 <motion.div variants={textVariant(0.8)}>
-                    <div className='flex flex-row md:gap-5 
-                    ss:gap-5 gap-3 items-center text-white'>
-                        <a href='/about'>
-                            <button className='bg-primary grow2 md:text-[13px] 
-                            ss:text-[15px] text-[13px] md:py-3.5 ss:py-3 py-2.5 
-                            px-8 rounded-full font-medium border-none'>
+                    <div className='flex flex-row md:gap-5 ss:gap-5 gap-3 
+                    items-center text-white'>
+                        <a href='/'
+                        className='bg-primary text-[13px] py-3 px-6 flex
+                        text-white rounded-full grow4 cursor-pointer w-1/8
+                        items-center gap-3'
+                        >
+                            <p>
                                 Book a Shipment
-                            </button>
+                            </p>
+                            
+                            <HiOutlineArrowRight className='text-[14px] font-bold'/>
                         </a>
                         
-                        <a href='/contact'>
-                            <button className='bg-secondary grow2 md:text-[13px] 
-                            ss:text-[15px] text-[13px] md:py-3.5 ss:py-3 py-2.5 
-                            px-8 rounded-full font-medium border-none'>
+                        <a href='/'
+                        className='bg-secondary text-[13px] py-3 px-6 flex
+                        text-white rounded-full grow4 cursor-pointer w-1/8
+                        items-center gap-3'
+                        >
+                            <p>
                                 Track Shipment
-                            </button>
+                            </p>
+                            
+                            <HiOutlineArrowRight className='text-[14px] font-bold'/>
                         </a>
                     </div>  
                 </motion.div> 

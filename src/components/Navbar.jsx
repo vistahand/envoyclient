@@ -125,19 +125,17 @@ const Navbar = () => {
                         Log In
                     </h1>
 
-                    <div className='bg-primary text-[13px] py-3 px-5 flex
+                    <a href='/'
+                    className='bg-primary text-[13px] py-3 px-5 flex
                     text-white rounded-full grow4 cursor-pointer w-1/8
                     items-center gap-3'
-                    // onClick={() => {
-                    //     setToggle(!toggle);
-                    // }}
                     >
                         <p>
                             Book a Shipment
                         </p>
                         
                         <HiOutlineArrowRight className='text-[14px] font-bold'/>
-                    </div>
+                    </a>
                 </div>
 
                 {/* FOR MOBILE */}
