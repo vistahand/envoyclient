@@ -103,7 +103,7 @@ const Hero = () => {
                 </div>
             </div>
 
-            <div className='absolute top-[50%] w-1/4'>
+            <div className='absolute top-[55%] w-1/4'>
                 <img 
                     src={socialproof} 
                     alt='socialproof'
