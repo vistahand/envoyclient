@@ -12,12 +12,12 @@ const Hero = () => {
 
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
-    items-center flex'>
-        <div className='relative items-center w-full max-w-[68rem]
-        md:mt-24 ss:mt-0 mt-10 flex'
+    items-center flex flex-col md:gap-10 ss:gap-10 gap-8 md:mt-24 ss:mt-0 
+    mt-10'>
+        <div className='relative items-center w-full max-w-[68rem] flex'
         >
-            <div className='relative md:items-center ss:items-center 
-            w-full flex flex-col md:gap-8 ss:gap-6 gap-6'>
+            <div className='md:items-center ss:items-center w-full flex 
+            flex-col md:gap-8 ss:gap-6 gap-6'>
                 <motion.div variants={textVariant(0.3)}
                 className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4
                 items-center'
@@ -41,7 +41,7 @@ const Hero = () => {
                 </motion.div>
 
                 <motion.div variants={textVariant(0.5)}>
-                    <div className='flex flex-row md:gap-6 ss:gap-5 gap-3 
+                    <div className='flex flex-row md:gap-5 ss:gap-5 gap-3 
                     items-center text-white'>
                         <a href='/'
                         className='bg-primary text-[13px] py-3 px-6 flex
@@ -64,11 +64,17 @@ const Hero = () => {
                                 Track Shipment
                             </p>
                             
-                            <img src={websearch} className='w-5 h-5 wht'/>
+                            <img src={websearch} alt='trackshipment'
+                                className='w-5 h-5 wht'
+                            />
                         </a>
                     </div>  
                 </motion.div> 
             </div>
+        </div>
+
+        <div className='flex items-center justify-center'>
+
         </div>
     </section>  
   )
