@@ -1,6 +1,8 @@
 import { TbCurrentLocation, TbHeadset } from "react-icons/tb";
 import { LuPackage } from "react-icons/lu";
 
+import { movecard1, movecard2, movecard3, } from "../assets";
+
 
 export const navLinks = [
     {
@@ -89,17 +91,17 @@ export const cards = [
 
 export const moveCards = [
     {
-        image: TbCurrentLocation,
+        image: movecard1,
         title: "Book a shipment",
         description: "Generate an instant quote for any package by creating an account and following the easy steps to get you started.",
     },
     {
-        image: LuPackage,
+        image: movecard2,
         title: "Track your package",
         description: "Go with your package everywhere! Log in to your account to follow your package at every drop-off easily and seamlessly.",
     },
     {
-        image: TbHeadset,
+        image: movecard3,
         title: "It's time for delivery!",
         description: "Whether you're a customer or client waiting to receive your goods or a business sending out shipments, safe deliveries are assured.",
     }
