@@ -290,7 +290,7 @@ body, html {
   transition: all .2s ease-in-out;
 }
 .grow3:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 @keyframes separate {
@@ -304,19 +304,11 @@ body, html {
 }
 
 .grow4:hover .grow4-text {
-  animation: separate 0.2s ease-in-out forwards;
+  animation: separate 0.3s ease-in-out forwards;
 }
 
 .grow4:hover .grow4-arrow {
-  animation: separateArrow 0.2s ease-in-out forwards;
-}
-
-
-.grow5 {
-  transition: all .2s ease-in-out;
-}
-.grow5:hover {
-  transform: scale(1.01);
+  animation: separateArrow 0.3s ease-in-out forwards;
 }
 
 .menu-slide-enter {
