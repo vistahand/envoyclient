@@ -4,11 +4,26 @@ import { fadeIn, textVariant } from '../utils/motion';
 import { SectionWrapper2 } from '../hoc';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { websearch } from '../assets';
+import { websearch, heroImages } from '../assets';
+
+
+const ImageCard = ({ image }) => {
+    return (
+        <div className='w-[200px] h-[200px]'>
+            <img 
+                src={image}
+                alt='heroImage'
+                className='rounded-lg object-cover w-full h-full'
+            />
+        </div>
+    );
+};
 
 
 const Hero = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const carouselRef = useRef(null);
+    const itemRef = useRef(null);
 
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
@@ -73,8 +88,20 @@ const Hero = () => {
             </div>
         </div>
 
-        <div className='flex items-center justify-center'>
-
+        <div className='flex items-center justify-center w-full'>
+            <div className='overflow-hidden w-full flex'
+                ref={carouselRef}
+            >
+                <div className='flex gap-6'>
+                    {heroImages.map((item, index) => (
+                        <div key={index}>
+                            <ImageCard 
+                                {...item}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     </section>  
   )

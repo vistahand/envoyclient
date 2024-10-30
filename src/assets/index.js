@@ -11,3 +11,7 @@ export {
     frame2,
     frame3,
 }
+
+export const heroImages = [
+    frame1, frame2, frame3,
+];
