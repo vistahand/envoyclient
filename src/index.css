@@ -293,22 +293,16 @@ body, html {
   transform: scale(1.01);
 }
 
-@keyframes separate {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-2px); }
+.grow4:hover > * {
+  transition: transform 0.3s ease-in-out;
 }
 
-@keyframes separateArrow {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(2px); }
+.grow4:hover > :first-child {
+  transform: translateX(-2px);
 }
 
-.grow4:hover .grow4-text {
-  animation: separate 0.3s ease-in-out forwards;
-}
-
-.grow4:hover .grow4-arrow {
-  animation: separateArrow 0.3s ease-in-out forwards;
+.grow4:hover > :last-child {
+  transform: translateX(2px);
 }
 
 .menu-slide-enter {
