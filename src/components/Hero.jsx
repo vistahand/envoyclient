@@ -55,7 +55,7 @@ const Hero = () => {
 
                     <p className='text-main font-[500] md:text-[17px] 
                     md:leading-[1.3rem] ss:leading-[1.3rem] leading-[1.3rem] 
-                    ss:text-[18px] text-[14px] md:max-w-[80ch] ss:max-w-[620px]
+                    ss:text-[17px] text-[14px] md:max-w-[80ch] ss:max-w-[620px]
                     max-w-[320px] text-center tracking-tight'>
                         With Envoy Angel, your shipments are in safe hands. 
                         From quick and easy bookings to 24/7 tracking, we're 
