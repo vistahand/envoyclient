@@ -19,18 +19,19 @@ const Hero = () => {
             <div className='relative md:items-center ss:items-center 
             w-full flex flex-col md:gap-8 ss:gap-6 gap-6'>
                 <motion.div variants={textVariant(0.3)}
-                className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4'
+                className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4
+                items-center'
                 >
                     <h1 className='text-primary font-[700] md:text-[60px]
-                    ss:text-[50px] text-[33px] md:leading-[4.5rem] tracking-tight
+                    ss:text-[50px] text-[33px] md:leading-[4.3rem] tracking-tight
                     ss:leading-[65px] leading-[38px] text-center
                     md:max-w-[25ch]'>
                         Secure and seamless deliveries across borders
                     </h1>
 
-                    <p className='text-main font-[500] md:text-[16px] 
+                    <p className='text-main font-[500] md:text-[17px] 
                     md:leading-[1.3rem] ss:leading-[1.3rem] leading-[1.3rem] 
-                    ss:text-[18px] text-[14px] md:max-w-[90ch] ss:max-w-[620px]
+                    ss:text-[18px] text-[14px] md:max-w-[80ch] ss:max-w-[620px]
                     max-w-[320px] text-center tracking-tight'>
                         With Envoy Angel, your shipments are in safe hands. 
                         From quick and easy bookings to 24/7 tracking, we're 

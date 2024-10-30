@@ -78,7 +78,7 @@ const Navbar = () => {
                                     onMouseEnter={() => toggleMenu(link.id)}
                                     onMouseLeave={() => toggleMenu(null)}
                                 >
-                                    <h3 className='text-primary text-[15px] font-medium'>
+                                    <h3 className='text-primary text-[15px] font-[600]'>
                                         {link.title}
                                     </h3>
                                     
@@ -120,17 +120,17 @@ const Navbar = () => {
 
                 <div className="hidden md:flex justify-end items-center
                 gap-5">
-                    <h1 className='text-primary text-[15px] font-semibold
+                    <h1 className='text-primary text-[15px] font-[600]
                     cursor-pointer grow2'>
                         Log In
                     </h1>
 
                     <a href='/'
-                    className='bg-primary text-[13px] py-3 px-5 flex
+                    className='bg-primary text-[13px] py-3 px-6 flex
                     text-white rounded-full grow4 cursor-pointer w-1/8
                     items-center gap-3'
                     >
-                        <p>
+                        <p className='font-[500]'>
                             Book a Shipment
                         </p>
                         
