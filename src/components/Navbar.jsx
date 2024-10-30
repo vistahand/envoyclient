@@ -124,7 +124,7 @@ const Navbar = () => {
                 <div className="hidden md:flex justify-end items-center
                 gap-5">
                     <h1 className='text-primary text-[15px] font-semibold
-                    cursor-pointer'>
+                    cursor-pointer grow2'>
                         Log In
                     </h1>
 
