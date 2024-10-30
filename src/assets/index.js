@@ -6,6 +6,9 @@ import frame3 from './Frame 3.jpg';
 import socialproof from './social-proof.png';
 import curve from './curve.png';
 import hands from './hands.jpg';
+import movecard1 from './movecard1.jpg';
+import movecard2 from './movecard2.jpg';
+import movecard3 from './movecard3.jpg';
 
 export {
     logo,
@@ -16,6 +19,9 @@ export {
     socialproof,
     curve,
     hands,
+    movecard1,
+    movecard2,
+    movecard3,
 }
 
 export const heroImages = [
