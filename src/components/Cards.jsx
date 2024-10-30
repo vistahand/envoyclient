@@ -4,23 +4,23 @@ import { fadeIn } from '../utils/motion';
 import { cards } from '../constants';
 
 const CardItem = ({ index, title, image, description }) => {
-    
+
     return (
-        <motion.div
+        <motion.div className='bg-mainalt rounded-2xl'
         variants={fadeIn('', 'spring', index * 0.5, 0.75)}>
-            <div className='flex items-center justify-center
-            md:gap-10 ss:gap-8 gap-6'>
+            <div className='flex flex-col items-center justify-center
+            md:gap-10 ss:gap-8 gap-6 md:p-8 ss:p-10 p-8'>
                 <img 
                     src={image}
-                    alt='product step'
-                    className='md:w-[150px] ss:w-[150px] w-[140px] 
-                    md:h-[150px] ss:h-[150px] h-[140px] object-cover'
+                    alt='cardItem'
+                    className='object-cover'
                 />
 
-                <div className='flex flex-col md:gap-2.5 ss:gap-2.5
-                gap-2 tracking-tight'>
-                    <h1 className='text-primary md:text-[18px] ss:text-[18px] 
-                    text-[15px] font-bold'>
+                <div className='flex flex-col md:gap-3 ss:gap-2.5
+                gap-2 tracking-tight items-center justify-center text-center'>
+                    <h1 className='text-primary md:text-[26px] ss:text-[20px] 
+                    text-[15px] font-bold md:leading-[2.3rem]
+                    ss:leading-[2.3rem] leading-[2.3rem]'>
                         {title}
                     </h1>
 
@@ -37,11 +37,10 @@ const CardItem = ({ index, title, image, description }) => {
 
 const Cards = () => {
   return (
-    <section className='relative w-full min-h-[700px] mx-auto flex
+    <section className='relative w-full min-h-[600px] mx-auto flex
     items-center'>
-        <div className='flex flex-col'>
-            <div className='grid md:gap-16 ss:gap-14 gap-10 md:mt-16 
-            md:grid-cols-2 ss:mt-12 mt-8 w-full'>
+        <div className='flex'>
+            <div className='flex md:gap-10 ss:gap-10 gap-8 w-full'>
                 {cards.map((card, index) => (
                     <CardItem
                         key={index} 
