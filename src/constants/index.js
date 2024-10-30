@@ -1,5 +1,5 @@
 import { TbCurrentLocation, TbHeadset } from "react-icons/tb";
-import { BsBoxSeam } from "react-icons/bs";
+import { LuPackage } from "react-icons/lu";
 
 
 export const navLinks = [
@@ -76,7 +76,7 @@ export const cards = [
         description: "Get updates in real time for every drop-off point your shipment package arrives at, completely keeping you in the loop.",
     },
     {
-        image: BsBoxSeam,
+        image: LuPackage,
         title: "Safe and secure packaging",
         description: "Be rest assured that your shipments are properly boxed and safely packaged to withstand whatever.",
     },

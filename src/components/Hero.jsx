@@ -26,8 +26,8 @@ const Hero = () => {
     const itemRef = useRef(null);
 
   return (
-    <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
-    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-32 ss:mt-0 
+    <section className='relative w-full md:min-h-[500px] ss:min-h-[800px] 
+    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-44 ss:mt-0 
     mt-10'>
         <div className='relative items-center w-full max-w-[68rem] flex'
         >
