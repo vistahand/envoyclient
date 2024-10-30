@@ -5,7 +5,7 @@ import { navLinks } from '../constants';
 import { logo } from '../assets';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoMenu } from "react-icons/io5";
-import { BsArrowRight } from "react-icons/bs";
+import { HiOutlineArrowRight } from "react-icons/hi";
 import { useNavigate  } from 'react-router-dom';
 
 const Navbar = () => {
@@ -136,7 +136,7 @@ const Navbar = () => {
                             Book a Shipment
                         </p>
                         
-                        <BsArrowRight className='text-[14px]'/>
+                        <HiOutlineArrowRight className='text-[14px] font-bold'/>
                     </div>
                 </div>
 
