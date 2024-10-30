@@ -65,7 +65,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className={`w-full flex items-center fixed top-0 z-20 navsmooth
+    <nav className={`w-full flex items-center fixed top-0 z-50 navsmooth
     ${ isScrolled ? 'shadow-lg' : '' }`}>    
         <div className={`w-full flex bg-white ${styles.paddingX}`}>
             <div className='w-full flex justify-between items-center 

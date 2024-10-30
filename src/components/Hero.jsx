@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { websearch, heroImages, socialproof } from '../assets';
+import { websearch, heroImages, socialproof, curve } from '../assets';
 import { SectionWrapper2 } from '../hoc';
 
 
@@ -40,8 +40,17 @@ const Hero = () => {
                     <h1 className='text-primary font-[700] md:text-[57px]
                     ss:text-[50px] text-[33px] md:leading-[4.2rem] tracking-tight
                     ss:leading-[65px] leading-[38px] text-center
-                    md:max-w-[25ch]'>
-                        Secure and seamless deliveries across borders
+                    md:max-w-[25ch] relative'>
+                        <span className="relative inline-block">
+                            Secure
+                            <img 
+                                src={curve}
+                                alt="curve-line" 
+                                className="absolute top-0 -left-2 w-full 
+                                h-auto scale-[1.23] pointer-events-none 
+                                z-[-10]" 
+                            />
+                        </span> and seamless deliveries across borders
                     </h1>
 
                     <p className='text-main font-[500] md:text-[17px] 
@@ -88,7 +97,8 @@ const Hero = () => {
             </div>
         </div>
 
-        <div className='flex items-center justify-center w-full relative'>
+        <motion.div variants={textVariant(0.7)} 
+        className='flex items-center justify-center w-full relative'>
             <div className='overflow-hidden w-full flex'
                 ref={carouselRef}
             >
@@ -110,7 +120,7 @@ const Hero = () => {
                     className='w-[100%]'
                 />
             </div>
-        </div>
+        </motion.div>
     </section>  
   )
 };
