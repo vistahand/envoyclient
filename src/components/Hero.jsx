@@ -39,7 +39,7 @@ const Hero = () => {
                     </p>
                 </motion.div>
 
-                <motion.div variants={textVariant(0.8)}>
+                <motion.div variants={textVariant(0.5)}>
                     <div className='flex flex-row md:gap-6 ss:gap-5 gap-3 
                     items-center text-white'>
                         <a href='/'
@@ -63,7 +63,7 @@ const Hero = () => {
                                 Track Shipment
                             </p>
                             
-                            <img src={websearch} className='w-3 h-3'/>
+                            <img src={websearch} className='w-5 h-5 wht'/>
                         </a>
                     </div>  
                 </motion.div> 

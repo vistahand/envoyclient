@@ -15,7 +15,7 @@ import { Helmet } from 'react-helmet';
 const HomePage = () => {
 
     return (
-        <div className='font-encode-sans'>
+        <div className='font-manrope'>
             <Helmet>
                 <title>Envoy Angel Shipping and Logistics</title>
                 <meta name="description" content="Content" />
