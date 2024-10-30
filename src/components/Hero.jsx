@@ -9,7 +9,7 @@ import { websearch, heroImages } from '../assets';
 
 const ImageCard = ({ image }) => {
     return (
-        <div className='w-[200px] h-[200px]'>
+        <div className='w-auto h-[200px]'>
             <img 
                 src={image}
                 alt='heroImage'
@@ -27,7 +27,7 @@ const Hero = () => {
 
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[800px] 
-    items-center flex flex-col md:gap-10 ss:gap-10 gap-8 md:mt-24 ss:mt-0 
+    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-36 ss:mt-0 
     mt-10'>
         <div className='relative items-center w-full max-w-[68rem] flex'
         >
@@ -37,8 +37,8 @@ const Hero = () => {
                 className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4
                 items-center'
                 >
-                    <h1 className='text-primary font-[700] md:text-[60px]
-                    ss:text-[50px] text-[33px] md:leading-[4.3rem] tracking-tight
+                    <h1 className='text-primary font-[700] md:text-[57px]
+                    ss:text-[50px] text-[33px] md:leading-[4.2rem] tracking-tight
                     ss:leading-[65px] leading-[38px] text-center
                     md:max-w-[25ch]'>
                         Secure and seamless deliveries across borders
@@ -96,7 +96,7 @@ const Hero = () => {
                     {heroImages.map((item, index) => (
                         <div key={index}>
                             <ImageCard 
-                                {...item}
+                                image={item}
                             />
                         </div>
                     ))}
