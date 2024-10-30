@@ -21,8 +21,8 @@ const Hero = () => {
                 className='flex justify-center md:gap-6
                 ss:gap-6 gap-4 flex-col'
                 >
-                    <h1 className='text-primary font-bold md:text-[45px]
-                    ss:text-[50px] text-[33px] md:leading-[55px] 
+                    <h1 className='text-primary font-[700] md:text-[60px]
+                    ss:text-[50px] text-[33px] md:leading-[4.5rem] tracking-tight
                     ss:leading-[65px] leading-[38px] text-center
                     md:max-w-[25ch]'>
                         Secure and seamless deliveries across borders
