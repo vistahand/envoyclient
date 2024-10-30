@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionWrapper } from '../hoc';
 import { motion } from 'framer-motion';
-import { fadeIn } from '../utils/motion';
+import { fadeIn, textVariant } from '../utils/motion';
 import { moveCards } from '../constants';
 
 const MoveCard = ({ index, title, image, description }) => {
@@ -38,19 +38,25 @@ const MoveCard = ({ index, title, image, description }) => {
 
 const Move = () => {
   return (
-    <section className='relative w-full min-h-[500px] mx-auto flex
-    items-center'>
-        <div className='flex w-full'>
-            <div className='flex md:gap-12 ss:gap-10 gap-8 w-full'>
-                {moveCards.map((card, index) => (
-                    <MoveCard
-                        key={index} 
-                        index={index} 
-                        {...card}
-                    />
-                ))}
-            </div>
+    <section className='relative w-full min-h-[500px] flex items-center'>
+      <div className='flex flex-col w-full md:gap-10 ss:gap-10 gap-6'>
+        <motion.div variants={textVariant()}>
+          <h1 className='text-primary font-bold md:text-[25px] 
+          ss:text-[25px] text-[20px] tracking-tight'>
+            Explore related products
+          </h1>
+        </motion.div>
+
+        <div className='flex md:gap-12 ss:gap-10 gap-8 w-full'>
+          {moveCards.map((card, index) => (
+            <MoveCard
+              key={index} 
+              index={index} 
+              {...card}
+            />
+          ))}
         </div>
+      </div>
     </section>
   )
 };
