@@ -66,7 +66,6 @@ const Navbar = () => {
                         />
                     </a>
                 </div>
-                
 
                 <div className='flex justify-center relative
                     items-center hidden md:flex'>
@@ -80,12 +79,12 @@ const Navbar = () => {
                                 onMouseEnter={() => toggleMenu(link.id)}
                                 onMouseLeave={() => toggleMenu(null)}
                             >
-                                <h3 className='text-primary text-[15px] font-semibold'>
+                                <h3 className='text-primary text-[15px] font-medium'>
                                     {link.title}
                                 </h3>
                                 
                                 <MdKeyboardArrowDown
-                                    className='text-primary text-[16px]'
+                                    className='text-primary text-[16px] font-medium'
                                 />
 
                                 {openMenuId === link.id && (
