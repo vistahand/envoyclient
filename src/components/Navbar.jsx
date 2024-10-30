@@ -72,50 +72,50 @@ const Navbar = () => {
                     <div className="flex items-center w-full">
                         <ul className="list-none flex flex-row gap-8">
                             {navLinks.map((link, index) => (
-                            <li
-                                key={link.id}
-                                className='text-decoration-none cursor-pointer 
-                                py-2 flex flex-row gap-1.5 items-center relative'
-                                onMouseEnter={() => toggleMenu(link.id)}
-                                onMouseLeave={() => toggleMenu(null)}
-                            >
-                                <h3 className='text-primary text-[15px] font-medium'>
-                                    {link.title}
-                                </h3>
-                                
-                                <MdKeyboardArrowDown
-                                    className='text-primary text-[16px] font-medium'
-                                />
+                                <li
+                                    key={link.id}
+                                    className='text-decoration-none cursor-pointer 
+                                    py-2 flex flex-row gap-1.5 items-center relative'
+                                    onMouseEnter={() => toggleMenu(link.id)}
+                                    onMouseLeave={() => toggleMenu(null)}
+                                >
+                                    <h3 className='text-primary text-[15px] font-medium'>
+                                        {link.title}
+                                    </h3>
+                                    
+                                    <MdKeyboardArrowDown
+                                        className='text-primary text-[16px] font-medium'
+                                    />
 
-                                {openMenuId === link.id && (
-                                    <div className={`absolute top-full ${index === 0 ? 
-                                    'left-0 transform-none' 
-                                    : 'left-1/2 transform -translate-x-1/2'} 
-                                    fade-in border-[1px] border-main2 z-10`}>
-                                        <div className="bg-white shadow-xl p-6
-                                        flex flex-col gap-1.5 z-20"
-                                        style={{whiteSpace: 'nowrap'}}
-                                        >
-                                            {link.links.map((subLink, index) => (
-                                                <a
-                                                    key={index}
-                                                    href={subLink.route}
-                                                    className="flex text-[13px] text-primary
-                                                    hover:font-medium"
-                                                >
-                                                    {subLink.name}
-                                                </a>
-                                            ))}
+                                    {openMenuId === link.id && (
+                                        <div className={`absolute top-full ${index === 0 ? 
+                                        'left-0 transform-none' 
+                                        : 'left-1/2 transform -translate-x-1/2'} 
+                                        fade-in border-[1px] border-main2 z-10`}>
+                                            <div className="bg-white shadow-xl p-6
+                                            flex flex-col gap-1.5 z-20"
+                                            style={{whiteSpace: 'nowrap'}}
+                                            >
+                                                {link.links.map((subLink, index) => (
+                                                    <a
+                                                        key={index}
+                                                        href={subLink.route}
+                                                        className="flex text-[13px] text-primary
+                                                        hover:font-medium"
+                                                    >
+                                                        {subLink.name}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                            <div className={`absolute top-0 ${index === 0 
+                                            ? 'left-[15%] z-[-10]' 
+                                            : 'left-1/2 z-[-10]'} 
+                                            transform -translate-x-1/2 w-10 h-10
+                                            bg-white rotate-45 border-[1px] border-main2`}>
+                                            </div>
                                         </div>
-                                        <div className={`absolute top-0 ${index === 0 
-                                        ? 'left-[15%] z-[-10]' 
-                                        : 'left-1/2 z-[-10]'} 
-                                        transform -translate-x-1/2 w-10 h-10
-                                        bg-white rotate-45 border-[1px] border-main2`}>
-                                        </div>
-                                    </div>
-                                )}
-                            </li>
+                                    )}
+                                </li>
                             ))}
                         </ul>
                     </div>
