@@ -15,8 +15,8 @@ const Hero = () => {
         md:mt-24 ss:mt-0 mt-10 flex'
         >
             <div className='relative md:items-center ss:items-center 
-            w-full flex flex-col md:gap-20 ss:gap-6 gap-6'>
-                <motion.div variants={textVariant()}
+            w-full flex flex-col md:gap-8 ss:gap-6 gap-6'>
+                <motion.div variants={textVariant(0.3)}
                 className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4'
                 >
                     <h1 className='text-primary font-[700] md:text-[60px]
@@ -35,13 +35,28 @@ const Hero = () => {
                         here to ensure a smooth logistics experience for 
                         every shipment, big or small.
                     </p>
-
-                    <div className='flex flex-row bg-main2 w-full
-                    rounded-[10px] border-[1px] border-primaryalt py-1.5 
-                    px-2 gap-3 justify-between items-center relative'>
-                      
-                    </div>     
                 </motion.div>
+
+                <motion.div variants={textVariant(0.8)}>
+                    <div className='flex flex-row md:gap-5 
+                    ss:gap-5 gap-3 items-center text-white'>
+                        <a href='/about'>
+                            <button className='bg-primary grow2 md:text-[13px] 
+                            ss:text-[15px] text-[13px] md:py-3.5 ss:py-3 py-2.5 
+                            px-8 rounded-full font-medium border-none'>
+                                Book a Shipment
+                            </button>
+                        </a>
+                        
+                        <a href='/contact'>
+                            <button className='bg-secondary grow2 md:text-[13px] 
+                            ss:text-[15px] text-[13px] md:py-3.5 ss:py-3 py-2.5 
+                            px-8 rounded-full font-medium border-none'>
+                                Track Shipment
+                            </button>
+                        </a>
+                    </div>  
+                </motion.div> 
             </div>
         </div>
     </section>  
