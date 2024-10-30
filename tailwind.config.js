@@ -10,7 +10,7 @@ module.exports = {
         primaryalt: "#DAD9D9",
         mainalt: "#7D7D7D",
         mainRed: "#E30613",
-        main: "#434344",
+        main: "#4D4D4D",
         main2: "#F3F3F3",
         main3: "#B5B5B5",
         green: "#4CA735",

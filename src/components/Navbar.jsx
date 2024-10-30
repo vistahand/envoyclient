@@ -99,7 +99,7 @@ const Navbar = () => {
                                                     <a
                                                         key={index}
                                                         href={subLink.route}
-                                                        className="flex text-[13px] text-primary
+                                                        className="flex text-[13px] text-main
                                                         hover:font-medium"
                                                     >
                                                         {subLink.name}
