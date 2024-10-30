@@ -86,3 +86,21 @@ export const cards = [
         description: "Our dedicated customer care team is ready to attend to your complaints swiftly and effectively.",
     }
 ];
+
+export const moveCards = [
+    {
+        image: TbCurrentLocation,
+        title: "Book a shipment",
+        description: "Generate an instant quote for any package by creating an account and following the easy steps to get you started.",
+    },
+    {
+        image: LuPackage,
+        title: "Track your package",
+        description: "Go with your package everywhere! Log in to your account to follow your package at every drop-off easily and seamlessly.",
+    },
+    {
+        image: TbHeadset,
+        title: "It's time for delivery!",
+        description: "Whether you're a customer or client waiting to receive your goods or a business sending out shipments, safe deliveries are assured.",
+    }
+]
