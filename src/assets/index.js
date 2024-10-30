@@ -5,6 +5,7 @@ import frame2 from './Frame 2.jpg';
 import frame3 from './Frame 3.jpg';
 import socialproof from './social-proof.png';
 import curve from './curve.png';
+import hands from './hands.jpg';
 
 export {
     logo,
@@ -14,6 +15,7 @@ export {
     frame3,
     socialproof,
     curve,
+    hands,
 }
 
 export const heroImages = [

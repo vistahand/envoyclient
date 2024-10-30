@@ -2,7 +2,7 @@ import {
     Navbar,
     Hero,
     Cards,
-    // Steps,
+    Hands,
     // Help,
     // CTA,
     // Footer,
@@ -24,6 +24,7 @@ const HomePage = () => {
             <Navbar />
             <Hero />
             <Cards />
+            <Hands />
 
             {/* <div className='footer'>
                 <Top />

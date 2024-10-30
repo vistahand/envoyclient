@@ -7,10 +7,11 @@ import { cards } from '../constants';
 const CardItem = ({ index, title, image, description }) => {
 
     return (
-        <motion.div className='bg-mainalt rounded-3xl hover:shadow-xl'
+        <motion.div className='bg-mainalt rounded-3xl hover:shadow-xl
+        md:basis-1/3 ss:basis-1/2 basis-full h-[400px] flex'
         variants={fadeIn('', 'spring', index * 0.5, 0.75)}>
             <div className='flex flex-col items-center justify-center
-            md:gap-10 ss:gap-8 gap-6 md:p-10 ss:p-10 p-8'>
+            md:gap-10 ss:gap-8 gap-6 md:p-6 ss:p-10 p-8'>
                 {React.createElement(image, {
                     className: `md:w-[6rem] ss:w-[20px] w-[18px] h-auto 
                     object-contain text-primary`
@@ -39,8 +40,8 @@ const Cards = () => {
   return (
     <section className='relative w-full min-h-[500px] mx-auto flex
     items-center'>
-        <div className='flex'>
-            <div className='flex md:gap-10 ss:gap-10 gap-8 w-full'>
+        <div className='flex w-full'>
+            <div className='flex md:gap-12 ss:gap-10 gap-8 w-full'>
                 {cards.map((card, index) => (
                     <CardItem
                         key={index} 
