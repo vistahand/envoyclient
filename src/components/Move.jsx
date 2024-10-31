@@ -7,11 +7,14 @@ import { moveCards } from '../constants';
 const MoveCard = ({ index, title, image, description }) => {
 
   return (
-    <motion.div className='rounded-3xl hover:shadow-xl relative
+    <motion.div className='rounded-2xl hover:shadow-xl relative
     md:basis-1/3 ss:basis-1/2 basis-full h-[500px] flex navsmooth'
       variants={fadeIn('', 'spring', index * 0.5, 0.75)}
       style={{
-        backgroundImage: image
+        backgroundImage: `url(${image})`,
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       }}
     >
       <div className='flex flex-col md:gap-4 ss:gap-2.5 absolute
@@ -37,7 +40,7 @@ const Move = () => {
     <section className='relative w-full min-h-[700px] flex items-center'>
       <div className='flex flex-col w-full md:gap-10 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
-        className='flex justify-between items-center w-full md:gap-10
+        className='flex justify-between items-center w-full md:gap-24
         ss:gap-10 gap-6'>
           <h1 className='text-white font-semibold md:text-[40px] 
           ss:text-[25px] text-[20px] tracking-tight w-1/2
@@ -45,7 +48,7 @@ const Move = () => {
             It's pretty easy to get your package moving
           </h1>
 
-          <p className='text-white md:text-[16px] md:leading-[1.3rem] 
+          <p className='text-white md:text-[15px] md:leading-[1.5rem] 
           ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
           w-1/2'>
             As a business owner, mover or company of any sort, nothing 
