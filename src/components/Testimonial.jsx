@@ -9,11 +9,11 @@ const TestCard = ({ index, title, image, description, name, profession }) => {
 
   return (
     <motion.div className='rounded-2xl relative w-full flex bg-mainBlack
-    navsmooth justify-between'
+    md:gap-6'
     variants={fadeIn('', 'spring', index * 0.5, 0.75)}
     >
-        <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-8 
-        ss:p-6 p-4 justify-center items-start tracking-tight'>
+        <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-10 
+        ss:p-6 p-4 justify-center items-start tracking-tight w-full'>
             <h1 className='text-white md:text-[30px] ss:text-[25px] 
             text-[18px] font-medium md:leading-[2.2rem] md:max-w-[20ch]
             ss:leading-[2.3rem] leading-[2.3rem]'>
@@ -41,7 +41,7 @@ const TestCard = ({ index, title, image, description, name, profession }) => {
             </div>
         </div>
 
-        <div>
+        <div className='flex w-2/3'>
             <img 
                 src={image}
                 alt='Testimonial'
@@ -90,7 +90,7 @@ const Testimonial = () => {
                 </p>
             </motion.div>
 
-            <div className='flex items-center md:gap-8 ss:gap-8 gap-6'>
+            <div className='flex items-center md:gap-10 ss:gap-8 gap-6'>
                 <button 
                     className='border-mainBlack border-[3px] md:p-3 ss:p-3 
                     p-2 rounded-full grow2'
