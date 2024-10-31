@@ -11,6 +11,9 @@ import movecard2 from './movecard2.jpg';
 import movecard3 from './movecard3.jpg';
 import test1 from './testifier-image.jpg';
 import globe from './globe.png';
+import blog1 from './blog1.jpg';
+import blog2 from './blog2.jpg';
+import blog3 from './blog3.jpg';
 
 export {
     logo,
@@ -26,6 +29,9 @@ export {
     movecard3,
     test1,
     globe,
+    blog1,
+    blog2,
+    blog3,
 }
 
 export const heroImages = [

@@ -1,7 +1,7 @@
 import { TbCurrentLocation, TbHeadset } from "react-icons/tb";
 import { LuPackage } from "react-icons/lu";
 
-import { movecard1, movecard2, movecard3, test1, } from "../assets";
+import { blog1, blog2, blog3, movecard1, movecard2, movecard3, test1, } from "../assets";
 
 
 export const navLinks = [
@@ -122,4 +122,22 @@ export const testimonials = [
         name: "Sukura Daniels",
         profession: "Supply Chain Manager"
     },
+]
+
+export const blogCards = [
+    {
+        image: blog1,
+        title: "Navigating International Shipping: Top Tips for First-Time Shippers",
+        description: "If you're new to shipping across borders, this guide is perfect for you. We cover everything from choosing the right shipping method to understanding customs regulations. Avoid common mistakes and ensure your first shipment goes smoothly, whether you're sending goods to Ireland, Nigeria, or anywhere else in the world.",
+    },
+    {
+        image: blog2,
+        title: "How Real-Time Tracking is Revolutionizing the Shipping Industry",
+        description: "Go with your package everywhere! Log in to your account to follow your package at every drop-off easily and seamlessly.",
+    },
+    {
+        image: blog3,
+        title: "The Ultimate Guide to Shipping Between Ireland and Nigeria",
+        description: "GPS-enabled tracking is changing the way businesses and individuals approach shipping. In this article, we explore how real-time tracking enhances transparency, improves customer satisfaction, and reduces lost or delayed shipments. See why staying informed about your shipment's journey is now a must for modern logistics.",
+    }
 ]

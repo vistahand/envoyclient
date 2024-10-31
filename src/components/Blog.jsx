@@ -3,6 +3,7 @@ import { SectionWrapper } from '../hoc';
 import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
 import { blogCards } from '../constants';
+import { HiOutlineArrowRight } from "react-icons/hi";
 
 const BlogCard = ({ index, title, image, description }) => {
 
@@ -44,23 +45,24 @@ const BlogCard = ({ index, title, image, description }) => {
 
 const Blog = () => {
   return (
-    <section className='relative w-full min-h-[700px] flex items-center'>
+    <section className='relative w-full min-h-[800px] flex items-center'>
       <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
         className='flex justify-between items-center w-full md:gap-24
         ss:gap-10 gap-6'>
-          <h1 className='text-white font-semibold md:text-[40px] 
+          <h1 className='text-primary font-bold md:text-[40px] 
           ss:text-[25px] text-[20px] tracking-tight w-1/2
           md:leading-[3.3rem] ss:leading-[1.3rem] leading-[1.3rem]'>
-            It's pretty easy to get your package moving
+            Stay informed, stay ahead of the curve
           </h1>
 
-          <p className='text-white md:text-[17px] md:leading-[1.5rem] 
+          <p className='text-main md:text-[16px] md:leading-[1.3rem] 
           ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
-          w-1/2'>
-            As a business owner, mover or company of any sort, nothing 
-            beats the ease in sending out packages whether locally or 
-            internationally, quickly and without hassle.
+          w-1/2 font-medium'>
+            Discover expert insights, shipping guides, and the latest 
+            trends in logistics. Our resources are designed to help you 
+            make smarter decisions, optimize your shipments, and stay 
+            updated with everything happening at Envoy Angel and beyond.
           </p>
         </motion.div>
 
@@ -72,6 +74,20 @@ const Blog = () => {
               {...card}
             />
           ))}
+        </div>
+
+        <div className='flex items-center justify-center w-full md:pt-5'>
+          <a href='/'
+          className='bg-primary text-[13px] py-3.5 px-6 flex
+          text-white rounded-full grow4 cursor-pointer w-1/8
+          items-center gap-3 font-semibold'
+          >
+            <p>
+              View all posts
+            </p>
+            
+            <HiOutlineArrowRight className='text-[14px] text-white'/>
+          </a>
         </div>
       </div>
     </section>
