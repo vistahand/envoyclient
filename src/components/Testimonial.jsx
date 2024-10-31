@@ -5,29 +5,6 @@ import { textVariant } from '../utils/motion';
 import { testimonials } from '../constants';
 import { FaArrowRight } from "react-icons/fa6";
 
-// const slideVariants = {
-//     enter: (direction) => ({
-//         x: direction > 0 ? 300 : -300,
-//         opacity: 0,
-//     }),
-//     center: {
-//         x: 0,
-//         opacity: 1,
-//         transition: {
-//             duration: 0.5,
-//             ease: 'easeOut',
-//         },
-//     },
-//     exit: (direction) => ({
-//         x: direction < 0 ? 300 : -300,
-//         opacity: 0,
-//         transition: {
-//             duration: 0.5,
-//             ease: 'easeIn',
-//         },
-//     }),
-// };
-
 
 const TestCard = ({ title, image, description, name, profession  }) => {
 
