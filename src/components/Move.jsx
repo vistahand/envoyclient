@@ -8,7 +8,7 @@ const MoveCard = ({ index, title, image, description }) => {
 
   return (
     <motion.div className='rounded-2xl relative md:basis-1/3 ss:basis-1/2 
-    basis-full h-[500px] flex navsmooth'
+    basis-full h-[500px] flex navsmooth cursor-pointer hover:shadow-xl'
       variants={fadeIn('', 'spring', index * 0.5, 0.75)}
       style={{
         backgroundImage: `url(${image})`,
@@ -45,7 +45,7 @@ const MoveCard = ({ index, title, image, description }) => {
 const Move = () => {
   return (
     <section className='relative w-full min-h-[700px] flex items-center'>
-      <div className='flex flex-col w-full md:gap-10 ss:gap-10 gap-6'>
+      <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
         className='flex justify-between items-center w-full md:gap-24
         ss:gap-10 gap-6'>
