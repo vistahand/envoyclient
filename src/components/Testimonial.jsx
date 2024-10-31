@@ -7,14 +7,14 @@ import { testimonials } from '../constants';
 const TestCard = ({ index, title, image, description, name, profession }) => {
 
   return (
-    <motion.div className='rounded-2xl relative w-full h-[400px] flex 
-    navsmooth'
+    <motion.div className='rounded-2xl relative w-full flex bg-mainBlack
+    navsmooth justify-between'
     variants={fadeIn('', 'spring', index * 0.5, 0.75)}
     >
-        <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-6 
-        ss:p-6 p-4 justify-center items-start'>
+        <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-8 
+        ss:p-6 p-4 justify-center items-start tracking-tight'>
             <h1 className='text-white md:text-[30px] ss:text-[25px] 
-            text-[18px] font-bold md:leading-[2.2rem] md:max-w-[20ch]
+            text-[18px] font-medium md:leading-[2.2rem] md:max-w-[20ch]
             ss:leading-[2.3rem] leading-[2.3rem]'>
                 "{title}"
             </h1>
@@ -25,21 +25,27 @@ const TestCard = ({ index, title, image, description, name, profession }) => {
                 {description}
             </p>
 
-            <h2 className='text-white md:leading-[20px]
-            ss:leading-[20px] leading-[18px] md:text-[13px] 
-            ss:text-[14px] text-[13px]'>
-                {name}
-            </h2>
+            <div className='flex flex-col'>
+                <p className='text-white md:leading-[20px]
+                ss:leading-[20px] leading-[18px] md:text-[13px] 
+                ss:text-[14px] text-[13px] font-semibold'>
+                    {name}
+                </p>
 
-            <p className='text-main3 md:leading-[20px]
-            ss:leading-[20px] leading-[18px] md:text-[12px] 
-            ss:text-[12px] text-[11px]'>
-                {profession}
-            </p>
+                <p className='text-main3 md:leading-[20px]
+                ss:leading-[20px] leading-[18px] md:text-[12px] 
+                ss:text-[12px] text-[11px]'>
+                    {profession}
+                </p>
+            </div>
         </div>
 
         <div>
-
+            <img 
+                src={image}
+                alt='Testimonial'
+                className='object-cover'
+            />
         </div>
     </motion.div>
   )
