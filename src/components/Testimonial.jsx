@@ -96,7 +96,6 @@ const Testimonial = () => {
                     p-2 rounded-full grow2'
                     onClick={scrollLeft}
                     disabled={activeIndex === 0}
-
                 >
                     <FaArrowRight size={22} 
                         className="transform rotate-180 text-mainBlack"
