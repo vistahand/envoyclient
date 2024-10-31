@@ -1,16 +1,47 @@
 import { useState } from 'react';
 import { SectionWrapper } from '../hoc';
-import { motion } from 'framer-motion';
-import { fadeIn, textVariant } from '../utils/motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { textVariant } from '../utils/motion';
 import { testimonials } from '../constants';
 import { FaArrowRight } from "react-icons/fa6";
 
-const TestCard = ({ index, title, image, description, name, profession }) => {
+const slideVariants = {
+    enter: (direction) => ({
+        x: direction > 0 ? 300 : -300,
+        opacity: 0,
+        scale: 0.95,
+    }),
+    center: {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 0.5,
+            ease: 'easeOut',
+        },
+    },
+    exit: (direction) => ({
+        x: direction < 0 ? 300 : -300,
+        opacity: 0,
+        scale: 0.95,
+        transition: {
+            duration: 0.5,
+            ease: 'easeIn',
+        },
+    }),
+};
+
+const TestCard = ({ title, image, description, name, profession, direction  }) => {
 
   return (
-    <motion.div className='rounded-2xl relative w-full flex bg-mainBlack
-    md:gap-6'
-    variants={fadeIn('', 'spring', index * 0.5, 0.75)}
+    <motion.div
+        className="rounded-2xl relative w-full flex bg-mainBlack md:gap-6"
+        initial="enter"
+        animate="center"
+        exit="exit"
+        custom={direction}
+        variants={slideVariants}
+        transition={{ duration: 0.5 }}
     >
         <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-10 
         ss:p-6 p-4 justify-center items-start tracking-tight w-full'>
@@ -54,16 +85,19 @@ const TestCard = ({ index, title, image, description, name, profession }) => {
 
 const Testimonial = () => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [direction, setDirection] = useState(0);
     const testimonialsLength = testimonials.length;
 
     const scrollLeft = () => {
         if (activeIndex > 0) {
+            setDirection(-1);
             setActiveIndex(activeIndex - 1);
         }
     };
     
     const scrollRight = () => {
         if (activeIndex < testimonialsLength - 1) {
+            setDirection(1);
             setActiveIndex(activeIndex + 1);
         }
     };
@@ -104,10 +138,13 @@ const Testimonial = () => {
                 </button>
 
                 <div className='overflow-hidden w-full flex'>
-                    <TestCard
-                        key={activeIndex} 
-                        {...testimonials[activeIndex]}
-                    />
+                    <AnimatePresence custom={direction}>
+                        <TestCard
+                            key={activeIndex}
+                            {...testimonials[activeIndex]}
+                            direction={direction}
+                        />
+                    </AnimatePresence>
                 </div>
 
                 <button 
