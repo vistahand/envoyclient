@@ -10,7 +10,8 @@ const Hands = () => {
         min-h-[650px] flex items-center">
             <motion.div variants={fadeIn('down', 'spring', 0.3)}
             className="flex md:flex-row ss:flex-row flex-col md:gap-3 
-            ss:gap-10 gap-10 w-full md:items-center relative">
+            ss:gap-10 gap-10 w-full md:items-center relative md:pb-6
+            ss:pb-6 pb-4">
                 <motion.div variants={fadeIn('right', 'spring', 0.3)}>
                     <img src={hands} 
                         alt='handsImage'
