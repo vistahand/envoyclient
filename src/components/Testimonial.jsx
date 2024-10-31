@@ -12,8 +12,8 @@ const TestCard = ({ title, image, description, name, profession  }) => {
 
   return (
     <motion.div
-        className="rounded-2xl relative w-full flex bg-mainBlack md:gap-6
-        h-[24em]"
+        className="rounded-2xl relative w-[90%] flex bg-mainBlack md:gap-6
+        h-[23em] mx-auto"
     >
         <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-10 
         ss:p-6 p-4 justify-center items-start tracking-tight w-full'>
@@ -59,9 +59,10 @@ const Testimonial = () => {
 
     const NextArrow = ({ onClick }) => (
         <button
-            className="md:p-3 ss:p-3 p-2 border-mainBlack rounded-full 
-            grow2 border-[3px]"
+            className="absolute right-0 md:p-3 ss:p-3 p-2 border-mainBlack 
+            rounded-full grow2 border-[3px] transform translate-x-1/2"
             onClick={onClick}
+            style={{ top: '50%', transform: 'translate(50%, -50%)' }}
         >
             <FaArrowRight className="text-mainBlack" />
         </button>
@@ -69,11 +70,12 @@ const Testimonial = () => {
     
     const PrevArrow = ({ onClick }) => (
         <button
-            className="md:p-3 ss:p-3 p-2 border-mainBlack rounded-full 
-            grow2 border-[3px]"
+            className="absolute left-0 md:p-3 ss:p-3 p-2 border-mainBlack 
+            rounded-full grow2 border-[3px] transform -translate-x-1/2"
             onClick={onClick}
+            style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
         >
-            <FaArrowRight className="transform rotate-180 text-mainBlack" />
+            <FaArrowRight className="rotate-180 text-mainBlack" />
         </button>
     );
 
@@ -109,11 +111,13 @@ const Testimonial = () => {
                 </p>
             </motion.div>
 
-            <Slider {...settings} className="w-full">
-                {testimonials.map((testimonial, index) => (
-                    <TestCard key={index} {...testimonial} />
-                ))}
-            </Slider>
+            <div className='w-full relative mx-auto'>
+                <Slider {...settings} className="w-full">
+                    {testimonials.map((testimonial, index) => (
+                        <TestCard key={index} {...testimonial} />
+                    ))}
+                </Slider>
+            </div>
         </div>
     </section>
   )
