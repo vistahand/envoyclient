@@ -7,8 +7,8 @@ import { moveCards } from '../constants';
 const MoveCard = ({ index, title, image, description }) => {
 
   return (
-    <motion.div className='rounded-2xl hover:shadow-xl relative
-    md:basis-1/3 ss:basis-1/2 basis-full h-[500px] flex navsmooth'
+    <motion.div className='rounded-2xl relative md:basis-1/3 ss:basis-1/2 
+    basis-full h-[500px] flex navsmooth'
       variants={fadeIn('', 'spring', index * 0.5, 0.75)}
       style={{
         backgroundImage: `url(${image})`,
@@ -17,6 +17,13 @@ const MoveCard = ({ index, title, image, description }) => {
         backgroundRepeat: 'no-repeat'
       }}
     >
+      <div className="absolute bottom-0 left-0 right-0 h-3/4
+        bg-gradient-to-b from-transparent to-primaryalt rounded-xl"
+      />
+      <div className="absolute bottom-0 left-0 right-0 h-2/3
+        bg-gradient-to-b from-transparent to-primaryalt rounded-xl"
+      />
+
       <div className='flex flex-col md:gap-4 ss:gap-2.5 absolute
       gap-2 md:p-8 ss:p-8 p-6 bottom-0'>
         <h1 className='text-white md:text-[30px] ss:text-[25px] 
