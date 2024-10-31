@@ -6,6 +6,7 @@ import Move from './Move';
 import Testimonial from './Testimonial';
 import Continent from './Continent';
 import Blog from './Blog';
+import CTA from './CTA';
 
 export {
     Navbar,
@@ -16,4 +17,5 @@ export {
     Testimonial,
     Continent,
     Blog,
+    CTA,
 }

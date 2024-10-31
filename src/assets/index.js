@@ -14,6 +14,7 @@ import globe from './globe.png';
 import blog1 from './blog1.jpg';
 import blog2 from './blog2.jpg';
 import blog3 from './blog3.jpg';
+import cta from './cta.png';
 
 export {
     logo,
@@ -32,6 +33,7 @@ export {
     blog1,
     blog2,
     blog3,
+    cta,
 }
 
 export const heroImages = [

@@ -7,7 +7,7 @@ import {
     Testimonial,
     Continent,
     Blog,
-    // CTA,
+    CTA,
     // Footer,
     // Categories,
     // Top
@@ -41,16 +41,11 @@ const HomePage = () => {
 
             <Blog />
 
-            {/* 
-            <Discover />
-            <Steps />
-
-            <div className='help'>
-                <Help />
+            <div className='move'>
+                <CTA />
             </div>
             
-            <CTA />
-
+            {/* 
             <div className='footer'>
                 <Footer />
             </div> */}
