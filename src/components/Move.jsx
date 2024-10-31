@@ -8,14 +8,14 @@ const MoveCard = ({ index, title, image, description }) => {
 
   return (
     <motion.div className='rounded-3xl hover:shadow-xl relative
-    md:basis-1/3 ss:basis-1/2 basis-full h-[400px] flex navsmooth'
+    md:basis-1/3 ss:basis-1/2 basis-full h-[500px] flex navsmooth'
       variants={fadeIn('', 'spring', index * 0.5, 0.75)}
       style={{
         backgroundImage: image
       }}
     >
       <div className='flex flex-col md:gap-4 ss:gap-2.5 absolute
-      gap-2 tracking- md:p-6 ss:p-10 p-8 bottom-0'>
+      gap-2 md:p-8 ss:p-8 p-6 bottom-0'>
         <h1 className='text-white md:text-[30px] ss:text-[25px] 
         text-[18px] font-bold md:leading-[2.2rem] max-w-[10ch]
         ss:leading-[2.3rem] leading-[2.3rem]'>
@@ -23,7 +23,7 @@ const MoveCard = ({ index, title, image, description }) => {
         </h1>
 
         <p className='text-white md:leading-[20px]
-        ss:leading-[20px] leading-[18px] md:text-[14px] 
+        ss:leading-[20px] leading-[18px] md:text-[13px] 
         ss:text-[14px] text-[13px]'>
           {description}
         </p>
@@ -34,7 +34,7 @@ const MoveCard = ({ index, title, image, description }) => {
 
 const Move = () => {
   return (
-    <section className='relative w-full min-h-[500px] flex items-center'>
+    <section className='relative w-full min-h-[700px] flex items-center'>
       <div className='flex flex-col w-full md:gap-10 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
         className='flex justify-between items-center w-full md:gap-10
@@ -54,7 +54,7 @@ const Move = () => {
           </p>
         </motion.div>
 
-        <div className='flex md:gap-12 ss:gap-10 gap-8 w-full'>
+        <div className='flex md:gap-8 ss:gap-8 gap-6 w-full'>
           {moveCards.map((card, index) => (
             <MoveCard
               key={index} 
