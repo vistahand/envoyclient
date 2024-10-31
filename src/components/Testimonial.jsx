@@ -44,7 +44,7 @@ const TestCard = ({ index, title, image, description, name, profession }) => {
             <img 
                 src={image}
                 alt='Testimonial'
-                className='object-cover'
+                className='object-cover rounded-r-2xl'
             />
         </div>
     </motion.div>
