@@ -104,7 +104,7 @@ const Testimonial = () => {
                     What our clients are saying
                 </h1>
 
-                <p className='text-main2 md:text-[15px] md:leading-[1.3rem] 
+                <p className='text-main2 md:text-[17px] md:leading-[1.3rem] 
                 ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
                 text-center font-semibold md:max-w-[75ch]'>
                     Our commitment to exceptional service, seamless booking, 

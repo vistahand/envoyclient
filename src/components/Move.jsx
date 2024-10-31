@@ -32,8 +32,8 @@ const MoveCard = ({ index, title, image, description }) => {
           {title}
         </h1>
 
-        <p className='text-white md:leading-[20px]
-        ss:leading-[20px] leading-[18px] md:text-[13px] 
+        <p className='text-white md:leading-[20px] tracking-tight
+        ss:leading-[20px] leading-[18px] md:text-[14px] 
         ss:text-[14px] text-[13px]'>
           {description}
         </p>
@@ -55,7 +55,7 @@ const Move = () => {
             It's pretty easy to get your package moving
           </h1>
 
-          <p className='text-white md:text-[15px] md:leading-[1.5rem] 
+          <p className='text-white md:text-[17px] md:leading-[1.5rem] 
           ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
           w-1/2'>
             As a business owner, mover or company of any sort, nothing 
