@@ -4,13 +4,17 @@ import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
 import { testimonials } from '../constants';
 import { FaArrowRight } from "react-icons/fa6";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 
 const TestCard = ({ title, image, description, name, profession  }) => {
 
   return (
     <motion.div
-        className="rounded-2xl relative w-full flex bg-mainBlack md:gap-6"
+        className="rounded-2xl relative w-full flex bg-mainBlack md:gap-6
+        h-[24em]"
     >
         <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-10 
         ss:p-6 p-4 justify-center items-start tracking-tight w-full'>

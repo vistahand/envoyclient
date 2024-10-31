@@ -116,9 +116,9 @@ export const testimonials = [
         profession: "Supply Chain Manager"
     },
     {
-        image: test1,
+        image: movecard1,
         title: "...booking process is incredibly fast...",
-        description: "Envoy Angel has completely transformed the way we manage our international shipments. Their booking process is incredibly easy, and the real-time tracking gives us peace of mind knowing exactly where our packages are. We've had nothing but positive experiences shipping between Ireland and Nigeria, and their customer support is always available when we need it.",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         name: "Sukura Daniels",
         profession: "Supply Chain Manager"
     },
