@@ -8,12 +8,11 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 const BlogCard = ({ index, title, image, description }) => {
 
   return (
-    <motion.div className='rounded-2xl relative md:basis-1/3 ss:basis-1/2 
-    basis-full min-h-[400px] flex navsmooth cursor-pointer hover:shadow-xl
-    bg-mainalt'
+    <motion.div className='rounded-2xl md:basis-1/3 ss:basis-1/2 grow
+    basis-full min-h-[400px] flex navsmooth bg-mainalt'
       variants={fadeIn('', 'spring', index * 0.5, 0.75)}
     >
-      <div className='flex flex-col md:gap-3 ss:gap-3 gap-3 p-4
+      <div className='flex flex-col md:gap-3 ss:gap-3 gap-3 p-5
       justify-evenly tracking-tight'>
         <img 
           src={image} 
@@ -27,19 +26,22 @@ const BlogCard = ({ index, title, image, description }) => {
           {title}
         </h1>
 
-        <p className='text-main4 md:leading-[20px] tracking-tight
+        <p className='text-main4 md:leading-[19px] tracking-tight
         ss:leading-[20px] leading-[18px] md:text-[13px] 
         ss:text-[14px] text-[13px] line-clamp-4'>
           {description}
         </p>
 
-        <div className='flex items-center gap-2 flex-end'>
-          <p className='text-primary font-semibold md:text-[13px] 
-          ss:text-[14px] text-[13px]'>
-            Read More
-          </p>
+        <div>
+          <a href='/' 
+          className='inline-flex items-center gap-2 cursor-pointer grow2'>
+            <p className='text-primary font-semibold md:text-[13px] 
+            ss:text-[14px] text-[13px]'>
+              Read More
+            </p>
 
-          <HiOutlineArrowRight className='text-[12px] text-primary'/>
+            <HiOutlineArrowRight className='text-[12px] text-primary'/>
+          </a>
         </div>
       </div>
     </motion.div>
@@ -48,7 +50,7 @@ const BlogCard = ({ index, title, image, description }) => {
 
 const Blog = () => {
   return (
-    <section className='relative w-full min-h-[800px] flex items-center'>
+    <section className='relative w-full min-h-[750px] flex items-center'>
       <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
         className='flex justify-between items-center w-full md:gap-24
@@ -79,7 +81,7 @@ const Blog = () => {
           ))}
         </div>
 
-        <div className='flex items-center justify-center w-full md:pt-5'>
+        <div className='flex items-center justify-center w-full md:pt-3'>
           <a href='/'
           className='bg-primary text-[13px] py-3.5 px-6 flex
           text-white rounded-full grow4 cursor-pointer w-1/8
