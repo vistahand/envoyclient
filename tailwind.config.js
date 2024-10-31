@@ -12,7 +12,7 @@ module.exports = {
         mainRed: "#E30613",
         main: "#4D4D4D",
         main2: "#3C3C3C",
-        main3: "#B5B5B5",
+        main3: "#8B8B8B",
         green: "#4CA735",
         greenBright: "#27E63A",
         greenDeep: "#11AD21",

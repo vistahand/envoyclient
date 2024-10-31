@@ -9,6 +9,7 @@ import hands from './hands.jpg';
 import movecard1 from './movecard1.jpg';
 import movecard2 from './movecard2.jpg';
 import movecard3 from './movecard3.jpg';
+import test1 from './testifier-image.jpg';
 
 export {
     logo,
@@ -22,6 +23,7 @@ export {
     movecard1,
     movecard2,
     movecard3,
+    test1,
 }
 
 export const heroImages = [

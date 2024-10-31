@@ -1,7 +1,7 @@
 import { TbCurrentLocation, TbHeadset } from "react-icons/tb";
 import { LuPackage } from "react-icons/lu";
 
-import { movecard1, movecard2, movecard3, } from "../assets";
+import { movecard1, movecard2, movecard3, test1, } from "../assets";
 
 
 export const navLinks = [
@@ -105,4 +105,21 @@ export const moveCards = [
         title: "It's time for delivery!",
         description: "Whether you're a customer or client waiting to receive your goods or a business sending out shipments, safe deliveries are assured.",
     }
+]
+
+export const testimonials = [
+    {
+        image: test1,
+        title: "...booking process is incredibly easy...",
+        description: "Envoy Angel has completely transformed the way we manage our international shipments. Their booking process is incredibly easy, and the real-time tracking gives us peace of mind knowing exactly where our packages are. We've had nothing but positive experiences shipping between Ireland and Nigeria, and their customer support is always available when we need it.",
+        name: "Sarah Oluwafemi",
+        profession: "Supply Chain Manager"
+    },
+    {
+        image: test1,
+        title: "...booking process is incredibly fast...",
+        description: "Envoy Angel has completely transformed the way we manage our international shipments. Their booking process is incredibly easy, and the real-time tracking gives us peace of mind knowing exactly where our packages are. We've had nothing but positive experiences shipping between Ireland and Nigeria, and their customer support is always available when we need it.",
+        name: "Sukura Daniels",
+        profession: "Supply Chain Manager"
+    },
 ]
