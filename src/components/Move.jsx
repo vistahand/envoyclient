@@ -40,11 +40,22 @@ const Move = () => {
   return (
     <section className='relative w-full min-h-[500px] flex items-center'>
       <div className='flex flex-col w-full md:gap-10 ss:gap-10 gap-6'>
-        <motion.div variants={textVariant()}>
-          <h1 className='text-primary font-bold md:text-[25px] 
-          ss:text-[25px] text-[20px] tracking-tight'>
-            Explore related products
+        <motion.div variants={textVariant()}
+        className='flex justify-between items-center w-full md:gap-10
+        ss:gap-10 gap-6'>
+          <h1 className='text-white font-semibold md:text-[40px] 
+          ss:text-[25px] text-[20px] tracking-tight w-1/2
+          md:leading-[3.3rem] ss:leading-[1.3rem] leading-[1.3rem]'>
+            It's pretty easy to get your package moving
           </h1>
+
+          <p className='text-white md:text-[16px] md:leading-[1.3rem] 
+          ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
+          w-1/2'>
+            As a business owner, mover or company of any sort, nothing 
+            beats the ease in sending out packages whether locally or 
+            internationally, quickly and without hassle.
+          </p>
         </motion.div>
 
         <div className='flex md:gap-12 ss:gap-10 gap-8 w-full'>
