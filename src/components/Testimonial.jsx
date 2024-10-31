@@ -47,17 +47,17 @@ const Testimonial = () => {
     <section className='relative w-full min-h-[700px] flex items-center'>
       <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
-        className='flex justify-center items-center w-full md:gap-8
+        className='flex flex-col justify-center items-center w-full md:gap-10
         ss:gap-8 gap-6'>
-            <h1 className='text-primary font-semibold md:text-[40px] 
+            <h1 className='text-primary font-bold md:text-[40px] 
             ss:text-[25px] text-[20px] tracking-tight md:leading-[0rem]
             ss:leading-[1.3rem] leading-[1.3rem]'>
                 What our clients are saying
             </h1>
 
-            <p className='text-main2 md:text-[15px] md:leading-[1.5rem] 
+            <p className='text-main2 md:text-[15px] md:leading-[1.3rem] 
             ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
-            text-center'>
+            text-center font-semibold md:max-w-[75ch]'>
                 Our commitment to exceptional service, seamless booking, 
                 and reliable deliveries keeps our clients coming back 
                 every time.
