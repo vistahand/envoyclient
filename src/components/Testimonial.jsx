@@ -47,29 +47,29 @@ const Testimonial = () => {
     <section className='relative w-full min-h-[700px] flex items-center'>
       <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
-        className='flex justify-between items-center w-full md:gap-24
-        ss:gap-10 gap-6'>
-          <h1 className='text-white font-semibold md:text-[40px] 
-          ss:text-[25px] text-[20px] tracking-tight w-1/2
-          md:leading-[3.3rem] ss:leading-[1.3rem] leading-[1.3rem]'>
-            It's pretty easy to get your package moving
-          </h1>
+        className='flex justify-center items-center w-full md:gap-8
+        ss:gap-8 gap-6'>
+            <h1 className='text-primary font-semibold md:text-[40px] 
+            ss:text-[25px] text-[20px] tracking-tight md:leading-[0rem]
+            ss:leading-[1.3rem] leading-[1.3rem]'>
+                What our clients are saying
+            </h1>
 
-          <p className='text-white md:text-[15px] md:leading-[1.5rem] 
-          ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
-          w-1/2'>
-            As a business owner, mover or company of any sort, nothing 
-            beats the ease in sending out packages whether locally or 
-            internationally, quickly and without hassle.
-          </p>
+            <p className='text-main2 md:text-[15px] md:leading-[1.5rem] 
+            ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
+            text-center'>
+                Our commitment to exceptional service, seamless booking, 
+                and reliable deliveries keeps our clients coming back 
+                every time.
+            </p>
         </motion.div>
 
         <div className='flex md:gap-8 ss:gap-8 gap-6 w-full'>
           {moveCards.map((card, index) => (
             <MoveCard
-              key={index} 
-              index={index} 
-              {...card}
+                key={index} 
+                index={index} 
+                {...card}
             />
           ))}
         </div>

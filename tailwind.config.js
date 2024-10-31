@@ -11,7 +11,7 @@ module.exports = {
         mainalt: "#F7F7F7",
         mainRed: "#E30613",
         main: "#4D4D4D",
-        main2: "#F3F3F3",
+        main2: "#3C3C3C",
         main3: "#B5B5B5",
         green: "#4CA735",
         greenBright: "#27E63A",
