@@ -1,8 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import { SectionWrapper } from '../hoc';
 import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
 import { testimonials } from '../constants';
+import { FaArrowRight } from "react-icons/fa6";
 
 const TestCard = ({ index, title, image, description, name, profession }) => {
 
@@ -52,8 +53,24 @@ const TestCard = ({ index, title, image, description, name, profession }) => {
 };
 
 const Testimonial = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const testimonialsLength = testimonials.length;
+
+    const scrollLeft = () => {
+        if (activeIndex > 0) {
+            setActiveIndex(activeIndex - 1);
+        }
+    };
+    
+    const scrollRight = () => {
+        if (activeIndex < testimonialsLength - 1) {
+            setActiveIndex(activeIndex + 1);
+        }
+    };
+
+
   return (
-    <section className='relative w-full min-h-[700px] flex items-center'>
+    <section className='relative w-full min-h-[600px] flex items-center'>
         <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
             <motion.div variants={textVariant()}
             className='flex flex-col justify-center items-center w-full md:gap-10
@@ -73,14 +90,36 @@ const Testimonial = () => {
                 </p>
             </motion.div>
 
-            <div className='flex md:gap-8 ss:gap-8 gap-6 w-full'>
-            {testimonials.map((test, index) => (
-                <TestCard
-                    key={index} 
-                    index={index} 
-                    {...test}
-                />
-            ))}
+            <div className='flex items-center md:gap-8 ss:gap-8 gap-6'>
+                <button 
+                    className='border-mainBlack border-[3px] md:p-3 ss:p-3 
+                    p-2 rounded-full grow2'
+                    onClick={scrollLeft}
+                    disabled={activeIndex === 0}
+
+                >
+                    <FaArrowRight size={22} 
+                        className="transform rotate-180 text-mainBlack"
+                    />
+                </button>
+
+                <div className='overflow-hidden w-full flex'>
+                    <TestCard
+                        key={activeIndex} 
+                        {...testimonials[activeIndex]}
+                    />
+                </div>
+
+                <button 
+                    className='md:p-3 ss:p-3 p-2 border-mainBlack
+                    rounded-full grow2 border-[3px]'
+                    onClick={scrollRight}
+                    disabled={activeIndex === testimonialsLength - 1}
+                >
+                    <FaArrowRight size={22} 
+                        className="text-mainBlack"
+                    />
+                </button>
             </div>
         </div>
     </section>
