@@ -4,6 +4,7 @@ import Cards from './Cards';
 import Hands from './Hands';
 import Move from './Move';
 import Testimonial from './Testimonial';
+import Continent from './Continent';
 
 export {
     Navbar,
@@ -12,4 +13,5 @@ export {
     Hands,
     Move,
     Testimonial,
+    Continent,
 }

@@ -10,6 +10,7 @@ import movecard1 from './movecard1.jpg';
 import movecard2 from './movecard2.jpg';
 import movecard3 from './movecard3.jpg';
 import test1 from './testifier-image.jpg';
+import globe from './globe.png';
 
 export {
     logo,
@@ -24,6 +25,7 @@ export {
     movecard2,
     movecard3,
     test1,
+    globe,
 }
 
 export const heroImages = [

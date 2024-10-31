@@ -5,6 +5,7 @@ import {
     Hands,
     Move,
     Testimonial,
+    Continent,
     // CTA,
     // Footer,
     // Categories,
@@ -32,6 +33,11 @@ const HomePage = () => {
             </div>
 
             <Testimonial />
+
+            <div className='move'>
+                <Continent />
+            </div>
+
             {/* 
             <Discover />
             <Steps />
