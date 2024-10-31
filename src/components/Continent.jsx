@@ -40,11 +40,37 @@ const Continent = () => {
                         safely and quickly in and between Ireland and 
                         Nigeria! 
                     </p>
+
+                    <div className="w-full flex flex-col gap-3 md:pb-1">
+                        <div className="w-full bg-gradient-to-r p-3
+                        from-primaryalt to-primary2">
+                            <p className="text-white md:text-[16px]
+                            ss:text-[16px] text-[14px] font-semibold">
+                                Easy parcel creation system
+                            </p>
+                        </div>
+
+                        <div className="w-full bg-gradient-to-r p-3
+                        from-primaryalt to-primary2">
+                            <p className="text-white md:text-[16px]
+                            ss:text-[16px] text-[14px] font-semibold">
+                                Real-time package tracking
+                            </p>
+                        </div>
+
+                        <div className="w-full bg-gradient-to-r p-3
+                        from-primaryalt to-primary2">
+                            <p className="text-white md:text-[16px]
+                            ss:text-[16px] text-[14px] font-semibold">
+                                Safe and secure packaging and handling
+                            </p>
+                        </div>
+                    </div>
                     
                     <a href='/'
                     className='bg-white text-[13px] py-3 px-6 flex
                     text-primary rounded-full grow4 cursor-pointer w-1/8
-                    items-center gap-3'
+                    items-center gap-3 font-semibold'
                     >
                         <p>
                             Learn More

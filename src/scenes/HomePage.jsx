@@ -6,6 +6,7 @@ import {
     Move,
     Testimonial,
     Continent,
+    Blog,
     // CTA,
     // Footer,
     // Categories,
@@ -37,6 +38,8 @@ const HomePage = () => {
             <div className='move'>
                 <Continent />
             </div>
+
+            <Blog />
 
             {/* 
             <Discover />
