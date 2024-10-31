@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from './scenes';
+import ScrollToTopButton from './constants/ScrollToTop';
 
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
           <Route path='/search' element={<SearchPage />} /> */}
         </Routes>
 
-        {/* <ScrollToTopButton /> */}
+        <ScrollToTopButton />
       </div>
     </BrowserRouter>
   )
