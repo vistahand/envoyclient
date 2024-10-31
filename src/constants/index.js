@@ -133,11 +133,11 @@ export const blogCards = [
     {
         image: blog2,
         title: "How Real-Time Tracking is Revolutionizing the Shipping Industry",
-        description: "Go with your package everywhere! Log in to your account to follow your package at every drop-off easily and seamlessly.",
+        description: "GPS-enabled tracking is changing the way businesses and individuals approach shipping. In this article, we explore how real-time tracking enhances transparency, improves customer satisfaction, and reduces lost or delayed shipments. See why staying informed about your shipment's journey is now a must for modern logistics.",
     },
     {
         image: blog3,
         title: "The Ultimate Guide to Shipping Between Ireland and Nigeria",
-        description: "GPS-enabled tracking is changing the way businesses and individuals approach shipping. In this article, we explore how real-time tracking enhances transparency, improves customer satisfaction, and reduces lost or delayed shipments. See why staying informed about your shipment's journey is now a must for modern logistics.",
+        description: "Whether you're sending personal items or commercial goods, this guide gives you the complete rundown on shipping between Ireland and Nigeria. Learn about customs regulations, required documentation, shipping routes, and tips for ensuring your package moves quickly and smoothly through the process. Perfect for both first-timers and seasoned shippers looking for a refresher.",
     }
 ]

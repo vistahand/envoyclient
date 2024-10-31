@@ -26,7 +26,7 @@ const Hands = () => {
                 md:px-10 ss:px-10 px-6 md:py-12 ss:py-10 py-6 flex 
                 flex-col z-10 items-start shadow-[0px_0px_15px_rgba(0,0,0,0.15)]`}>
                     <h1 className="text-primary font-semibold md:text-[40px]
-                    ss:text-[35px] text-[30px] md:leading-[3rem] 
+                    ss:text-[35px] text-[30px] md:leading-[2.8rem] 
                     ss:leading-[1.3rem] leading-[1.3rem] tracking-tight
                     md:max-w-[15ch]">
                         From our hands to yours
