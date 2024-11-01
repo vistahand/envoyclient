@@ -16,8 +16,9 @@ const Footer = () => {
                     <img src={logo} alt='logo' className='md:w-[150px] 
                     ss:w-[180px] w-[160px] h-auto' />
 
-                    <p className='text-white md:text-[14px] ss:text-[15px] 
-                    text-[12px] md:leading-[25px] ss:leading-[25px] leading-[18px]'>
+                    <p className='text-white md:text-[14px] ss:text-[15px]
+                    text-[12px] md:leading-[25px] ss:leading-[25px] leading-[18px]
+                    font-medium'>
                         Envoy Angel Shipping and Logistics is a trusted provider 
                         of seamless, secure shipping solutions between Ireland 
                         and Nigeria. Simplifying the complexities of international 
@@ -41,7 +42,7 @@ const Footer = () => {
                         <div key={index} className='flex flex-col md:my-3 ss:my-4
                         my-3 w-full'>
                             <h4 className={`font-bold md:text-[15px] ss:text-[17px] 
-                            text-[14px] text-white 
+                            text-[14px] text-primary 
                             ${index !== footerLinks.length - 1 ? 'md:mr-10 ss:mr-8 mr-8' : 'mr-12'}`}>
                             {footerLink.title}
                             </h4>
@@ -52,7 +53,7 @@ const Footer = () => {
                                     <a target='blank' href={Link.route} key={Link.name}>
                                         <li className={`md:text-[13px] ss:text-[15px] grow2
                                         text-[12px] md:leading-[19px] ss:leading-[20px] leading-[12px]
-                                        text-white hover:text-secondary cursor-pointer 
+                                        text-main2 hover:text-secondary cursor-pointer font-medium
                                         ${index !== footerLink.links.length - 1 ? 'md:mb-2.5 ss:mb-2 mb-2.5' : 'mb-0'}`}>
                                             {Link.name}
                                         </li>
@@ -70,15 +71,16 @@ const Footer = () => {
             <div className='flex md:mt-8 ss:mt-10 mt-8 border-t-[1px] 
             border-main md:pt-6 ss:pt-8 pt-4 items-center'>
                 <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
-                ss:text-[18px] text-[15px] mt-1 text-white' />
+                ss:text-[18px] text-[15px] mt-1 text-main4' />
 
                 <p className='md:text-[13px] ss:text-[16px] text-[12px] 
-                text-white md:mt-1 ss:mt-1 mt-0.5'>
+                text-main4 md:mt-1 ss:mt-1 mt-0.5'>
                     2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
                 </p>
             </div>
 
-            <p>
+            <p className='text-main4 md:text-[13px] ss:text-[13px] 
+            text-[12px]'>
                 Designed and Developed by <span className='font-bold'>
                     <a href='https://www.pluggresources.com'>
                         Plugg Resources
