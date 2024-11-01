@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
 import { useNavigate } from 'react-router-dom';
@@ -23,8 +23,21 @@ const ImageCard = ({ image }) => {
 const Hero = () => {
     const navigate = useNavigate();
     const carouselRef = useRef(null);
-    const itemRef = useRef(null);
+    const trackContainerRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (trackContainerRef.current && !trackContainerRef.current.contains(event.target)) {
+                setIsExpanded(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [trackContainerRef]);
 
   return (
     <section className='relative w-full md:min-h-[500px] ss:min-h-[800px] 
@@ -80,7 +93,8 @@ const Hero = () => {
                             <HiOutlineArrowRight className='text-[14px]'/>
                         </a>
                         
-                        <div className={`text-[13px] rounded-full py-3 px-6 flex
+                        <div ref={trackContainerRef} 
+                            className={`text-[13px] rounded-full py-3 px-6 flex
                             items-center transition-all duration-300 ease-in-out 
                             ${isExpanded 
                             ? 'border border-secondary w-[300px]' 
