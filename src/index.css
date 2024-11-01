@@ -28,19 +28,6 @@ body, html {
   scroll-behavior: smooth;
 }
 
-
-.goog-te-combo {
- padding: 3px;
-}
-
-.goog-te-gadget span {
-  display: none; 
-}
-
-.goog-te-gadget {
-  font-size: 11px;
-}
-
 .custom-select {
   -webkit-appearance: none;
   -moz-appearance: none;

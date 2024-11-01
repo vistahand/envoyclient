@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,7 @@ const Hero = () => {
     const navigate = useNavigate();
     const carouselRef = useRef(null);
     const itemRef = useRef(null);
+    const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <section className='relative w-full md:min-h-[500px] ss:min-h-[800px] 
@@ -79,19 +80,39 @@ const Hero = () => {
                             <HiOutlineArrowRight className='text-[14px]'/>
                         </a>
                         
-                        <a href='/'
-                        className='bg-secondary text-[13px] py-3 px-6 flex
-                        text-white rounded-full grow4 cursor-pointer w-1/8
-                        items-center gap-3'
-                        >
-                            <p>
-                                Track Shipment
-                            </p>
-                            
-                            <img src={websearch} alt='trackshipment'
-                                className='w-5 h-5 wht'
-                            />
-                        </a>
+                        {isExpanded ? (
+                            <div className="flex items-center border 
+                            border-secondary rounded-full px-6 py-3 
+                            transition-all duration-400 ease-in-out
+                            w-[300px]">
+                                <input
+                                    type="text"
+                                    placeholder="Enter Tracking Number"
+                                    className="flex-grow text-main
+                                    focus:outline-none text-[13px]"
+                                />
+                                <img src={websearch} alt="trackshipment" 
+                                className="w-5 h-5 wht2 cursor-pointer" />
+                            </div>
+                        ) : (
+                            <div
+                            className='bg-secondary text-[13px] py-3 px-6 flex
+                            text-white rounded-full grow4 cursor-pointer w-1/8
+                            items-center gap-3'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setIsExpanded(true);
+                            }}
+                            >
+                                <p>
+                                    Track Shipment
+                                </p>
+                                
+                                <img src={websearch} alt='trackshipment'
+                                    className='w-5 h-5 wht'
+                                />
+                            </div>
+                        )}
                     </div>  
                 </motion.div> 
             </div>
