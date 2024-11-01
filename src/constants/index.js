@@ -141,3 +141,121 @@ export const blogCards = [
         description: "Whether you're sending personal items or commercial goods, this guide gives you the complete rundown on shipping between Ireland and Nigeria. Learn about customs regulations, required documentation, shipping routes, and tips for ensuring your package moves quickly and smoothly through the process. Perfect for both first-timers and seasoned shippers looking for a refresher.",
     }
 ]
+
+export const socialMedia = [
+    {
+        id: "facebook",
+        image: facebook,
+        link: "https://facebook.com/shoptiles.ng"
+    },
+    {
+        id: "instagram",
+        image: instagram,
+        link: "https://instagram.com/shoptiles.ng"
+    },
+    {
+        id: "pinterest",
+        image: pinterest,
+        link: "https://pinterest.com/shoptiles.ng"
+    },
+    {
+        id: "whatsapp",
+        image: whatsapp,
+        link: "https://wa.me/2349169861311"
+    },
+    {
+        id: "thread",
+        image: threads,
+        link: "https://threads.net/shoptiles.ng"
+    },
+    {
+        id: "tiktok",
+        image: tiktok,
+        link: "https://tiktok.com/fedeltiles"
+    },
+  ];
+  
+  export const footerLinks = [
+    {
+      title: "COMPANY",
+        links: [
+            {
+                name: "About Us",
+                route: "",
+            },
+            {
+                name: "Careers",
+                route: "",
+            },
+        ],
+    },
+    {
+      title: "SERVICES",
+        links: [
+            {
+                name: "Book a Shipment",
+                route: "",
+            },
+            {
+                name: "Track Shipment",
+                route: "",
+            },
+            {
+                name: "Get a Quote",
+                route: "",
+            },
+        ],
+    },
+    {
+        title: "RESOURCES",
+            links: [
+                {
+                    name: "Blog",
+                    route: "",
+                },
+                {
+                    name: "Shipping Guides",
+                    route: "",
+                },
+                {
+                    name: "How to",
+                    route: "",
+                },
+            ],
+    },
+    {
+        title: "SUPPORT",
+            links: [
+                {
+                    name: "Contact Us",
+                    route: "",
+                },
+                {
+                    name: "FAQs",
+                    route: "",
+                },
+                {
+                    name: "Live Chat",
+                    route: "",
+                },
+            ],
+        },
+  
+    {
+      title: "LEGAL",
+        links: [
+            {
+                name: "Cookies",
+                route: "",
+            },
+            {
+                name: "Privacy Policy",
+                route: "",
+            },
+            {
+                name: "Terms of Usage",
+                route: "",
+            },
+        ],
+    },
+];
