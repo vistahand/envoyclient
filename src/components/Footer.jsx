@@ -14,12 +14,12 @@ const Footer = () => {
         pb-6'>
             <div className='flex justify-between w-full'>
                 <div className='flex flex-col w-full md:gap-5 ss:gap-5 gap-5'>
-                    <img src={logo} alt='logo' className='md:w-[150px] 
+                    <img src={logo} alt='logo' className='md:w-[50%] 
                     ss:w-[180px] w-[160px] h-auto' />
 
                     <p className='text-main2 md:text-[14px] ss:text-[15px]
                     text-[12px] md:leading-[20px] ss:leading-[25px] leading-[18px]
-                    font-medium tracking-tight'>
+                    font-medium tracking-tight md:max-w-[45ch]'>
                         Envoy Angel Shipping and Logistics is a trusted provider 
                         of seamless, secure shipping solutions between Ireland 
                         and Nigeria. Simplifying the complexities of international 
@@ -73,7 +73,7 @@ const Footer = () => {
                 <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
                 ss:text-[18px] text-[15px] mt-1 text-main4' />
 
-                <p className='md:text-[13px] ss:text-[16px] text-[12px] 
+                <p className='md:text-[13px] ss:text-[14px] text-[12px] 
                 text-main4 md:mt-1 ss:mt-1 mt-0.5'>
                     2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
                 </p>
