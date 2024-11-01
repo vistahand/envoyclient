@@ -10,22 +10,23 @@ const Footer = () => {
   return (
     <section className='relative w-full md:min-h-[700px] ss:min-h-[700px] 
     min-h-[450px] flex items-center flex-col'>
-        <div className='flex items-center w-full relative'>
+        <div className='flex items-center w-full relative md:pb-8 ss:pb-8
+        pb-6'>
             <div className='flex justify-between w-full'>
                 <div className='flex flex-col w-full md:gap-5 ss:gap-5 gap-5'>
                     <img src={logo} alt='logo' className='md:w-[150px] 
                     ss:w-[180px] w-[160px] h-auto' />
 
-                    <p className='text-white md:text-[14px] ss:text-[15px]
-                    text-[12px] md:leading-[25px] ss:leading-[25px] leading-[18px]
-                    font-medium'>
+                    <p className='text-main2 md:text-[14px] ss:text-[15px]
+                    text-[12px] md:leading-[20px] ss:leading-[25px] leading-[18px]
+                    font-medium tracking-tight'>
                         Envoy Angel Shipping and Logistics is a trusted provider 
                         of seamless, secure shipping solutions between Ireland 
                         and Nigeria. Simplifying the complexities of international 
                         shipping, one delivery at a time.
                     </p>
                     
-                    <div className='flex md:gap-4 ss:gap-5 gap-3 items-center'>
+                    {/* <div className='flex md:gap-4 ss:gap-5 gap-3 items-center'>
                         {socialMedia.map((social, index) => (
                             <a target='_blank' href={social.link} rel="noreferrer" key={index}>
                                 <img src={social.image} alt='social'
@@ -33,26 +34,25 @@ const Footer = () => {
                                 />
                             </a>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
                 
-                <div className='w-full flex md:flex-row flex-col md:mt-6 
-                ss:mt-8 mt-6'>
+                <div className='w-full flex md:flex-row flex-col'>
                     {footerLinks.map((footerLink, index) => (
                         <div key={index} className='flex flex-col md:my-3 ss:my-4
                         my-3 w-full'>
                             <h4 className={`font-bold md:text-[15px] ss:text-[17px] 
-                            text-[14px] text-primary 
-                            ${index !== footerLinks.length - 1 ? 'md:mr-10 ss:mr-8 mr-8' : 'mr-12'}`}>
+                            text-[14px] text-primary tracking-tight
+                            ${index !== footerLinks.length - 1 ? 'md:mr-14 ss:mr-8 mr-8' : 'mr-12'}`}>
                             {footerLink.title}
                             </h4>
 
-                            <ul className='list-none md:mt-5 ss:mt-4 mt-3 w-full 
+                            <ul className='list-none mt-3 w-full 
                             justify-between flex flex-col'>
                                 {footerLink.links.map((Link, index) => (
                                     <a target='blank' href={Link.route} key={Link.name}>
-                                        <li className={`md:text-[13px] ss:text-[15px] grow2
-                                        text-[12px] md:leading-[19px] ss:leading-[20px] leading-[12px]
+                                        <li className={`md:text-[13px] ss:text-[15px] grow2 tracking-tight
+                                        text-[12px] md:leading-[15px] ss:leading-[20px] leading-[12px]
                                         text-main2 hover:text-secondary cursor-pointer font-medium
                                         ${index !== footerLink.links.length - 1 ? 'md:mb-2.5 ss:mb-2 mb-2.5' : 'mb-0'}`}>
                                             {Link.name}
@@ -67,9 +67,9 @@ const Footer = () => {
         </div>
 
         <motion.div variants={textVariant()} className='flex w-full
-        justify-between items-center'>
-            <div className='flex md:mt-8 ss:mt-10 mt-8 border-t-[1px] 
-            border-main md:pt-6 ss:pt-8 pt-4 items-center'>
+        justify-between items-center border-t-[1px] border-main5 md:pt-8 
+        ss:pt-8 pt-4'>
+            <div className='flex items-center'>
                 <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
                 ss:text-[18px] text-[15px] mt-1 text-main4' />
 
@@ -82,7 +82,9 @@ const Footer = () => {
             <p className='text-main4 md:text-[13px] ss:text-[13px] 
             text-[12px]'>
                 Designed and Developed by <span className='font-bold'>
-                    <a href='https://www.pluggresources.com'>
+                    <a href='https://www.pluggresources.com'
+                    rel="noreferrer" target='_blank'
+                    >
                         Plugg Resources
                     </a>
                 </span>

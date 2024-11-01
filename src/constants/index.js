@@ -142,40 +142,30 @@ export const blogCards = [
     }
 ]
 
-export const socialMedia = [
-    {
-        id: "facebook",
-        image: facebook,
-        link: "https://facebook.com/shoptiles.ng"
-    },
-    {
-        id: "instagram",
-        image: instagram,
-        link: "https://instagram.com/shoptiles.ng"
-    },
-    {
-        id: "pinterest",
-        image: pinterest,
-        link: "https://pinterest.com/shoptiles.ng"
-    },
-    {
-        id: "whatsapp",
-        image: whatsapp,
-        link: "https://wa.me/2349169861311"
-    },
-    {
-        id: "thread",
-        image: threads,
-        link: "https://threads.net/shoptiles.ng"
-    },
-    {
-        id: "tiktok",
-        image: tiktok,
-        link: "https://tiktok.com/fedeltiles"
-    },
-  ];
+// export const socialMedia = [
+//     {
+//         id: "facebook",
+//         image: facebook,
+//         link: "https://facebook.com/shoptiles.ng"
+//     },
+//     {
+//         id: "instagram",
+//         image: instagram,
+//         link: "https://instagram.com/shoptiles.ng"
+//     },
+//     {
+//         id: "linkedin",
+//         image: pinterest,
+//         link: "https://pinterest.com/shoptiles.ng"
+//     },
+//     {
+//         id: "twitter",
+//         image: threads,
+//         link: "https://threads.net/shoptiles.ng"
+//     },
+// ];
   
-  export const footerLinks = [
+export const footerLinks = [
     {
       title: "COMPANY",
         links: [

@@ -15,6 +15,7 @@ module.exports = {
         main2: "#3C3C3C",
         main3: "#8B8B8B",
         main4: "#898989",
+        main5: "#C8C8C8",
         mainBlack: "#161616",
         green: "#4CA735",
         greenBright: "#27E63A",
