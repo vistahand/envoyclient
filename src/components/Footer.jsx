@@ -8,9 +8,9 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <section className='relative w-full md:min-h-[700px] ss:min-h-[700px] 
+    <section className='relative w-full md:min-h-[300px] ss:min-h-[700px] 
     min-h-[450px] flex items-center flex-col'>
-        <div className='flex items-center w-full relative md:pb-8 ss:pb-8
+        <div className='flex items-center w-full relative md:pb-10 ss:pb-8
         pb-6'>
             <div className='flex justify-between w-full'>
                 <div className='flex flex-col w-full md:gap-5 ss:gap-5 gap-5'>
@@ -26,15 +26,16 @@ const Footer = () => {
                         shipping, one delivery at a time.
                     </p>
                     
-                    {/* <div className='flex md:gap-4 ss:gap-5 gap-3 items-center'>
+                    <div className='flex gap-3.5 items-center'>
                         {socialMedia.map((social, index) => (
-                            <a target='_blank' href={social.link} rel="noreferrer" key={index}>
-                                <img src={social.image} alt='social'
-                                    className='md:w-6 ss:w-6 w-5 h-auto'
-                                />
+                            <a target='_blank' href={social.link} rel="noreferrer" key={index}
+                            className='bg-primary rounded-full p-1.5'>
+                                {React.createElement(social.image, {
+                                    className:'md:w-4 ss:w-5 w-4 h-auto text-white'
+                                })}
                             </a>
                         ))}
-                    </div> */}
+                    </div>
                 </div>
                 
                 <div className='w-full flex md:flex-row flex-col'>

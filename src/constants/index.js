@@ -1,6 +1,11 @@
 import { TbCurrentLocation, TbHeadset } from "react-icons/tb";
 import { LuPackage } from "react-icons/lu";
 
+import { RiTwitterXLine } from "react-icons/ri";
+import { ImFacebook } from "react-icons/im";
+import { SiInstagram } from "react-icons/si";
+import { BiLogoLinkedin } from "react-icons/bi";
+
 import { blog1, blog2, blog3, movecard1, movecard2, movecard3, test1, } from "../assets";
 
 
@@ -142,28 +147,28 @@ export const blogCards = [
     }
 ]
 
-// export const socialMedia = [
-//     {
-//         id: "facebook",
-//         image: facebook,
-//         link: "https://facebook.com/shoptiles.ng"
-//     },
-//     {
-//         id: "instagram",
-//         image: instagram,
-//         link: "https://instagram.com/shoptiles.ng"
-//     },
-//     {
-//         id: "linkedin",
-//         image: pinterest,
-//         link: "https://pinterest.com/shoptiles.ng"
-//     },
-//     {
-//         id: "twitter",
-//         image: threads,
-//         link: "https://threads.net/shoptiles.ng"
-//     },
-// ];
+export const socialMedia = [
+    {
+        id: "facebook",
+        image: ImFacebook,
+        link: ""
+    },
+    {
+        id: "instagram",
+        image: SiInstagram,
+        link: ""
+    },
+    {
+        id: "linkedin",
+        image: BiLogoLinkedin,
+        link: ""
+    },
+    {
+        id: "twitter",
+        image: RiTwitterXLine,
+        link: ""
+    },
+];
   
 export const footerLinks = [
     {
