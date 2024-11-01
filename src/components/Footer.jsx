@@ -29,9 +29,9 @@ const Footer = () => {
                     <div className='flex gap-3.5 items-center'>
                         {socialMedia.map((social, index) => (
                             <a target='_blank' href={social.link} rel="noreferrer" key={index}
-                            className='bg-primary rounded-full p-1.5'>
+                            className='bg-primary rounded-full p-1.5 relative'>
                                 {React.createElement(social.image, {
-                                    className:'md:w-4 ss:w-5 w-4 h-auto text-white'
+                                    className: `md:w-4 ss:w-5 w-4 h-auto text-white ${social.id === "facebook" ? '' : ''}`
                                 })}
                             </a>
                         ))}
