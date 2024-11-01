@@ -247,6 +247,10 @@ body, html {
   filter: invert(1) brightness(100);
 }
 
+.wht2 {
+  filter: invert(1) brightness(30%);
+}
+
 .grow {
   transition: all .2s ease-in-out;
 }

@@ -80,39 +80,34 @@ const Hero = () => {
                             <HiOutlineArrowRight className='text-[14px]'/>
                         </a>
                         
-                        {isExpanded ? (
-                            <div className="flex items-center border 
-                            border-secondary rounded-full px-6 py-3 
-                            transition-all duration-400 ease-in-out
-                            w-[300px]">
+                        <div className={`text-[13px] rounded-full py-3 px-6 flex
+                            items-center transition-all duration-300 ease-in-out 
+                            ${isExpanded 
+                            ? 'border border-secondary w-[300px]' 
+                            : 'bg-secondary text-white grow4 cursor-pointer w-1/8 gap-3'}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setIsExpanded(true);
+                            }}
+                        >
+                            {isExpanded ? (
                                 <input
                                     type="text"
                                     placeholder="Enter Tracking Number"
                                     className="flex-grow text-main
                                     focus:outline-none text-[13px]"
                                 />
-                                <img src={websearch} alt="trackshipment" 
-                                className="w-5 h-5 wht2 cursor-pointer" />
-                            </div>
-                        ) : (
-                            <div
-                            className='bg-secondary text-[13px] py-3 px-6 flex
-                            text-white rounded-full grow4 cursor-pointer w-1/8
-                            items-center gap-3'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setIsExpanded(true);
-                            }}
-                            >
+                            ) : (
                                 <p>
                                     Track Shipment
                                 </p>
-                                
-                                <img src={websearch} alt='trackshipment'
-                                    className='w-5 h-5 wht'
-                                />
-                            </div>
-                        )}
+                            )}
+                            <img src={websearch} alt='trackshipment'
+                            className={`w-5 h-5 ${isExpanded 
+                                ? 'wht2 cursor-pointer'
+                                : 'wht'}`}
+                            />
+                        </div>
                     </div>  
                 </motion.div> 
             </div>
