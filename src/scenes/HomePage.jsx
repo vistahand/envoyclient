@@ -8,9 +8,7 @@ import {
     Continent,
     Blog,
     CTA,
-    // Footer,
-    // Categories,
-    // Top
+    Footer
 } from '../components';
 
 import { Helmet } from 'react-helmet';
@@ -45,10 +43,7 @@ const HomePage = () => {
                 <CTA />
             </div>
             
-            {/* 
-            <div className='footer'>
-                <Footer />
-            </div> */}
+            <Footer />
         </div>
     )
 };

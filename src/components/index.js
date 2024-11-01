@@ -7,6 +7,7 @@ import Testimonial from './Testimonial';
 import Continent from './Continent';
 import Blog from './Blog';
 import CTA from './CTA';
+import Footer from './Footer';
 
 export {
     Navbar,
@@ -18,4 +19,5 @@ export {
     Continent,
     Blog,
     CTA,
+    Footer,
 }
