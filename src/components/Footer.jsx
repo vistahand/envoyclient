@@ -2,6 +2,7 @@ import { SectionWrapper } from '../hoc';
 import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
 import { BiCopyright } from 'react-icons/bi';
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { footerLinks, socialMedia } from '../constants';
 import { logo } from '../assets';
 import React from 'react';
@@ -56,7 +57,13 @@ const Footer = () => {
                                         text-[12px] md:leading-[15px] ss:leading-[20px] leading-[12px]
                                         text-main2 hover:text-secondary cursor-pointer font-medium
                                         ${index !== footerLink.links.length - 1 ? 'md:mb-2.5 ss:mb-2 mb-2.5' : 'mb-0'}`}>
-                                            {Link.name}
+                                           <span className="flex items-center gap-2.5">
+                                                {Link.name}
+                                                {Link.name === "Careers" && (
+                                                    <FaArrowUpRightFromSquare 
+                                                    className="w-2.5 h-2.5" />
+                                                )}
+                                            </span>
                                         </li>
                                     </a>
                                 ))}

@@ -47,7 +47,7 @@ const CTA = () => {
                     </a>
                 </motion.div>
 
-                <motion.div variants={fadeIn('right', 'spring', 0.3)}
+                <motion.div variants={fadeIn('left', 'spring', 0.3)}
                 className="">
                     <img src={cta} 
                         alt='cta'
