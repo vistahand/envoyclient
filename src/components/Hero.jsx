@@ -95,10 +95,13 @@ const Hero = () => {
                         
                         <div ref={trackContainerRef} 
                             className={`text-[13px] rounded-full py-3 px-6 flex
-                            items-center
+                            items-center expandable-div
                             ${isExpanded 
-                            ? 'border border-secondary w-[300px]' 
-                            : 'bg-secondary text-white grow4 cursor-pointer w-1/8 gap-3'}`}
+                            ? 'border border-secondary' 
+                            : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
+                            style={{
+                                width: isExpanded ? '300px' : 'fit-content'
+                            }}
                             onClick={(e) => {
                                 e.preventDefault();
                                 setIsExpanded(true);
@@ -110,6 +113,7 @@ const Hero = () => {
                                     placeholder="Enter Tracking Number"
                                     className="flex-grow text-main
                                     focus:outline-none text-[13px]"
+                                    onBlur={() => setIsExpanded(false)}
                                 />
                             ) : (
                                 <p>

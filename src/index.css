@@ -301,6 +301,11 @@ body, html {
   color: white;
 }
 
+.expandable-div {
+  transition: width 0.3s ease-in-out;
+  overflow: hidden; /* Ensures content doesn’t jump or overflow abruptly */
+}
+
 .menu-slide-enter {
   transform: translateX(100%);
 }
