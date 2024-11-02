@@ -34,7 +34,7 @@ const BlogCard = ({ index, title, image, description }) => {
 
         <div>
           <a href='/'
-          className='inline-flex items-center gap-2 cursor-pointer grow2'>
+          className='inline-flex items-center gap-2 cursor-pointer grow5'>
             <p className='text-primary font-semibold md:text-[13px] 
             ss:text-[14px] text-[13px]'>
               Read More
