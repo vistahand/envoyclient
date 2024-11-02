@@ -286,27 +286,16 @@ body, html {
 }
 
 .grow5 > :last-child {
-  position: relative;
-  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-  color: var(--primary-color); /* Set your primary color here */
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  color: #1E3F76;
+  border-radius: 50%;
 }
 
 .grow5:hover > :last-child {
   transform: translateX(3px);
-  color: white; /* Change arrow color on hover */
-}
-
-.grow5:hover > :last-child::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px; /* Size of the circular background */
-  height: 24px;
-  background-color: #1E3F76; /* Blue color */
-  border-radius: 50%; /* Makes the background circular */
-  transform: translate(-50%, -50%); /* Center the circle behind the arrow */
-  /* Send the background circle behind the arrow */
+  background-color: #1E3F76;
+  border-radius: 50%;
+  color: white;
 }
 
 .menu-slide-enter {
