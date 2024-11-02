@@ -243,6 +243,14 @@ body, html {
   display: block;
 }
 
+.slick-slide > div {
+  padding: 0 5px; /* Adjust this to control spacing */
+}
+
+.slick-list {
+  margin: 0 -5px; /* Match this with the padding to ensure full width */
+}
+
 .wht {
   filter: invert(1) brightness(100);
 }
