@@ -93,15 +93,15 @@ const Hero = () => {
                             <HiOutlineArrowRight className='text-[14px]'/>
                         </a>
                         
-                        <div ref={trackContainerRef} 
+                        <motion.div ref={trackContainerRef} 
                             className={`text-[13px] rounded-full py-3 px-6 flex
-                            items-center expandable-div
+                            items-center
                             ${isExpanded 
                             ? 'border border-secondary' 
                             : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
-                            style={{
-                                width: isExpanded ? '300px' : 'fit-content'
-                            }}
+                            animate={{ width: isExpanded ? '310px' : '173px' }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            style={{ overflow: 'hidden' }}
                             onClick={(e) => {
                                 e.preventDefault();
                                 setIsExpanded(true);
@@ -125,7 +125,7 @@ const Hero = () => {
                                 ? 'wht2 cursor-pointer'
                                 : 'wht'}`}
                             />
-                        </div>
+                        </motion.div>
                     </div>  
                 </motion.div> 
             </div>
