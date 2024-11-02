@@ -70,7 +70,7 @@ const Navbar = () => {
         <div className={`w-full flex bg-white ${styles.paddingX}`}>
             <div className='w-full flex justify-between items-center 
             max-w-[68rem] mx-auto py-5'>
-                <div className='w-1/6'>
+                <div className='md:w-1/6 ss:w-1/3 w-1/2'>
                     <a href='/'>
                         <img
                             src={logo} alt='logo'
@@ -159,7 +159,7 @@ const Navbar = () => {
                     gap-5">
                         {toggle ? (
                             <BsX
-                                size={38}
+                                size={40}
                                 className="object-contain cursor-pointer"
                                 style={{ color: '#050759' }}
                                 onClick={() => {
@@ -169,7 +169,7 @@ const Navbar = () => {
                             />
                             ) : (
                             <IoMenu
-                                size={38}
+                                size={40}
                                 className="object-contain cursor-pointer"
                                 style={{ color: '#050759' }}
                                 onClick={() => {
@@ -183,14 +183,13 @@ const Navbar = () => {
                     <div ref={menuRef}
                         className={`p-6 ss:mt-20 mt-20 absolute top-0 
                         right-0 z-10 flex-col w-full bg-white shadow-lg
-                        ss:px-16 h-[80vh] overflow-y-auto
+                        ss:px-16 h-[50vh] overflow-y-auto
                         ${toggle 
                             ? 'menu-slide-enter menu-slide-enter-active' 
                             : 'menu-slide-exit menu-slide-exit-active'}`
                         }
                     >
-                        <ul className="list-none flex flex-col 
-                        ss:gap-4 gap-4 ss:mb-14 mb-10">
+                        <ul className="list-none flex flex-col gap-5 mb-20">
                         {navLinks.map((link) => (
                             <li
                             key={link.id}
@@ -199,31 +198,29 @@ const Navbar = () => {
                             onClick={() => toggleMenu(link.id)}
                             >
                                 <div className='flex flex-row 
-                                items-center ss:gap-2 gap-2'>
-                                    <h3 className='text-main 
-                                    ss:text-[16px] text-[15px] 
+                                items-center gap-3'>
+                                    <h3 className='text-primary 
+                                    ss:text-[20px] text-[18px] 
                                     font-medium'>
                                         {link.title}
                                     </h3>
 
                                     <MdKeyboardArrowDown 
-                                        className='text-main ss:text-[18px]
-                                        text-[16px]' 
+                                        className='text-primary text-[20px]' 
                                     />
                                 </div>
                                 
                                 {openMenuId === link.id && (
-                                    <div className='mt-2 fade-in ml-2' 
+                                    <div className='mt-3 fade-in ml-2' 
                                     style={{ maxHeight: '30vh', 
                                     overflowY: 'auto' }}>
-                                        <div className='flex flex-col 
-                                        ss:gap-2 gap-2'>
+                                        <div className='flex flex-col gap-3'>
                                             {link.links.map((subLink, index) => (
                                             <a
                                                 key={index}
                                                 href={subLink.route}
-                                                className="ss:text-[15px] 
-                                                text-[14px] text-main"
+                                                className="ss:text-[17px] 
+                                                text-[16px] text-main"
                                             >
                                                 {subLink.name}
                                             </a>
@@ -235,14 +232,24 @@ const Navbar = () => {
                         ))}
                         </ul>
 
-                        <div className='bg-primary text-[13px] py-3 px-5 flex gap-3
-                        text-white rounded-full grow4 cursor-pointer w-[160px]
-                        items-center'
-                        // onClick={() => {
-                        //     setToggle(!toggle);
-                        // }}
-                        >
-                            Book a Shipment
+                        <div className="flex items-center gap-6">
+                            <h1 className='text-primary ss:text-[20px] 
+                            text-[18px] font-[600]'>
+                                Log In
+                            </h1>
+
+                            <a href='/'
+                            className='bg-primary ss:text-[16px] text-[13px] 
+                            py-3 px-8 flex text-white rounded-full w-1/8
+                            items-center gap-3'
+                            >
+                                <p className='font-[500]'>
+                                    Book a Shipment
+                                </p>
+                                
+                                <HiOutlineArrowRight className='ss:text-[18px]
+                                text-[16px]'/>
+                            </a>
                         </div>
                     </div>
                 </div>
