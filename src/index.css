@@ -244,11 +244,11 @@ body, html {
 }
 
 .slick-slide > div {
-  padding: 0 5px; /* Adjust this to control spacing */
+  padding: 0 5px;
 }
 
 .slick-list {
-  margin: 0 -5px; /* Match this with the padding to ensure full width */
+  margin: 0 -5px;
 }
 
 .wht {
