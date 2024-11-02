@@ -5,14 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { websearch, heroImages, socialproof, curve } from '../assets';
 import { SectionWrapper2 } from '../hoc';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 
 
 const ImageCard = ({ image }) => {
     return (
-        <div className='w-[97%] h-[250px]'>
+        <div className='w-[550px] h-[250px]'>
             <img 
                 src={image}
                 alt='heroImage'
@@ -28,16 +25,22 @@ const Hero = () => {
     const trackContainerRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const settings = {
-        dots: false,
-        infinite: true,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: true,
-        speed: 4000,
-        autoplaySpeed: 0,
-        cssEase: "linear",
+    const [imagesToShow, setImagesToShow] = useState(5);
+
+    const updateImagesToShow = () => {
+        if (window.innerWidth <= 1440) {
+            setImagesToShow(3);
+        } else {
+            setImagesToShow(heroImages.length);
+        }
     };
+
+    useEffect(() => {
+        updateImagesToShow();
+
+        window.addEventListener('resize', updateImagesToShow);
+        return () => window.removeEventListener('resize', updateImagesToShow);
+    }, []);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -146,16 +149,17 @@ const Hero = () => {
 
         <motion.div variants={textVariant(0.7)} 
         className='flex items-center justify-center w-full relative'>
-            <Slider {...settings} className='flex w-full items-center 
-            justify-center'>
-                {heroImages.map((item, index) => (
-                    <div key={index}>
-                        <ImageCard 
-                            image={item}
-                        />
-                    </div>
-                ))}
-            </Slider>
+            <div className='overflow-hidden w-full flex'>
+                <div className='flex gap-6 w-full items-center justify-center'>
+                    {heroImages.slice(0, imagesToShow).map((item, index) => (
+                        <div key={index}>
+                            <ImageCard 
+                                image={item}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             <div className='absolute top-[55%] w-1/4'>
                 <img 
