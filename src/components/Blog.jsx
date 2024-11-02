@@ -40,7 +40,7 @@ const BlogCard = ({ index, title, image, description }) => {
               Read More
             </p>
 
-            <HiOutlineArrowRight className='text-[12px] text-primary'/>
+            <HiOutlineArrowRight className='text-primary'/>
           </a>
         </div>
       </div>

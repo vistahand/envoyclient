@@ -286,14 +286,17 @@ body, html {
 }
 
 .grow5 > :last-child {
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: transform 0.4s ease-in-out, background-color 0.4s ease-in-out, color 0.4s ease-in-out;
   color: #1E3F76;
   border-radius: 50%;
+  font-size: 12px;
 }
 
 .grow5:hover > :last-child {
   transform: translateX(3px);
   background-color: #1E3F76;
+  font-size: 20px;
+  padding: 4px;
   border-radius: 50%;
   color: white;
 }
