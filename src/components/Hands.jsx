@@ -1,9 +1,25 @@
+import { useRef, useState, useEffect } from 'react';
 import { SectionWrapper } from "../hoc";
 import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
 import { hands, websearch } from '../assets';
 
 const Hands = () => {
+    const trackContainerRef = useRef(null);
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (trackContainerRef.current && !trackContainerRef.current.contains(event.target)) {
+                setIsExpanded(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [trackContainerRef]);
 
     return (
         <section className="w-full md:min-h-[300px] ss:min-h-[500px] 
@@ -42,19 +58,39 @@ const Hands = () => {
                         international and local deliveries.
                     </p>
                     
-                    <a href='/'
-                    className='bg-secondary text-[13px] py-3 px-6 flex
-                    text-white rounded-full grow4 cursor-pointer
-                    items-center gap-3'
+                    <motion.div ref={trackContainerRef} 
+                        className={`text-[13px] rounded-full py-3 px-6 flex
+                        items-center
+                        ${isExpanded 
+                        ? 'border border-secondary' 
+                        : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
+                        animate={{ width: isExpanded ? '310px' : '173px' }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        style={{ overflow: 'hidden' }}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setIsExpanded(true);
+                        }}
                     >
-                        <p>
-                            Track Shipment
-                        </p>
-                        
+                        {isExpanded ? (
+                            <input
+                                type="text"
+                                placeholder="Enter Tracking Number"
+                                className="flex-grow text-main
+                                focus:outline-none text-[13px]"
+                                onBlur={() => setIsExpanded(false)}
+                            />
+                        ) : (
+                            <p>
+                                Track Shipment
+                            </p>
+                        )}
                         <img src={websearch} alt='trackshipment'
-                            className='w-5 h-5 wht'
+                        className={`w-5 h-5 ${isExpanded 
+                            ? 'wht2 cursor-pointer'
+                            : 'wht'}`}
                         />
-                    </a>
+                    </motion.div>
                 </motion.div>
             </motion.div>
         </section>
