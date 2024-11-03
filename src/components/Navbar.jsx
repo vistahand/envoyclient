@@ -200,7 +200,7 @@ const Navbar = () => {
                                 <div className='flex flex-row 
                                 items-center gap-3'>
                                     <h3 className='text-primary 
-                                    ss:text-[20px] text-[18px] 
+                                    ss:text-[20px] text-[17px] 
                                     font-medium'>
                                         {link.title}
                                     </h3>
@@ -220,7 +220,7 @@ const Navbar = () => {
                                                 key={index}
                                                 href={subLink.route}
                                                 className="ss:text-[17px] 
-                                                text-[16px] text-main"
+                                                text-[15px] text-main"
                                             >
                                                 {subLink.name}
                                             </a>
@@ -234,13 +234,13 @@ const Navbar = () => {
 
                         <div className="flex items-center gap-6">
                             <h1 className='text-primary ss:text-[20px] 
-                            text-[18px] font-[600]'>
+                            text-[17px] font-[600]'>
                                 Log In
                             </h1>
 
                             <a href='/'
-                            className='bg-primary ss:text-[16px] text-[13px] 
-                            py-3 px-8 flex text-white rounded-full w-1/8
+                            className='bg-primary ss:text-[16px] text-[14px] 
+                            py-3 ss:px-8 px-6 flex text-white rounded-full w-1/8
                             items-center gap-3'
                             >
                                 <p className='font-[500]'>
@@ -248,7 +248,7 @@ const Navbar = () => {
                                 </p>
                                 
                                 <HiOutlineArrowRight className='ss:text-[18px]
-                                text-[16px]'/>
+                                text-[15px]'/>
                             </a>
                         </div>
                     </div>
