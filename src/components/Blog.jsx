@@ -8,8 +8,8 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 const BlogCard = ({ index, title, image, description }) => {
 
   return (
-    <motion.div className='rounded-2xl md:basis-1/3 ss:basis-1/2 grow
-    basis-full min-h-[400px] flex navsmooth bg-mainalt'
+    <motion.div className='rounded-2xl grow min-h-[400px] flex navsmooth 
+    bg-mainalt'
       variants={fadeIn('', 'spring', index * 0.5, 0.75)}
     >
       <div className='flex flex-col md:gap-3 ss:gap-3 gap-3 p-5
@@ -71,7 +71,8 @@ const Blog = () => {
           </p>
         </motion.div>
 
-        <div className='flex md:gap-8 ss:gap-8 gap-6 w-full'>
+        <div className='grid md:grid-cols-3 ss:grid-cols-2 md:gap-8 
+        ss:gap-8 gap-6 w-full'>
           {blogCards.map((card, index) => (
             <BlogCard
               key={index} 
