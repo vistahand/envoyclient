@@ -13,7 +13,7 @@ const TestCard = ({ title, image, description, name, profession  }) => {
   return (
     <motion.div
         className="rounded-2xl relative w-full flex md:flex-row ss:flex-row
-        flex-col bg-mainBlack md:gap-6 ss:gap-6 gap-5 md:h-[23em] 
+        flex-col bg-mainBlack md:gap-6 ss:gap-6 gap-2 md:h-[23em] 
         ss:h-[23em] h-auto mx-auto"
     >
         <div className='flex md:hidden ss:hidden w-full'>
@@ -66,26 +66,45 @@ const TestCard = ({ title, image, description, name, profession  }) => {
 
 const Testimonial = () => {
 
-    const NextArrow = ({ onClick }) => (
+    const NextArrowLarge = ({ onClick }) => (
         <button
-            className="absolute md:right-0 ss:right-0  md:p-3 
-            ss:p-3 p-2 border-mainBlack 
-            rounded-full grow2 border-[3px] transform translate-x-1/2
-            z-10"
+            className="absolute md:right-0 ss:right-0 md:p-3 
+            ss:p-3 p-2 border-mainBlack rounded-full grow2 border-[3px] 
+            md:transform md:translate-x-1/2 z-10 hidden md:block"
             onClick={onClick}
             style={{ top: '50%', transform: 'translate(170%, -50%)' }}
         >
             <FaArrowRight className="text-mainBlack" />
         </button>
     );
-    
-    const PrevArrow = ({ onClick }) => (
+
+    const PrevArrowLarge = ({ onClick }) => (
         <button
-            className="absolute md:left-0 ss:left-0  md:p-3 ss:p-3 p-2 border-mainBlack 
-            rounded-full grow2 border-[3px] transform -translate-x-1/2
-            z-10"
+            className="absolute md:left-0 ss:left-0 md:p-3 ss:p-3 p-2 
+            border-mainBlack rounded-full grow2 border-[3px] md:transform 
+            md:-translate-x-1/2 z-10 hidden md:block"
             onClick={onClick}
             style={{ top: '50%', transform: 'translate(-170%, -50%)' }}
+        >
+            <FaArrowRight className="rotate-180 text-mainBlack" />
+        </button>
+    );
+
+    const NextArrowSmall = ({ onClick }) => (
+        <button
+            className="p-3 border-mainBlack rounded-full border-[3px] 
+            z-10 mx-2 md:hidden"
+            onClick={onClick}
+        >
+            <FaArrowRight className="text-mainBlack" />
+        </button>
+    );
+
+    const PrevArrowSmall = ({ onClick }) => (
+        <button
+            className="p-3 border-mainBlack rounded-full border-[3px] 
+            z-10 mx-2 md:hidden"
+            onClick={onClick}
         >
             <FaArrowRight className="rotate-180 text-mainBlack" />
         </button>
@@ -97,14 +116,14 @@ const Testimonial = () => {
         speed: 600,
         slidesToShow: 1,
         slidesToScroll: 1,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrowLarge />,
+        prevArrow: <PrevArrowLarge />,
     };
 
 
   return (
     <section className='relative w-full md:min-h-[600px] ss:min-h-[550px] 
-    min-h-[800px] flex items-center'>
+    min-h-[870px] flex items-center'>
         <div className='flex flex-col w-full md:gap-12 ss:gap-8 gap-6'>
             <motion.div variants={textVariant()}
             className='flex flex-col justify-center items-center w-full md:gap-10
@@ -116,7 +135,7 @@ const Testimonial = () => {
                 </h1>
 
                 <p className='text-main2 md:text-[17px] md:leading-[1.3rem] 
-                ss:leading-[1.4rem] leading-[1.3rem] ss:text-[17px] text-[15px] 
+                ss:leading-[1.4rem] leading-[1.3rem] ss:text-[17px] text-[14px] 
                 text-center font-semibold md:max-w-[75ch]'>
                     Our commitment to exceptional service, seamless booking, 
                     and reliable deliveries keeps our clients coming back 
@@ -131,6 +150,11 @@ const Testimonial = () => {
                         <TestCard key={index} {...testimonial} />
                     ))}
                 </Slider>
+
+                <div className="flex justify-center mt-5 gap-3 md:hidden">
+                    <PrevArrowSmall onClick={settings.prevArrow.props.onClick} />
+                    <NextArrowSmall onClick={settings.nextArrow.props.onClick} />
+                </div>
             </div>
         </div>
     </section>
