@@ -23,7 +23,7 @@ const Hands = () => {
 
     return (
         <section className="w-full md:min-h-[300px] ss:min-h-[300px] 
-        min-h-[650px] flex items-center">
+        min-h-[350px] flex items-center md:mb-0 ss:mb-0 mb-52">
             <motion.div variants={fadeIn('down', 'spring', 0.3)}
             className="flex md:flex-row ss:flex-row flex-col md:gap-3 
             ss:gap-10 gap-10 w-full md:items-center ss:items-center 
@@ -31,26 +31,26 @@ const Hands = () => {
                 <motion.div variants={fadeIn('right', 'spring', 0.3)}>
                     <img src={hands} 
                         alt='handsImage'
-                        className='md:h-[420px] ss:h-[350px]
+                        className='md:h-[420px] ss:h-[350px] h-[350px]
                         rounded-3xl object-cover'
                     />
                 </motion.div>
 
                 <motion.div variants={textVariant()}
-                className={`absolute right-0 -translate-x-1/2 bg-white
-                w-[50%] md:gap-5 ss:gap-5 gap-4 rounded-2xl shadow-lg 
-                md:px-10 ss:px-10 px-6 md:py-12 ss:py-10 py-6 flex 
+                className={`absolute right-0 md:-translate-x-1/2 ss:-translate-x-1/2 
+                bg-white md:px-10 ss:px-10 px-6 md:py-12 ss:py-10 py-6 flex
+                w-[50%] md:gap-5 ss:gap-5 gap-4 rounded-2xl shadow-lg mobileWidth
                 flex-col z-10 items-start shadow-[0px_0px_15px_rgba(0,0,0,0.15)]`}>
                     <h1 className="text-primary font-semibold md:text-[40px]
-                    ss:text-[35px] text-[30px] md:leading-[2.8rem] 
-                    ss:leading-[2.4rem] leading-[1.3rem] tracking-tight
+                    ss:text-[35px] text-[33px] md:leading-[2.8rem] 
+                    ss:leading-[2.4rem] leading-[2.3rem] tracking-tight
                     md:max-w-[15ch]">
                         From our hands to yours
                     </h1>
 
                     <p className='text-main md:text-[16px] ss:text-[15px] 
                     text-[14px] md:max-w-[700px] ss:max-w-[400px]  
-                    md:leading-[1.3rem] ss:leading-[1.2rem] leading-[1.3rem] 
+                    md:leading-[1.3rem] ss:leading-[1.2rem] leading-[1.2rem] 
                     font-medium tracking-tight'>
                         We pride ourselves in the satisfaction of the 
                         numerous businesses, families and individuals 
