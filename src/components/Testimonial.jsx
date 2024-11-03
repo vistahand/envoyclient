@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { SectionWrapper } from '../hoc';
 import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
@@ -65,6 +66,7 @@ const TestCard = ({ title, image, description, name, profession  }) => {
 };
 
 const Testimonial = () => {
+    const sliderRef = useRef(null);
 
     const NextArrowLarge = ({ onClick }) => (
         <button
@@ -90,21 +92,21 @@ const Testimonial = () => {
         </button>
     );
 
-    const NextArrowSmall = ({ onClick }) => (
+    const NextArrowSmall = () => (
         <button
             className="p-3 border-mainBlack rounded-full border-[3px] 
             z-10 mx-2 md:hidden"
-            onClick={onClick}
+            onClick={() => sliderRef.current.slickNext()}
         >
             <FaArrowRight className="text-mainBlack" />
         </button>
     );
 
-    const PrevArrowSmall = ({ onClick }) => (
+    const PrevArrowSmall = () => (
         <button
             className="p-3 border-mainBlack rounded-full border-[3px] 
             z-10 mx-2 md:hidden"
-            onClick={onClick}
+            onClick={() => sliderRef.current.slickPrev()}
         >
             <FaArrowRight className="rotate-180 text-mainBlack" />
         </button>
@@ -144,16 +146,17 @@ const Testimonial = () => {
             </motion.div>
 
             <div className='w-full relative mx-auto rounded-2xl'>
-                <Slider {...settings} className="md:w-[85%] ss:w-[85%] 
-                w-full mx-auto rounded-2xl">
+                <Slider {...settings} ref={sliderRef} 
+                className="md:w-[85%] ss:w-[85%] w-full mx-auto 
+                rounded-2xl">
                     {testimonials.map((testimonial, index) => (
                         <TestCard key={index} {...testimonial} />
                     ))}
                 </Slider>
 
                 <div className="flex justify-center mt-5 gap-3 md:hidden">
-                    <PrevArrowSmall onClick={settings.prevArrow.props.onClick} />
-                    <NextArrowSmall onClick={settings.nextArrow.props.onClick} />
+                    <PrevArrowSmall />
+                    <NextArrowSmall />
                 </div>
             </div>
         </div>
