@@ -134,21 +134,23 @@ const Hero = () => {
             <div className='md:items-center ss:items-center w-full flex 
             flex-col md:gap-8 ss:gap-6 gap-6'>
                 <motion.div variants={textVariant(0.3)}
-                className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4
-                items-center md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'
+                className='flex flex-col md:justify-center ss:justify-center 
+                md:gap-6 ss:gap-6 gap-4 md:items-center ss:items-center 
+                md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'
                 >
                     <h1 className='text-primary font-[700] md:text-[57px]
-                    ss:text-[43px] text-[33px] md:leading-[4.2rem] tracking-tight
-                    ss:leading-[3.5rem] leading-[3rem] md:text-center relative
-                    ss:text-center md:max-w-[25ch] ss:max-w-[25ch] '>
+                    ss:text-[43px] text-[35px] md:leading-[4.2rem] tracking-tight
+                    ss:leading-[3.5rem] leading-[2.5rem] md:text-center relative
+                    ss:text-center md:max-w-[25ch] ss:max-w-[25ch] max-w-[14ch]'>
                         <span className="relative inline-block">
                             Secure
                             <img 
                                 src={curve}
                                 alt="curve-line" 
-                                className="absolute top-0 -left-2 w-full 
-                                h-auto scale-[1.23] pointer-events-none 
-                                z-[-10]" 
+                                className="absolute md:top-0 ss:top-0
+                                -top-1 md:-left-2 ss:-left-2 -left-1
+                                w-full h-auto md:scale-[1.23] ss:scale-[1.23] 
+                                scale-[1.1] pointer-events-none z-[-10]" 
                             />
                         </span> and seamless deliveries across borders
                     </h1>
