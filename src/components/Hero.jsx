@@ -11,7 +11,7 @@ import Slider from "react-slick";
 
 const ImageCard = ({ image }) => {
     return (
-        <div className='ss:w-[500px] w-[330px] ss:h-[220px] h-[170px]'>
+        <div className='ss:w-[500px] w-[330px] ss:h-[210px] h-[170px]'>
             <img 
                 src={image}
                 alt='heroImage'
@@ -126,7 +126,7 @@ const Hero = () => {
     }, [trackContainerRef]);
 
   return (
-    <section className='relative w-full md:min-h-[500px] ss:min-h-[800px] 
+    <section className='relative w-full md:min-h-[500px] ss:min-h-[500px] 
     items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-44 ss:mt-44 
     mt-28'>
         <div className='relative items-center w-full max-w-[68rem] flex'
@@ -135,10 +135,10 @@ const Hero = () => {
             flex-col md:gap-8 ss:gap-6 gap-6'>
                 <motion.div variants={textVariant(0.3)}
                 className='flex flex-col justify-center md:gap-6 ss:gap-6 gap-4
-                items-center'
+                items-center md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'
                 >
                     <h1 className='text-primary font-[700] md:text-[57px]
-                    ss:text-[45px] text-[33px] md:leading-[4.2rem] tracking-tight
+                    ss:text-[43px] text-[33px] md:leading-[4.2rem] tracking-tight
                     ss:leading-[3.5rem] leading-[3rem] md:text-center relative
                     ss:text-center md:max-w-[25ch] ss:max-w-[25ch] '>
                         <span className="relative inline-block">
@@ -155,8 +155,8 @@ const Hero = () => {
 
                     <p className='text-main font-[500] md:text-[17px] 
                     md:leading-[1.3rem] ss:leading-[1.3rem] leading-[1.3rem] 
-                    ss:text-[17px] text-[14px] md:max-w-[80ch] ss:max-w-[620px]
-                    max-w-[320px] text-center tracking-tight'>
+                    ss:text-[17px] text-[14px] md:max-w-[80ch] ss:max-w-[55ch]
+                    max-w-[60ch] md:text-center ss:text-center tracking-tight'>
                         With Envoy Angel, your shipments are in safe hands. 
                         From quick and easy bookings to 24/7 tracking, we're 
                         here to ensure a smooth logistics experience for 
@@ -166,7 +166,8 @@ const Hero = () => {
 
                 <motion.div variants={textVariant(0.5)}>
                     <div className='flex flex-row md:gap-5 ss:gap-5 gap-3 
-                    items-center text-white'>
+                    items-center text-white md:pl-0 md:pr-0 ss:pr-0 
+                    ss:pl-0 pr-6 pl-6'>
                         <a href='/'
                         className='bg-primary text-[13px] py-3 px-6 flex
                         text-white rounded-full grow4 cursor-pointer w-1/8
@@ -244,7 +245,7 @@ const Hero = () => {
                 </Slider>
             </div>
 
-            <div className='absolute top-[55%] w-1/4'>
+            <div className='absolute top-[55%] md:w-1/4 ss:w-2/4'>
                 <img 
                     src={socialproof} 
                     alt='socialproof'
