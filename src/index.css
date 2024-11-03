@@ -88,6 +88,11 @@ body, html {
   background-color: #122A53;
 }
 
+.cta {
+  background-color: #1E3F76;
+}
+
+
 /* 
 @media (min-width: 1060px) {
   .help {

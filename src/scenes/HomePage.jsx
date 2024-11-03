@@ -39,7 +39,7 @@ const HomePage = () => {
 
             <Blog />
 
-            <div className='move'>
+            <div className='cta'>
                 <CTA />
             </div>
             
