@@ -161,8 +161,7 @@ const Hero = () => {
     <section className='relative w-full md:min-h-[500px] ss:min-h-[500px] 
     items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-44 ss:mt-44 
     mt-28'>
-        <div className='relative items-center w-full max-w-[68rem] flex'
-        >
+        <div className='relative items-center w-full max-w-[68rem] flex'>
             <div className='md:items-center ss:items-center w-full flex 
             flex-col md:gap-8 ss:gap-6 gap-6'>
                 <motion.div variants={textVariant(0.3)}
