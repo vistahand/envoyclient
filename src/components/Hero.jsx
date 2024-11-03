@@ -149,7 +149,7 @@ const Hero = () => {
 
         <motion.div variants={textVariant(0.7)} 
         className='flex items-center justify-center w-full relative'>
-            <div className='overflow-hidden w-full flex'>
+            <div className='overflow-hidden w-full hidden md:flex'>
                 <div className='flex gap-6 w-full items-center justify-center'>
                     {heroImages.slice(0, imagesToShow).map((item, index) => (
                         <div key={index}>

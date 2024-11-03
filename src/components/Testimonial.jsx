@@ -59,7 +59,7 @@ const Testimonial = () => {
 
     const NextArrow = ({ onClick }) => (
         <button
-            className="absolute right-0 md:p-3 ss:p-3 p-2 border-mainBlack 
+            className="absolute md:right-0 ss:right-0 bottom-0 md:p-3 ss:p-3 p-2 border-mainBlack 
             rounded-full grow2 border-[3px] transform translate-x-1/2
             z-10"
             onClick={onClick}
@@ -71,7 +71,7 @@ const Testimonial = () => {
     
     const PrevArrow = ({ onClick }) => (
         <button
-            className="absolute left-0 md:p-3 ss:p-3 p-2 border-mainBlack 
+            className="absolute md:left-0 ss:left-0 bottom-0 md:p-3 ss:p-3 p-2 border-mainBlack 
             rounded-full grow2 border-[3px] transform -translate-x-1/2
             z-10"
             onClick={onClick}
