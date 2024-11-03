@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { websearch, heroImages, socialproof, curve } from '../assets';
 import { SectionWrapper2 } from '../hoc';
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 const ImageCard = ({ image }) => {
     return (
@@ -24,6 +26,41 @@ const Hero = () => {
     const navigate = useNavigate();
     const trackContainerRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        initialSlide: 0,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                initialSlide: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1
+                }
+            }
+        ]
+    };
 
     const [imagesToShow, setImagesToShow] = useState(5);
 
@@ -159,6 +196,19 @@ const Hero = () => {
                         </div>
                     ))}
                 </div>
+            </div>
+
+            <div className='overflow-hidden w-full md:hidden flex'>
+                <Slider {...settings} className='flex w-full items-center 
+                justify-center'>
+                    {heroImages.map((item, index) => (
+                        <div key={index}>
+                            <ImageCard 
+                                image={item}
+                            />
+                        </div>
+                    ))}
+                </Slider>
             </div>
 
             <div className='absolute top-[55%] w-1/4'>
