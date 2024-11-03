@@ -251,14 +251,6 @@ body, html {
   display: block;
 }
 
-.slick-slide > div {
-  padding: 0 10px;
-}
-
-.slick-list {
-  margin: 0 -10px;
-}
-
 .wht {
   filter: invert(1) brightness(100);
 }
