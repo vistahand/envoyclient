@@ -100,6 +100,17 @@ const Hero = () => {
         ]
     };
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 480);
+        };
+
+        window.addEventListener('resize', handleResize);
+        
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const updateImagesToShow = () => {
         if (window.innerWidth <= 1440) {
@@ -268,9 +279,9 @@ const Hero = () => {
                 </Slider>
             </div>
 
-            <div className='absolute top-[55%] md:w-1/4 ss:w-2/4'>
+            <div className='absolute top-[55%] md:w-1/4 ss:w-2/4 w-3/5'>
                 <img 
-                    src={isMobile ? {socialproofMob} : {socialproof}}
+                    src={isMobile ? socialproofMob : socialproof}
                     alt='socialproof'
                     className='w-[100%]'
                 />
