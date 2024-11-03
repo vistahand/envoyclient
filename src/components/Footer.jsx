@@ -9,8 +9,8 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <section className='relative w-full md:min-h-[300px] ss:min-h-[700px] 
-    min-h-[900px] flex items-center flex-col'>
+    <section className='relative w-full md:min-h-[300px] ss:min-h-[600px] 
+    min-h-[700px] flex items-center flex-col md:pt-0 ss:pt-0 pt-6'>
         <div className='flex items-center w-full relative md:pb-10 ss:pb-8
         pb-6'>
             <div className='flex md:flex-row flex-col md:justify-between 
@@ -20,7 +20,7 @@ const Footer = () => {
                     ss:w-[40%] w-[60%] h-auto' />
 
                     <p className='text-main2 md:text-[14px] ss:text-[16px]
-                    text-[12px] md:leading-[20px] ss:leading-[23px] leading-[18px]
+                    text-[14px] md:leading-[20px] ss:leading-[23px] leading-[20px]
                     font-medium tracking-tight md:max-w-[45ch]'>
                         Envoy Angel Shipping and Logistics is a trusted provider 
                         of seamless, secure shipping solutions between Ireland 
@@ -58,7 +58,7 @@ const Footer = () => {
                                         <li className={`md:text-[13px] ss:text-[16px] grow2 tracking-tight
                                         text-[12px] md:leading-[15px] ss:leading-[20px] leading-[12px]
                                         text-main2 hover:text-secondary cursor-pointer font-medium
-                                        ${index !== footerLink.links.length - 1 ? 'md:mb-2.5 ss:mb-2 mb-2.5' : 'mb-0'}`}>
+                                        ${index !== footerLink.links.length - 1 ? 'md:mb-2.5 ss:mb-2 mb-3' : 'mb-0'}`}>
                                            <span className="flex items-center gap-2.5">
                                                 {Link.name}
                                                 {Link.name === "Careers" && (
