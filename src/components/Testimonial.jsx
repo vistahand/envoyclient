@@ -125,7 +125,7 @@ const Testimonial = () => {
 
   return (
     <section className='relative w-full md:min-h-[600px] ss:min-h-[550px] 
-    min-h-[870px] flex items-center'>
+    min-h-[900px] flex items-center'>
         <div className='flex flex-col w-full md:gap-12 ss:gap-8 gap-6'>
             <motion.div variants={textVariant()}
             className='flex flex-col justify-center items-center w-full md:gap-10

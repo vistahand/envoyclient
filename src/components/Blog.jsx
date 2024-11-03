@@ -20,9 +20,9 @@ const BlogCard = ({ index, title, image, description }) => {
           className='w-full h-52 object-cover rounded-xl' 
         />
 
-        <h1 className='text-primary md:text-[23px] ss:text-[18px] 
-        text-[16px] font-bold md:leading-[1.9rem] ss:leading-[2rem] 
-        leading-[2rem]'>
+        <h1 className='text-primary md:text-[23px] ss:text-[22px] 
+        text-[20px] font-bold md:leading-[1.9rem] ss:leading-[1.9rem] 
+        leading-[1.7rem]'>
           {title}
         </h1>
 
@@ -50,20 +50,22 @@ const BlogCard = ({ index, title, image, description }) => {
 
 const Blog = () => {
   return (
-    <section className='relative w-full min-h-[750px] flex items-center'>
+    <section className='relative w-full md:min-h-[750px] ss:min-h-[1200px]
+    min-h-[1750px] flex items-center'>
       <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
         <motion.div variants={textVariant()}
-        className='flex justify-between items-center w-full md:gap-24
-        ss:gap-10 gap-6'>
+        className='flex md:flex-row ss:flex-row flex-col 
+        md:justify-between ss:justify-between md:items-center
+        ss:items-center w-full md:gap-24 ss:gap-10 gap-6'>
           <h1 className='text-primary font-bold md:text-[40px] 
-          ss:text-[25px] text-[20px] tracking-tight w-1/2
-          md:leading-[3rem] ss:leading-[1.3rem] leading-[1.3rem]'>
+          ss:text-[35px] text-[33px] tracking-tight md:w-1/2 ss:w-1/2
+          md:leading-[3rem] ss:leading-[2.8rem] leading-[2.4rem]'>
             Stay informed, stay ahead of the curve
           </h1>
 
           <p className='text-main md:text-[16px] md:leading-[1.3rem] 
-          ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
-          w-1/2 font-medium'>
+          ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[14px] 
+          md:w-1/2 ss:w-1/2 font-medium'>
             Discover expert insights, shipping guides, and the latest 
             trends in logistics. Our resources are designed to help you 
             make smarter decisions, optimize your shipments, and stay 
