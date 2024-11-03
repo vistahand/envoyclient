@@ -59,8 +59,8 @@ const Hands = () => {
                     </p>
                     
                     <motion.div ref={trackContainerRef} 
-                        className={`text-[13px] rounded-full py-3 px-6 flex
-                        items-center
+                        className={`text-[13px] rounded-full py-3 px-6 
+                        items-center hidden md:flex
                         ${isExpanded 
                         ? 'border border-secondary' 
                         : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
@@ -91,6 +91,37 @@ const Hands = () => {
                             : 'wht'}`}
                         />
                     </motion.div>
+
+                    <div ref={trackContainerRef}
+                        className={`text-[13px] rounded-full py-3 px-6 
+                        items-center md:hidden flex w-full
+                        ${isExpanded 
+                        ? 'border border-secondary justify-between' 
+                        : 'bg-secondary text-white cursor-pointer gap-3 justify-center'}`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setIsExpanded(true);
+                        }}
+                    >
+                        {isExpanded ? (
+                            <input
+                                type="text"
+                                placeholder="Enter Tracking Number"
+                                className="flex-grow text-main
+                                focus:outline-none text-[13px]"
+                                onBlur={() => setIsExpanded(false)}
+                            />
+                        ) : (
+                            <p>
+                                Track Shipment
+                            </p>
+                        )}
+                        <img src={websearch} alt='trackshipment'
+                        className={`w-5 h-5 ${isExpanded 
+                            ? 'wht2 cursor-pointer'
+                            : 'wht'}`}
+                        />
+                    </div>
                 </motion.div>
             </motion.div>
         </section>
