@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { websearch, heroImages, socialproof, curve } from '../assets';
+import { websearch, heroImages, socialproof, curve, socialproofMob } from '../assets';
 import { SectionWrapper2 } from '../hoc';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -26,6 +26,11 @@ const Hero = () => {
     const navigate = useNavigate();
     const trackContainerRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [imagesToShow, setImagesToShow] = useState(5);
+    const [collapsedWidth, setCollapsedWidth] = useState('175px');
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
+
+
 
     const settings = {
         dots: false,
@@ -95,7 +100,6 @@ const Hero = () => {
         ]
     };
 
-    const [imagesToShow, setImagesToShow] = useState(5);
 
     const updateImagesToShow = () => {
         if (window.innerWidth <= 1440) {
@@ -124,6 +128,23 @@ const Hero = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [trackContainerRef]);
+
+
+    useEffect(() => {
+        const updateCollapsedWidth = () => {
+            const screenWidth = window.innerWidth;
+            if (screenWidth >= 480) {
+                setCollapsedWidth('173px');
+            } else {
+                setCollapsedWidth('175px');
+            }
+        };
+
+        updateCollapsedWidth();
+        window.addEventListener('resize', updateCollapsedWidth);
+
+        return () => window.removeEventListener('resize', updateCollapsedWidth);
+    }, []);
 
   return (
     <section className='relative w-full md:min-h-[500px] ss:min-h-[500px] 
@@ -156,7 +177,7 @@ const Hero = () => {
                     </h1>
 
                     <p className='text-main font-[500] md:text-[17px] 
-                    md:leading-[1.3rem] ss:leading-[1.3rem] leading-[1.3rem] 
+                    md:leading-[1.3rem] ss:leading-[1.3rem] leading-[1.2rem] 
                     ss:text-[17px] text-[14px] md:max-w-[80ch] ss:max-w-[55ch]
                     max-w-[60ch] md:text-center ss:text-center tracking-tight'>
                         With Envoy Angel, your shipments are in safe hands. 
@@ -167,13 +188,13 @@ const Hero = () => {
                 </motion.div>
 
                 <motion.div variants={textVariant(0.5)}>
-                    <div className='flex flex-row md:gap-5 ss:gap-5 gap-3 
-                    items-center text-white md:pl-0 md:pr-0 ss:pr-0 
-                    ss:pl-0 pr-6 pl-6'>
+                    <div className='flex md:flex-row ss:flex-row flex-col 
+                    md:gap-5 ss:gap-5 gap-3 md:items-center ss:items-center 
+                    text-white md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'>
                         <a href='/'
                         className='bg-primary text-[13px] py-3 px-6 flex
-                        text-white rounded-full grow4 cursor-pointer w-1/8
-                        items-center gap-3'
+                        text-white rounded-full grow4 cursor-pointer md:w-1/8
+                        ss:w-1/8 w-[175px] items-center gap-3'
                         >
                             <p>
                                 Book a Shipment
@@ -188,7 +209,7 @@ const Hero = () => {
                             ${isExpanded 
                             ? 'border border-secondary' 
                             : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
-                            animate={{ width: isExpanded ? '310px' : '173px' }}
+                            animate={{ width: isExpanded ? '310px' : collapsedWidth }}
                             transition={{ duration: 0.4, ease: "easeInOut" }}
                             style={{ overflow: 'hidden' }}
                             onClick={(e) => {
@@ -249,7 +270,7 @@ const Hero = () => {
 
             <div className='absolute top-[55%] md:w-1/4 ss:w-2/4'>
                 <img 
-                    src={socialproof} 
+                    src={isMobile ? {socialproofMob} : {socialproof}}
                     alt='socialproof'
                     className='w-[100%]'
                 />
