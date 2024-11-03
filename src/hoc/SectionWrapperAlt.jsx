@@ -7,7 +7,7 @@ const SectionWrapper = (Component) => function HOC(props) {
             variants={staggerContainer()}
             initial='hidden'
             whileInView='show'
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.10 }}
             className={`max-w-[68rem] mx-auto`}
         >
             <Component {...props}/>

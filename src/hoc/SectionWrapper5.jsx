@@ -7,7 +7,7 @@ const SectionWrapper5 = (Component) => function HOC(props) {
             variants={staggerContainer()}
             initial='hidden'
             whileInView='show'
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.10 }}
         >
             <Component {...props}/>
         </motion.section>

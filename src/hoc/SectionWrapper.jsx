@@ -8,7 +8,7 @@ const SectionWrapper = (Component, idName) => function HOC(props) {
             variants={staggerContainer()}
             initial='hidden'
             whileInView='show'
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.10 }}
             className={`${styles.padding} max-w-[68rem] mx-auto`}
         >
             <span className='hash-span' id={idName}>

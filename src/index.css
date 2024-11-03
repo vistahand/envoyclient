@@ -92,12 +92,6 @@ body, html {
   background-color: #1E3F76;
 }
 
-@media (max-width: 1024px) {
-  .foot {
-    display: grid;
-    grid-row: 3;
-  }
-}
 /* 
 @media (min-width: 1060px) {
   .help {
