@@ -11,7 +11,7 @@ import Slider from "react-slick";
 
 const ImageCard = ({ image }) => {
     return (
-        <div className='w-[550px] h-[250px]'>
+        <div className='ss:w-[500px] w-[330px] ss:h-[220px] h-[170px]'>
             <img 
                 src={image}
                 alt='heroImage'
@@ -28,35 +28,68 @@ const Hero = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        initialSlide: 0,
+        dots: false,
+        autoplay: true,
+        cssEase: "linear",
         responsive: [
             {
-                breakpoint: 1024,
+                breakpoint: 1060,
                 settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-                dots: true
+                    infinite: true,
+                    speed: 3000,
+                    slidesToShow: 1.9,
+                    slidesToScroll: 1,
+                    initialSlide: 0,
+                }
+            },
+            {
+                breakpoint: 820,
+                settings: {
+                    infinite: true,
+                    speed: 3000,
+                    slidesToShow: 1.5,
+                    slidesToScroll: 1,
+                    initialSlide: 0,
                 }
             },
             {
                 breakpoint: 600,
                 settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                initialSlide: 2
+                    infinite: true,
+                    speed: 3000,
+                    slidesToShow: 1.3,
+                    slidesToScroll: 1,
+                    initialSlide: 0,
                 }
             },
             {
                 breakpoint: 480,
                 settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1
+                    infinite: true,
+                    speed: 3000,
+                    slidesToShow: 1.22,
+                    slidesToScroll: 1,
+                    initialSlide: 0,
+                }
+            },
+            {
+                breakpoint: 400,
+                settings: {
+                    infinite: true,
+                    speed: 3000,
+                    slidesToShow: 1.15,
+                    slidesToScroll: 1,
+                    initialSlide: 0,
+                }
+            },
+            {
+                breakpoint: 360,
+                settings: {
+                    infinite: true,
+                    speed: 3000,
+                    slidesToShow: 1.05,
+                    slidesToScroll: 1,
+                    initialSlide: 0,
                 }
             }
         ]
@@ -94,7 +127,7 @@ const Hero = () => {
 
   return (
     <section className='relative w-full md:min-h-[500px] ss:min-h-[800px] 
-    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-44 ss:mt-40 
+    items-center flex flex-col md:gap-14 ss:gap-10 gap-8 md:mt-44 ss:mt-44 
     mt-28'>
         <div className='relative items-center w-full max-w-[68rem] flex'
         >
@@ -105,9 +138,9 @@ const Hero = () => {
                 items-center'
                 >
                     <h1 className='text-primary font-[700] md:text-[57px]
-                    ss:text-[50px] text-[33px] md:leading-[4.2rem] tracking-tight
-                    ss:leading-[65px] leading-[38px] text-center
-                    md:max-w-[25ch] relative'>
+                    ss:text-[45px] text-[33px] md:leading-[4.2rem] tracking-tight
+                    ss:leading-[3.5rem] leading-[3rem] md:text-center relative
+                    ss:text-center md:max-w-[25ch] ss:max-w-[25ch] '>
                         <span className="relative inline-block">
                             Secure
                             <img 
