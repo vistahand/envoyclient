@@ -27,7 +27,7 @@ const MoveCard = ({ index, title, image, description }) => {
       <div className='flex flex-col md:gap-4 ss:gap-2.5 absolute
       gap-2 md:p-8 ss:p-6 p-6 bottom-0'>
         <h1 className='text-white md:text-[30px] ss:text-[28px] 
-        text-[25px] font-bold md:leading-[2.2rem] md:max-w-[10ch]
+        text-[28px] font-bold md:leading-[2.2rem] md:max-w-[10ch]
         ss:leading-[2.2rem] leading-[2rem]'>
           {title}
         </h1>

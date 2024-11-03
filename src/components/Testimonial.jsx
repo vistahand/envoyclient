@@ -12,13 +12,22 @@ const TestCard = ({ title, image, description, name, profession  }) => {
 
   return (
     <motion.div
-        className="rounded-2xl relative w-full flex bg-mainBlack md:gap-6
-        h-[23em] mx-auto"
+        className="rounded-2xl relative w-full flex md:flex-row ss:flex-row
+        flex-col bg-mainBlack md:gap-6 ss:gap-6 gap-5 md:h-[23em] 
+        ss:h-[23em] h-auto mx-auto"
     >
-        <div className='flex flex-col md:gap-5 ss:gap-5 gap-2 md:p-10 
-        ss:p-6 p-4 justify-center items-start tracking-tight w-full'>
-            <h1 className='text-white md:text-[30px] ss:text-[25px] 
-            text-[18px] font-medium md:leading-[2.2rem] md:max-w-[20ch]
+        <div className='flex md:hidden ss:hidden w-full'>
+            <img 
+                src={image}
+                alt='Testimonial'
+                className='object-cover rounded-t-2xl'
+            />
+        </div>
+
+        <div className='flex flex-col md:gap-5 ss:gap-3 gap-4 md:p-10 
+        ss:p-6 p-6 justify-center items-start tracking-tight w-full'>
+            <h1 className='text-white md:text-[30px] ss:text-[28px] 
+            text-[26px] font-medium md:leading-[2.2rem] md:max-w-[20ch]
             ss:leading-[2.3rem] leading-[2.3rem]'>
                 "{title}"
             </h1>
@@ -44,7 +53,7 @@ const TestCard = ({ title, image, description, name, profession  }) => {
             </div>
         </div>
 
-        <div className='flex w-2/3'>
+        <div className='md:flex ss:flex hidden w-2/3'>
             <img 
                 src={image}
                 alt='Testimonial'
@@ -59,11 +68,12 @@ const Testimonial = () => {
 
     const NextArrow = ({ onClick }) => (
         <button
-            className="absolute md:right-0 ss:right-0 bottom-0 md:p-3 ss:p-3 p-2 border-mainBlack 
+            className="absolute md:right-0 ss:right-0  md:p-3 
+            ss:p-3 p-2 border-mainBlack 
             rounded-full grow2 border-[3px] transform translate-x-1/2
             z-10"
             onClick={onClick}
-            style={{ top: '50%', transform: 'translate(180%, -50%)' }}
+            style={{ top: '50%', transform: 'translate(170%, -50%)' }}
         >
             <FaArrowRight className="text-mainBlack" />
         </button>
@@ -71,11 +81,11 @@ const Testimonial = () => {
     
     const PrevArrow = ({ onClick }) => (
         <button
-            className="absolute md:left-0 ss:left-0 bottom-0 md:p-3 ss:p-3 p-2 border-mainBlack 
+            className="absolute md:left-0 ss:left-0  md:p-3 ss:p-3 p-2 border-mainBlack 
             rounded-full grow2 border-[3px] transform -translate-x-1/2
             z-10"
             onClick={onClick}
-            style={{ top: '50%', transform: 'translate(-180%, -50%)' }}
+            style={{ top: '50%', transform: 'translate(-170%, -50%)' }}
         >
             <FaArrowRight className="rotate-180 text-mainBlack" />
         </button>
@@ -93,19 +103,20 @@ const Testimonial = () => {
 
 
   return (
-    <section className='relative w-full min-h-[600px] flex items-center'>
-        <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
+    <section className='relative w-full md:min-h-[600px] ss:min-h-[550px] 
+    min-h-[800px] flex items-center'>
+        <div className='flex flex-col w-full md:gap-12 ss:gap-8 gap-6'>
             <motion.div variants={textVariant()}
             className='flex flex-col justify-center items-center w-full md:gap-10
-            ss:gap-8 gap-6'>
+            ss:gap-5 gap-5'>
                 <h1 className='text-primary font-bold md:text-[40px] 
-                ss:text-[25px] text-[20px] tracking-tight md:leading-[0rem]
-                ss:leading-[1.3rem] leading-[1.3rem]'>
+                ss:text-[35px] text-[33px] tracking-tight md:leading-[0rem]
+                ss:leading-[2.8rem] leading-[2.4rem] text-center'>
                     What our clients are saying
                 </h1>
 
                 <p className='text-main2 md:text-[17px] md:leading-[1.3rem] 
-                ss:leading-[1.3rem] leading-[1.3rem] ss:text-[16px] text-[13px] 
+                ss:leading-[1.4rem] leading-[1.3rem] ss:text-[17px] text-[15px] 
                 text-center font-semibold md:max-w-[75ch]'>
                     Our commitment to exceptional service, seamless booking, 
                     and reliable deliveries keeps our clients coming back 
@@ -114,7 +125,8 @@ const Testimonial = () => {
             </motion.div>
 
             <div className='w-full relative mx-auto rounded-2xl'>
-                <Slider {...settings} className="w-[85%] mx-auto rounded-2xl">
+                <Slider {...settings} className="md:w-[85%] ss:w-[85%] 
+                w-full mx-auto rounded-2xl">
                     {testimonials.map((testimonial, index) => (
                         <TestCard key={index} {...testimonial} />
                     ))}
