@@ -131,14 +131,14 @@ const Testimonial = () => {
             className='flex flex-col justify-center items-center w-full md:gap-10
             ss:gap-5 gap-5'>
                 <h1 className='text-primary font-bold md:text-[40px] 
-                ss:text-[35px] text-[33px] tracking-tight md:leading-[0rem]
+                ss:text-[35px] text-[33px] tracking-tighter md:leading-[0rem]
                 ss:leading-[2.8rem] leading-[2.4rem] text-center'>
                     What our clients are saying
                 </h1>
 
                 <p className='text-main2 md:text-[17px] md:leading-[1.3rem] 
                 ss:leading-[1.4rem] leading-[1.3rem] ss:text-[17px] text-[14px] 
-                text-center font-semibold md:max-w-[75ch]'>
+                text-center font-semibold md:max-w-[70ch] tracking-tight'>
                     Our commitment to exceptional service, seamless booking, 
                     and reliable deliveries keeps our clients coming back 
                     every time.

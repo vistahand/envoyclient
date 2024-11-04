@@ -11,16 +11,17 @@ const CardItem = ({ index, title, image, description }) => {
         md:h-[400px] ss:h-[370px] h-[320px] flex navsmooth'
         variants={fadeIn('', 'spring', index * 0.5, 0.75)}>
             <div className='flex flex-col items-center justify-center
-            md:gap-10 ss:gap-8 gap-4 md:p-6 ss:p-10 p-8'>
+            md:gap-8 ss:gap-8 gap-4 md:p-6 ss:p-10 p-8'>
                 {React.createElement(image, {
                     className: `w-[6rem] h-auto object-contain 
-                    text-primary`
+                    text-primary cardimg`, 
+                    strokeWidth: 1.1
                 })}
 
                 <div className='flex flex-col md:gap-4 ss:gap-2.5 gap-2.5
                 tracking-tight items-center justify-center text-center'>
                     <h1 className='text-primary md:text-[26px] ss:text-[24px] 
-                    text-[23px] font-bold md:leading-[2.2rem]
+                    text-[23px] font-bold md:leading-[2.2rem] tracking-tight
                     ss:leading-[1.9rem] leading-[1.6rem]'>
                         {title}
                     </h1>

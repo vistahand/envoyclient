@@ -2,7 +2,7 @@ import { TbCurrentLocation, TbHeadset } from "react-icons/tb";
 import { LuPackage } from "react-icons/lu";
 
 import { RiTwitterXLine } from "react-icons/ri";
-import { ImFacebook } from "react-icons/im";
+import { FaFacebook } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 import { BiLogoLinkedin } from "react-icons/bi";
 
@@ -150,7 +150,7 @@ export const blogCards = [
 export const socialMedia = [
     {
         id: "facebook",
-        image: ImFacebook,
+        image: FaFacebook,
         link: ""
     },
     {

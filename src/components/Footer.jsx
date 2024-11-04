@@ -31,9 +31,9 @@ const Footer = () => {
                     <div className='flex md:gap-3.5 ss:gap-5 gap-4 items-center'>
                         {socialMedia.map((social, index) => (
                             <a target='_blank' href={social.link} rel="noreferrer" key={index}
-                            className='bg-primary rounded-full p-1.5 relative'>
+                            className={` relative  ${social.id === "facebook" ? '' : 'bg-primary rounded-full p-1.5'}`}>
                                 {React.createElement(social.image, {
-                                    className: `md:w-4 ss:w-5 w-4 h-auto text-white ${social.id === "facebook" ? '' : ''}`
+                                    className: `${social.id === "facebook" ? 'text-primary md:w-7 ss:w-8 w-7 h-auto' : 'md:w-4 ss:w-5 w-4 h-auto text-white'}`
                                 })}
                             </a>
                         ))}
@@ -78,7 +78,7 @@ const Footer = () => {
 
         <motion.div variants={textVariant()} className='flex w-full
         md:justify-between md:items-center border-t-[1px] border-main5 md:pt-8 
-        ss:pt-8 pt-4 md:flex-row flex-col'>
+        ss:pt-8 pt-4 md:flex-row flex-col md:pb-0 ss:pb-0 pb-3'>
             <div className='flex md:items-center ss:items-center'>
                 <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
                 ss:text-[18px] text-[15px] mt-1 text-main4' />

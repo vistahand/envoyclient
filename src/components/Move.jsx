@@ -28,7 +28,7 @@ const MoveCard = ({ index, title, image, description }) => {
       gap-2 md:p-8 ss:p-6 p-6 bottom-0'>
         <h1 className='text-white md:text-[30px] ss:text-[28px] 
         text-[28px] font-bold md:leading-[2.2rem] md:max-w-[10ch]
-        ss:leading-[2.2rem] leading-[2rem]'>
+        ss:leading-[2.2rem] leading-[2rem] tracking-tight'>
           {title}
         </h1>
 

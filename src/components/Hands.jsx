@@ -43,7 +43,7 @@ const Hands = () => {
                 flex-col z-10 items-start shadow-[0px_0px_15px_rgba(0,0,0,0.15)]`}>
                     <h1 className="text-primary font-semibold md:text-[40px]
                     ss:text-[35px] text-[33px] md:leading-[2.8rem] 
-                    ss:leading-[2.4rem] leading-[2.3rem] tracking-tight
+                    ss:leading-[2.4rem] leading-[2.3rem] tracking-tighter
                     md:max-w-[15ch]">
                         From our hands to yours
                     </h1>

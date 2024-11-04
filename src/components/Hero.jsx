@@ -170,7 +170,7 @@ const Hero = () => {
                 md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'
                 >
                     <h1 className='text-primary font-[700] md:text-[57px]
-                    ss:text-[43px] text-[35px] md:leading-[4.2rem] tracking-tight
+                    ss:text-[43px] text-[35px] md:leading-[4.2rem] tracking-tighter
                     ss:leading-[3.5rem] leading-[2.5rem] md:text-center relative
                     ss:text-center md:max-w-[25ch] ss:max-w-[25ch] max-w-[14ch]'>
                         <span className="relative inline-block">

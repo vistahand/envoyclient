@@ -154,7 +154,7 @@ const Navbar = () => {
                 {/* FOR MOBILE */}
                 
                 <div className="md:hidden flex justify-end flex-1 
-                items-center">
+                items-center navsmooth">
                     <div className="flex items-center z-20 ss:gap-8 
                     gap-5">
                         {toggle ? (
@@ -180,16 +180,23 @@ const Navbar = () => {
                         )}
                     </div>
 
+                    {toggle && (
+                        <div className="fixed top-24 left-0 w-full 
+                        h-screen bg-black bg-opacity-60 z-5 navsmooth" 
+                        onClick={() => setToggle(false)} />
+                    )}
+
                     <div ref={menuRef}
                         className={`p-6 ss:mt-20 mt-20 absolute top-0 
                         right-0 z-10 flex-col w-full bg-white shadow-lg
-                        ss:px-16 h-[50vh] overflow-y-auto
+                        ss:px-16 overflow-y-auto pb-10
                         ${toggle 
                             ? 'menu-slide-enter menu-slide-enter-active' 
                             : 'menu-slide-exit menu-slide-exit-active'}`
                         }
                     >
-                        <ul className="list-none flex flex-col gap-5 mb-20">
+                        <ul className="list-none flex flex-col ss:gap-5 gap-4 
+                        ss:mb-20 mb-16">
                         {navLinks.map((link) => (
                             <li
                             key={link.id}
@@ -198,15 +205,16 @@ const Navbar = () => {
                             onClick={() => toggleMenu(link.id)}
                             >
                                 <div className='flex flex-row 
-                                items-center gap-3'>
+                                items-center gap-2.5'>
                                     <h3 className='text-primary 
-                                    ss:text-[20px] text-[17px] 
+                                    ss:text-[20px] text-[16px] 
                                     font-medium'>
                                         {link.title}
                                     </h3>
 
                                     <MdKeyboardArrowDown 
-                                        className='text-primary text-[20px]' 
+                                        className={`text-primary text-[20px] transition-transform duration-300
+                                        ${openMenuId === link.id ? 'rotate-180' : ''}`} 
                                     />
                                 </div>
                                 
@@ -214,7 +222,8 @@ const Navbar = () => {
                                     <div className='mt-3 fade-in ml-2' 
                                     style={{ maxHeight: '30vh', 
                                     overflowY: 'auto' }}>
-                                        <div className='flex flex-col gap-3'>
+                                        <div className='flex flex-col ss:gap-3 
+                                        gap-2.5'>
                                             {link.links.map((subLink, index) => (
                                             <a
                                                 key={index}
@@ -234,12 +243,12 @@ const Navbar = () => {
 
                         <div className="flex items-center gap-6">
                             <h1 className='text-primary ss:text-[20px] 
-                            text-[17px] font-[600]'>
+                            text-[16px] font-[600]'>
                                 Log In
                             </h1>
 
                             <a href='/'
-                            className='bg-primary ss:text-[16px] text-[14px] 
+                            className='bg-primary ss:text-[16px] text-[13px] 
                             py-3 ss:px-8 px-6 flex text-white rounded-full w-1/8
                             items-center gap-3'
                             >
