@@ -222,6 +222,7 @@ const Hero = () => {
                             animate={{ width: isExpanded ? '310px' : collapsedWidth }}
                             transition={{ duration: 0.4, ease: "easeInOut" }}
                             style={{ overflow: 'hidden' }}
+                            
                             onClick={(e) => {
                                 e.preventDefault();
                                 setIsExpanded(true);
