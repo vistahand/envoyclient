@@ -278,7 +278,8 @@ const Hero = () => {
                 </Slider>
             </div>
 
-            <div className='absolute top-[55%] md:w-1/4 ss:w-2/4 w-3/5'>
+            <div className='absolute md:top-[55%] ss:top-[55%] top-[45%] 
+            md:w-1/4 ss:w-2/4 w-3/4'>
                 <div className='absolute inset-0 bg-gray-100 bg-opacity-50 
                 rounded-full backdrop-filter backdrop-blur-sm'/>
                 <img 
