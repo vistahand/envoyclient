@@ -279,10 +279,12 @@ const Hero = () => {
             </div>
 
             <div className='absolute top-[55%] md:w-1/4 ss:w-2/4 w-3/5'>
+                <div className='absolute inset-0 bg-gray-100 bg-opacity-50 
+                rounded-full backdrop-filter backdrop-blur-sm'/>
                 <img 
                     src={isMobile ? socialproofMob : socialproof}
                     alt='socialproof'
-                    className='w-[100%]'
+                    className='w-[100%] relative'
                 />
             </div>
         </motion.div>
