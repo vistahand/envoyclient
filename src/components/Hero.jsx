@@ -285,7 +285,7 @@ const Hero = () => {
                 <img 
                     src={isMobile ? socialproofMob : socialproof}
                     alt='socialproof'
-                    className='w-[100%] relative'
+                    className='w-[100%] relative z-10'
                 />
             </div>
         </motion.div>
