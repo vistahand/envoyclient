@@ -182,7 +182,7 @@ const Navbar = () => {
 
                     {toggle && (
                         <div className="fixed top-24 left-0 w-full 
-                        h-screen bg-black bg-opacity-60 z-5 navsmooth" 
+                        h-screen bg-black bg-opacity-70 z-5 navsmooth" 
                         onClick={() => setToggle(false)} />
                     )}
 
