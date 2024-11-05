@@ -282,6 +282,7 @@ const Hero = () => {
             md:w-1/4 ss:w-2/4 w-3/4'>
                 <div className='absolute inset-0 bg-gray-100 bg-opacity-50 
                 rounded-full backdrop-filter backdrop-blur-sm'/>
+                
                 <img 
                     src={isMobile ? socialproofMob : socialproof}
                     alt='socialproof'
