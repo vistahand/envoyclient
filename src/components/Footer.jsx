@@ -56,7 +56,7 @@ const Footer = () => {
                                 {footerLink.links.map((Link, index) => (
                                     <a target='blank' href={Link.route} key={Link.name}>
                                         <li className={`md:text-[13px] ss:text-[16px] grow2 tracking-tight
-                                        text-[12px] md:leading-[15px] ss:leading-[20px] leading-[12px]
+                                        text-[13px] md:leading-[15px] ss:leading-[20px] leading-[12px]
                                         text-main2 hover:text-secondary cursor-pointer font-medium
                                         ${index !== footerLink.links.length - 1 ? 'md:mb-2.5 ss:mb-2 mb-3' : 'mb-0'}`}>
                                            <span className="flex items-center gap-2.5">
