@@ -28,6 +28,7 @@ const Hero = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [imagesToShow, setImagesToShow] = useState(5);
     const [collapsedWidth, setCollapsedWidth] = useState('175px');
+    const [expandedWidth, setExpandedWidth] = useState('100%')
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
 
 
@@ -146,8 +147,10 @@ const Hero = () => {
             const screenWidth = window.innerWidth;
             if (screenWidth >= 480) {
                 setCollapsedWidth('173px');
+                setExpandedWidth('360px');
             } else {
                 setCollapsedWidth('175px');
+                setExpandedWidth(expandedWidth);
             }
         };
 
@@ -219,7 +222,7 @@ const Hero = () => {
                             ${isExpanded 
                             ? 'border border-secondary relative' 
                             : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
-                            animate={{ width: isExpanded ? '310px' : collapsedWidth }}
+                            animate={{ width: isExpanded ? expandedWidth : collapsedWidth }}
                             transition={{ duration: 0.4, ease: "easeInOut" }}
                             style={{ overflow: 'hidden' }}
                             onClick={(e) => {
@@ -241,7 +244,7 @@ const Hero = () => {
                                 </p>
                             )}
                             <div className={`${isExpanded 
-                                ? 'bg-secondary cursor-pointer p-1.5 rounded-full flex gap-1.5 items-center absolute right-1.5'
+                                ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                                 : ''}`}
                             >
                                 <img src={websearch} alt='trackshipment'
