@@ -259,8 +259,6 @@ body, html {
   filter: invert(1) brightness(100);
 }
 
-
-
 .grow {
   transition: all .2s ease-in-out;
 }
