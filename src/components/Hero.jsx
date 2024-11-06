@@ -217,7 +217,7 @@ const Hero = () => {
                             className={`text-[13px] rounded-full py-3 px-6 flex
                             items-center
                             ${isExpanded 
-                            ? 'border border-secondary' 
+                            ? 'border border-secondary relative' 
                             : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
                             animate={{ width: isExpanded ? '310px' : collapsedWidth }}
                             transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -240,11 +240,22 @@ const Hero = () => {
                                     Track Shipment
                                 </p>
                             )}
-                            <img src={websearch} alt='trackshipment'
-                            className={`w-5 h-5 ${isExpanded 
-                                ? 'wht2 cursor-pointer'
-                                : 'wht'}`}
-                            />
+                            <div className={`${isExpanded 
+                                ? 'bg-secondary cursor-pointer p-1.5 rounded-full flex gap-1.5 items-center absolute right-1.5'
+                                : ''}`}
+                            >
+                                <img src={websearch} alt='trackshipment'
+                                className={`wht ${isExpanded 
+                                    ? 'w-5 h-5'
+                                    : 'w-5 h-5'}`}
+                                />
+
+                                {isExpanded && 
+                                    <p className='text-white text-[12.5px]'>
+                                        Track
+                                    </p>
+                                }
+                            </div>
                         </motion.div>
                     </div>  
                 </motion.div> 
