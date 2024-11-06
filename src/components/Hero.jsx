@@ -249,9 +249,7 @@ const Hero = () => {
                                 : ''}`}
                             >
                                 <img src={websearch} alt='trackshipment'
-                                className={`wht ${isExpanded 
-                                    ? 'w-5 h-5'
-                                    : 'w-5 h-5'}`}
+                                className='wht w-5 h-5'
                                 />
 
                                 {isExpanded && 
