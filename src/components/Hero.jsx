@@ -216,7 +216,8 @@ const Hero = () => {
                             <HiOutlineArrowRight className='text-[14px]'/>
                         </a>
                         
-                        <motion.div ref={trackContainerRef} 
+                        <motion.div 
+                            ref={trackContainerRef}
                             className={`text-[13px] rounded-full py-3 px-6 flex
                             items-center
                             ${isExpanded 
