@@ -161,7 +161,7 @@ const Navbar = () => {
                             <BsX
                                 size={40}
                                 className="object-contain cursor-pointer"
-                                style={{ color: '#050759' }}
+                                style={{ color: '#1E3F76'}}
                                 onClick={() => {
                                     setToggle(!toggle);
                                     enableScroll();
@@ -171,7 +171,7 @@ const Navbar = () => {
                             <IoMenu
                                 size={40}
                                 className="object-contain cursor-pointer"
-                                style={{ color: '#050759' }}
+                                style={{ color: '#1E3F76'}}
                                 onClick={() => {
                                     setToggle(!toggle);
                                     disableScroll();
