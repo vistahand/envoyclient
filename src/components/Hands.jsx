@@ -62,9 +62,9 @@ const Hands = () => {
                         className={`text-[13px] rounded-full py-3 px-6 
                         items-center hidden md:flex
                         ${isExpanded 
-                        ? 'border border-secondary' 
+                        ? 'border border-secondary relative' 
                         : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
-                        animate={{ width: isExpanded ? '310px' : '173px' }}
+                        animate={{ width: isExpanded ? '360px' : '173px' }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
                         style={{ overflow: 'hidden' }}
                         onClick={(e) => {
@@ -85,18 +85,27 @@ const Hands = () => {
                                 Track Shipment
                             </p>
                         )}
-                        <img src={websearch} alt='trackshipment'
-                        className={`w-5 h-5 ${isExpanded 
-                            ? 'wht2 cursor-pointer'
-                            : 'wht'}`}
-                        />
+                        <div className={`${isExpanded 
+                            ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
+                            : ''}`}
+                        >
+                            <img src={websearch} alt='trackshipment'
+                            className='wht w-5 h-5'
+                            />
+
+                            {isExpanded && 
+                                <p className='text-white text-[12.5px]'>
+                                    Track
+                                </p>
+                            }
+                        </div>
                     </motion.div>
 
                     <div ref={trackContainerRef}
                         className={`text-[13px] rounded-full py-3 px-6 
                         items-center md:hidden flex w-full
                         ${isExpanded 
-                        ? 'border border-secondary justify-between' 
+                        ? 'border border-secondary justify-between relative' 
                         : 'bg-secondary text-white cursor-pointer gap-3 justify-center'}`}
                         onClick={(e) => {
                             e.preventDefault();
@@ -116,11 +125,20 @@ const Hands = () => {
                                 Track Shipment
                             </p>
                         )}
-                        <img src={websearch} alt='trackshipment'
-                        className={`w-5 h-5 ${isExpanded 
-                            ? 'wht2 cursor-pointer'
-                            : 'wht'}`}
-                        />
+                        <div className={`${isExpanded 
+                            ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
+                            : ''}`}
+                        >
+                            <img src={websearch} alt='trackshipment'
+                            className='wht w-5 h-5'
+                            />
+
+                            {isExpanded && 
+                                <p className='text-white text-[12.5px]'>
+                                    Track
+                                </p>
+                            }
+                        </div>
                     </div>
                 </motion.div>
             </motion.div>
