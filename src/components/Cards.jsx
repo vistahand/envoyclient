@@ -14,7 +14,7 @@ const CardItem = ({ index, title, image, description }) => {
             md:gap-8 ss:gap-8 gap-4 md:p-6 ss:p-10 p-8'>
                 {React.createElement(image, {
                     className: `w-[6rem] h-auto object-contain 
-                    text-primary cardimg`, 
+                    text-primary`, 
                     strokeWidth: 1.1
                 })}
 
