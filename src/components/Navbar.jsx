@@ -138,7 +138,7 @@ const Navbar = () => {
                         Log In
                     </h1>
 
-                    <a href='/'
+                    <a href='/createshipment'
                     className='bg-primary text-[13px] py-3 px-6 flex
                     text-white rounded-full grow4 cursor-pointer w-1/8
                     items-center gap-3'
@@ -247,7 +247,7 @@ const Navbar = () => {
                                 Log In
                             </h1>
 
-                            <a href='/'
+                            <a href='/createshipment'
                             className='bg-primary ss:text-[16px] text-[13px] 
                             py-3 ss:px-8 px-6 flex text-white rounded-full w-1/8
                             items-center gap-3'

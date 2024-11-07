@@ -92,6 +92,10 @@ body, html {
   background-color: #1E3F76;
 }
 
+.footer {
+  background-color: #F7F7F7;
+}
+
 /* 
 @media (min-width: 1060px) {
   .help {

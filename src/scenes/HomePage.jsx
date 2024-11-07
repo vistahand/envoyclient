@@ -43,7 +43,9 @@ const HomePage = () => {
                 <CTA />
             </div>
             
-            <Footer />
+            <div className='footer'>
+                <Footer />
+            </div>
         </div>
     )
 };

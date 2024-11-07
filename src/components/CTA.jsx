@@ -38,7 +38,7 @@ const CTA = () => {
                             Let's get moving.</span>
                         </p>
                         
-                        <a href='/'
+                        <a href='/createshipment'
                         className='bg-white text-[13px] py-3 px-6 flex
                         text-primary rounded-full grow4 cursor-pointer w-1/8
                         items-center gap-3 font-semibold'

@@ -205,7 +205,7 @@ const Hero = () => {
                     <div className='flex md:flex-row ss:flex-row flex-col 
                     md:gap-5 ss:gap-5 gap-3 md:items-center ss:items-center 
                     text-white md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'>
-                        <a href='/'
+                        <a href='/createshipment'
                         className='bg-primary text-[13px] py-3 px-6 flex
                         text-white rounded-full grow4 cursor-pointer md:w-1/8
                         ss:w-1/8 w-[175px] items-center gap-3'
