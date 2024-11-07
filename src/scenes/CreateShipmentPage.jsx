@@ -1,5 +1,6 @@
 import {
     Navbar,
+    HeroShipment,
     Footer
 } from '../components';
 
@@ -15,6 +16,10 @@ const CreateShipmentPage = () => {
             </Helmet>
 
             <Navbar />
+
+            <div className='heroShipment'>
+                <HeroShipment />
+            </div>
             
             <div className='footer'>
                 <Footer />

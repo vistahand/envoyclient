@@ -8,6 +8,7 @@ import Continent from './Continent';
 import Blog from './Blog';
 import CTA from './CTA';
 import Footer from './Footer';
+import HeroShipment from './HeroShipment';
 
 export {
     Navbar,
@@ -20,4 +21,5 @@ export {
     Blog,
     CTA,
     Footer,
+    HeroShipment,
 }

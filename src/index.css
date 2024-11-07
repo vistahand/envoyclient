@@ -96,6 +96,23 @@ body, html {
   background-color: #F7F7F7;
 }
 
+.heroShipment {
+  position: relative;
+  background-image: url('./assets/movecard1.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.heroShipment::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
 /* 
 @media (min-width: 1060px) {
   .help {
