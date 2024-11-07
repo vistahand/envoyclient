@@ -9,6 +9,7 @@ import Blog from './Blog';
 import CTA from './CTA';
 import Footer from './Footer';
 import HeroShipment from './HeroShipment';
+import ShipmentSteps from './ShipmentSteps';
 
 export {
     Navbar,
@@ -22,4 +23,5 @@ export {
     CTA,
     Footer,
     HeroShipment,
+    ShipmentSteps,
 }

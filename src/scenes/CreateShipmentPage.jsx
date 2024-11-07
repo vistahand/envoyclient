@@ -1,7 +1,8 @@
 import {
     Navbar,
     HeroShipment,
-    Footer
+    Footer,
+    ShipmentSteps
 } from '../components';
 
 import { Helmet } from 'react-helmet';
@@ -20,6 +21,8 @@ const CreateShipmentPage = () => {
             <div className='heroShipment'>
                 <HeroShipment />
             </div>
+
+            <ShipmentSteps />
             
             <div className='footer'>
                 <Footer />

@@ -169,6 +169,29 @@ export const socialMedia = [
         link: ""
     },
 ];
+
+export const shipmentSteps = [
+    {
+        image: TbCurrentLocation,
+        title: "Enter Shipment Details",
+        description: "Tell us about your shipment. Enter the dimensions, weight, and type of package.",
+    },
+    {
+        image: LuPackage,
+        title: "Get an instant Quote",
+        description: "Once you've provided your shipment information, get an instant quote tailored to your needs.",
+    },
+    {
+        image: TbHeadset,
+        title: "Select Pickup Location",
+        description: "Choose your pickup point from our wide network of locations across Ireland and Nigeria.",
+    },
+    {
+        image: TbHeadset,
+        title: "Choose Payment & Confirm",
+        description: "Select your preferred payment method. After payment, you'll receive a receipt in your dashboard.",
+    }
+];
   
 export const footerLinks = [
     {
