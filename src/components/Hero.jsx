@@ -145,12 +145,13 @@ const Hero = () => {
     useEffect(() => {
         const updateCollapsedWidth = () => {
             const screenWidth = window.innerWidth;
+            const width = Math.min(screenWidth - 48);
             if (screenWidth >= 480) {
                 setCollapsedWidth('173px');
                 setExpandedWidth('360px');
             } else {
                 setCollapsedWidth('175px');
-                setExpandedWidth(expandedWidth);
+                setExpandedWidth(`${width}px`);
             }
         };
 
