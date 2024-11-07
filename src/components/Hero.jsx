@@ -28,7 +28,7 @@ const Hero = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [imagesToShow, setImagesToShow] = useState(5);
     const [collapsedWidth, setCollapsedWidth] = useState('175px');
-    const [expandedWidth, setExpandedWidth] = useState('100%')
+    const [expandedWidth, setExpandedWidth] = useState('340px')
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
 
 
