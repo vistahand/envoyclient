@@ -171,7 +171,7 @@ const Hero = () => {
                 <motion.div variants={textVariant(0.3)}
                 className='flex flex-col md:justify-center ss:justify-center 
                 md:gap-6 ss:gap-6 gap-4 md:items-center ss:items-center 
-                md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'
+                md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-4 pl-4'
                 >
                     <h1 className='text-primary font-[700] md:text-[57px]
                     ss:text-[43px] text-[35px] md:leading-[4.2rem] tracking-tighter
