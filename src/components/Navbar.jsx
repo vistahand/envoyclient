@@ -189,7 +189,7 @@ const Navbar = () => {
                     <div ref={menuRef}
                         className={`p-6 ss:mt-20 mt-20 absolute top-0 
                         right-0 z-10 flex-col w-full bg-white shadow-lg
-                        ss:px-16 overflow-y-auto pb-10
+                        ss:px-16 px-4 overflow-y-auto pb-10
                         ${toggle 
                             ? 'menu-slide-enter menu-slide-enter-active' 
                             : 'menu-slide-exit menu-slide-exit-active'}`
