@@ -38,7 +38,7 @@ const Hands = () => {
 
                 <motion.div variants={textVariant()}
                 className={`absolute right-0 md:-translate-x-1/2 ss:-translate-x-1/2 
-                bg-white md:px-10 ss:px-10 px-6 md:py-12 ss:py-10 py-6 flex
+                bg-white md:px-10 ss:px-10 px-5 md:py-12 ss:py-10 py-6 flex
                 w-[50%] md:gap-5 ss:gap-5 gap-4 rounded-2xl shadow-lg mobileWidth
                 flex-col z-10 items-start shadow-[0px_0px_15px_rgba(0,0,0,0.15)]`}>
                     <h1 className="text-primary font-semibold md:text-[40px]
