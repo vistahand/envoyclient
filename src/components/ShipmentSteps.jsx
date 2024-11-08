@@ -26,7 +26,8 @@ const CardItem = ({ index, title, image, description }) => {
                         {title}
                     </h1>
 
-                    <p className='text-main font-medium md:leading-[18px]
+                    <p className='text-main font-medium 
+                    md:leading-[18px]
                     ss:leading-[20px] leading-[19px] md:text-[14px] 
                     ss:text-[15px] text-[13px]'>
                         {description}
