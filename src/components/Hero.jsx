@@ -171,7 +171,7 @@ const Hero = () => {
                 <motion.div variants={textVariant(0.3)}
                 className='flex flex-col md:justify-center ss:justify-center 
                 md:gap-6 ss:gap-6 gap-4 md:items-center ss:items-center 
-                md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-4 pl-4'
+                md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-5 pl-5'
                 >
                     <h1 className='text-primary font-[700] md:text-[57px]
                     ss:text-[43px] text-[35px] md:leading-[4.2rem] tracking-tighter
@@ -204,7 +204,7 @@ const Hero = () => {
                 <motion.div variants={textVariant(0.5)}>
                     <div className='flex md:flex-row ss:flex-row flex-col 
                     md:gap-5 ss:gap-5 gap-3 md:items-center ss:items-center 
-                    text-white md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-6 pl-6'>
+                    text-white md:pl-0 md:pr-0 ss:pr-0 ss:pl-0 pr-5 pl-5'>
                         <a href='/createshipment'
                         className='bg-primary text-[13px] py-3 px-6 flex
                         text-white rounded-full grow4 cursor-pointer md:w-1/8
