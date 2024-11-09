@@ -12,7 +12,10 @@ const CardItem = ({ index, title, image, description }) => {
         variants={fadeIn('', 'spring', index * 0.5, 0.75)}>
             <div className='flex flex-col items-center justify-center
             md:gap-8 ss:gap-8 gap-4 md:p-3 ss:p-8 p-2'>
-                {React.createElement(image, {
+                <img 
+                className='w-[6rem] h-auto object-contain 
+                text-primary'
+                /> {
                     className: `w-[6rem] h-auto object-contain 
                     text-primary`, 
                     strokeWidth: 1.1
