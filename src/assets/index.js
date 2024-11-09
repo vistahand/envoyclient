@@ -16,7 +16,10 @@ import blog1 from './blog1.jpg';
 import blog2 from './blog2.jpg';
 import blog3 from './blog3.jpg';
 import cta from './cta.png';
-import cash
+import cash from './cash.svg';
+import mapsearch from './map-search.svg';
+import fileinvoice from './file-invoice.svg';
+import message from './message-2-plus.svg';
 
 export {
     logo,
@@ -37,6 +40,10 @@ export {
     blog2,
     blog3,
     cta,
+    mapsearch,
+    message,
+    fileinvoice,
+    cash,
 }
 
 export const heroImages = [
