@@ -6,7 +6,7 @@ import { FaFacebook } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 import { BiLogoLinkedin } from "react-icons/bi";
 
-import { blog1, blog2, blog3, movecard1, movecard2, movecard3, test1, } from "../assets";
+import { blog1, blog2, blog3, cash, fileinvoice, mapsearch, message, movecard1, movecard2, movecard3, test1, } from "../assets";
 
 
 export const navLinks = [
@@ -172,22 +172,22 @@ export const socialMedia = [
 
 export const shipmentSteps = [
     {
-        image: TbCurrentLocation,
+        image: message,
         title: "Enter Shipment Details",
         description: "Tell us about your shipment. Enter the dimensions, weight, and type of package.",
     },
     {
-        image: LuPackage,
+        image: fileinvoice,
         title: "Get an instant Quote",
         description: "Once you've provided your shipment information, get an instant quote tailored to your needs.",
     },
     {
-        image: TbHeadset,
+        image: mapsearch,
         title: "Select Pickup Location",
         description: "Choose your pickup point from our wide network of locations across Ireland and Nigeria.",
     },
     {
-        image: TbHeadset,
+        image: cash,
         title: "Choose Payment & Confirm",
         description: "Select your preferred payment method. After payment, you'll receive a receipt in your dashboard.",
     }
