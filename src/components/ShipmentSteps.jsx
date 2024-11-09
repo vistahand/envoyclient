@@ -40,7 +40,7 @@ const CardItem = ({ index, title, image, description }) => {
 const ShipmentSteps = () => {
   return (
     <section className='relative w-full md:min-h-[400px] ss:min-h-[700px]
-    min-h-[800px] mx-auto flex items-center'>
+    min-h-[700px] mx-auto flex items-center'>
         <div className='flex flex-col w-full md:gap-12 ss:gap-10 gap-6'>
             <motion.div variants={textVariant()}
             className='flex items-center w-full'>
