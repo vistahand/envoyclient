@@ -15,12 +15,8 @@ const CardItem = ({ index, title, image, description }) => {
                 <img 
                 className='w-[6rem] h-auto object-contain 
                 text-primary'
-                /> {
-                    className: `w-[6rem] h-auto object-contain 
-                    text-primary`, 
-                    strokeWidth: 1.1
-                })}
-
+                />
+                    
                 <div className='flex flex-col md:gap-4 ss:gap-2.5 gap-2.5
                 tracking-tight items-center justify-center text-center'>
                     <h1 className='text-primary md:text-[25px] ss:text-[25px] 
