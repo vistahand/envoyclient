@@ -10,6 +10,7 @@ import CTA from './CTA';
 import Footer from './Footer';
 import HeroShipment from './HeroShipment';
 import ShipmentSteps from './ShipmentSteps';
+import GetStarted from './GetStarted';
 
 export {
     Navbar,
@@ -24,4 +25,5 @@ export {
     Footer,
     HeroShipment,
     ShipmentSteps,
+    GetStarted,
 }
