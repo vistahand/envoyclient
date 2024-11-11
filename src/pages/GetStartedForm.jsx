@@ -59,32 +59,53 @@ const GetStartedForm = () => {
 
 
   return (
-    <div className='items-center w-full flex flex-col'>
-        <div className='flex flex-col bg-white md:p-8 ss:p-8 p-5 
-        md:rounded-[20px] ss:rounded-[20px] rounded-[12px] md:gap-3 
-        ss:gap-3 gap-2 border-[1px] border-main3'>
-            <h2 className='text-primary font-bold md:text-[20px]
-            ss:text-[22px] text-[18px] tracking-tight md:leading-[30px] 
-            ss:leading-[25px] leading-[25px]'>
-                Shall we get started?
-            </h2>
+    <section className='w-full flex md:min-h-[400px] ss:min-h-[700px]
+    min-h-[700px]'>
+        <div className='flex items-center w-full flex-col md:gap-8 
+        ss:gap-6 gap-4'>
+            <div className='w-full flex flex-col gap-2 items-center'>
+                <h1 className='text-primary font-bold md:text-[40px] 
+                ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
+                ss:leading-[3.5rem] leading-[2.5rem]'>
+                    Shall we get started?
+                </h1>
 
-            <p className='text-main md:leading-[19px] ss:leading-[19px] 
-            leading-[18px] md:text-[14px] ss:text-[15px] text-[13px]'>
-                Where do you want us to go?
-            </p>
+                <p className='text-main4 md:text-[18px] ss:text-[16px] 
+                text-[14px] md:max-w-[700px] ss:max-w-[400px] md:leading-[1.4rem] 
+                ss:leading-[1.4rem] leading-[1.3rem] tracking-tight'>
+                    Where do you want us to go?
+                </p>
+            </div>
 
-            <div className='flex flex-row w-full md:mt-3 ss:mt-3 mt-2
-            justify-center items-center'>
-                <h2 className={`text-main md:text-[14px] ss:text-[15px] text-[13px]
-                ${selectedTab === 'international' 
-                ? 'text-primary font-bold border-b-primary border-b-[2px]' : ''} 
-                    md:pb-2 ss:pb-2 pb-1 text-center w-full cursor-pointer
-                    hover:text-primary`} 
-                    onClick={() => handleTabChange('international')}
+            <div className='flex justify-center items-center'>
+                <div className={`bg-primary py-3 px-6 flex text-white
+                ${selectedTab === 'international'
+                ? 'bg-primary'
+                : 'border-main4 border-[1px]'
+                }  rounded-md grow4 cursor-pointer md:w-1/8 ss:w-1/8 
+                w-[175px] items-center gap-3`}
+                onClick={() => handleTabChange('international')}
                 >
-                    International Shipping
-                </h2>
+                    <img 
+                        src=''
+                        alt='international'
+                        className=''
+                    />
+
+                    <div className='flex flex-col gap-2'>
+                        <h2 className='md:text-[14px] ss:text-[14px] 
+                        text-[13px] font-semibold'
+                        >
+                            International Shipping
+                        </h2>
+
+                        <p className='md:text-[12px] ss:text-[12px] text-[11px]'>
+                            Ship between countries
+                        </p>
+                    </div>
+                </div>
+                
+                
 
                 <h2 className={`text-main md:text-[14px] ss:text-[15px] text-[13px]
                 text-center hover:text-primary
@@ -331,7 +352,7 @@ const GetStartedForm = () => {
                 )}
             </form>
         </div>
-    </div>
+    </section>
   );
 };
 
