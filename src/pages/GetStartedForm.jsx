@@ -78,12 +78,12 @@ const GetStartedForm = () => {
             </div>
 
             <div className='flex justify-center items-center'>
-                <div className={`bg-primary py-3 px-6 flex text-white
+                <div className={`bg-primary py-3 px-6 flex items-center
                 ${selectedTab === 'international'
-                ? 'bg-primary'
-                : 'border-main4 border-[1px]'
+                ? 'bg-primary text-white'
+                : 'border-main4 border-[1px] text-primary'
                 }  rounded-md grow4 cursor-pointer md:w-1/8 ss:w-1/8 
-                w-[175px] items-center gap-3`}
+                w-[175px] gap-3`}
                 onClick={() => handleTabChange('international')}
                 >
                     <img 
@@ -99,24 +99,48 @@ const GetStartedForm = () => {
                             International Shipping
                         </h2>
 
-                        <p className='md:text-[12px] ss:text-[12px] text-[11px]'>
+                        <p className={`${selectedTab === 'local'
+                        ? 'text-main4'
+                        : ''
+                        } md:text-[12px] ss:text-[12px] text-[11px]`}
+                        >
                             Ship between countries
                         </p>
                     </div>
                 </div>
                 
-                
-
-                <h2 className={`text-main md:text-[14px] ss:text-[15px] text-[13px]
-                text-center hover:text-primary
-                    w-full cursor-pointer ${selectedTab === 'local' 
-                    ? 'text-primary font-bold border-b-primary border-b-[2px]' : ''}
-                    md:pb-2 ss:pb-2 pb-1`} 
-                    onClick={() => handleTabChange('local')}
+                <div className={`bg-primary py-3 px-6 flex items-center 
+                ${selectedTab === 'local'
+                ? 'bg-primary text-white'
+                : 'border-main4 border-[1px] text-primary'
+                }  rounded-md grow4 cursor-pointer md:w-1/8 ss:w-1/8 
+                w-[175px] gap-3`}
+                onClick={() => handleTabChange('local')}
                 >
-                    Local Shipping
-                </h2>
+                    <img 
+                        src=''
+                        alt='local'
+                        className=''
+                    />
+
+                    <div className='flex flex-col gap-2'>
+                        <h2 className='md:text-[14px] ss:text-[14px] 
+                        text-[13px] font-semibold'
+                        >
+                            Local Shipping
+                        </h2>
+
+                        <p className={`${selectedTab === 'international'
+                        ? 'text-main4'
+                        : ''
+                        } md:text-[12px] ss:text-[12px] text-[11px]`}
+                        >
+                            Ship within your country
+                        </p>
+                    </div>
+                </div>
             </div>
+
             <form ref={formRef} onSubmit={formik.handleSubmit}
             className="flex flex-col md:gap-1.5 ss:gap-2.5 md:mt-3 ss:mt-4
             mt-3 gap-2">
