@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { SectionWrapper } from '../hoc'
 
 
 const GetStartedForm = () => {
@@ -76,21 +77,21 @@ const GetStartedForm = () => {
             <div className='flex flex-row w-full md:mt-3 ss:mt-3 mt-2
             justify-center items-center'>
                 <h2 className={`text-main md:text-[14px] ss:text-[15px] text-[13px]
-                ${selectedTab === 'targetedSearch' 
+                ${selectedTab === 'international' 
                 ? 'text-primary font-bold border-b-primary border-b-[2px]' : ''} 
                     md:pb-2 ss:pb-2 pb-1 text-center w-full cursor-pointer
                     hover:text-primary`} 
-                    onClick={() => handleTabChange('targetedSearch')}
+                    onClick={() => handleTabChange('international')}
                 >
                     International Shipping
                 </h2>
 
                 <h2 className={`text-main md:text-[14px] ss:text-[15px] text-[13px]
                 text-center hover:text-primary
-                    w-full cursor-pointer ${selectedTab === 'messageUs' 
+                    w-full cursor-pointer ${selectedTab === 'local' 
                     ? 'text-primary font-bold border-b-primary border-b-[2px]' : ''}
                     md:pb-2 ss:pb-2 pb-1`} 
-                    onClick={() => handleTabChange('messageUs')}
+                    onClick={() => handleTabChange('local')}
                 >
                     Local Shipping
                 </h2>
@@ -334,4 +335,4 @@ const GetStartedForm = () => {
   );
 };
 
-export default GetStartedForm;
+export default SectionWrapper(GetStartedForm, '');
