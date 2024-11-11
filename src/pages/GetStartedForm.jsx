@@ -77,12 +77,13 @@ const GetStartedForm = () => {
                 </p>
             </div>
 
-            <div className='flex justify-center items-center'>
-                <div className={`bg-primary py-3 px-6 flex items-center
+            <div className='flex justify-center items-center md:gap-3
+            ss:gap-6 gap-5'>
+                <div className={`py-3 px-6 flex items-center
                 ${selectedTab === 'international'
                 ? 'bg-primary text-white'
                 : 'border-main4 border-[1px] text-primary'
-                }  rounded-md grow4 cursor-pointer md:w-1/8 ss:w-1/8 
+                }  rounded-md grow4 cursor-pointer md:w-2/8 ss:w-2/8 
                 w-[175px] gap-3`}
                 onClick={() => handleTabChange('international')}
                 >
@@ -92,9 +93,9 @@ const GetStartedForm = () => {
                         className=''
                     />
 
-                    <div className='flex flex-col gap-2'>
+                    <div className='flex flex-col gap-1.5'>
                         <h2 className='md:text-[14px] ss:text-[14px] 
-                        text-[13px] font-semibold'
+                        text-[13px] font-bold'
                         >
                             International Shipping
                         </h2>
@@ -109,11 +110,11 @@ const GetStartedForm = () => {
                     </div>
                 </div>
                 
-                <div className={`bg-primary py-3 px-6 flex items-center 
+                <div className={`py-3 px-6 flex items-center 
                 ${selectedTab === 'local'
                 ? 'bg-primary text-white'
                 : 'border-main4 border-[1px] text-primary'
-                }  rounded-md grow4 cursor-pointer md:w-1/8 ss:w-1/8 
+                }  rounded-md grow4 cursor-pointer md:w-2/8 ss:w-2/8 
                 w-[175px] gap-3`}
                 onClick={() => handleTabChange('local')}
                 >
@@ -123,9 +124,9 @@ const GetStartedForm = () => {
                         className=''
                     />
 
-                    <div className='flex flex-col gap-2'>
+                    <div className='flex flex-col gap-1.5'>
                         <h2 className='md:text-[14px] ss:text-[14px] 
-                        text-[13px] font-semibold'
+                        text-[13px] font-bold'
                         >
                             Local Shipping
                         </h2>
