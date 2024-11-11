@@ -4,6 +4,7 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc'
+import { international, local } from '../assets';
 
 
 const GetStartedForm = () => {
@@ -63,7 +64,7 @@ const GetStartedForm = () => {
     min-h-[700px]'>
         <div className='flex items-center w-full flex-col md:gap-8 
         ss:gap-6 gap-4'>
-            <div className='w-full flex flex-col gap-2 items-center'>
+            <div className='w-full flex flex-col gap-1.5 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
                 ss:leading-[3.5rem] leading-[2.5rem]'>
@@ -78,23 +79,23 @@ const GetStartedForm = () => {
             </div>
 
             <div className='flex justify-center items-center md:gap-3
-            ss:gap-6 gap-5'>
-                <div className={`py-3 px-6 flex items-center
+            ss:gap-6 gap-5 w-1/2 mt-3'>
+                <div className={`py-3.5 px-4 flex items-center
                 ${selectedTab === 'international'
                 ? 'bg-primary text-white'
-                : 'border-main4 border-[1px] text-primary'
-                }  rounded-md grow4 cursor-pointer md:w-2/8 ss:w-2/8 
+                : 'border-main5 border-[1px] text-primary'
+                }  rounded-lg grow4 cursor-pointer md:w-1/2 ss:w-1/2 
                 w-[175px] gap-3`}
                 onClick={() => handleTabChange('international')}
                 >
                     <img 
-                        src=''
+                        src={international}
                         alt='international'
-                        className=''
+                        className='w-[2.5rem] h-auto object-contain'
                     />
 
-                    <div className='flex flex-col gap-1.5'>
-                        <h2 className='md:text-[14px] ss:text-[14px] 
+                    <div className='flex flex-col'>
+                        <h2 className='md:text-[15px] ss:text-[14px] 
                         text-[13px] font-bold'
                         >
                             International Shipping
@@ -102,7 +103,7 @@ const GetStartedForm = () => {
 
                         <p className={`${selectedTab === 'local'
                         ? 'text-main4'
-                        : ''
+                        : 'font-light'
                         } md:text-[12px] ss:text-[12px] text-[11px]`}
                         >
                             Ship between countries
@@ -110,22 +111,22 @@ const GetStartedForm = () => {
                     </div>
                 </div>
                 
-                <div className={`py-3 px-6 flex items-center 
+                <div className={`py-3.5 px-4 flex items-center 
                 ${selectedTab === 'local'
                 ? 'bg-primary text-white'
-                : 'border-main4 border-[1px] text-primary'
-                }  rounded-md grow4 cursor-pointer md:w-2/8 ss:w-2/8 
+                : 'border-main5 border-[1px] text-primary'
+                }  rounded-lg grow4 cursor-pointer md:w-1/2 ss:w-1/2 
                 w-[175px] gap-3`}
                 onClick={() => handleTabChange('local')}
                 >
                     <img 
-                        src=''
+                        src={local}
                         alt='local'
-                        className=''
+                        className='w-[2.5rem] h-auto object-contain'
                     />
 
-                    <div className='flex flex-col gap-1.5'>
-                        <h2 className='md:text-[14px] ss:text-[14px] 
+                    <div className='flex flex-col'>
+                        <h2 className='md:text-[15px] ss:text-[14px] 
                         text-[13px] font-bold'
                         >
                             Local Shipping
@@ -133,7 +134,7 @@ const GetStartedForm = () => {
 
                         <p className={`${selectedTab === 'international'
                         ? 'text-main4'
-                        : ''
+                        : 'font-light'
                         } md:text-[12px] ss:text-[12px] text-[11px]`}
                         >
                             Ship within your country
