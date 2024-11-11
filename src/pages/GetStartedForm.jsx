@@ -4,7 +4,8 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc'
-import { international, local } from '../assets';
+import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
+import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
 
 const GetStartedForm = () => {
@@ -83,15 +84,15 @@ const GetStartedForm = () => {
                 <div className={`py-3.5 px-4 flex items-center
                 ${selectedTab === 'international'
                 ? 'bg-primary text-white'
-                : 'border-main5 border-[1px] text-primary'
-                }  rounded-lg grow4 cursor-pointer md:w-1/2 ss:w-1/2 
-                w-[175px] gap-3`}
+                : 'border-main5 border-[1px] text-primary grow4'
+                }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-[175px] 
+                gap-3`}
                 onClick={() => handleTabChange('international')}
                 >
-                    <img 
-                        src={international}
-                        alt='international'
-                        className='w-[2.5rem] h-auto object-contain'
+                    <InternationalIcon 
+                        className={`w-[2.5rem] h-auto object-contain
+                            ${selectedTab === 'international' ? 'stroke-white' : 'stroke-primary'}
+                        `}
                     />
 
                     <div className='flex flex-col'>
@@ -114,15 +115,15 @@ const GetStartedForm = () => {
                 <div className={`py-3.5 px-4 flex items-center 
                 ${selectedTab === 'local'
                 ? 'bg-primary text-white'
-                : 'border-main5 border-[1px] text-primary'
-                }  rounded-lg grow4 cursor-pointer md:w-1/2 ss:w-1/2 
-                w-[175px] gap-3`}
+                : 'border-main5 border-[1px] text-primary grow4'
+                }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-[175px] 
+                gap-3`}
                 onClick={() => handleTabChange('local')}
                 >
-                    <img 
-                        src={local}
-                        alt='local'
-                        className='w-[2.5rem] h-auto object-contain'
+                    <LocalIcon 
+                        className={`w-[2.5rem] h-auto object-contain
+                            ${selectedTab === 'local' ? 'stroke-white' : 'stroke-primary'}
+                        `}
                     />
 
                     <div className='flex flex-col'>

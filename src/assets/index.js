@@ -20,8 +20,8 @@ import cash from './cash.svg';
 import mapsearch from './map-search.svg';
 import fileinvoice from './file-invoice.svg';
 import message from './message-2-plus.svg';
-import local from './loc-ship.svg';
-import international from './int-ship.svg';
+import LocalIcon from './loc-ship.svg';
+import InternationalIcon from './int-ship.svg';
 
 export {
     logo,
@@ -46,8 +46,8 @@ export {
     message,
     fileinvoice,
     cash,
-    local,
-    international,
+    LocalIcon,
+    InternationalIcon,
 }
 
 export const heroImages = [
