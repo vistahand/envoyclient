@@ -13,9 +13,7 @@ const GetStartedForm = () => {
 
     const formRef = useRef();
     const [Loading, setLoading] = useState(false);
-    const [selectedTab, setSelectedTab] = useState('targetedSearch');
-    const [files, setFiles] = useState([]);
-    const [previews, setPreviews] = useState([]);
+    const [selectedTab, setSelectedTab] = useState('international');
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
 
@@ -64,52 +62,11 @@ const GetStartedForm = () => {
         navigate(`/products/${formik.values.product}${queryString}`);
     }
 
-    const handleFileChange = (e) => {
-        const selectedFiles = Array.from(e.target.files);
-        const validFiles = selectedFiles.filter(file =>
-            (file.type === 'image/jpeg' || file.type === 'image/png') && file.size <= 2 * 1024 * 1024 // 2MB
-        );
-    
-        if (validFiles.length !== selectedFiles.length) {
-            alert('Some files are invalid. Only JPEG, JPG, and PNG files less than 2MB are allowed.');
-        }
-    
-        // Generate previews
-        const filePreviews = validFiles.map(file => URL.createObjectURL(file));
-        setFiles(validFiles);
-        setPreviews(filePreviews);
-    };
-
-    useEffect(() => {
-        // Cleanup function to revoke object URLs
-        return () => {
-            previews.forEach(preview => URL.revokeObjectURL(preview));
-        };
-    }, [previews]);
-
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
         formik.resetForm();
     };
 
-    const handleWhatsAppOrder = () => {
-        formik.validateForm().then((errors) => {
-            if (Object.keys(errors).length > 0) {
-                formik.setTouched({
-                    name: true,
-                    email: true,
-                    subject: true,
-                    message: true,
-                });
-                alert("Please complete all required form fields.");
-                return;
-            }
-
-            const formDataText = `Name: ${formik.values.name}\nEmail: ${formik.values.email}\nSubject: ${formik.values.subject}\nMessage: ${formik.values.message}`;
-            const whatsappLink = `https://wa.me/2349014452743?text=${encodeURIComponent(formDataText)}`;
-            window.open(whatsappLink, "_blank");
-        });
-    };
 
   return (
     <div className='items-center w-full flex flex-col'>
@@ -119,14 +76,12 @@ const GetStartedForm = () => {
             <h2 className='text-primary font-bold md:text-[20px]
             ss:text-[22px] text-[18px] tracking-tight md:leading-[30px] 
             ss:leading-[25px] leading-[25px]'>
-                Let us know exactly what you want
+                Shall we get started?
             </h2>
 
             <p className='text-main md:leading-[19px] ss:leading-[19px] 
             leading-[18px] md:text-[14px] ss:text-[15px] text-[13px]'>
-                Is there a particular style, pattern or brand of tile you're 
-                looking for? We can find it quickly and also mail you some 
-                samples!
+                Where do you want us to go?
             </p>
 
             <div className='flex flex-row w-full md:mt-3 ss:mt-3 mt-2
@@ -138,7 +93,7 @@ const GetStartedForm = () => {
                     hover:text-primary`} 
                     onClick={() => handleTabChange('targetedSearch')}
                 >
-                    Targeted Search
+                    International Shipping
                 </h2>
 
                 <h2 className={`text-main md:text-[14px] ss:text-[15px] text-[13px]
@@ -148,7 +103,7 @@ const GetStartedForm = () => {
                     md:pb-2 ss:pb-2 pb-1`} 
                     onClick={() => handleTabChange('messageUs')}
                 >
-                    Message Us
+                    Local Shipping
                 </h2>
             </div>
             <form ref={formRef} onSubmit={formik.handleSubmit}
