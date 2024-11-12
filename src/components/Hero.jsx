@@ -33,7 +33,6 @@ const Hero = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
 
 
-
     const settings = {
         dots: false,
         autoplay: true,
