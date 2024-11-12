@@ -6,7 +6,14 @@ import { hands, websearch } from '../assets';
 
 const Hands = () => {
     const trackContainerRef = useRef(null);
+    const inputRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        if (isExpanded && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isExpanded]);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -74,6 +81,7 @@ const Hands = () => {
                     >
                         {isExpanded ? (
                             <input
+                                ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
                                 className="flex-grow text-main
@@ -114,6 +122,7 @@ const Hands = () => {
                     >
                         {isExpanded ? (
                             <input
+                                ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
                                 className="flex-grow text-main
