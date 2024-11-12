@@ -241,6 +241,7 @@ const Hero = () => {
                         >
                             {isExpanded ? (
                                 <input
+                                    ref={inputRef}
                                     type="text"
                                     placeholder="Enter Tracking Number"
                                     className="flex-grow text-main
