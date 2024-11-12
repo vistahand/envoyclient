@@ -10,12 +10,6 @@ const Hands = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
-        if (isExpanded && inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [isExpanded]);
-
-    useEffect(() => {
         function handleClickOutside(event) {
             if (
                 isExpanded &&
@@ -25,7 +19,6 @@ const Hands = () => {
                 setIsExpanded(false);
             }
         }
-          
 
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
@@ -82,6 +75,7 @@ const Hands = () => {
                         onClick={(e) => {
                             e.preventDefault();
                             setIsExpanded(true);
+                            setTimeout(() => inputRef.current?.focus(), 0);
                         }}
                     >
                         {isExpanded ? (
