@@ -17,10 +17,15 @@ const Hands = () => {
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (trackContainerRef.current && !trackContainerRef.current.contains(event.target)) {
+            if (
+                isExpanded &&
+                trackContainerRef.current &&
+                !trackContainerRef.current.contains(event.target)
+            ) {
                 setIsExpanded(false);
             }
         }
+          
 
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
@@ -86,7 +91,11 @@ const Hands = () => {
                                 placeholder="Enter Tracking Number"
                                 className="flex-grow text-main
                                 focus:outline-none text-[13px]"
-                                onBlur={() => setIsExpanded(false)}
+                                onBlur={(e) => {
+                                    if (!trackContainerRef.current.contains(e.relatedTarget)) {
+                                        setIsExpanded(false);
+                                    }
+                                }}
                             />
                         ) : (
                             <p>
