@@ -102,6 +102,12 @@ const Hero = () => {
     };
 
     useEffect(() => {
+        if (isExpanded && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isExpanded]);
+    
+    useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 480);
         };
