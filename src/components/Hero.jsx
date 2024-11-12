@@ -25,6 +25,7 @@ const ImageCard = ({ image }) => {
 const Hero = () => {
     const navigate = useNavigate();
     const trackContainerRef = useRef(null);
+    const inputRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
     const [imagesToShow, setImagesToShow] = useState(5);
     const [collapsedWidth, setCollapsedWidth] = useState('175px');
@@ -106,7 +107,7 @@ const Hero = () => {
             inputRef.current.focus();
         }
     }, [isExpanded]);
-    
+
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 480);
