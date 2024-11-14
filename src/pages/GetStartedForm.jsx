@@ -147,77 +147,13 @@ const GetStartedForm = () => {
             <form ref={formRef} onSubmit={formik.handleSubmit}
             className="flex flex-col md:gap-1.5 ss:gap-2.5 md:mt-3 ss:mt-4
             mt-3 gap-2">
-                {selectedTab === 'targetedSearch' ? (
+                {selectedTab === 'international' ? (
                     <>
-                    <div className="relative flex flex-col gap-3">
-                        <h2 className='text-main font-bold md:text-[20px]
-                        ss:text-[20px] text-[16px]'>
+                    <h2 className='text-main font-bold md:text-[17px]
+                        ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
                             I am shipping from
                         </h2>
-                        <div className='relative flex items-center'>
-                            <select
-                                type="text"
-                                name="product"
-                                value={formik.values}
-                                onChange={handleProductChange}
-                                onBlur={formik.handleBlur}
-                                className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                ss:px-3 px-2 border-search 
-                                text-main3 md:rounded-lg rounded-md 
-                                cursor-pointer md:text-[13px]
-                                ss:text-[14px] text-[12px] 
-                                bg-transparent w-full custom-select"
-                            >
-                                <option value="" disabled hidden>Select a product</option>
-                            </select>
-                            <div className='absolute md:right-3 
-                            ss:right-3 right-2'>
-                                <TiArrowSortedDown 
-                                    className='text-main md:text-[16px]
-                                    ss:text-[18px] text-[16px]'
-                                />
-                            </div>
-                        </div>
-                        
-                        <p className="text-mainRed md:text-[12px] 
-                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                            {formik.touched.product && formik.errors.product}
-                        </p>
-                    </div>
-
-                    <div className="relative">
-                        <div className='relative flex items-center'>
-                            <select
-                                type="text"
-                                name="category"
-                                value={formik.values}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                ss:px-3 px-2 border-search 
-                                text-main3 md:rounded-lg rounded-md 
-                                cursor-pointer md:text-[13px]
-                                ss:text-[14px] text-[12px] 
-                                bg-transparent w-full custom-select"
-                            >
-                                <option value="" disabled hidden>Select a category</option>
-                            </select>
-                            <div className='absolute md:right-3 
-                            ss:right-3 right-2'>
-                                <TiArrowSortedDown 
-                                    className='text-main md:text-[16px]
-                                    ss:text-[18px] text-[16px]'
-                                />
-                            </div>
-                        </div>
-
-                        <p className="text-mainRed md:text-[12px] 
-                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                            {formik.touched.category && formik.errors.category}
-                        </p>
-                    </div>
-
-                    <div className="relative">
+                    <div className="relative flex flex-col">
                         <div className='relative flex items-center'>
                             <select
                                 type="text"
@@ -249,6 +185,75 @@ const GetStartedForm = () => {
                                 />
                             </div>
                         </div>
+                        
+                        <p className="text-mainRed md:text-[12px] 
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
+                            {formik.touched.product && formik.errors.product}
+                        </p>
+                    </div>
+
+                    <div className="relative mt-1">
+                        <input
+                            type="text"
+                            name="numbermail"
+                            placeholder='Enter your phone number or email'
+                            value={formik.values.numbermail}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
+                            ss:px-3 px-2 border-search 
+                            text-black md:rounded-lg rounded-md md:text-[13px]
+                            ss:text-[14px] text-[12px]
+                            bg-transparent w-full placeholder:text-main3"
+                        />
+                        <p className="text-mainRed md:text-[12px] 
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
+                            {formik.touched.numbermail && formik.errors.numbermail}
+                        </p>
+                    </div>
+
+                    <div className="relative flex flex-col">
+                        <h2 className='text-main font-bold md:text-[17px]
+                        ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
+                            To
+                        </h2>
+
+                        <div className='relative flex items-center'>
+                            <select
+                                type="text"
+                                name="price"
+                                value={formik.values.price}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
+                                ss:px-3 px-2 border-search 
+                                text-main3 md:rounded-lg rounded-md 
+                                cursor-pointer md:text-[13px]
+                                ss:text-[14px] text-[12px] 
+                                bg-transparent w-full custom-select"
+                            >
+                                <option value="" disabled hidden>Select a price range</option>
+                                <option value="0-10,000">0-10,000</option>
+                                <option value="10,000-20,000">10,000-20,000</option>
+                                <option value="20,000-50,000">20,000-50,000</option>
+                                <option value="50,000-100,000">50,000-100,000</option>
+                                <option value="100,000-500,000">100,000-500,000</option>
+                                <option value="500,000-1,000,000">500,000-1,000,000</option>
+                                <option value="1,000,000-5,000,000">1,000,000-5,000,000</option>
+                            </select>
+                            <div className='absolute md:right-3 
+                            ss:right-3 right-2'>
+                                <TiArrowSortedDown 
+                                    className='text-main md:text-[16px]
+                                    ss:text-[18px] text-[16px]'
+                                />
+                            </div>
+                        </div>
+                        
+                        <p className="text-mainRed md:text-[12px] 
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
+                            {formik.touched.product && formik.errors.product}
+                        </p>
                     </div>
 
                     <div className="relative mt-1">
