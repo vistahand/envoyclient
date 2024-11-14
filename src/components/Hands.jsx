@@ -11,6 +11,7 @@ const Hands = () => {
 
     useEffect(() => {
         function handleClickOutside(event) {
+            event.preventDefault();
             if (
                 isExpanded &&
                 trackContainerRef.current &&
@@ -24,7 +25,14 @@ const Hands = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [trackContainerRef]);
+    }, [isExpanded, trackContainerRef]);
+
+    const handleTrackShipmentClick = (e) => {
+        e.preventDefault();
+        setIsExpanded(true);
+        // Focus the input immediately 
+        inputRef.current?.focus(); 
+    };
 
     return (
         <section className="w-full md:min-h-[300px] ss:min-h-[300px] 
@@ -34,10 +42,10 @@ const Hands = () => {
             ss:gap-10 gap-10 w-full md:items-center ss:items-center 
             relative md:pb-6 ss:pb-6 pb-4">
                 <motion.div variants={fadeIn('right', 'spring', 0.3)}>
-                    <img src={hands} 
+                    <img src={hands}
                         alt='handsImage'
                         className='md:h-[420px] ss:h-[350px] h-[350px]
-                        rounded-3xl object-cover'
+                    rounded-3xl object-cover'
                     />
                 </motion.div>
 
@@ -54,29 +62,26 @@ const Hands = () => {
                     </h1>
 
                     <p className='text-main md:text-[16px] ss:text-[15px] 
-                    text-[14px] md:max-w-[700px] ss:max-w-[400px]  
+                    text-[14px] md:max-w-[700px] ss:max-w-[400px]  
                     md:leading-[1.3rem] ss:leading-[1.2rem] leading-[1.2rem] 
                     font-medium tracking-tight'>
-                        We pride ourselves in the satisfaction of the 
-                        numerous businesses, families and individuals 
-                        that trust us to provide the safest 
+                        We pride ourselves in the satisfaction of the
+                        numerous businesses, families and individuals
+                        that trust us to provide the safest
                         international and local deliveries.
                     </p>
-                    
-                    <motion.div ref={trackContainerRef} 
+
+                    {/* Desktop Track Shipment */}
+                    <motion.div ref={trackContainerRef}
                         className={`text-[13px] rounded-full py-3 px-6 
                         items-center hidden md:flex
-                        ${isExpanded 
-                        ? 'border border-secondary relative' 
-                        : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
+                        ${isExpanded
+                            ? 'border border-secondary relative'
+                            : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
                         animate={{ width: isExpanded ? '360px' : '173px' }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
                         style={{ overflow: 'hidden' }}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setIsExpanded(true);
-                            setTimeout(() => inputRef.current?.focus(), 0);
-                        }}
+                        onClick={handleTrackShipmentClick} 
                     >
                         {isExpanded ? (
                             <input
@@ -96,15 +101,15 @@ const Hands = () => {
                                 Track Shipment
                             </p>
                         )}
-                        <div className={`${isExpanded 
+                        <div className={`${isExpanded
                             ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                             : ''}`}
                         >
                             <img src={websearch} alt='trackshipment'
-                            className='wht w-5 h-5'
+                                className='wht w-5 h-5'
                             />
 
-                            {isExpanded && 
+                            {isExpanded &&
                                 <p className='text-white text-[12.5px]'>
                                     Track
                                 </p>
@@ -112,16 +117,14 @@ const Hands = () => {
                         </div>
                     </motion.div>
 
-                    <div ref={trackContainerRef}
+                    {/* Mobile Track Shipment */}
+                    <motion.div ref={trackContainerRef}
                         className={`text-[13px] rounded-full py-3 px-6 
                         items-center md:hidden flex w-full
-                        ${isExpanded 
-                        ? 'border border-secondary justify-between relative' 
-                        : 'bg-secondary text-white cursor-pointer gap-3 justify-center'}`}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setIsExpanded(true);
-                        }}
+                        ${isExpanded
+                            ? 'border border-secondary justify-between relative'
+                            : 'bg-secondary text-white cursor-pointer gap-3 justify-center'}`}
+                        onClick={handleTrackShipmentClick} 
                     >
                         {isExpanded ? (
                             <input
@@ -130,28 +133,28 @@ const Hands = () => {
                                 placeholder="Enter Tracking Number"
                                 className="flex-grow text-main
                                 focus:outline-none text-[13px]"
-                                onBlur={() => setIsExpanded(false)}
+                                onBlur={() => setIsExpanded(false)} 
                             />
                         ) : (
                             <p>
                                 Track Shipment
                             </p>
                         )}
-                        <div className={`${isExpanded 
+                        <div className={`${isExpanded
                             ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                             : ''}`}
                         >
                             <img src={websearch} alt='trackshipment'
-                            className='wht w-5 h-5'
+                                className='wht w-5 h-5'
                             />
 
-                            {isExpanded && 
+                            {isExpanded &&
                                 <p className='text-white text-[12.5px]'>
                                     Track
                                 </p>
                             }
                         </div>
-                    </div>
+                    </motion.div>
                 </motion.div>
             </motion.div>
         </section>
