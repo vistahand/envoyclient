@@ -6,13 +6,20 @@ import { hands, websearch } from '../assets';
 
 const Hands = () => {
     const trackContainerRef = useRef(null);
+    const desktopTrackContainerRef = useRef(null);
     const inputRef = useRef(null);
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
+    const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+
 
     useEffect(() => {
         function handleClickOutside(event) {
+            if (desktopTrackContainerRef.current && !desktopTrackContainerRef.current.contains(event.target)) {
+                setIsDesktopExpanded(false);
+            }
+        
             if (trackContainerRef.current && !trackContainerRef.current.contains(event.target)) {
-                setIsExpanded(false);
+                setIsMobileExpanded(false);
             }
         }
 
@@ -20,13 +27,18 @@ const Hands = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [trackContainerRef]);
+    }, [desktopTrackContainerRef, trackContainerRef]);
 
     useEffect(() => {
-        if (isExpanded && inputRef.current) {
+        if (isDesktopExpanded && inputRef.current) {
             inputRef.current.focus();
         }
-    }, [isExpanded]);
+
+        if (isMobileExpanded && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isDesktopExpanded, isMobileExpanded]);
+    
 
     return (
         <section className="w-full md:min-h-[300px] ss:min-h-[300px] 
@@ -66,34 +78,33 @@ const Hands = () => {
                     </p>
 
                     {/* Desktop Track Shipment */}
-                    <motion.div ref={trackContainerRef}
+                    <motion.div ref={desktopTrackContainerRef}
                         className={`text-[13px] rounded-full py-3 px-6 
                         items-center hidden md:flex
-                        ${isExpanded
+                        ${isDesktopExpanded
                             ? 'border border-secondary relative'
                             : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
-                        animate={{ width: isExpanded ? '360px' : '173px' }}
+                        animate={{ width: isDesktopExpanded ? '360px' : '173px' }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
                         onClick={(e) => {
                             e.preventDefault();
-                            setIsExpanded(true);
-                        }} 
+                            setIsDesktopExpanded(true);
+                        }}
                     >
-                        {isExpanded ? (
+                        {isDesktopExpanded ? (
                             <input
                                 ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
                                 className="flex-grow text-main
                                 focus:outline-none text-[13px]"
-                                onBlur={() => setIsExpanded(false)} 
                             />
                         ) : (
                             <p>
                                 Track Shipment
                             </p>
                         )}
-                        <div className={`${isExpanded
+                        <div className={`${isDesktopExpanded
                             ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                             : ''}`}
                         >
@@ -101,7 +112,7 @@ const Hands = () => {
                                 className='wht w-5 h-5'
                             />
 
-                            {isExpanded &&
+                            {isDesktopExpanded &&
                                 <p className='text-white text-[12.5px]'>
                                     Track
                                 </p>
@@ -113,29 +124,28 @@ const Hands = () => {
                     <motion.div ref={trackContainerRef}
                         className={`text-[13px] rounded-full py-3 px-6 
                         items-center md:hidden flex w-full
-                        ${isExpanded
+                        ${isMobileExpanded
                             ? 'border border-secondary justify-between relative'
                             : 'bg-secondary text-white cursor-pointer gap-3 justify-center'}`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                setIsExpanded(true);
+                                setIsMobileExpanded(true);
                             }} 
                     >
-                        {isExpanded ? (
+                        {isMobileExpanded ? (
                             <input
                                 ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
                                 className="flex-grow text-main
-                                focus:outline-none text-[13px]"
-                                onBlur={() => setIsExpanded(false)} 
+                                focus:outline-none text-[13px]" 
                             />
                         ) : (
                             <p>
                                 Track Shipment
                             </p>
                         )}
-                        <div className={`${isExpanded
+                        <div className={`${isMobileExpanded
                             ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                             : ''}`}
                         >
@@ -143,7 +153,7 @@ const Hands = () => {
                                 className='wht w-5 h-5'
                             />
 
-                            {isExpanded &&
+                            {isMobileExpanded &&
                                 <p className='text-white text-[12.5px]'>
                                     Track
                                 </p>
