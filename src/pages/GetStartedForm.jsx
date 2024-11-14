@@ -177,6 +177,12 @@ const GetStartedForm = () => {
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
                                         {formik.touched.product && formik.errors.product}
                                     </p>
+
+                                    <p className='text-main2 font-medium md:text-[11px]
+                                    ss:text-[11px] text-[10px] tracking-tight md:hidden 
+                                    ss:hidden flex'>
+                                        This is your billing country/region
+                                    </p>
                                 </div>
 
                                 <div className="relative">
@@ -201,7 +207,8 @@ const GetStartedForm = () => {
                             </div>
 
                             <p className='text-main2 font-medium md:text-[11px]
-                            ss:text-[11px] text-[10px] tracking-tight'>
+                            ss:text-[11px] text-[10px] tracking-tight hidden 
+                            ss:flex md:flex'>
                                 This is your billing country/region
                             </p>
                         </div>
@@ -244,6 +251,12 @@ const GetStartedForm = () => {
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
                                         {formik.touched.product && formik.errors.product}
                                     </p>
+
+                                    <p className='text-main2 font-medium md:text-[11px]
+                                    ss:text-[11px] text-[10px] tracking-tight md:hidden
+                                    ss:hidden flex'>
+                                        This is the country/region we'll be shipping to
+                                    </p>
                                 </div>
 
                                 <div className="relative">
@@ -268,7 +281,8 @@ const GetStartedForm = () => {
                             </div>
 
                             <p className='text-main2 font-medium md:text-[11px]
-                            ss:text-[11px] text-[10px] tracking-tight'>
+                            ss:text-[11px] text-[10px] tracking-tight hidden
+                            ss:flex md:flex'>
                                 This is the country/region we'll be shipping to
                             </p>
                         </div>
@@ -327,6 +341,12 @@ const GetStartedForm = () => {
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
                                         {formik.touched.product && formik.errors.product}
                                     </p>
+
+                                    <p className='text-main2 font-medium md:text-[11px]
+                                    ss:text-[11px] text-[10px] tracking-tight md:hidden 
+                                    ss:hidden flex'>
+                                        This is your billing country/region
+                                    </p>
                                 </div>
 
                                 <div className="relative">
@@ -351,7 +371,8 @@ const GetStartedForm = () => {
                             </div>
 
                             <p className='text-main2 font-medium md:text-[11px]
-                            ss:text-[11px] text-[10px] tracking-tight'>
+                            ss:text-[11px] text-[10px] tracking-tight hidden 
+                            ss:flex md:flex'>
                                 This is your billing country/region
                             </p>
                         </div>
