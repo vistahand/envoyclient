@@ -72,7 +72,7 @@ const GetStartedForm = () => {
                     Shall we get started?
                 </h1>
 
-                <p className='text-main4 md:text-[18px] ss:text-[16px] 
+                <p className='text-main4 md:text-[17px] ss:text-[16px] 
                 text-[14px] md:max-w-[700px] ss:max-w-[400px] md:leading-[1.4rem] 
                 ss:leading-[1.4rem] leading-[1.3rem] tracking-tight'>
                     Where do you want us to go?
@@ -80,24 +80,24 @@ const GetStartedForm = () => {
             </div>
 
             <div className='flex justify-center items-center md:gap-3
-            ss:gap-6 gap-5 w-1/2 mt-3'>
+            ss:gap-6 gap-5 w-[42%] mt-3'>
                 <div className={`py-3.5 px-4 flex items-center
                 ${selectedTab === 'international'
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
                 }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-[175px] 
-                gap-3`}
+                gap-2`}
                 onClick={() => handleTabChange('international')}
                 >
                     <InternationalIcon 
-                        className={`w-[2.5rem] h-auto object-contain
+                        className={`w-[2.3rem] h-auto object-contain
                             ${selectedTab === 'international' ? 'stroke-white' : 'stroke-primary'}
                         `}
                     />
 
                     <div className='flex flex-col'>
-                        <h2 className='md:text-[15px] ss:text-[14px] 
-                        text-[13px] font-bold'
+                        <h2 className='md:text-[13px] ss:text-[13px] 
+                        text-[12px] font-bold'
                         >
                             International Shipping
                         </h2>
@@ -105,7 +105,7 @@ const GetStartedForm = () => {
                         <p className={`${selectedTab === 'local'
                         ? 'text-main4'
                         : 'font-light'
-                        } md:text-[12px] ss:text-[12px] text-[11px]`}
+                        } md:text-[11px] ss:text-[11px] text-[10px]`}
                         >
                             Ship between countries
                         </p>
@@ -117,18 +117,18 @@ const GetStartedForm = () => {
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
                 }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-[175px] 
-                gap-3`}
+                gap-2`}
                 onClick={() => handleTabChange('local')}
                 >
                     <LocalIcon 
-                        className={`w-[2.5rem] h-auto object-contain
+                        className={`w-[2.3rem] h-auto object-contain
                             ${selectedTab === 'local' ? 'stroke-white' : 'stroke-primary'}
                         `}
                     />
 
                     <div className='flex flex-col'>
-                        <h2 className='md:text-[15px] ss:text-[14px] 
-                        text-[13px] font-bold'
+                        <h2 className='md:text-[13px] ss:text-[13px] 
+                        text-[12px] font-bold'
                         >
                             Local Shipping
                         </h2>
@@ -136,7 +136,7 @@ const GetStartedForm = () => {
                         <p className={`${selectedTab === 'international'
                         ? 'text-main4'
                         : 'font-light'
-                        } md:text-[12px] ss:text-[12px] text-[11px]`}
+                        } md:text-[11px] ss:text-[11px] text-[10px]`}
                         >
                             Ship within your country
                         </p>
@@ -144,10 +144,11 @@ const GetStartedForm = () => {
                 </div>
             </div>
 
-            <form ref={formRef} onSubmit={formik.handleSubmit}>
+            <form ref={formRef} onSubmit={formik.handleSubmit}
+            className='w-3/4'>
                 {selectedTab === 'international' ? (
-                    <div className='flex flex-col'>
-                        <div className='flex flex-col'>
+                    <div className='flex flex-col w-full'>
+                        <div className='flex flex-col w-full'>
                             <h2 className='text-main font-bold md:text-[17px]
                             ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
                                 I am shipping from
