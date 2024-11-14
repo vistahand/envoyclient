@@ -12,13 +12,8 @@ import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 const GetStartedForm = () => {
 
     const formRef = useRef();
-    const [Loading, setLoading] = useState(false);
     const [selectedTab, setSelectedTab] = useState('international');
     // const navigate = useNavigate();
-
-    const handleProductChange = (e) => {
-        
-    };
 
     const targetedSearchSchema = Yup.object().shape({
         product: Yup.string().required('Product is required.'),
@@ -46,14 +41,9 @@ const GetStartedForm = () => {
         },
         validationSchema: selectedTab === 'targetedSearch' ? targetedSearchSchema : messageUsSchema,
         onSubmit: (values) => {
-            setLoading(true);
-            // Implement your email sending logic here...
+           
         },
     });
-
-    const handleSearch = () => {
-        
-    }
 
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
@@ -62,7 +52,7 @@ const GetStartedForm = () => {
 
 
   return (
-    <section className='w-full flex md:min-h-[400px] ss:min-h-[700px]
+    <section className='w-full flex md:min-h-[600px] ss:min-h-[700px]
     min-h-[700px]'>
         <div className='flex items-center w-full flex-col md:gap-8 
         ss:gap-6 gap-4'>
@@ -281,7 +271,7 @@ const GetStartedForm = () => {
                             </p>
                         </div>
 
-                        <div className="mt-10">
+                        <div className="mt-6">
                            <a href='/createshipment'
                             className='bg-primary text-[13px] py-3.5 px-14 flex
                             text-white rounded-full grow4 cursor-pointer 
@@ -296,14 +286,14 @@ const GetStartedForm = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className='flex flex-col'>
-                        <div className='flex flex-col'>
-                            <h2 className='text-main font-bold md:text-[17px]
-                            ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
+                    <div className='flex flex-col w-full items-center gap-3'>
+                        <div className='flex flex-col w-full'>
+                            <h2 className='text-main2 font-bold md:text-[17px]
+                            ss:text-[17px] text-[15px] tracking-tight'>
                                 I am shipping from
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3'>
+                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -312,24 +302,17 @@ const GetStartedForm = () => {
                                             value={formik.values.price}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                            ss:px-3 px-2 border-search 
-                                            text-main3 md:rounded-lg rounded-md 
+                                            className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
+                                            ss:px-3.5 px-2.5 border border-main6 
+                                            text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] 
                                             bg-transparent w-full custom-select"
                                         >
-                                            <option value="" disabled hidden>Select a price range</option>
-                                            <option value="0-10,000">0-10,000</option>
-                                            <option value="10,000-20,000">10,000-20,000</option>
-                                            <option value="20,000-50,000">20,000-50,000</option>
-                                            <option value="50,000-100,000">50,000-100,000</option>
-                                            <option value="100,000-500,000">100,000-500,000</option>
-                                            <option value="500,000-1,000,000">500,000-1,000,000</option>
-                                            <option value="1,000,000-5,000,000">1,000,000-5,000,000</option>
+                                            <option value="" disabled hidden>Select your country</option>
                                         </select>
-                                        <div className='absolute md:right-3 
-                                        ss:right-3 right-2'>
+                                        <div className='absolute md:right-3.5 
+                                        ss:right-3.5 right-2.5'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -343,19 +326,19 @@ const GetStartedForm = () => {
                                     </p>
                                 </div>
 
-                                <div className="relative mt-1">
+                                <div className="relative">
                                     <input
                                         type="text"
                                         name="numbermail"
-                                        placeholder='Enter your phone number or email'
+                                        placeholder='Enter your city/town'
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                        ss:px-3 px-2 border-search 
+                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
+                                        ss:px-3.5 px-2.5 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
-                                        bg-transparent w-full placeholder:text-main3"
+                                        bg-transparent w-full placeholder:text-main6"
                                     />
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
@@ -363,67 +346,33 @@ const GetStartedForm = () => {
                                     </p>
                                 </div>
                             </div>
+
+                            <p className='text-main2 font-medium md:text-[11px]
+                            ss:text-[11px] text-[10px] tracking-tight'>
+                                This is your billing country/region
+                            </p>
                         </div>
                         
-                        <div className='flex flex-col'>
-                            <h2 className='text-main font-bold md:text-[17px]
-                            ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
+                        <div className='flex flex-col w-full'>
+                            <h2 className='text-main2 font-bold md:text-[17px]
+                            ss:text-[17px] text-[15px] tracking-tight'>
                                 To
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3'>
-                                <div className="relative flex flex-col">
-                                    <div className='relative flex items-center'>
-                                        <select
-                                            type="text"
-                                            name="price"
-                                            value={formik.values.price}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                            ss:px-3 px-2 border-search 
-                                            text-main3 md:rounded-lg rounded-md 
-                                            cursor-pointer md:text-[13px]
-                                            ss:text-[14px] text-[12px] 
-                                            bg-transparent w-full custom-select"
-                                        >
-                                            <option value="" disabled hidden>Select a price range</option>
-                                            <option value="0-10,000">0-10,000</option>
-                                            <option value="10,000-20,000">10,000-20,000</option>
-                                            <option value="20,000-50,000">20,000-50,000</option>
-                                            <option value="50,000-100,000">50,000-100,000</option>
-                                            <option value="100,000-500,000">100,000-500,000</option>
-                                            <option value="500,000-1,000,000">500,000-1,000,000</option>
-                                            <option value="1,000,000-5,000,000">1,000,000-5,000,000</option>
-                                        </select>
-                                        <div className='absolute md:right-3 
-                                        ss:right-3 right-2'>
-                                            <TiArrowSortedDown 
-                                                className='text-main md:text-[16px]
-                                                ss:text-[18px] text-[16px]'
-                                            />
-                                        </div>
-                                    </div>
-                                    
-                                    <p className="text-mainRed md:text-[12px] 
-                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.product && formik.errors.product}
-                                    </p>
-                                </div>
-
-                                <div className="relative mt-1">
+                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
+                                <div className="relative">
                                     <input
                                         type="text"
                                         name="numbermail"
-                                        placeholder='Enter your phone number or email'
+                                        placeholder='Enter destination city/town'
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                        ss:px-3 px-2 border-search 
+                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5
+                                        ss:px-3.5 px-2.5 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
-                                        bg-transparent w-full placeholder:text-main3"
+                                        bg-transparent w-full placeholder:text-main6"
                                     />
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
@@ -433,16 +382,18 @@ const GetStartedForm = () => {
                             </div>
                         </div>
 
-                        <div className="w-full mt-1">
-                            <button
-                            type="button"
-                            className="bg-primary grow5 md:text-[13px] w-full
-                            ss:text-[16px] text-[12px] md:py-3 ss:py-3 py-2.5 
-                            text-white md:rounded-lg rounded-md border-none"
-                            onClick={handleSearch}
+                        <div className="mt-6">
+                           <a href='/createshipment'
+                            className='bg-primary text-[13px] py-3.5 px-14 flex
+                            text-white rounded-full grow4 cursor-pointer 
+                            items-center gap-3'
                             >
-                                {Loading ? 'Searching...' : 'Search'}
-                            </button>
+                                <p>
+                                    Next
+                                </p>
+                                
+                                <HiOutlineArrowRight className='text-[14px]'/>
+                            </a>
                         </div>
                     </div>
                 )}
