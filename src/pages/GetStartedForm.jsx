@@ -52,10 +52,10 @@ const GetStartedForm = () => {
 
 
   return (
-    <section className='w-full flex md:min-h-[600px] ss:min-h-[700px]
-    min-h-[700px]'>
+    <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
+    min-h-[680px]'>
         <div className='flex items-center w-full flex-col md:gap-8 
-        ss:gap-6 gap-4'>
+        ss:gap-6 gap-5'>
             <div className='w-full flex flex-col gap-1.5 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
@@ -71,12 +71,12 @@ const GetStartedForm = () => {
             </div>
 
             <div className='flex justify-center items-center md:gap-3
-            ss:gap-6 gap-5 w-[42%] mt-3'>
-                <div className={`py-3.5 px-4 flex items-center
+            ss:gap-3 gap-2.5 md:w-[42%] ss:w-[70%] w-full mt-3'>
+                <div className={`py-3.5 px-4 flex items-center mobship
                 ${selectedTab === 'international'
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
-                }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-[175px] 
+                }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full 
                 gap-2`}
                 onClick={() => handleTabChange('international')}
                 >
@@ -103,11 +103,11 @@ const GetStartedForm = () => {
                     </div>
                 </div>
                 
-                <div className={`py-3.5 px-4 flex items-center 
+                <div className={`py-3.5 px-4 flex items-center mobship
                 ${selectedTab === 'local'
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
-                }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-[175px] 
+                }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full 
                 gap-2`}
                 onClick={() => handleTabChange('local')}
                 >
@@ -136,7 +136,7 @@ const GetStartedForm = () => {
             </div>
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='w-[80%]'>
+            className='md:w-[80%] w-full md:mt-0 ss:mt-0 mt-2'>
                 {selectedTab === 'international' ? (
                     <div className='flex flex-col w-full items-center gap-3'>
                         <div className='flex flex-col w-full'>
@@ -145,7 +145,8 @@ const GetStartedForm = () => {
                                 I am shipping from
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
+                            <div className='grid md:grid-cols-2 ss:grid-cols-2
+                            gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -154,8 +155,8 @@ const GetStartedForm = () => {
                                             value={formik.values.price}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
-                                            ss:px-3.5 px-2.5 border border-main6 
+                                            className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                            ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] 
@@ -164,7 +165,7 @@ const GetStartedForm = () => {
                                             <option value="" disabled hidden>Select your country</option>
                                         </select>
                                         <div className='absolute md:right-3.5 
-                                        ss:right-3.5 right-2.5'>
+                                        ss:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -186,8 +187,8 @@ const GetStartedForm = () => {
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
-                                        ss:px-3.5 px-2.5 border border-main6 
+                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                        ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
                                         bg-transparent w-full placeholder:text-main6"
@@ -211,7 +212,8 @@ const GetStartedForm = () => {
                                 To
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
+                            <div className='grid md:grid-cols-2 ss:grid-cols-2
+                            gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -220,8 +222,8 @@ const GetStartedForm = () => {
                                             value={formik.values.price}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
-                                            ss:px-3.5 px-2.5 border border-main6 
+                                            className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                            ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px]
@@ -230,7 +232,7 @@ const GetStartedForm = () => {
                                            <option value="" disabled hidden>Select your country</option>
                                         </select>
                                         <div className='absolute md:right-3.5 
-                                        ss:right-3.5 right-2.5'>
+                                        ss:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -252,8 +254,8 @@ const GetStartedForm = () => {
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5
-                                        ss:px-3.5 px-2.5 border border-main6 
+                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5
+                                        ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
                                         bg-transparent w-full placeholder:text-main6"
@@ -271,11 +273,11 @@ const GetStartedForm = () => {
                             </p>
                         </div>
 
-                        <div className="mt-6">
+                        <div className="mt-6 mobnext">
                            <a href='/createshipment'
                             className='bg-primary text-[13px] py-3.5 px-14 flex
-                            text-white rounded-full grow4 cursor-pointer 
-                            items-center gap-3'
+                            text-white rounded-full grow4 cursor-pointer
+                            items-center justify-center gap-3'
                             >
                                 <p>
                                     Next
@@ -293,7 +295,8 @@ const GetStartedForm = () => {
                                 I am shipping from
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
+                            <div className='grid md:grid-cols-2 ss:grid-cols-2 
+                            gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -302,8 +305,8 @@ const GetStartedForm = () => {
                                             value={formik.values.price}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
-                                            ss:px-3.5 px-2.5 border border-main6 
+                                            className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                            ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] 
@@ -312,7 +315,7 @@ const GetStartedForm = () => {
                                             <option value="" disabled hidden>Select your country</option>
                                         </select>
                                         <div className='absolute md:right-3.5 
-                                        ss:right-3.5 right-2.5'>
+                                        ss:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -334,8 +337,8 @@ const GetStartedForm = () => {
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
-                                        ss:px-3.5 px-2.5 border border-main6 
+                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                        ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
                                         bg-transparent w-full placeholder:text-main6"
@@ -359,7 +362,8 @@ const GetStartedForm = () => {
                                 To
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
+                            <div className='grid md:grid-cols-2 ss:grid-cols-2 
+                            gap-3.5 mt-3.5'>
                                 <div className="relative">
                                     <input
                                         type="text"
@@ -368,8 +372,8 @@ const GetStartedForm = () => {
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5
-                                        ss:px-3.5 px-2.5 border border-main6 
+                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5
+                                        ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
                                         bg-transparent w-full placeholder:text-main6"
@@ -382,11 +386,11 @@ const GetStartedForm = () => {
                             </div>
                         </div>
 
-                        <div className="mt-6">
+                        <div className="mt-6 mobnext">
                            <a href='/createshipment'
                             className='bg-primary text-[13px] py-3.5 px-14 flex
                             text-white rounded-full grow4 cursor-pointer 
-                            items-center gap-3'
+                            items-center justify-center gap-3'
                             >
                                 <p>
                                     Next

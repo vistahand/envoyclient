@@ -271,6 +271,21 @@ body, html {
   display: block;
 }
 
+@media (max-width: 480px) {
+  .mobship {
+    height: 85px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobnext {
+    width: 100%;
+    flex: auto;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .wht {
   filter: invert(1) brightness(100);
 }
