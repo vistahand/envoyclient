@@ -6,13 +6,13 @@ import { logo } from '../assets';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoIosMenu } from "react-icons/io";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { useNavigate  } from 'react-router-dom';
+// import { useNavigate  } from 'react-router-dom';
 
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
     const menuRef = useRef(null);
     const [openMenuId, setOpenMenuId] = useState(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [scrollPosition, setScrollPosition] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
 

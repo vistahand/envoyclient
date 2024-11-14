@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useFormik } from "formik";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc'
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
@@ -13,7 +13,7 @@ const GetStartedForm = () => {
     const formRef = useRef();
     const [Loading, setLoading] = useState(false);
     const [selectedTab, setSelectedTab] = useState('international');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleProductChange = (e) => {
         

@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
-import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { websearch, heroImages, socialproof, curve, socialproofMob } from '../assets';
 import { SectionWrapper2 } from '../hoc';
@@ -23,7 +22,6 @@ const ImageCard = ({ image }) => {
 
 
 const Hero = () => {
-    const navigate = useNavigate();
     const trackContainerRef = useRef(null);
     const inputRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
