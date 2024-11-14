@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useFormik } from "formik";
+import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
 // import { useNavigate } from 'react-router-dom';
@@ -145,16 +146,16 @@ const GetStartedForm = () => {
             </div>
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='w-3/4'>
+            className='w-[80%]'>
                 {selectedTab === 'international' ? (
-                    <div className='flex flex-col w-full'>
-                        <div className='flex flex-col w-full'>
-                            <h2 className='text-main font-bold md:text-[17px]
+                    <div className='flex flex-col w-full items-center gap-3'>
+                        <div className='flex flex-col w-full gap-2'>
+                            <h2 className='text-main2 font-bold md:text-[17px]
                             ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
                                 I am shipping from
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3'>
+                            <div className='grid grid-cols-2 gap-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -163,24 +164,17 @@ const GetStartedForm = () => {
                                             value={formik.values.price}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                            ss:px-3 px-2 border-search 
-                                            text-main3 md:rounded-lg rounded-md 
+                                            className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
+                                            ss:px-3.5 px-2.5 border border-main6 
+                                            text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] 
                                             bg-transparent w-full custom-select"
                                         >
-                                            <option value="" disabled hidden>Select a price range</option>
-                                            <option value="0-10,000">0-10,000</option>
-                                            <option value="10,000-20,000">10,000-20,000</option>
-                                            <option value="20,000-50,000">20,000-50,000</option>
-                                            <option value="50,000-100,000">50,000-100,000</option>
-                                            <option value="100,000-500,000">100,000-500,000</option>
-                                            <option value="500,000-1,000,000">500,000-1,000,000</option>
-                                            <option value="1,000,000-5,000,000">1,000,000-5,000,000</option>
+                                            <option value="" disabled hidden>Select your country</option>
                                         </select>
-                                        <div className='absolute md:right-3 
-                                        ss:right-3 right-2'>
+                                        <div className='absolute md:right-3.5 
+                                        ss:right-3.5 right-2.5'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -194,19 +188,19 @@ const GetStartedForm = () => {
                                     </p>
                                 </div>
 
-                                <div className="relative mt-1">
+                                <div className="relative">
                                     <input
                                         type="text"
                                         name="numbermail"
-                                        placeholder='Enter your phone number or email'
+                                        placeholder='Enter your city/town (optional)'
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                        ss:px-3 px-2 border-search 
+                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
+                                        ss:px-3.5 px-2.5 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
-                                        bg-transparent w-full placeholder:text-main3"
+                                        bg-transparent w-full placeholder:text-main6"
                                     />
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
@@ -216,13 +210,13 @@ const GetStartedForm = () => {
                             </div>
                         </div>
                         
-                        <div className='flex flex-col'>
-                            <h2 className='text-main font-bold md:text-[17px]
+                        <div className='flex flex-col w-full gap-2'>
+                            <h2 className='text-main2 font-bold md:text-[17px]
                             ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
                                 To
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3'>
+                            <div className='grid grid-cols-2 gap-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -231,24 +225,17 @@ const GetStartedForm = () => {
                                             value={formik.values.price}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                            ss:px-3 px-2 border-search 
-                                            text-main3 md:rounded-lg rounded-md 
+                                            className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5 
+                                            ss:px-3.5 px-2.5 border border-main6 
+                                            text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
-                                            ss:text-[14px] text-[12px] 
+                                            ss:text-[14px] text-[12px]
                                             bg-transparent w-full custom-select"
                                         >
-                                            <option value="" disabled hidden>Select a price range</option>
-                                            <option value="0-10,000">0-10,000</option>
-                                            <option value="10,000-20,000">10,000-20,000</option>
-                                            <option value="20,000-50,000">20,000-50,000</option>
-                                            <option value="50,000-100,000">50,000-100,000</option>
-                                            <option value="100,000-500,000">100,000-500,000</option>
-                                            <option value="500,000-1,000,000">500,000-1,000,000</option>
-                                            <option value="1,000,000-5,000,000">1,000,000-5,000,000</option>
+                                           <option value="" disabled hidden>Select your country</option>
                                         </select>
-                                        <div className='absolute md:right-3 
-                                        ss:right-3 right-2'>
+                                        <div className='absolute md:right-3.5 
+                                        ss:right-3.5 right-2.5'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -262,19 +249,19 @@ const GetStartedForm = () => {
                                     </p>
                                 </div>
 
-                                <div className="relative mt-1">
+                                <div className="relative">
                                     <input
                                         type="text"
                                         name="numbermail"
-                                        placeholder='Enter your phone number or email'
+                                        placeholder='Enter destination city/town (optional)'
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-2.5 ss:py-2 py-1.5 md:px-3 
-                                        ss:px-3 px-2 border-search 
+                                        className="md:py-3.5 ss:py-3 py-2.5 md:px-3.5
+                                        ss:px-3.5 px-2.5 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
-                                        bg-transparent w-full placeholder:text-main3"
+                                        bg-transparent w-full placeholder:text-main6"
                                     />
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
@@ -284,16 +271,18 @@ const GetStartedForm = () => {
                             </div>
                         </div>
 
-                        <div className="w-full mt-1">
-                            <button
-                            type="button"
-                            className="bg-primary grow5 md:text-[13px] w-full
-                            ss:text-[16px] text-[12px] md:py-3 ss:py-3 py-2.5 
-                            text-white md:rounded-lg rounded-md border-none"
-                            onClick={handleSearch}
+                        <div className="mt-10">
+                           <a href='/createshipment'
+                            className='bg-primary text-[13px] py-3.5 px-14 flex
+                            text-white rounded-full grow4 cursor-pointer 
+                            items-center gap-3'
                             >
-                                {Loading ? 'Searching...' : 'Search'}
-                            </button>
+                                <p>
+                                    Next
+                                </p>
+                                
+                                <HiOutlineArrowRight className='text-[14px]'/>
+                            </a>
                         </div>
                     </div>
                 ) : (
