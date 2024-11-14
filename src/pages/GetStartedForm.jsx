@@ -149,13 +149,13 @@ const GetStartedForm = () => {
             className='w-[80%]'>
                 {selectedTab === 'international' ? (
                     <div className='flex flex-col w-full items-center gap-3'>
-                        <div className='flex flex-col w-full gap-2'>
+                        <div className='flex flex-col w-full'>
                             <h2 className='text-main2 font-bold md:text-[17px]
-                            ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
+                            ss:text-[17px] text-[15px] tracking-tight'>
                                 I am shipping from
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3.5'>
+                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -208,15 +208,20 @@ const GetStartedForm = () => {
                                     </p>
                                 </div>
                             </div>
+
+                            <p className='text-main2 font-medium md:text-[11px]
+                            ss:text-[11px] text-[10px] tracking-tight'>
+                                This is your billing country/region
+                            </p>
                         </div>
                         
-                        <div className='flex flex-col w-full gap-2'>
+                        <div className='flex flex-col w-full'>
                             <h2 className='text-main2 font-bold md:text-[17px]
-                            ss:text-[17px] text-[15px] mb-1.5 tracking-tight'>
+                            ss:text-[17px] text-[15px] tracking-tight'>
                                 To
                             </h2>
 
-                            <div className='grid grid-cols-2 gap-3.5'>
+                            <div className='grid grid-cols-2 gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
                                         <select
@@ -269,6 +274,11 @@ const GetStartedForm = () => {
                                     </p>
                                 </div>
                             </div>
+
+                            <p className='text-main2 font-medium md:text-[11px]
+                            ss:text-[11px] text-[10px] tracking-tight'>
+                                This is the country/region we'll be shipping to
+                            </p>
                         </div>
 
                         <div className="mt-10">
