@@ -11,7 +11,6 @@ const Hands = () => {
 
     useEffect(() => {
         function handleClickOutside(event) {
-            event.preventDefault();
             if (
                 isExpanded &&
                 trackContainerRef.current &&
@@ -80,7 +79,6 @@ const Hands = () => {
                             : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
                         animate={{ width: isExpanded ? '360px' : '173px' }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
-                        style={{ overflow: 'hidden' }}
                         onClick={handleTrackShipmentClick} 
                     >
                         {isExpanded ? (
@@ -90,11 +88,7 @@ const Hands = () => {
                                 placeholder="Enter Tracking Number"
                                 className="flex-grow text-main
                                 focus:outline-none text-[13px]"
-                                onBlur={(e) => {
-                                    if (!trackContainerRef.current.contains(e.relatedTarget)) {
-                                        setIsExpanded(false);
-                                    }
-                                }}
+                                onBlur={() => setIsExpanded(false)} 
                             />
                         ) : (
                             <p>
