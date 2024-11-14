@@ -61,8 +61,8 @@ const Hands = () => {
                     font-medium tracking-tight'>
                         We pride ourselves in the satisfaction of the
                         numerous businesses, families and individuals
-                        that trust us to provide the safest
-                        international and local deliveries.
+                        that trust us to provide the safest international 
+                        and local deliveries.
                     </p>
 
                     {/* Desktop Track Shipment */}
