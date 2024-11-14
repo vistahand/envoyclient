@@ -147,7 +147,6 @@ const Hero = () => {
         };
     }, [trackContainerRef]);
 
-
     useEffect(() => {
         const updateCollapsedWidth = () => {
             const screenWidth = window.innerWidth;

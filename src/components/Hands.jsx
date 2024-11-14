@@ -11,11 +11,7 @@ const Hands = () => {
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (
-                isExpanded &&
-                trackContainerRef.current &&
-                !trackContainerRef.current.contains(event.target)
-            ) {
+            if (trackContainerRef.current && !trackContainerRef.current.contains(event.target)) {
                 setIsExpanded(false);
             }
         }
@@ -24,14 +20,13 @@ const Hands = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [isExpanded, trackContainerRef]);
+    }, [trackContainerRef]);
 
-    const handleTrackShipmentClick = (e) => {
-        e.preventDefault();
-        setIsExpanded(true);
-        // Focus the input immediately 
-        inputRef.current?.focus(); 
-    };
+    useEffect(() => {
+        if (isExpanded && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isExpanded]);
 
     return (
         <section className="w-full md:min-h-[300px] ss:min-h-[300px] 
@@ -79,7 +74,10 @@ const Hands = () => {
                             : 'bg-secondary text-white grow4 cursor-pointer gap-3'}`}
                         animate={{ width: isExpanded ? '360px' : '173px' }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
-                        onClick={handleTrackShipmentClick} 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setIsExpanded(true);
+                        }} 
                     >
                         {isExpanded ? (
                             <input
@@ -118,7 +116,10 @@ const Hands = () => {
                         ${isExpanded
                             ? 'border border-secondary justify-between relative'
                             : 'bg-secondary text-white cursor-pointer gap-3 justify-center'}`}
-                        onClick={handleTrackShipmentClick} 
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setIsExpanded(true);
+                            }} 
                     >
                         {isExpanded ? (
                             <input
