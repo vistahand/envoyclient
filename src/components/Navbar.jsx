@@ -4,7 +4,7 @@ import styles from '../styles';
 import { navLinks } from '../constants';
 import { logo } from '../assets';
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { IoMenu } from "react-icons/io5";
+import { IoIosMenu } from "react-icons/io";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { useNavigate  } from 'react-router-dom';
 
@@ -168,7 +168,7 @@ const Navbar = () => {
                                 }}
                             />
                             ) : (
-                            <IoMenu
+                            <IoIosMenu
                                 size={40}
                                 className="object-contain cursor-pointer"
                                 style={{ color: '#1E3F76'}}
@@ -187,7 +187,7 @@ const Navbar = () => {
                     )}
 
                     <div ref={menuRef}
-                        className={`p-6 ss:mt-20 mt-20 absolute top-0 
+                        className={`p-6 ss:mt-20 mt-[70px] absolute top-0 
                         right-0 z-10 flex-col w-full bg-white shadow-lg
                         ss:px-16 px-5 overflow-y-auto pb-10
                         ${toggle 
