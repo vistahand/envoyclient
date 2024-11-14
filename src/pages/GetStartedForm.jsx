@@ -71,18 +71,20 @@ const GetStartedForm = () => {
             </div>
 
             <div className='flex justify-center items-center md:gap-3
-            ss:gap-3 gap-2.5 md:w-[42%] ss:w-[70%] w-full mt-3'>
+            ss:gap-3 gap-2.5 md:w-[43%] ss:w-[70%] w-full mt-3'>
                 <div className={`py-3.5 px-4 flex items-center mobship
                 ${selectedTab === 'international'
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
                 }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full 
-                gap-2`}
+                gap-2 transition-all duration-300 ease-in-out`}
                 onClick={() => handleTabChange('international')}
                 >
                     <InternationalIcon 
                         className={`w-[2.3rem] h-auto object-contain
-                            ${selectedTab === 'international' ? 'stroke-white' : 'stroke-primary'}
+                            ${selectedTab === 'international' 
+                            ? 'stroke-white' 
+                            : 'stroke-primary'}
                         `}
                     />
 
@@ -94,9 +96,10 @@ const GetStartedForm = () => {
                         </h2>
 
                         <p className={`${selectedTab === 'local'
-                        ? 'text-main4'
-                        : 'font-light'
-                        } md:text-[11px] ss:text-[11px] text-[10px]`}
+                            ? 'text-main4'
+                            : 'font-light'
+                            } md:text-[11px] ss:text-[11px] text-[10px]
+                        `}
                         >
                             Ship between countries
                         </p>
@@ -108,12 +111,14 @@ const GetStartedForm = () => {
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
                 }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full 
-                gap-2`}
+                gap-2 transition-all duration-300 ease-in-out`}
                 onClick={() => handleTabChange('local')}
                 >
                     <LocalIcon 
                         className={`w-[2.3rem] h-auto object-contain
-                            ${selectedTab === 'local' ? 'stroke-white' : 'stroke-primary'}
+                            ${selectedTab === 'local' 
+                            ? 'stroke-white' 
+                            : 'stroke-primary'}
                         `}
                     />
 
@@ -125,9 +130,10 @@ const GetStartedForm = () => {
                         </h2>
 
                         <p className={`${selectedTab === 'international'
-                        ? 'text-main4'
-                        : 'font-light'
-                        } md:text-[11px] ss:text-[11px] text-[10px]`}
+                            ? 'text-main4'
+                            : 'font-light'
+                            } md:text-[11px] ss:text-[11px] text-[10px]
+                        `}
                         >
                             Ship within your country
                         </p>
