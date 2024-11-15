@@ -15,15 +15,15 @@ const GetStartedForm = () => {
     // const navigate = useNavigate();
 
     const internationalSchema = Yup.object().shape({
-        countryFrom: Yup.string().required('Sending country is required'),
-        cityFrom: Yup.string().required('Sending city is required'),
+        countryFrom: Yup.string().required("Sender's country is required"),
+        cityFrom: Yup.string().required("Sender's city is required"),
         countryTo: Yup.string().required('Recipient country is required'),
         cityTo: Yup.string().required('Recipient city is required')
     });
 
     const localSchema = Yup.object().shape({
-        countryFrom: Yup.string().required('Sending country is required'),
-        cityFrom: Yup.string().required('Sending city is required'),
+        countryFrom: Yup.string().required("Sender's country is required"),
+        cityFrom: Yup.string().required("Sender's city is required"),
         cityTo: Yup.string().required('Recipient city is required')
     });
 
@@ -35,6 +35,7 @@ const GetStartedForm = () => {
             cityTo: '',
         },
         validationSchema: selectedTab === 'international' ? internationalSchema : localSchema,
+        validateOnMount: true,
         onSubmit: (values) => {
            
         },
@@ -162,7 +163,7 @@ const GetStartedForm = () => {
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
-                                             ${formik.errors.countryFrom ? 'border-mainRed' : 'border-main6'}`}
+                                            ${formik.touched.countryFrom && formik.errors.countryFrom ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                         </select>
@@ -200,7 +201,7 @@ const GetStartedForm = () => {
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:ring-0
                                         bg-transparent w-full focus:outline-none
-                                        ${formik.errors.cityFrom ? 'border-mainRed' : 'border-main6'}`}
+                                        ${formik.touched.cityFrom && formik.errors.cityFrom ? 'border-mainRed' : 'border-main6'}`}
                                     />
 
                                     <label
@@ -248,12 +249,13 @@ const GetStartedForm = () => {
                                             value={formik.values.countryTo}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                            className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
                                             ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
-                                            bg-transparent w-full custom-select"
+                                            bg-transparent w-full custom-select
+                                            ${formik.touched.countryTo && formik.errors.countryTo ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                            <option value="" disabled hidden>Select your country</option>
                                         </select>
@@ -286,11 +288,12 @@ const GetStartedForm = () => {
                                         value={formik.values.cityTo}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5
+                                        className={`md:py-3.5 ss:py-3 py-3 md:px-3.5
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:outline-none
-                                        bg-transparent w-full placeholder:text-main6"
+                                        bg-transparent w-full placeholder:text-main6
+                                        ${formik.touched.cityTo && formik.errors.cityTo ? 'border-mainRed' : 'border-main6'}`}
                                     />
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
@@ -338,12 +341,13 @@ const GetStartedForm = () => {
                                             value={formik.values.countryFrom}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                            className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
                                             ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
-                                            bg-transparent w-full custom-select"
+                                            bg-transparent w-full custom-select
+                                            ${formik.touched.countryFrom && formik.errors.countryFrom ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                         </select>
@@ -376,11 +380,12 @@ const GetStartedForm = () => {
                                         value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                        className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:outline-none
-                                        bg-transparent w-full placeholder:text-main6"
+                                        bg-transparent w-full placeholder:text-main6
+                                        ${formik.touched.cityFrom && formik.errors.cityFrom ? 'border-mainRed' : 'border-main6'}`}
                                     />
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
@@ -416,7 +421,8 @@ const GetStartedForm = () => {
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:outline-none
-                                        bg-transparent w-full placeholder:text-main6`}
+                                        bg-transparent w-full placeholder:text-main6
+                                        ${formik.touched.cityTo && formik.errors.cityTo ? 'border-mainRed' : 'border-main6'}`}
                                     />
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
