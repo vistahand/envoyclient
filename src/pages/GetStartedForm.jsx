@@ -10,7 +10,7 @@ import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
 
 const GetStartedForm = () => {
-
+    const [isFocused, setIsFocused] = useState(false);
     const formRef = useRef();
     const [selectedTab, setSelectedTab] = useState('international');
     // const navigate = useNavigate();
@@ -165,7 +165,7 @@ const GetStartedForm = () => {
                                             ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
-                                            ss:text-[14px] text-[12px] 
+                                            ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select"
                                         >
                                             <option value="" disabled hidden>Select your country</option>
@@ -198,13 +198,22 @@ const GetStartedForm = () => {
                                         placeholder='Enter your city/town (optional)'
                                         value={formik.values.numbermail}
                                         onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                        onFocus={() => setIsFocused(true)}
+                                        onBlur={() => setIsFocused(false)} 
+                                        className={`md:px-3.5 
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px]
-                                        bg-transparent w-full placeholder:text-main6"
+                                        bg-transparent w-full focus:outline-none 
+                                        ${isFocused ? 'placeholder-transparent md:py-3.5 ss:py-3 py-3' : 'md:py-3.5 ss:py-3 py-3'}`}
                                     />
+
+                                    {isFocused && ( 
+                                        <span className="absolute left-3.5 top-0 text-main6 text-[10px] py-1"> 
+                                            Enter your city/town (optional)
+                                        </span>
+                                    )}
+
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
                                         {formik.touched.numbermail && formik.errors.numbermail}
@@ -239,7 +248,7 @@ const GetStartedForm = () => {
                                             ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
-                                            ss:text-[14px] text-[12px]
+                                            ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select"
                                         >
                                            <option value="" disabled hidden>Select your country</option>
@@ -270,13 +279,13 @@ const GetStartedForm = () => {
                                         type="text"
                                         name="numbermail"
                                         placeholder='Enter destination city/town (optional)'
-                                        value={formik.values.numbermail}
+                                        value={formik.values.numberma}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className="md:py-3.5 ss:py-3 py-3 md:px-3.5
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
-                                        ss:text-[14px] text-[12px]
+                                        ss:text-[14px] text-[12px] focus:outline-none
                                         bg-transparent w-full placeholder:text-main6"
                                     />
                                     <p className="text-mainRed md:text-[12px] 
@@ -329,7 +338,7 @@ const GetStartedForm = () => {
                                             ss:px-3.5 px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
-                                            ss:text-[14px] text-[12px] 
+                                            ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select"
                                         >
                                             <option value="" disabled hidden>Select your country</option>
@@ -366,7 +375,7 @@ const GetStartedForm = () => {
                                         className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
-                                        ss:text-[14px] text-[12px]
+                                        ss:text-[14px] text-[12px] focus:outline-none
                                         bg-transparent w-full placeholder:text-main6"
                                     />
                                     <p className="text-mainRed md:text-[12px] 
@@ -402,7 +411,7 @@ const GetStartedForm = () => {
                                         className="md:py-3.5 ss:py-3 py-3 md:px-3.5
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
-                                        ss:text-[14px] text-[12px]
+                                        ss:text-[14px] text-[12px] focus:outline-none
                                         bg-transparent w-full placeholder:text-main6"
                                     />
                                     <p className="text-mainRed md:text-[12px] 

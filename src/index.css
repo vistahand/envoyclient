@@ -286,6 +286,10 @@ body, html {
   }
 }
 
+.placeholder-transparent::placeholder {
+  color: transparent; 
+}
+
 .wht {
   filter: invert(1) brightness(100);
 }
