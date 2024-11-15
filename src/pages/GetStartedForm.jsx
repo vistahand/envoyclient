@@ -194,18 +194,19 @@ const GetStartedForm = () => {
                                         value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                        className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
                                         peer ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:ring-0
-                                        bg-transparent w-full focus:outline-none"
+                                        bg-transparent w-full focus:outline-none
+                                        ${formik.values.cityFrom ? 'pt-5' : ''}`}
                                     />
 
                                     <label
                                         htmlFor="cityFrom"
                                         className="absolute left-3.5 top-3 -z-10 origin-[0] 
                                         -translate-y-6 scale-75 transform text-main6 
-                                        md:text-[13px] ss:text-[14px] text-[12px] 
+                                        md:text-[13px] ss:text-[14px] text-[12px]
                                         duration-300 peer-placeholder-shown:translate-y-0 
                                         peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 
                                         peer-focus:scale-75 peer-focus:text-main6"
