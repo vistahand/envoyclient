@@ -10,7 +10,6 @@ import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
 
 const GetStartedForm = () => {
-    const [isFocused, setIsFocused] = useState(false);
     const formRef = useRef();
     const [selectedTab, setSelectedTab] = useState('international');
     // const navigate = useNavigate();
@@ -157,8 +156,8 @@ const GetStartedForm = () => {
                                     <div className='relative flex items-center'>
                                         <select
                                             type="text"
-                                            name="price"
-                                            value={formik.values.price}
+                                            name="countryFrom"
+                                            value={formik.values.countryFrom}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
@@ -181,7 +180,7 @@ const GetStartedForm = () => {
                                     
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.product && formik.errors.product}
+                                        {formik.touched.countryFrom && formik.errors.countryFrom}
                                     </p>
 
                                     <p className='text-main2 font-medium md:text-[11px]
@@ -194,9 +193,9 @@ const GetStartedForm = () => {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        name="numbermail"
+                                        name="cityFrom"
                                         placeholder='Enter your city/town (optional)'
-                                        value={formik.values.numbermail}
+                                        value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
                                         onFocus={() => setIsFocused(true)}
                                         onBlur={() => setIsFocused(false)} 
@@ -216,7 +215,7 @@ const GetStartedForm = () => {
 
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.numbermail && formik.errors.numbermail}
+                                        {formik.touched.cityFrom && formik.errors.cityFrom}
                                     </p>
                                 </div>
                             </div>
@@ -240,8 +239,8 @@ const GetStartedForm = () => {
                                     <div className='relative flex items-center'>
                                         <select
                                             type="text"
-                                            name="price"
-                                            value={formik.values.price}
+                                            name="countryTo"
+                                            value={formik.values.countryTo}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
@@ -264,7 +263,7 @@ const GetStartedForm = () => {
                                     
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.product && formik.errors.product}
+                                        {formik.touched.countryTo && formik.errors.countryTo}
                                     </p>
 
                                     <p className='text-main2 font-medium md:text-[11px]
@@ -277,9 +276,9 @@ const GetStartedForm = () => {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        name="numbermail"
+                                        name="cityTo"
                                         placeholder='Enter destination city/town (optional)'
-                                        value={formik.values.numberma}
+                                        value={formik.values.cityTo}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className="md:py-3.5 ss:py-3 py-3 md:px-3.5
@@ -290,7 +289,7 @@ const GetStartedForm = () => {
                                     />
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.numbermail && formik.errors.numbermail}
+                                        {formik.touched.cityTo && formik.errors.cityTo}
                                     </p>
                                 </div>
                             </div>
@@ -330,8 +329,8 @@ const GetStartedForm = () => {
                                     <div className='relative flex items-center'>
                                         <select
                                             type="text"
-                                            name="price"
-                                            value={formik.values.price}
+                                            name="countryFrom"
+                                            value={formik.values.countryFrom}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
@@ -354,7 +353,7 @@ const GetStartedForm = () => {
                                     
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.product && formik.errors.product}
+                                        {formik.touched.countryFrom && formik.errors.countryFrom}
                                     </p>
 
                                     <p className='text-main2 font-medium md:text-[11px]
@@ -367,9 +366,9 @@ const GetStartedForm = () => {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        name="numbermail"
+                                        name="cityFrom"
                                         placeholder='Enter your city/town'
-                                        value={formik.values.numbermail}
+                                        value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
@@ -380,7 +379,7 @@ const GetStartedForm = () => {
                                     />
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.numbermail && formik.errors.numbermail}
+                                        {formik.touched.cityFrom && formik.errors.cityFrom}
                                     </p>
                                 </div>
                             </div>
@@ -403,9 +402,9 @@ const GetStartedForm = () => {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        name="numbermail"
+                                        name="cityTo"
                                         placeholder='Enter destination city/town'
-                                        value={formik.values.numbermail}
+                                        value={formik.values.cityTo}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className="md:py-3.5 ss:py-3 py-3 md:px-3.5
@@ -416,7 +415,7 @@ const GetStartedForm = () => {
                                     />
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
-                                        {formik.touched.numbermail && formik.errors.numbermail}
+                                        {formik.touched.cityTo && formik.errors.cityTo}
                                     </p>
                                 </div>
                             </div>
