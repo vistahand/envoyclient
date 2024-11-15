@@ -186,28 +186,32 @@ const GetStartedForm = () => {
                                     </p>
                                 </div>
 
-                                <div className="relative">
+                                <div className="relative z-10">
                                     <input
                                         type="text"
                                         name="cityFrom"
-                                        placeholder='Enter your city/town (optional)'
+                                        placeholder=' '
                                         value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
-                                        onFocus={() => setIsFocused(true)}
-                                        onBlur={() => setIsFocused(false)} 
-                                        className={`md:px-3.5 
-                                        ss:px-3.5 px-3 border border-main6 
+                                        onBlur={formik.handleBlur}
+                                        className="md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                        peer ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
-                                        ss:text-[14px] text-[12px]
-                                        bg-transparent w-full focus:outline-none 
-                                        ${isFocused ? 'placeholder-transparent md:py-3.5 ss:py-3 py-3' : 'md:py-3.5 ss:py-3 py-3'}`}
+                                        ss:text-[14px] text-[12px] focus:ring-0
+                                        bg-transparent w-full focus:outline-none"
                                     />
 
-                                    {isFocused && ( 
-                                        <span className="absolute left-3.5 top-0 text-main6 text-[10px] py-1"> 
-                                            Enter your city/town (optional)
-                                        </span>
-                                    )}
+                                    <label
+                                        htmlFor="cityFrom"
+                                        className="absolute left-3.5 top-3 -z-10 origin-[0] 
+                                        -translate-y-6 scale-75 transform text-main6 
+                                        md:text-[13px] ss:text-[14px] text-[12px] 
+                                        duration-300 peer-placeholder-shown:translate-y-0 
+                                        peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 
+                                        peer-focus:scale-75 peer-focus:text-main6"
+                                    >
+                                        Enter your city/town (optional)
+                                    </label>
 
                                     <p className="text-mainRed md:text-[12px] 
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1">
