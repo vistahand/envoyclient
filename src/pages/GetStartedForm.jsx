@@ -14,31 +14,27 @@ const GetStartedForm = () => {
     const [selectedTab, setSelectedTab] = useState('international');
     // const navigate = useNavigate();
 
-    const targetedSearchSchema = Yup.object().shape({
-        product: Yup.string().required('Product is required.'),
-        category: Yup.string().required('Category is required.'),
-        numbermail: Yup.string().required('Phone Number or Email is required.'),
+    const internationalSchema = Yup.object().shape({
+        countryFrom: Yup.string().required('Sending country is required.'),
+        cityFrom: Yup.string().required('Sending city is required.'),
+        countryTo: Yup.string().required('Recipient country is required.'),
+        cityTo: Yup.string().required('Recipient city is required.')
     });
 
-    const messageUsSchema = Yup.object().shape({
-        name: Yup.string().required('Name is required.'),
-        email: Yup.string().email('Invalid email address.').required('Email is required.'),
-        subject: Yup.string().required('Subject is required.'),
-        message: Yup.string().required('Message is required.'),
+    const localSchema = Yup.object().shape({
+        countryFrom: Yup.string().required('Sending country is required.'),
+        cityFrom: Yup.string().required('Sending city is required.'),
+        cityTo: Yup.string().required('Recipient city is required.')
     });
 
     const formik = useFormik({
         initialValues: {
-            product: '',
-            category: '',
-            price: '',
-            numbermail: '',
-            name: '',
-            email: '',
-            subject: '',
-            message: '',
+            countryFrom: '',
+            cityFrom: '',
+            countryTo: '',
+            cityTo: '',
         },
-        validationSchema: selectedTab === 'targetedSearch' ? targetedSearchSchema : messageUsSchema,
+        validationSchema: selectedTab === 'international' ? internationalSchema : localSchema,
         onSubmit: (values) => {
            
         },
