@@ -159,7 +159,7 @@ const GetStartedForm = () => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
                                             ss:px-3.5 px-3 border border-main6 
-                                            text-main6 md:rounded-lg rounded-md 
+                                            text-main6 md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
