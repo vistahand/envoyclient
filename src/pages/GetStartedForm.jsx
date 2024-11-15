@@ -196,12 +196,11 @@ const GetStartedForm = () => {
                                         value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
-                                        peer ss:px-3.5 px-3 border  
+                                        className='md:py-3.5 ss:py-3 py-3 md:px-3.5 
+                                        peer ss:px-3.5 px-3 border border-main6
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:ring-0
-                                        bg-transparent w-full focus:outline-none
-                                        ${formik.touched.cityFrom && formik.errors.cityFrom ? 'border-mainRed' : 'border-main6'}`}
+                                        bg-transparent w-full focus:outline-none'
                                     />
 
                                     <label
@@ -212,17 +211,12 @@ const GetStartedForm = () => {
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5.5 peer-focus:-translate-y-5
-                                    peer-focus:scale-75 peer-focus:text-main6
-                                    ${formik.values.cityFrom ? 'z-10 pl-2 pr-2' : formik.errors.cityFrom ? '' : '-z-10'}
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.touched.cityFrom ? 'z-10 pl-2 pr-2' : ''}
                                     `}
                                     >
                                         Enter your city/town (optional)
                                     </label>
-
-                                    <p className="text-mainRed md:text-[12px] flex justify-end
-                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.cityFrom && formik.errors.cityFrom}
-                                    </p>
                                 </div>
                             </div>
 
@@ -288,17 +282,12 @@ const GetStartedForm = () => {
                                         value={formik.values.cityTo}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 ss:py-3 py-3 md:px-3.5
+                                        className='md:py-3.5 ss:py-3 py-3 md:px-3.5
                                         ss:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:outline-none
-                                        bg-transparent w-full placeholder:text-main6
-                                        ${formik.touched.cityTo && formik.errors.cityTo ? 'border-mainRed' : 'border-main6'}`}
+                                        bg-transparent w-full placeholder:text-main6'
                                     />
-                                    <p className="text-mainRed md:text-[12px] flex justify-end
-                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.cityTo && formik.errors.cityTo}
-                                    </p>
                                 </div>
                             </div>
 
