@@ -424,20 +424,37 @@ const GetStartedForm = () => {
 
                             <div className='grid md:grid-cols-2 ss:grid-cols-2 
                             gap-3.5 mt-3.5'>
-                                <div className="relative">
+                                <div className="relative z-10">
                                     <input
                                         type="text"
                                         name="cityTo"
-                                        placeholder='Enter destination city/town'
+                                        placeholder=' '
                                         value={formik.values.cityTo}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 border
-                                        text-black md:rounded-lg rounded-md md:text-[13px]
-                                        ss:text-[14px] text-[12px] focus:outline-none
-                                        bg-transparent w-full placeholder:text-main6
-                                        ${formik.touched.cityTo && formik.errors.cityTo ? 'border-mainRed' : 'border-main6'}`}
+                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                        peer border text-black md:rounded-lg rounded-md 
+                                        md:text-[13px] ss:text-[14px] text-[12px] focus:ring-0
+                                        bg-transparent w-full focus:outline-none
+                                        ${formik.touched.cityTo && formik.errors.cityTo ? 'border-mainRed' : 'border-main6'}
+                                        `}
                                     />
+
+                                    <label
+                                    htmlFor="cityTo"
+                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                    md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    duration-300 peer-placeholder-shown:translate-y-0 
+                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.values.cityTo ? 'z-10' : ''}
+                                    `}
+                                    >
+                                        Enter destination city/town
+                                    </label>
+
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
                                         {formik.touched.cityTo && formik.errors.cityTo}
