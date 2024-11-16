@@ -54,7 +54,7 @@ const GetStartedForm = () => {
             countryFromLoc: 'NG',
             cityFromInt: '',
             cityFromLoc: '',
-            countryTo: '',
+            countryTo: 'NG',
             cityToInt: '',
             cityToLoc: '',
         },
@@ -183,7 +183,7 @@ const GetStartedForm = () => {
                                                     )?.flags?.png
                                                 }
                                                 alt="flag"
-                                                className="absolute md:left-3.5 left-3 w-10 md:h-6 
+                                                className="absolute md:left-3.5 left-3 w-10
                                                 h-[1.4rem] rounded-sm"
                                             />
                                         )}
@@ -207,6 +207,7 @@ const GetStartedForm = () => {
                                                 </option>
                                             ))}
                                         </select>
+
                                         <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
@@ -276,21 +277,39 @@ const GetStartedForm = () => {
                             gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
+                                        {formik.values.countryTo && (
+                                            <img
+                                                src={
+                                                    countries.find(
+                                                        (country) => country.cca2 === formik.values.countryTo
+                                                    )?.flags?.png
+                                                }
+                                                alt="flag"
+                                                className="absolute md:left-3.5 left-3 w-10
+                                                h-[1.4rem] rounded-sm"
+                                            />
+                                        )}
                                         <select
                                             type="text"
                                             name="countryTo"
                                             value={formik.values.countryTo}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 py-3 md:px-3.5 px-3  
-                                            text-main6 md:rounded-lg rounded-md 
-                                            cursor-pointer md:text-[13px] border
+                                            className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
+                                            px-3 border text-main2 md:rounded-lg rounded-md
+                                            cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
                                             ${formik.touched.countryTo && formik.errors.countryTo ? 'border-mainRed' : 'border-main6'}`}
                                         >
-                                           <option value="" disabled hidden>Select your country</option>
+                                            <option value="" disabled hidden>Select your country</option>
+                                            {countries.map((country) => (
+                                                <option key={country.cca2} value={country.cca2}>
+                                                    {country.name.common}
+                                                </option>
+                                            ))}
                                         </select>
+
                                         <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
@@ -376,31 +395,39 @@ const GetStartedForm = () => {
                             gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
+                                        {formik.values.countryFromLoc && (
+                                            <img
+                                                src={
+                                                    countries.find(
+                                                        (country) => country.cca2 === formik.values.countryFromLoc
+                                                    )?.flags?.png
+                                                }
+                                                alt="flag"
+                                                className="absolute md:left-3.5 left-3 w-10
+                                                h-[1.4rem] rounded-sm"
+                                            />
+                                        )}
                                         <select
                                             type="text"
                                             name="countryFromLoc"
                                             value={formik.values.countryFromLoc}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                            border text-main6 md:rounded-lg rounded-md 
-                                            cursor-pointer md:text-[13px]
+                                            className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
+                                            px-3 border text-main2 md:rounded-lg rounded-md
+                                            cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
                                             ${formik.touched.countryFromLoc && formik.errors.countryFromLoc ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                             {countries.map((country) => (
-                                                <option key={country.cca2} value={country.cca2} style={{ 
-                                                    backgroundImage: `url(${country.flags.png})`,
-                                                    backgroundRepeat: 'no-repeat',
-                                                    backgroundPosition: 'left center', 
-                                                    paddingLeft: '25px'
-                                                }}>
+                                                <option key={country.cca2} value={country.cca2}>
                                                     {country.name.common}
                                                 </option>
                                             ))}
                                         </select>
+
                                         <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
