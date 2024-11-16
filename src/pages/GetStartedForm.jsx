@@ -4,7 +4,8 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
 // import { useNavigate } from 'react-router-dom';
-import { SectionWrapper } from '../hoc'
+import { SectionWrapper } from '../hoc';
+import Select from 'react-select';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
@@ -33,6 +34,21 @@ const GetStartedForm = () => {
 
         fetchCountries();
     }, []);
+
+    const customOptions = countries.map((country) => ({
+        value: country.cca2,
+        label: (
+            <div className="flex items-center">
+                <img
+                    src={country.flags.png}
+                    alt=""
+                    className="w-6 h-4 mr-2 rounded-sm"
+                />
+                {country.name.common}
+            </div>
+        ),
+    }));
+      
 
     const internationalSchema = Yup.object().shape({
         countryFromInt: Yup.string().required("Sender's country is required"),
@@ -174,27 +190,34 @@ const GetStartedForm = () => {
                             gap-3.5 mt-3.5'>
                                 <div className="relative flex flex-col">
                                     <div className='relative flex items-center'>
+                                        {formik.values.countryFromInt && (
+                                            <img
+                                                src={
+                                                    countries.find(
+                                                        (country) => country.cca2 === formik.values.countryFromInt
+                                                    )?.flags?.png
+                                                }
+                                                alt="flag"
+                                                className="absolute md:left-3.5 left-3 w-10 md:h-6 
+                                                h-[1.4rem] rounded-sm"
+                                            />
+                                        )}
                                         <select
                                             type="text"
                                             name="countryFromInt"
                                             value={formik.values.countryFromInt}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 py-3 md:px-3.5
-                                            px-3 border text-main6 md:rounded-lg rounded-md
-                                            cursor-pointer md:text-[13px]
+                                            className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
+                                            px-3 border text-main2 md:rounded-lg rounded-md
+                                            cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
                                             ${formik.touched.countryFromInt && formik.errors.countryFromInt ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                             {countries.map((country) => (
-                                                <option key={country.cca2} value={country.cca2} style={{ 
-                                                    backgroundImage: `url(${country.flags.png})`,
-                                                    backgroundRepeat: 'no-repeat',
-                                                    backgroundPosition: 'left center', 
-                                                    paddingLeft: '25px'
-                                                }}>
+                                                <option key={country.cca2} value={country.cca2}>
                                                     {country.name.common}
                                                 </option>
                                             ))}
