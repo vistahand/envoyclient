@@ -206,13 +206,13 @@ const GetStartedForm = () => {
                                     <label
                                     htmlFor="cityFrom"
                                     className={`absolute left-3.5 md:top-3.5 top-3 origin-[0] 
-                                    md:-translate-y-6 ss:-translate-y-6 -translate-y-5 scale-75 transform text-main6 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[13px] ss:text-[14px] text-[12px] bg-white
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                                    ss:peer-focus:-translate-y-5.5 peer-focus:-translate-y-5
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.touched.cityFrom ? 'z-10 px-2' : ''}
+                                    ${formik.values.cityFrom ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter your city/town (optional)
