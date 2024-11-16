@@ -9,7 +9,7 @@ import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
 
-const GetStartedForm = ({ onNext }) => {
+const PackageDescribe = ({ onNext, onPrev}) => {
     const formRef = useRef();
     const [selectedTab, setSelectedTab] = useState('international');
     const [countries, setCountries] = useState([]);
@@ -70,6 +70,10 @@ const GetStartedForm = ({ onNext }) => {
         formik.resetForm();
     };
 
+    const handlePrevious = () => {
+        onPrev();
+    };
+
 
   return (
     <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
@@ -80,13 +84,13 @@ const GetStartedForm = ({ onNext }) => {
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
                 ss:leading-[3.5rem] leading-[2.5rem]'>
-                    Shall we get started?
+                    Quickly describe your package
                 </h1>
 
                 <p className='text-main4 md:text-[17px] ss:text-[16px] 
                 text-[14px] md:max-w-[700px] ss:max-w-[400px] md:leading-[1.4rem] 
                 ss:leading-[1.4rem] leading-[1.3rem] tracking-tight'>
-                    Where do you want us to go?
+                    From the options below, tell us how big or small your shipment is
                 </p>
             </div>
 
@@ -370,7 +374,7 @@ const GetStartedForm = ({ onNext }) => {
                         </div>
 
                         <div className="mt-6 mobnext">
-                           <button type='submit'
+                            <button type='submit'
                             className='bg-primary text-[13px] py-3.5 px-14 flex
                             text-white rounded-full grow4 cursor-pointer
                             items-center justify-center gap-3'
@@ -541,9 +545,9 @@ const GetStartedForm = ({ onNext }) => {
                         </div>
 
                         <div className="mt-6 mobnext">
-                           <button type='submit'
+                            <button type='submit'
                             className='bg-primary text-[13px] py-3.5 px-14 flex
-                            text-white rounded-full grow4 cursor-pointer 
+                            text-white rounded-full grow4 cursor-pointer
                             items-center justify-center gap-3'
                             >
                                 <p>
@@ -561,4 +565,4 @@ const GetStartedForm = ({ onNext }) => {
   );
 };
 
-export default SectionWrapper(GetStartedForm, '');
+export default SectionWrapper(PackageDescribe, '');
