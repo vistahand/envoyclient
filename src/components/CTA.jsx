@@ -7,9 +7,9 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 const CTA = () => {
 
     return (
-        <section className="w-full md:min-h-[200px] ss:min-h-[200px] 
+        <section className="w-full md:min-h-[300px] ss:min-h-[200px] 
         min-h-[350px] flex items-center md:max-w-[68rem] ss:max-w-[68rem]
-        md:mx-auto ss:mx-auto md:pt-6 md:pb-6 ss:pt-8 ss:pb-8 pt-8 pb-6
+        md:mx-auto ss:mx-auto md:pt-12 md:pb-6 ss:pt-10 ss:pb-8 pt-10 pb-6
         md:pl-0 md:pr-0 ss:pl-16 ss:pr-16 pl-6 pr-6 flex-col overflow-hidden">
             <div className="w-full flex flex-col relative">
                 <motion.div variants={fadeIn('down', 'spring', 0.3)}
