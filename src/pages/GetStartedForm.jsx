@@ -212,7 +212,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5.5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.touched.cityFrom ? 'z-10 pl-2 pr-2' : ''}
+                                    ${formik.touched.cityFrom ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter your city/town (optional)
