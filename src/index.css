@@ -293,6 +293,12 @@ body, html {
   }
 }
 
+@media (max-width: 480px) {
+  .mobbut {
+    width: 100%;
+  }
+}
+
 .wht {
   filter: invert(1) brightness(100);
 }

@@ -77,7 +77,7 @@ const PackageDescribe = ({ onNext, onPrev}) => {
 
   return (
     <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
-    min-h-[680px]'>
+    min-h-[800px]'>
         <div className='flex items-center w-full flex-col md:gap-8 
         ss:gap-6 gap-5'>
             <div className='w-full flex flex-col gap-1.5 items-center'>
@@ -373,17 +373,43 @@ const PackageDescribe = ({ onNext, onPrev}) => {
                             </p>
                         </div>
 
-                        <div className="mt-6 mobnext">
+                        <div className="mt-6 flex w-full items-center 
+                        justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
+                        ss:flex-row flex-col">
+                            <button
+                            className='bg-none text-[13px] py-3.5 px-14
+                            text-primary rounded-full grow2 cursor-pointer
+                            items-center justify-center border border-primary
+                            md:flex ss:flex hidden'
+                            onClick={handlePrevious}
+                            >
+                                <p className='font-semibold'>
+                                    Go back
+                                </p>
+                            </button>
+
                             <button type='submit'
                             className='bg-primary text-[13px] py-3.5 px-14 flex
                             text-white rounded-full grow4 cursor-pointer
-                            items-center justify-center gap-3'
+                            items-center justify-center gap-3 mobbut'
                             >
                                 <p>
                                     Next
                                 </p>
                                 
                                 <HiOutlineArrowRight className='text-[14px]'/>
+                            </button>
+
+                            <button
+                            className='bg-none text-[13px] py-3.5 px-14
+                            text-primary rounded-full grow2 cursor-pointer
+                            items-center justify-center border border-primary
+                            md:hidden ss:hidden flex mobbut'
+                            onClick={handlePrevious}
+                            >
+                                <p className='font-semibold'>
+                                    Go back
+                                </p>
                             </button>
                         </div>
                     </div>
@@ -544,17 +570,43 @@ const PackageDescribe = ({ onNext, onPrev}) => {
                             </div>
                         </div>
 
-                        <div className="mt-6 mobnext">
+                        <div className="mt-6 flex w-full items-center 
+                        justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
+                        ss:flex-row flex-col">
+                            <button
+                            className='bg-none text-[13px] py-3.5 px-14
+                            text-primary rounded-full grow2 cursor-pointer
+                            items-center justify-center border border-primary
+                            md:flex ss:flex hidden'
+                            onClick={handlePrevious}
+                            >
+                                <p className='font-semibold'>
+                                    Go back
+                                </p>
+                            </button>
+
                             <button type='submit'
                             className='bg-primary text-[13px] py-3.5 px-14 flex
                             text-white rounded-full grow4 cursor-pointer
-                            items-center justify-center gap-3'
+                            items-center justify-center gap-3 mobbut'
                             >
                                 <p>
                                     Next
                                 </p>
                                 
                                 <HiOutlineArrowRight className='text-[14px]'/>
+                            </button>
+
+                            <button
+                            className='bg-none text-[13px] py-3.5 px-14
+                            text-primary rounded-full grow2 cursor-pointer
+                            items-center justify-center border border-primary
+                            md:hidden ss:hidden flex mobbut'
+                            onClick={handlePrevious}
+                            >
+                                <p className='font-semibold'>
+                                    Go back
+                                </p>
                             </button>
                         </div>
                     </div>
