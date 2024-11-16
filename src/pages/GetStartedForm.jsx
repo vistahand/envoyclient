@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
@@ -12,7 +12,28 @@ import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 const GetStartedForm = () => {
     const formRef = useRef();
     const [selectedTab, setSelectedTab] = useState('international');
+    const [countries, setCountries] = useState([]);
     // const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCountries = async () => {
+            try {
+                const response = await fetch('https://restcountries.com/v3.1/all');
+
+                const data = await response.json();
+                const sortedCountries = [...data].sort((a, b) => 
+                    a.name.common.localeCompare(b.name.common)
+                );
+
+                setCountries(sortedCountries);
+                console.log(sortedCountries)
+            } catch (error) {
+                console.error("Error fetching countries:", error);
+            }
+        };
+
+        fetchCountries();
+    }, []);
 
     const internationalSchema = Yup.object().shape({
         countryFrom: Yup.string().required("Sender's country is required"),
@@ -29,7 +50,7 @@ const GetStartedForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            countryFrom: '',
+            countryFrom: 'IE',
             cityFrom: '',
             countryTo: '',
             cityTo: '',
@@ -158,14 +179,23 @@ const GetStartedForm = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 
-                                            px-3 border border-main6 
-                                            text-main6 md:rounded-lg rounded-md
+                                            px-3 border text-main6 md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
                                             ${formik.touched.countryFrom && formik.errors.countryFrom ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
+                                            {countries.map((country) => (
+                                                <option key={country.cca2} value={country.cca2} style={{ 
+                                                    backgroundImage: `url(${country.flags.png})`,
+                                                    backgroundRepeat: 'no-repeat',
+                                                    backgroundPosition: 'left center', 
+                                                    paddingLeft: '25px'
+                                                }}>
+                                                    {country.name.common}
+                                                </option>
+                                            ))}
                                         </select>
                                         <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
@@ -211,7 +241,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityFrom ? 'z-10' : ''}
+                                    ${formik.values.cityFrom ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter your city/town (optional)
@@ -242,9 +272,9 @@ const GetStartedForm = () => {
                                             value={formik.values.countryTo}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 border 
-                                            border-main6 text-main6 md:rounded-lg rounded-md 
-                                            cursor-pointer md:text-[13px]
+                                            className={`md:py-3.5 py-3 md:px-3.5 px-3  
+                                            text-main6 md:rounded-lg rounded-md 
+                                            cursor-pointer md:text-[13px] border
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
                                             ${formik.touched.countryTo && formik.errors.countryTo ? 'border-mainRed' : 'border-main6'}`}
@@ -295,7 +325,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityTo ? 'z-10' : ''}
+                                    ${formik.values.cityTo ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter destination city/town (optional)
@@ -396,7 +426,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityFrom ? 'z-10' : ''}
+                                    ${formik.values.cityFrom ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter your city/town
@@ -449,7 +479,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityTo ? 'z-10' : ''}
+                                    ${formik.values.cityTo ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter destination city/town

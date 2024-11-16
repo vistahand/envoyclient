@@ -42,6 +42,13 @@ body, html {
   color: #1E3F76;
 }
 
+.flag-icon { 
+  width: 20px;
+  height: auto;
+  margin-right: 5px; 
+  vertical-align: middle; 
+}
+
   /* ol {
     list-style: decimal;
   } */
