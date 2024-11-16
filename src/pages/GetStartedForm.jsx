@@ -157,8 +157,8 @@ const GetStartedForm = () => {
                                             value={formik.values.countryFrom}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
-                                            ss:px-3.5 px-3 border border-main6 
+                                            className={`md:py-3.5 py-3 md:px-3.5 
+                                            px-3 border border-main6 
                                             text-main6 md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
@@ -167,8 +167,7 @@ const GetStartedForm = () => {
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                         </select>
-                                        <div className='absolute md:right-3.5 
-                                        ss:right-3.5 right-3'>
+                                        <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -196,8 +195,8 @@ const GetStartedForm = () => {
                                         value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className='md:py-3.5 ss:py-3 py-3 md:px-3.5 
-                                        peer ss:px-3.5 px-3 border border-main6
+                                        className='md:py-3.5 py-3 md:px-3.5 px-3 
+                                        peer border border-main6
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:ring-0
                                         bg-transparent w-full focus:outline-none'
@@ -205,14 +204,14 @@ const GetStartedForm = () => {
 
                                     <label
                                     htmlFor="cityFrom"
-                                    className={`absolute left-3.5 md:top-3.5 top-3 origin-[0] 
+                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                    md:text-[13px] ss:text-[14px] text-[12px] bg-white
+                                    md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityFrom ? 'z-10 px-2' : ''}
+                                    ${formik.values.cityFrom ? 'z-10' : ''}
                                     `}
                                     >
                                         Enter your city/town (optional)
@@ -243,9 +242,8 @@ const GetStartedForm = () => {
                                             value={formik.values.countryTo}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
-                                            ss:px-3.5 px-3 border border-main6 
-                                            text-main6 md:rounded-lg rounded-md 
+                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 border 
+                                            border-main6 text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
@@ -253,8 +251,7 @@ const GetStartedForm = () => {
                                         >
                                            <option value="" disabled hidden>Select your country</option>
                                         </select>
-                                        <div className='absolute md:right-3.5 
-                                        ss:right-3.5 right-3'>
+                                        <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -282,8 +279,7 @@ const GetStartedForm = () => {
                                         value={formik.values.cityTo}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className='md:py-3.5 ss:py-3 py-3 md:px-3.5
-                                        ss:px-3.5 px-3 border border-main6 
+                                        className='md:py-3.5 py-3 md:px-3.5 px-3 border border-main6 
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:outline-none
                                         bg-transparent w-full placeholder:text-main6'
@@ -330,9 +326,8 @@ const GetStartedForm = () => {
                                             value={formik.values.countryFrom}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
-                                            ss:px-3.5 px-3 border 
-                                            text-main6 md:rounded-lg rounded-md 
+                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                            border text-main6 md:rounded-lg rounded-md 
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
@@ -340,8 +335,7 @@ const GetStartedForm = () => {
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                         </select>
-                                        <div className='absolute md:right-3.5 
-                                        ss:right-3.5 right-3'>
+                                        <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
                                                 ss:text-[18px] text-[16px]'
@@ -369,8 +363,7 @@ const GetStartedForm = () => {
                                         value={formik.values.cityFrom}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 ss:py-3 py-3 md:px-3.5 
-                                        ss:px-3.5 px-3 border
+                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 border
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:outline-none
                                         bg-transparent w-full placeholder:text-main6
@@ -406,8 +399,7 @@ const GetStartedForm = () => {
                                         value={formik.values.cityTo}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 ss:py-3 py-3 md:px-3.5
-                                        ss:px-3.5 px-3 border
+                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 border
                                         text-black md:rounded-lg rounded-md md:text-[13px]
                                         ss:text-[14px] text-[12px] focus:outline-none
                                         bg-transparent w-full placeholder:text-main6
