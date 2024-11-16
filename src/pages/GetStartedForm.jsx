@@ -5,7 +5,6 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
 // import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc';
-import Select from 'react-select';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
@@ -35,20 +34,6 @@ const GetStartedForm = () => {
         fetchCountries();
     }, []);
 
-    const customOptions = countries.map((country) => ({
-        value: country.cca2,
-        label: (
-            <div className="flex items-center">
-                <img
-                    src={country.flags.png}
-                    alt=""
-                    className="w-6 h-4 mr-2 rounded-sm"
-                />
-                {country.name.common}
-            </div>
-        ),
-    }));
-      
 
     const internationalSchema = Yup.object().shape({
         countryFromInt: Yup.string().required("Sender's country is required"),
