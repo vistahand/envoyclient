@@ -194,11 +194,11 @@ const GetStartedForm = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
-                                            px-3 border text-main2 md:rounded-lg rounded-md
+                                            px-3 outline text-main2 md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
-                                            ss:text-[14px] text-[12px] focus:outline-none
-                                            bg-transparent w-full custom-select
-                                            ${formik.touched.countryFromInt && formik.errors.countryFromInt ? 'border-mainRed' : 'border-main6'}`}
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full custom-select outline-[1px]
+                                            ${formik.touched.countryFromInt && formik.errors.countryFromInt ? 'outline-mainRed' : 'outline-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                             {countries.map((country) => (
@@ -237,10 +237,10 @@ const GetStartedForm = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className='md:py-3.5 py-3 md:px-3.5 px-3 
-                                        peer border border-main6
+                                        peer outline-[1px] outline-main6 outline
                                         text-black md:rounded-lg rounded-md md:text-[13px]
-                                        ss:text-[14px] text-[12px] focus:ring-0
-                                        bg-transparent w-full focus:outline-none'
+                                        ss:text-[14px] text-[12px] focus:outline-primary
+                                        bg-transparent w-full '
                                     />
 
                                     <label
@@ -296,11 +296,11 @@ const GetStartedForm = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
-                                            px-3 border text-main2 md:rounded-lg rounded-md
+                                            px-3 outline text-main2 md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
-                                            ss:text-[14px] text-[12px] focus:outline-none
-                                            bg-transparent w-full custom-select
-                                            ${formik.touched.countryTo && formik.errors.countryTo ? 'border-mainRed' : 'border-main6'}`}
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full custom-select outline-[1px]
+                                            ${formik.touched.countryTo && formik.errors.countryTo ? 'outline-mainRed' : 'outline-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                             {countries.map((country) => (
@@ -339,10 +339,10 @@ const GetStartedForm = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className='md:py-3.5 py-3 md:px-3.5 px-3 
-                                        peer border border-main6
+                                        peer outline outline-main6 outline-[1px]
                                         text-black md:rounded-lg rounded-md md:text-[13px]
-                                        ss:text-[14px] text-[12px] focus:ring-0
-                                        bg-transparent w-full focus:outline-none'
+                                        ss:text-[14px] text-[12px]
+                                        bg-transparent w-full focus:outline-primary'
                                     />
 
                                     <label
@@ -414,11 +414,11 @@ const GetStartedForm = () => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
-                                            px-3 border text-main2 md:rounded-lg rounded-md
+                                            px-3 outline text-main2 md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
-                                            ss:text-[14px] text-[12px] focus:outline-none
-                                            bg-transparent w-full custom-select
-                                            ${formik.touched.countryFromLoc && formik.errors.countryFromLoc ? 'border-mainRed' : 'border-main6'}`}
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full custom-select outline-[1px]
+                                            ${formik.touched.countryFromLoc && formik.errors.countryFromLoc ? 'outline-mainRed' : 'outline-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                             {countries.map((country) => (
@@ -457,10 +457,10 @@ const GetStartedForm = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                        peer border text-black md:rounded-lg rounded-md 
-                                        md:text-[13px] ss:text-[14px] text-[12px] focus:ring-0
-                                        bg-transparent w-full focus:outline-none
-                                        ${formik.touched.cityFromLoc && formik.errors.cityFromLoc ? 'border-mainRed' : 'border-main6'}
+                                        peer outline text-black md:rounded-lg rounded-md 
+                                        md:text-[13px] ss:text-[14px] text-[12px] outline-[1px]
+                                        bg-transparent w-full focus:outline-primary
+                                        ${formik.touched.cityFromLoc && formik.errors.cityFromLoc ? 'outline-mainRed' : 'outline-main6'}
                                         `}
                                     />
 
@@ -510,10 +510,10 @@ const GetStartedForm = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                        peer border text-black md:rounded-lg rounded-md 
-                                        md:text-[13px] ss:text-[14px] text-[12px] focus:ring-0
-                                        bg-transparent w-full focus:outline-none
-                                        ${formik.touched.cityToLoc && formik.errors.cityToLoc ? 'border-mainRed' : 'border-main6'}
+                                        peer outline text-black md:rounded-lg rounded-md 
+                                        md:text-[13px] ss:text-[14px] text-[12px]
+                                        bg-transparent w-full focus:outline-primary outline-[1px]
+                                        ${formik.touched.cityToLoc && formik.errors.cityToLoc ? 'outline-mainRed' : 'outline-main6'}
                                         `}
                                     />
 
