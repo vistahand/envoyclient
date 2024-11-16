@@ -26,7 +26,6 @@ const GetStartedForm = () => {
                 );
 
                 setCountries(sortedCountries);
-                console.log(sortedCountries)
             } catch (error) {
                 console.error("Error fetching countries:", error);
             }
@@ -36,24 +35,27 @@ const GetStartedForm = () => {
     }, []);
 
     const internationalSchema = Yup.object().shape({
-        countryFrom: Yup.string().required("Sender's country is required"),
-        cityFrom: Yup.string().required("Sender's city is required"),
+        countryFromInt: Yup.string().required("Sender's country is required"),
+        cityFromInt: Yup.string().required("Sender's city is required"),
         countryTo: Yup.string().required('Recipient country is required'),
-        cityTo: Yup.string().required('Recipient city is required')
+        cityToInt: Yup.string().required('Recipient city is required')
     });
 
     const localSchema = Yup.object().shape({
-        countryFrom: Yup.string().required("Sender's country is required"),
-        cityFrom: Yup.string().required("Sender's city is required"),
-        cityTo: Yup.string().required('Recipient city is required')
+        countryFromLoc: Yup.string().required("Sender's country is required"),
+        cityFromLoc: Yup.string().required("Sender's city is required"),
+        cityToLoc: Yup.string().required('Recipient city is required')
     });
 
     const formik = useFormik({
         initialValues: {
-            countryFrom: 'IE',
-            cityFrom: '',
+            countryFromInt: 'IE',
+            countryFromLoc: 'NG',
+            cityFromInt: '',
+            cityFromLoc: '',
             countryTo: '',
-            cityTo: '',
+            cityToInt: '',
+            cityToLoc: '',
         },
         validationSchema: selectedTab === 'international' ? internationalSchema : localSchema,
         validateOnMount: true,
@@ -174,16 +176,16 @@ const GetStartedForm = () => {
                                     <div className='relative flex items-center'>
                                         <select
                                             type="text"
-                                            name="countryFrom"
-                                            value={formik.values.countryFrom}
+                                            name="countryFromInt"
+                                            value={formik.values.countryFromInt}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 py-3 md:px-3.5 
+                                            className={`md:py-3.5 py-3 md:px-3.5
                                             px-3 border text-main6 md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
-                                            ${formik.touched.countryFrom && formik.errors.countryFrom ? 'border-mainRed' : 'border-main6'}`}
+                                            ${formik.touched.countryFromInt && formik.errors.countryFromInt ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
                                             {countries.map((country) => (
@@ -207,7 +209,7 @@ const GetStartedForm = () => {
                                     
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.countryFrom && formik.errors.countryFrom}
+                                        {formik.touched.countryFromInt && formik.errors.countryFromInt}
                                     </p>
 
                                     <p className='text-main2 font-medium md:text-[11px]
@@ -220,9 +222,9 @@ const GetStartedForm = () => {
                                 <div className="relative z-10">
                                     <input
                                         type="text"
-                                        name="cityFrom"
+                                        name="cityFromInt"
                                         placeholder=' '
-                                        value={formik.values.cityFrom}
+                                        value={formik.values.cityFromInt}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className='md:py-3.5 py-3 md:px-3.5 px-3 
@@ -233,7 +235,7 @@ const GetStartedForm = () => {
                                     />
 
                                     <label
-                                    htmlFor="cityFrom"
+                                    htmlFor="cityFromInt"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -241,7 +243,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityFrom ? 'z-10 px-2' : ''}
+                                    ${formik.values.cityFromInt ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter your city/town (optional)
@@ -304,9 +306,9 @@ const GetStartedForm = () => {
                                 <div className="relative z-10">
                                     <input
                                         type="text"
-                                        name="cityTo"
+                                        name="cityToInt"
                                         placeholder=' '
-                                        value={formik.values.cityTo}
+                                        value={formik.values.cityToInt}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className='md:py-3.5 py-3 md:px-3.5 px-3 
@@ -317,7 +319,7 @@ const GetStartedForm = () => {
                                     />
 
                                     <label
-                                    htmlFor="cityTo"
+                                    htmlFor="cityToInt"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -325,7 +327,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityTo ? 'z-10 px-2' : ''}
+                                    ${formik.values.cityToInt ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter destination city/town (optional)
@@ -368,8 +370,8 @@ const GetStartedForm = () => {
                                     <div className='relative flex items-center'>
                                         <select
                                             type="text"
-                                            name="countryFrom"
-                                            value={formik.values.countryFrom}
+                                            name="countryFromLoc"
+                                            value={formik.values.countryFromLoc}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 px-3 
@@ -377,9 +379,19 @@ const GetStartedForm = () => {
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-none
                                             bg-transparent w-full custom-select
-                                            ${formik.touched.countryFrom && formik.errors.countryFrom ? 'border-mainRed' : 'border-main6'}`}
+                                            ${formik.touched.countryFromLoc && formik.errors.countryFromLoc ? 'border-mainRed' : 'border-main6'}`}
                                         >
                                             <option value="" disabled hidden>Select your country</option>
+                                            {countries.map((country) => (
+                                                <option key={country.cca2} value={country.cca2} style={{ 
+                                                    backgroundImage: `url(${country.flags.png})`,
+                                                    backgroundRepeat: 'no-repeat',
+                                                    backgroundPosition: 'left center', 
+                                                    paddingLeft: '25px'
+                                                }}>
+                                                    {country.name.common}
+                                                </option>
+                                            ))}
                                         </select>
                                         <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
@@ -391,7 +403,7 @@ const GetStartedForm = () => {
                                     
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.countryFrom && formik.errors.countryFrom}
+                                        {formik.touched.countryFromLoc && formik.errors.countryFromLoc}
                                     </p>
 
                                     <p className='text-main2 font-medium md:text-[11px]
@@ -404,21 +416,21 @@ const GetStartedForm = () => {
                                 <div className="relative z-10">
                                     <input
                                         type="text"
-                                        name="cityFrom"
+                                        name="cityFromLoc"
                                         placeholder=' '
-                                        value={formik.values.cityFrom}
+                                        value={formik.values.cityFromLoc}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer border text-black md:rounded-lg rounded-md 
                                         md:text-[13px] ss:text-[14px] text-[12px] focus:ring-0
                                         bg-transparent w-full focus:outline-none
-                                        ${formik.touched.cityFrom && formik.errors.cityFrom ? 'border-mainRed' : 'border-main6'}
+                                        ${formik.touched.cityFromLoc && formik.errors.cityFromLoc ? 'border-mainRed' : 'border-main6'}
                                         `}
                                     />
 
                                     <label
-                                    htmlFor="cityFrom"
+                                    htmlFor="cityFromLoc"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -426,7 +438,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityFrom ? 'z-10 px-2' : ''}
+                                    ${formik.values.cityFromLoc ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter your city/town
@@ -434,7 +446,7 @@ const GetStartedForm = () => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.cityFrom && formik.errors.cityFrom}
+                                        {formik.touched.cityFromLoc && formik.errors.cityFromLoc}
                                     </p>
                                 </div>
                             </div>
@@ -457,21 +469,21 @@ const GetStartedForm = () => {
                                 <div className="relative z-10">
                                     <input
                                         type="text"
-                                        name="cityTo"
+                                        name="cityToLoc"
                                         placeholder=' '
-                                        value={formik.values.cityTo}
+                                        value={formik.values.cityToLoc}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer border text-black md:rounded-lg rounded-md 
                                         md:text-[13px] ss:text-[14px] text-[12px] focus:ring-0
                                         bg-transparent w-full focus:outline-none
-                                        ${formik.touched.cityTo && formik.errors.cityTo ? 'border-mainRed' : 'border-main6'}
+                                        ${formik.touched.cityToLoc && formik.errors.cityToLoc ? 'border-mainRed' : 'border-main6'}
                                         `}
                                     />
 
                                     <label
-                                    htmlFor="cityTo"
+                                    htmlFor="cityToLoc"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -479,7 +491,7 @@ const GetStartedForm = () => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.cityTo ? 'z-10 px-2' : ''}
+                                    ${formik.values.cityToLoc ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter destination city/town
@@ -487,7 +499,7 @@ const GetStartedForm = () => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.cityTo && formik.errors.cityTo}
+                                        {formik.touched.cityToLoc && formik.errors.cityToLoc}
                                     </p>
                                 </div>
                             </div>
