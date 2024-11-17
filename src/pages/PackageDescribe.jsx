@@ -88,8 +88,8 @@ const PackageDescribe = ({ onNext, onPrev}) => {
                 </h1>
 
                 <p className='text-main4 md:text-[17px] ss:text-[16px] 
-                text-[14px] md:max-w-[700px] ss:max-w-[400px] md:leading-[1.4rem] 
-                ss:leading-[1.4rem] leading-[1.3rem] tracking-tight'>
+                text-[14px] md:leading-[1.4rem] ss:leading-[1.4rem] 
+                leading-[1.3rem] tracking-tight'>
                     From the options below, tell us how big or small your shipment is
                 </p>
             </div>
