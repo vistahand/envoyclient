@@ -10,7 +10,9 @@ const GetStarted = () => {
 
     useEffect(() => {
         if (sectionRef.current) {
-            sectionRef.current.scrollIntoView({ behavior: 'smooth' }); 
+            const offset = -80; // Adjust this value as needed
+            const y = sectionRef.current.getBoundingClientRect().top + window.pageYOffset + offset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
         }
     }, [currentStep]);
 
