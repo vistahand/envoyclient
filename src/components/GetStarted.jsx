@@ -7,6 +7,7 @@ import {
 const GetStarted = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [initialLoad, setInitialLoad] = useState(true);
+    const [selectedTab, setSelectedTab] = useState('international');
     const sectionRef = useRef(null); 
 
     useEffect(() => {
@@ -17,20 +18,22 @@ const GetStarted = () => {
         }
     }, [currentStep, initialLoad]);
 
-    const handleNextStep = () => {
+    const handleNextStep = (tab) => {
         setCurrentStep(currentStep + 1);
         setInitialLoad(false);
+        setSelectedTab(tab);
     };
 
-    const handlePreviousStep = () => {
+    const handlePreviousStep = (tab) => {
         setCurrentStep(currentStep - 1);
         setInitialLoad(false);
+        setSelectedTab(tab);
     };
 
     return (
         <div ref={sectionRef} className='font-manrope'>
-           {currentStep === 1 && <GetStartedForm onNext={handleNextStep} />} 
-           {currentStep === 2 && <PackageDescribe onNext={handleNextStep} onPrev={handlePreviousStep} />} 
+           {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />} 
+           {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} selectedTab={selectedTab} />} 
         </div>
     )
 };

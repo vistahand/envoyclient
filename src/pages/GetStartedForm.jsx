@@ -9,9 +9,9 @@ import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
 
-const GetStartedForm = ({ onNext }) => {
+const GetStartedForm = ({ onNext, selectedTab }) => {
     const formRef = useRef();
-    const [selectedTab, setSelectedTab] = useState('international');
+    const [currentTab, setCurrentTab] = useState(selectedTab);
     const [countries, setCountries] = useState([]);
     // const navigate = useNavigate();
 
@@ -58,15 +58,15 @@ const GetStartedForm = ({ onNext }) => {
             cityToInt: '',
             cityToLoc: '',
         },
-        validationSchema: selectedTab === 'international' ? internationalSchema : localSchema,
+        validationSchema: currentTab === 'international' ? internationalSchema : localSchema,
         validateOnMount: true,
         onSubmit: (values) => {
-           onNext();
+           onNext(currentTab);
         },
     });
 
     const handleTabChange = (tab) => {
-        setSelectedTab(tab);
+        setCurrentTab(tab);
         formik.resetForm();
     };
 
@@ -93,7 +93,7 @@ const GetStartedForm = ({ onNext }) => {
             <div className='flex justify-center items-center md:gap-3
             ss:gap-3 gap-2.5 md:w-[43%] ss:w-[70%] w-full mt-3'>
                 <div className={`py-3.5 px-4 flex items-center mobship
-                ${selectedTab === 'international'
+                ${currentTab === 'international'
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
                 }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full 
@@ -102,7 +102,7 @@ const GetStartedForm = ({ onNext }) => {
                 >
                     <InternationalIcon 
                         className={`w-[2.3rem] h-auto object-contain
-                            ${selectedTab === 'international' 
+                            ${currentTab === 'international' 
                             ? 'stroke-white' 
                             : 'stroke-primary'}
                         `}
@@ -115,7 +115,7 @@ const GetStartedForm = ({ onNext }) => {
                             International Shipping
                         </h2>
 
-                        <p className={`${selectedTab === 'local'
+                        <p className={`${currentTab === 'local'
                             ? 'text-main4'
                             : 'font-light'
                             } md:text-[11px] ss:text-[11px] text-[10px]
@@ -127,7 +127,7 @@ const GetStartedForm = ({ onNext }) => {
                 </div>
                 
                 <div className={`py-3.5 px-4 flex items-center mobship
-                ${selectedTab === 'local'
+                ${currentTab === 'local'
                 ? 'bg-primary text-white'
                 : 'border-main5 border-[1px] text-primary grow4'
                 }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full 
@@ -136,8 +136,8 @@ const GetStartedForm = ({ onNext }) => {
                 >
                     <LocalIcon 
                         className={`w-[2.3rem] h-auto object-contain
-                            ${selectedTab === 'local' 
-                            ? 'stroke-white' 
+                            ${currentTab === 'local' 
+                            ? 'stroke-white'
                             : 'stroke-primary'}
                         `}
                     />
@@ -149,7 +149,7 @@ const GetStartedForm = ({ onNext }) => {
                             Local Shipping
                         </h2>
 
-                        <p className={`${selectedTab === 'international'
+                        <p className={`${currentTab === 'international'
                             ? 'text-main4'
                             : 'font-light'
                             } md:text-[11px] ss:text-[11px] text-[10px]
@@ -163,7 +163,7 @@ const GetStartedForm = ({ onNext }) => {
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
             className='md:w-[80%] w-full md:mt-0 ss:mt-0 mt-2'>
-                {selectedTab === 'international' ? (
+                {currentTab === 'international' ? (
                     <div className='flex flex-col w-full items-center gap-3'>
                         <div className='flex flex-col w-full'>
                             <h2 className='text-main2 font-bold md:text-[17px]
