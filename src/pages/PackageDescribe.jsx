@@ -78,9 +78,8 @@ const PackageDescribe = ({ onNext, onPrev}) => {
   return (
     <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
     min-h-[800px]'>
-        <div className='flex items-center w-full flex-col md:gap-8 
-        ss:gap-6 gap-5'>
-            <div className='w-full flex flex-col gap-1.5 items-center'>
+        <div className='flex items-center w-full flex-col'>
+            <div className='w-full flex flex-col md:gap-1.5 gap-1 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
                 ss:leading-[3.5rem] leading-[2.5rem]'>
@@ -95,7 +94,8 @@ const PackageDescribe = ({ onNext, onPrev}) => {
             </div>
 
             <div className='flex justify-center items-center md:gap-3
-            ss:gap-3 gap-2.5 md:w-[43%] ss:w-[70%] w-full mt-3'>
+            ss:gap-3 gap-2.5 md:w-[43%] ss:w-[70%] w-full md:mt-10
+            ss:mt-10 mt-8'>
                 <div className={`py-3.5 px-4 flex items-center mobship
                 ${selectedTab === 'international'
                 ? 'bg-primary text-white'
@@ -165,8 +165,15 @@ const PackageDescribe = ({ onNext, onPrev}) => {
                 </div>
             </div>
 
+            <div className='md:w-[80%] w-full md:mt-10 ss:mt-10 mt-8'>
+                <h1 className='flex text-main2 font-bold md:text-[33px] 
+                    ss:text-[25px] text-[22px] tracking-tighter'>
+                    Package Details
+                </h1>
+            </div>
+
             <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='md:w-[80%] w-full md:mt-0 ss:mt-0 mt-2'>
+            className='md:w-[80%] w-full md:mt-5 mt-4'>
                 {selectedTab === 'international' ? (
                     <div className='flex flex-col w-full items-center gap-3'>
                         <div className='flex flex-col w-full'>
