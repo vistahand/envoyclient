@@ -6,22 +6,25 @@ import {
 
 const GetStarted = () => {
     const [currentStep, setCurrentStep] = useState(1);
+    const [initialLoad, setInitialLoad] = useState(true);
     const sectionRef = useRef(null); 
 
     useEffect(() => {
-        if (sectionRef.current) {
-            const offset = -80; // Adjust this value as needed
+        if (!initialLoad && sectionRef.current) {
+            const offset = -80; 
             const y = sectionRef.current.getBoundingClientRect().top + window.pageYOffset + offset;
             window.scrollTo({ top: y, behavior: 'smooth' });
         }
-    }, [currentStep]);
+    }, [currentStep, initialLoad]);
 
     const handleNextStep = () => {
         setCurrentStep(currentStep + 1);
+        setInitialLoad(false);
     };
 
     const handlePreviousStep = () => {
         setCurrentStep(currentStep - 1);
+        setInitialLoad(false);
     };
 
     return (
