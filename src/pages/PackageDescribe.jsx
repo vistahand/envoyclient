@@ -16,20 +16,19 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
 
     const formik = useFormik({
         initialValues: {
-            countryFromInt: 'IE',
-            countryFromLoc: 'NG',
-            cityFromInt: '',
-            cityFromLoc: '',
-            countryTo: 'NG',
-            cityToInt: '',
-            cityToLoc: '',
+            packageType: '',
+            packageWeight: '',
+            packageLength: '',
+            packageWidth: '',
+            packageHeight: '',
         },
 
         validationSchema: Yup.object({
-            countryFromInt: Yup.string().required("Sender's country is required"),
-            // cityFromInt: Yup.string().required("Sender's city is required"),
-            countryTo: Yup.string().required('Recipient country is required'),
-            // cityToInt: Yup.string().required('Recipient city is required')
+            packageType: Yup.string().required("Package type is required"),
+            packageWeight: Yup.string().required("Package weight is required"),
+            packageLength: Yup.string().required("Package length is required"),
+            packageWidth: Yup.string().required("Package width is required"),
+            packageHeight: Yup.string().required("Package height is required"),
         }),
         validateOnMount: true,
         onSubmit: (values) => {
@@ -130,7 +129,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                 </div>
             </div>
 
-            <div className='md:w-[80%] w-full md:mt-10 ss:mt-10 mt-8'>
+            <div className='md:w-[70%] w-full md:mt-10 ss:mt-10 mt-8'>
                 <h1 className='flex text-main2 font-bold md:text-[33px] 
                     ss:text-[25px] text-[22px] tracking-tighter'>
                     Package Details
@@ -138,30 +137,32 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
             </div>
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='md:w-[80%] w-full md:mt-5 mt-4'>
-                <div className='flex flex-col w-full items-center gap-3'>
-                    <h2 className='text-main2 font-bold md:text-[17px]
-                    ss:text-[17px] text-[15px] tracking-tight'>
-                        Package 1
-                    </h2>
+            className='md:w-[70%] w-full md:mt-5 mt-4'>
+                <div className='flex flex-col w-full items-center gap-4'>
+                    <div className='w-full'>
+                        <h2 className='text-main2 font-semibold md:text-[22px]
+                        ss:text-[20px] text-[17px] tracking-tight'>
+                            Package 1
+                        </h2>
+                    </div>
 
                     <div className='grid md:grid-cols-3 ss:grid-cols-3
-                    gap-3.5 mt-3.5 w-full'>
-                        <div className="relative flex flex-col md:grid-cols-2
-                        ss:grid-cols-2">
+                    gap-5 w-full'>
+                        <div className="relative flex flex-col md:col-span-2
+                        ss:col-span-2">
                             <div className='relative flex items-center'>
                                 <select
                                     type="text"
-                                    name="countryFromInt"
-                                    value={formik.values.countryFromInt}
+                                    name="packageType"
+                                    value={formik.values.packageType}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
-                                    px-3 outline text-main2 md:rounded-lg rounded-md
-                                    cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
+                                    className={`md:py-3.5 py-3 md:px-3.5
+                                    px-3 outline text-main6 md:rounded-lg rounded-md
+                                    cursor-pointer md:text-[13px]
                                     ss:text-[14px] text-[12px] focus:outline-primary
                                     bg-transparent w-full custom-select outline-[1px]
-                                    ${formik.touched.countryFromInt && formik.errors.countryFromInt ? 'outline-mainRed' : 'outline-main6'}`}
+                                    ${formik.touched.packageType && formik.errors.packageType ? 'outline-mainRed' : 'outline-main6'}`}
                                 >
                                     <option value="" disabled hidden>Select the type of package</option>
                                 </select>
@@ -175,63 +176,69 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                             </div>
                             
                             <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                {formik.touched.countryFromInt && formik.errors.countryFromInt}
+                            ss:text-[12px] text-[11px] mt-1 font-medium">
+                                {formik.touched.packageType && formik.errors.packageType}
                             </p>
                         </div>
 
-                        <div className="relative z-10">
-                            <input
-                                type="text"
-                                name="cityFromInt"
-                                placeholder=' '
-                                value={formik.values.cityFromInt}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                className='md:py-3.5 py-3 md:px-3.5 px-3 
-                                peer outline-[1px] outline-main6 outline
-                                text-black md:rounded-lg rounded-md md:text-[13px]
-                                ss:text-[14px] text-[12px] focus:outline-primary
-                                bg-transparent w-full '
-                            />
+                        <div className="relative flex flex-col">
+                            <div className="relative z-10">
+                                <input
+                                    type="text"
+                                    name="packageWeight"
+                                    placeholder=' '
+                                    value={formik.values.packageWeight}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                    peer outline-[1px] outline-main6 outline
+                                    text-black md:rounded-lg rounded-md md:text-[13px]
+                                    ss:text-[14px] text-[12px] focus:outline-primary
+                                    bg-transparent w-full
+                                    ${formik.touched.packageWeight && formik.errors.packageWeight ? 'outline-mainRed' : 'outline-main6'}`}
+                                />
 
-                            <label
-                            htmlFor="cityFromInt"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.cityFromInt ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                                Weight of package (kg)
-                            </label>
+                                <label
+                                htmlFor="packageWeight"
+                                className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                duration-300 peer-placeholder-shown:translate-y-0 
+                                peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                ${formik.values.packageWeight ? 'z-10 px-2' : ''}
+                                `}
+                                >
+                                    Weight of package (kg)
+                                </label>
+                            </div>
+                            
+                            <p className="text-mainRed md:text-[12px] flex justify-end
+                            ss:text-[12px] text-[11px] mt-1 font-medium">
+                                {formik.touched.packageWeight && formik.errors.packageWeight}
+                            </p>
                         </div>
-                    </div>
                    
-                    <div className='grid md:grid-cols-3 ss:grid-cols-3
-                    gap-3.5'>
                         <div className="relative flex flex-col">
                             <div className="relative z-10">
                                 <input
                                     type="text"
-                                    name="cityFromInt"
+                                    name="packageLength"
                                     placeholder=' '
-                                    value={formik.values.cityFromInt}
+                                    value={formik.values.packageLength}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className='md:py-3.5 py-3 md:px-3.5 px-3 
+                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                     peer outline-[1px] outline-main6 outline
                                     text-black md:rounded-lg rounded-md md:text-[13px]
                                     ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full '
+                                    bg-transparent w-full
+                                    ${formik.touched.packageLength && formik.errors.packageLength ? 'outline-mainRed' : 'outline-main6'}`}
                                 />
 
                                 <label
-                                htmlFor="cityFromInt"
+                                htmlFor="packageLength"
                                 className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                 md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                 md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -239,16 +246,16 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                 peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                 ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                 peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                ${formik.values.cityFromInt ? 'z-10 px-2' : ''}
+                                ${formik.values.packageLength ? 'z-10 px-2' : ''}
                                 `}
                                 >
-                                    Weight of package (kg)
+                                    Package Length (cm)
                                 </label>
                             </div>
                             
                             <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                {formik.touched.countryTo && formik.errors.countryTo}
+                            ss:text-[12px] text-[11px] mt-1 font-medium">
+                                {formik.touched.packageLength && formik.errors.packageLength}
                             </p>
                         </div>
 
@@ -256,20 +263,21 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                             <div className="relative z-10">
                                 <input
                                     type="text"
-                                    name="cityFromInt"
+                                    name="packageWidth"
                                     placeholder=' '
-                                    value={formik.values.cityFromInt}
+                                    value={formik.values.packageWidth}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className='md:py-3.5 py-3 md:px-3.5 px-3 
+                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                     peer outline-[1px] outline-main6 outline
                                     text-black md:rounded-lg rounded-md md:text-[13px]
                                     ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full '
+                                    bg-transparent w-full
+                                    ${formik.touched.packageWidth && formik.errors.packageWidth ? 'outline-mainRed' : 'outline-main6'}`}
                                 />
 
                                 <label
-                                htmlFor="cityFromInt"
+                                htmlFor="packageWidth"
                                 className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                 md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                 md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -277,16 +285,16 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                 peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                 ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                 peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                ${formik.values.cityFromInt ? 'z-10 px-2' : ''}
+                                ${formik.values.packageWidth ? 'z-10 px-2' : ''}
                                 `}
                                 >
-                                    Weight of package (kg)
+                                    Package Width (cm)
                                 </label>
                             </div>
                             
                             <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                {formik.touched.countryTo && formik.errors.countryTo}
+                            ss:text-[12px] text-[11px] mt-1 font-medium">
+                                {formik.touched.packageWidth && formik.errors.packageWidth}
                             </p>
                         </div>
 
@@ -294,20 +302,21 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                             <div className="relative z-10">
                                 <input
                                     type="text"
-                                    name="cityFromInt"
+                                    name="packageHeight"
                                     placeholder=' '
-                                    value={formik.values.cityFromInt}
+                                    value={formik.values.packageHeight}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className='md:py-3.5 py-3 md:px-3.5 px-3 
+                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                     peer outline-[1px] outline-main6 outline
                                     text-black md:rounded-lg rounded-md md:text-[13px]
                                     ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full '
+                                    bg-transparent w-full
+                                    ${formik.touched.packageHeight && formik.errors.packageHeight ? 'outline-mainRed' : 'outline-main6'}`}
                                 />
 
                                 <label
-                                htmlFor="cityFromInt"
+                                htmlFor="packageHeight"
                                 className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                 md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                 md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -315,21 +324,21 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                 peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                 ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                 peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                ${formik.values.cityFromInt ? 'z-10 px-2' : ''}
+                                ${formik.values.packageHeight ? 'z-10 px-2' : ''}
                                 `}
                                 >
-                                    Weight of package (kg)
+                                    Package Height (cm)
                                 </label>
                             </div>
                             
                             <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                {formik.touched.countryTo && formik.errors.countryTo}
+                            ss:text-[12px] text-[11px] mt-1 font-medium">
+                                {formik.touched.packageHeight && formik.errors.packageHeight}
                             </p>
                         </div>
                     </div>
 
-                    <div className="mt-6 flex w-full items-center 
+                    <div className="mt-8 flex w-full items-center 
                     justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
                     ss:flex-row flex-col">
                         <button
