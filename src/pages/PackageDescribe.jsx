@@ -137,7 +137,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
             </div>
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='md:w-[70%] w-full md:mt-5 mt-4'>
+            className='md:w-[70%] w-full md:mt-5 ss:mt-4 mt-3'>
                 <div className='flex flex-col w-full items-center gap-4'>
                     <div className='w-full'>
                         <h2 className='text-main2 font-semibold md:text-[22px]
@@ -147,9 +147,8 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                     </div>
 
                     <div className='grid md:grid-cols-3 ss:grid-cols-3
-                    gap-5 w-full'>
-                        <div className="relative flex flex-col md:col-span-2
-                        ss:col-span-2">
+                    grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
+                        <div className="relative flex flex-col col-span-2">
                             <div className='relative flex items-center'>
                                 <select
                                     type="text"
