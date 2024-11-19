@@ -194,6 +194,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     text-black md:rounded-lg rounded-md md:text-[13px]
                                     ss:text-[14px] text-[12px] focus:outline-primary
                                     bg-transparent w-full
+                                    
                                     ${formik.touched.packageWeight && formik.errors.packageWeight ? 'outline-mainRed' : 'outline-main6'}`}
                                 />
 
