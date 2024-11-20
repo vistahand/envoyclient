@@ -196,6 +196,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     bg-transparent w-full
                                     ${formik.touched.packageWeight && formik.errors.packageWeight ? 'outline-mainRed' : 'outline-main6'}`}
                                 />
+                                
 
                                 <label
                                 htmlFor="packageWeight"
