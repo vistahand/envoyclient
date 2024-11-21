@@ -199,6 +199,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
 
                                 <label
                                 htmlFor="packageWeight"
+                                
                                 className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                 md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                 md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
