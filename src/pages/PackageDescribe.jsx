@@ -18,16 +18,18 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
         <div className='cursor-pointer'>
             <div className={`border-[1px] border-main5 rounded-lg px-3.5
             py-3 hover:bg-primary text-main4 md:text-[13px] ss:text-[14px] 
-            text-[12px] hover:text-white navsmooth flex gap-2
+            text-[12px] hover:text-white navsmooth flex gap-2 items-center
+            w-full
             ${selected ? 'bg-primary text-white' : ''}`}
             onClick={handleClick}
             >
                 <img
                     src={option.icon}
                     alt={option.name}
+                    className=''
                 />
 
-                <div>
+                <div className='flex flex-col gap-1 w-full items-center'>
 
                 </div>
             </div>
