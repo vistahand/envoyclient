@@ -8,16 +8,36 @@ import { SectionWrapper } from '../hoc';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
-const PackageCard = () => {
-    return (
+const PackageCard = ({ index, option, selected, onSelect}) => {
+    const handleClick = () => {
+        onSelect(index);
+    };
 
+    return (
+        <div className='cursor-pointer'>
+            <div className={`border-[1px] border-primaryalt rounded-lg px-3.5
+            py-2 hover:bg-primary text-main md:text-[13px] ss:text-[14px] 
+            text-[12px] font-medium hover:text-white navsmooth
+            ${selected ? 'bg-primary text-white' : ''}`}
+            onClick={handleClick}
+            >
+
+            </div>
+        </div>
     );
 };
 
 const PackageDescribe = ({ onPrev, selectedTab}) => {
     const formRef = useRef();
     const currentTab = selectedTab;
+    const [selectedOption, setSelectedOption] = useState([]);
     // const navigate = useNavigate();
+
+    const handleSelectOption = (index) => {
+        setSelectedOption((prev) =>
+            prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+        );
+    };
 
     const formik = useFormik({
         initialValues: {
