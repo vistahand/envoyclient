@@ -16,9 +16,9 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
 
     return (
         <div className='cursor-pointer'>
-            <div className={`border-[1px] border-primaryalt rounded-lg px-3.5
-            py-2 hover:bg-primary text-main md:text-[13px] ss:text-[14px] 
-            text-[12px] font-medium hover:text-white navsmooth
+            <div className={`border-[1px] border-main5 rounded-lg px-3.5
+            py-3 hover:bg-primary text-main4 md:text-[13px] ss:text-[14px] 
+            text-[12px] hover:text-white navsmooth flex gap-2
             ${selected ? 'bg-primary text-white' : ''}`}
             onClick={handleClick}
             >
