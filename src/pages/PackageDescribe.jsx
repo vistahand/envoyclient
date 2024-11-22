@@ -209,6 +209,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                 ${formik.values.packageWeight ? 'z-10 px-2' : ''}
                                 `}
                                 >
+                                    
                                     Weight of package (kg)
                                 </label>
                             </div>
