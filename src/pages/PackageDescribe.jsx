@@ -8,6 +8,11 @@ import { SectionWrapper } from '../hoc';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 
+const PackageCard = () => {
+    return (
+
+    );
+};
 
 const PackageDescribe = ({ onPrev, selectedTab}) => {
     const formRef = useRef();
@@ -347,8 +352,17 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                             </p>
                         </div>
 
-                        <div>
-                            
+                        <div className='grid md:grid-cols-4 ss:grid-cols-4
+                        grid-cols-2 md:gap-3 ss:gap-3 gap-2'>
+                            {packageOptions.map((option, index) => (
+                                <PackageCard 
+                                    key={index}
+                                    option={option}
+                                    index={index}
+                                    selected={selectedOption.includes(index)}
+                                    onSelect={handleSelectOption}
+                                />
+                            ))}
                         </div>
                     </div>
 
