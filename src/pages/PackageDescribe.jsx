@@ -22,7 +22,14 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
             ${selected ? 'bg-primary text-white' : ''}`}
             onClick={handleClick}
             >
+                <img
+                    src={option.icon}
+                    alt={option.name}
+                />
 
+                <div>
+
+                </div>
             </div>
         </div>
     );
