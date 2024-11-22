@@ -110,7 +110,7 @@ export const moveCards = [
         title: "It's time for delivery!",
         description: "Whether you're a customer or client waiting to receive your goods or a business sending out shipments, safe deliveries are assured.",
     }
-]
+];
 
 export const testimonials = [
     {
@@ -127,7 +127,7 @@ export const testimonials = [
         name: "Sukura Daniels",
         profession: "Supply Chain Manager"
     },
-]
+];
 
 export const blogCards = [
     {
@@ -145,7 +145,46 @@ export const blogCards = [
         title: "The Ultimate Guide to Shipping Between Ireland and Nigeria",
         description: "Whether you're sending personal items or commercial goods, this guide gives you the complete rundown on shipping between Ireland and Nigeria. Learn about customs regulations, required documentation, shipping routes, and tips for ensuring your package moves quickly and smoothly through the process. Perfect for both first-timers and seasoned shippers looking for a refresher.",
     }
-]
+];
+
+export const packageOptions = [
+    {
+        icon: "",
+        id: "envelope",
+        name: "A4 Envelope",
+        weight: "0.5",
+        length: "32",
+        width: "24",
+        height: "1"
+    },
+    {
+        icon: "",
+        id: "book",
+        name: "A book or two",
+        weight: "2",
+        length: "23",
+        width: "14",
+        height: "4"
+    },
+    {
+        icon: "",
+        id: "shoebox",
+        name: "Shoe box",
+        weight: "5",
+        length: "35",
+        width: "20",
+        height: "15"
+    },
+    {
+        icon: "",
+        id: "movingbox",
+        name: "Moving box",
+        weight: "10",
+        length: "75",
+        width: "35",
+        height: "35"
+    },
+];
 
 export const socialMedia = [
     {

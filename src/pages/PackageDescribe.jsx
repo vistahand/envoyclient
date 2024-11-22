@@ -346,6 +346,10 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                 Not sure about the dimensions of your package?
                             </p>
                         </div>
+
+                        <div>
+                            
+                        </div>
                     </div>
 
                     <div className="mt-8 flex w-full items-center 
