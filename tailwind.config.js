@@ -17,6 +17,7 @@ module.exports = {
         main4: "#898989",
         main5: "#C8C8C8",
         main6: '#A7A7A7',
+        main7: "#E7E7E7",
         mainBlack: "#161616",
         green: "#4CA735",
         greenBright: "#27E63A",

@@ -337,6 +337,17 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                         </div>
                     </div>
 
+                    <div className='w-full h-[1px] bg-main7'/>
+                    
+                    <div className='w-full flex flex-col items-center gap-4'>
+                        <div className='w-full'>
+                            <p className='text-main4 md:text-[14px] 
+                            ss:text-[13px] text-[12px]'>
+                                Not sure about the dimensions of your package?
+                            </p>
+                        </div>
+                    </div>
+
                     <div className="mt-8 flex w-full items-center 
                     justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
                     ss:flex-row flex-col">
