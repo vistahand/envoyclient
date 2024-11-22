@@ -22,6 +22,8 @@ import fileinvoice from './file-invoice.svg';
 import message from './message-2-plus.svg';
 import LocalIcon from './loc-ship.svg';
 import InternationalIcon from './int-ship.svg';
+import book from './book.svg';
+import box from './box.svg';
 
 export {
     logo,
@@ -48,6 +50,8 @@ export {
     cash,
     LocalIcon,
     InternationalIcon,
+    book,
+    box,
 }
 
 export const heroImages = [

@@ -6,7 +6,9 @@ import { FaFacebook } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 import { BiLogoLinkedin } from "react-icons/bi";
 
-import { blog1, blog2, blog3, cash, fileinvoice, mapsearch, message, movecard1, movecard2, movecard3, test1, } from "../assets";
+import { blog1, blog2, blog3, book, box, cash, fileinvoice, mapsearch, 
+    message, movecard1, movecard2, movecard3, test1, 
+} from "../assets";
 
 
 export const navLinks = [
@@ -149,7 +151,7 @@ export const blogCards = [
 
 export const packageOptions = [
     {
-        icon: "",
+        icon: book,
         id: "envelope",
         name: "A4 Envelope",
         weight: "0.5",
@@ -158,7 +160,7 @@ export const packageOptions = [
         height: "1"
     },
     {
-        icon: "",
+        icon: book,
         id: "book",
         name: "A book or two",
         weight: "2",
@@ -167,7 +169,7 @@ export const packageOptions = [
         height: "4"
     },
     {
-        icon: "",
+        icon: box,
         id: "shoebox",
         name: "Shoe box",
         weight: "5",
@@ -176,7 +178,7 @@ export const packageOptions = [
         height: "15"
     },
     {
-        icon: "",
+        icon: box,
         id: "movingbox",
         name: "Moving box",
         weight: "10",
