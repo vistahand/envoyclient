@@ -17,7 +17,7 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
     return (
         <div className='cursor-pointer'>
             <div className={`border-[1px] border-main5 rounded-lg px-4
-            py-3 hover:bg-primary hover:text-white navsmooth w-full
+            py-3 hover:bg-primary hover:text-white navsmooth w-full group
             flex gap-3 items-center
             ${selected ? 'bg-primary' : 'text-white'}`}
             onClick={handleClick}
@@ -32,7 +32,7 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
 
                 <div className="flex flex-col w-full">
                     <h3
-                        className={`md:text-[13px] ss:text-[13px] text-[12px] 
+                        className={`md:text-[14px] ss:text-[13px] text-[12px] 
                         font-bold ${selected ? 'text-white' : 'text-primary'}
                         group-hover:text-white`}
                     >
@@ -408,6 +408,45 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     onSelect={handleSelectOption}
                                 />
                             ))}
+                        </div>
+                    </div>
+
+                    <div className='w-full h-[1px] bg-main7'/>
+
+                    <div className='w-full'>
+                        <div className='flex gap-5'>
+                            <div className='flex items-center gap-1.5'>
+                                <input
+                                    type='checkbox'
+                                    className='cursor-pointer'
+                                />
+                                <p className='text-main2 md:text-[14px]
+                                ss:text-[14px] text-[13px] font-medium'>
+                                    Fragile
+                                </p>
+                            </div>
+
+                            <div className='flex items-center gap-1.5'>
+                                <input
+                                    type='checkbox'
+                                    className='cursor-pointer'
+                                />
+                                <p className='text-main2 md:text-[14px]
+                                ss:text-[14px] text-[13px] font-medium'>
+                                    Perishable
+                                </p>
+                            </div>
+
+                            <div className='flex items-center gap-1.5'>
+                                <input
+                                    type='checkbox'
+                                    className='cursor-pointer'
+                                />
+                                <p className='text-main2 md:text-[14px]
+                                ss:text-[14px] text-[13px] font-medium'>
+                                    Hazardous
+                                </p>
+                            </div>
                         </div>
                     </div>
 
