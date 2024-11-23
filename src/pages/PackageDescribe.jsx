@@ -17,20 +17,27 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
     return (
         <div className='cursor-pointer'>
             <div className={`border-[1px] border-main5 rounded-lg px-3.5
-            py-3 hover:bg-primary text-main4 md:text-[13px] ss:text-[14px] 
-            text-[12px] hover:text-white navsmooth flex gap-2 items-center
-            w-full
+            py-3 hover:bg-primary hover:text-white navsmooth w-full
+            flex gap-2 items-center
             ${selected ? 'bg-primary text-white' : ''}`}
             onClick={handleClick}
             >
                 <img
                     src={option.icon}
                     alt={option.name}
-                    className=''
+                    className='w-[1.5rem] h-auto object-contain'
                 />
 
                 <div className='flex flex-col gap-1 w-full items-center'>
+                    <h3 className='md:text-[13px] ss:text-[13px] text-[12px]
+                    font-semibold text-primary'>
+                        {option.name}
+                    </h3>
 
+                    <p className='text-main4 md:text-[12px] ss:text-[12px]
+                    text-[11px]'>
+                        {option.length} x {option.width} x {option.height}cm
+                    </p>
                 </div>
             </div>
         </div>
@@ -382,7 +389,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                             </p>
                         </div>
 
-                        <div className='grid md:grid-cols-4 ss:grid-cols-4
+                        <div className='grid md:grid-cols-4 ss:grid-cols-4 w-full
                         grid-cols-2 md:gap-3 ss:gap-3 gap-2'>
                             {packageOptions.map((option, index) => (
                                 <PackageCard 
