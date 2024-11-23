@@ -60,7 +60,26 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
     // const navigate = useNavigate();
 
     const handleSelectOption = (index) => {
-        setSelectedOption((prev) => (prev === index ? null : index));
+
+        setSelectedOption(prev => {
+            if (prev === index) { 
+                formik.setValues({
+                    packageWeight: '',
+                    packageLength: '',
+                    packageWidth: '',
+                    packageHeight: '',
+                });
+            } else {
+                const selectedPackage = packageOptions[index];
+                formik.setValues({
+                    packageWeight: selectedPackage.weight,
+                    packageLength: selectedPackage.length,
+                    packageWidth: selectedPackage.width,
+                    packageHeight: selectedPackage.height,
+                });
+            }
+            return prev === index ? null : index;
+        });
     };
 
     const formik = useFormik({
