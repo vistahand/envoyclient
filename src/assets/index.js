@@ -24,6 +24,7 @@ import LocalIcon from './loc-ship.svg';
 import InternationalIcon from './int-ship.svg';
 import book from './book.svg';
 import box from './box.svg';
+import addicon from './add-icon.svg';
 
 export {
     logo,
@@ -52,6 +53,7 @@ export {
     InternationalIcon,
     book,
     box,
+    addicon,
 }
 
 export const heroImages = [

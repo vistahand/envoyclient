@@ -8,6 +8,7 @@ import { SectionWrapper } from '../hoc';
 import { packageOptions } from '../constants';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
+import { addicon } from '../assets';
 
 const PackageCard = ({ index, option, selected, onSelect}) => {
     const handleClick = () => {
@@ -180,7 +181,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
             </div>
 
             <div className='md:w-[70%] w-full md:mt-10 ss:mt-10 mt-8'>
-                <h1 className='flex text-main2 font-bold md:text-[33px] 
+                <h1 className='flex text-main2 font-bold md:text-[30px] 
                     ss:text-[25px] text-[22px] tracking-tighter'>
                     Package Details
                 </h1>
@@ -190,7 +191,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
             className='md:w-[70%] w-full md:mt-5 ss:mt-4 mt-3'>
                 <div className='flex flex-col w-full items-center gap-4'>
                     <div className='w-full'>
-                        <h2 className='text-main2 font-semibold md:text-[22px]
+                        <h2 className='text-main2 font-semibold md:text-[20px]
                         ss:text-[20px] text-[17px] tracking-tight'>
                             Package 1
                         </h2>
@@ -420,8 +421,8 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     type='checkbox'
                                     className='cursor-pointer'
                                 />
-                                <p className='text-main2 md:text-[14px]
-                                ss:text-[14px] text-[13px] font-medium'>
+                                <p className='text-main2 md:text-[16px]
+                                ss:text-[16px] text-[14px] font-medium'>
                                     Fragile
                                 </p>
                             </div>
@@ -431,8 +432,8 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     type='checkbox'
                                     className='cursor-pointer'
                                 />
-                                <p className='text-main2 md:text-[14px]
-                                ss:text-[14px] text-[13px] font-medium'>
+                                <p className='text-main2 md:text-[16px]
+                                ss:text-[16px] text-[14px] font-medium'>
                                     Perishable
                                 </p>
                             </div>
@@ -442,11 +443,26 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     type='checkbox'
                                     className='cursor-pointer'
                                 />
-                                <p className='text-main2 md:text-[14px]
-                                ss:text-[14px] text-[13px] font-medium'>
+                                <p className='text-main2 md:text-[16px]
+                                ss:text-[16px] text-[14px] font-medium'>
                                     Hazardous
                                 </p>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className='w-full mt-3'>
+                        <div className='inline-flex items-center gap-3 cursor-pointer'>
+                           <img 
+                                src={addicon}
+                                alt='addpackage'
+                                className='w-[1.8rem] h-auto'
+                           />
+
+                            <h2 className='text-main2 font-semibold md:text-[18px]
+                            ss:text-[18px] text-[15px] tracking-tight'>
+                                Add Another Package
+                            </h2>
                         </div>
                     </div>
 
