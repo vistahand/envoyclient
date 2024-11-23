@@ -60,22 +60,27 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
     // const navigate = useNavigate();
 
     const handleSelectOption = (index) => {
-
         setSelectedOption(prev => {
             if (prev === index) { 
-                formik.setValues({
+                formik.setFieldValue("packages[0]", {
                     packageWeight: '',
                     packageLength: '',
                     packageWidth: '',
                     packageHeight: '',
+                    isFragile: false,
+                    isPerishable: false,
+                    isHazardous: false,
                 });
             } else {
                 const selectedPackage = packageOptions[index];
-                formik.setValues({
+                formik.setFieldValue("packages[0]", {
                     packageWeight: selectedPackage.weight,
                     packageLength: selectedPackage.length,
                     packageWidth: selectedPackage.width,
                     packageHeight: selectedPackage.height,
+                    isFragile: false,
+                    isPerishable: false,
+                    isHazardous: false,
                 });
             }
             return prev === index ? null : index;
@@ -84,25 +89,60 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
 
     const formik = useFormik({
         initialValues: {
-            packageType: '',
-            packageWeight: '',
-            packageLength: '',
-            packageWidth: '',
-            packageHeight: '',
+            packages: [{
+                packageType: '',
+                packageWeight: '',
+                packageLength: '',
+                packageWidth: '',
+                packageHeight: '',
+                isFragile: false,
+                isPerishable: false,
+                isHazardous: false,
+            }],
         },
 
-        validationSchema: Yup.object({
-            packageType: Yup.string().required("Package type is required"),
-            packageWeight: Yup.string().required("Package weight is required"),
-            packageLength: Yup.string().required("Package length is required"),
-            packageWidth: Yup.string().required("Package width is required"),
-            packageHeight: Yup.string().required("Package height is required"),
-        }),
+        validationSchema: Yup.lazy((values) =>
+            Yup.object().shape({
+                packages: Yup.array().of(
+                    Yup.object().shape({
+                    packageType: Yup.string().required("Package type is required"),
+                    packageWeight: Yup.number()
+                        .typeError("Package weight must be a number")
+                        .required("Package weight is required"),
+                    packageLength: Yup.number()
+                        .typeError("Package length must be a number")
+                        .required("Package length is required"),
+                    packageWidth: Yup.number()
+                        .typeError("Package width must be a number")
+                        .required("Package width is required"),
+                    packageHeight: Yup.number()
+                        .typeError("Package height must be a number")
+                        .required("Package height is required"),
+                    }),
+                ),
+            }),
+        ),
         validateOnMount: true,
         onSubmit: (values) => {
            
         },
     });
+
+    const addPackage = () => {
+        formik.setFieldValue("packages", [
+            ...formik.values.packages,
+            {
+                packageType: "",
+                packageWeight: "",
+                packageLength: "",
+                packageWidth: "",
+                packageHeight: "",
+                isFragile: false,
+                isPerishable: false,
+                isHazardous: false,
+            },
+        ]);
+    };
 
     const handlePrevious = () => {
         onPrev(currentTab);
@@ -206,271 +246,357 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
             className='md:w-[70%] w-full md:mt-5 ss:mt-4 mt-3'>
-                <div className='flex flex-col w-full items-center gap-4'>
-                    <div className='w-full'>
-                        <h2 className='text-main2 font-semibold md:text-[20px]
-                        ss:text-[20px] text-[17px] tracking-tight'>
-                            Package 1
-                        </h2>
-                    </div>
+                <div className='flex flex-col w-full items-center gap-8'>
+                    {formik.values.packages.map((pkg, index) => (
+                        <div key={index} className='flex flex-col w-full 
+                        items-center gap-4'>
+                            <div className='w-full'>
+                                <h2 className='text-main2 font-semibold md:text-[20px]
+                                ss:text-[20px] text-[17px] tracking-tight'>
+                                    Package {index + 1}
+                                </h2>
+                            </div>
 
-                    <div className='grid md:grid-cols-3 ss:grid-cols-3
-                    grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
-                        <div className="relative flex flex-col col-span-2">
-                            <div className='relative flex items-center'>
-                                <select
-                                    type="text"
-                                    name="packageType"
-                                    value={formik.values.packageType}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`md:py-3.5 py-3 md:px-3.5
-                                    px-3 outline text-main6 md:rounded-lg rounded-md
-                                    cursor-pointer md:text-[13px]
-                                    ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full custom-select outline-[1px]
-                                    ${formik.touched.packageType && formik.errors.packageType ? 'outline-mainRed' : 'outline-main6'}`}
-                                >
-                                    <option value="" disabled hidden>Select the type of package</option>
-                                </select>
+                            <div className='grid md:grid-cols-3 ss:grid-cols-3
+                            grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
+                                <div className="relative flex flex-col col-span-2">
+                                    <div className='relative flex items-center'>
+                                        <select
+                                            type="text"
+                                            name={`packages[${index}].packageType`}
+                                            value={pkg.packageType}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className={`md:py-3.5 py-3 md:px-3.5
+                                            px-3 outline text-main6 md:rounded-lg rounded-md
+                                            cursor-pointer md:text-[13px]
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full custom-select outline-[1px]
+                                            ${
+                                            formik.touched.packages &&
+                                            formik.errors.packages &&
+                                            formik.touched.packages[index] &&
+                                            formik.errors.packages[index] &&
+                                            formik.touched.packages[index].packageType &&
+                                            formik.errors.packages[index].packageType
+                                                ? "outline-mainRed"
+                                                : "outline-main6"
+                                            }`}
+                                        >
+                                            <option value="" disabled hidden>Select the type of package</option>
+                                        </select>
 
-                                <div className='absolute md:right-3.5 right-3'>
-                                    <TiArrowSortedDown 
-                                        className='text-main md:text-[16px]
-                                        ss:text-[18px] text-[16px]'
-                                    />
+                                        <div className='absolute md:right-3.5 right-3'>
+                                            <TiArrowSortedDown 
+                                                className='text-main md:text-[16px]
+                                                ss:text-[18px] text-[16px]'
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] mt-1 font-medium">
+                                        {formik.touched.packages &&
+                                        formik.errors.packages &&
+                                        formik.touched.packages[index] &&
+                                        formik.errors.packages[index] &&
+                                        formik.touched.packages[index].packageType &&
+                                        formik.errors.packages[index].packageType}
+                                    </p>
+                                </div>
+
+                                <div className="relative flex flex-col">
+                                    <div className="relative z-10">
+                                        <input
+                                            type="text"
+                                            name={`packages[${index}].packageWeight`}
+                                            placeholder=' '
+                                            value={pkg.packageWeight}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                            peer outline-[1px] outline-main6 outline
+                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full
+                                            ${
+                                            formik.touched.packages &&
+                                            formik.errors.packages &&
+                                            formik.touched.packages[index] &&
+                                            formik.errors.packages[index] &&
+                                            formik.touched.packages[index].packageWeight &&
+                                            formik.errors.packages[index].packageWeight
+                                                ? "outline-mainRed"
+                                                : "outline-main6"
+                                            }`}
+                                        />
+
+                                        <label
+                                        htmlFor="packageWeight"
+                                        className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                        md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        duration-300 peer-placeholder-shown:translate-y-0 
+                                        peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                        ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                        peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                        ${pkg.packageWeight ? 'z-10 px-2' : ''}
+                                        `}
+                                        >
+                                            Weight of package (kg)
+                                        </label>
+                                    </div>
+                                    
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] mt-1 font-medium">
+                                        {formik.touched.packages &&
+                                        formik.errors.packages &&
+                                        formik.touched.packages[index] &&
+                                        formik.errors.packages[index] &&
+                                        formik.touched.packages[index].packageWeight &&
+                                        formik.errors.packages[index].packageWeight}
+                                    </p>
+                                </div>
+                        
+                                <div className="relative flex flex-col">
+                                    <div className="relative z-10">
+                                        <input
+                                            type="text"
+                                            name={`packages[${index}].packageLength`}
+                                            placeholder=' '
+                                            value={pkg.packageLength}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                            peer outline-[1px] outline-main6 outline
+                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full
+                                            ${
+                                            formik.touched.packages &&
+                                            formik.errors.packages &&
+                                            formik.touched.packages[index] &&
+                                            formik.errors.packages[index] &&
+                                            formik.touched.packages[index].packageLength &&
+                                            formik.errors.packages[index].packageLength
+                                                ? "outline-mainRed"
+                                                : "outline-main6"
+                                            }`}
+                                        />
+
+                                        <label
+                                        htmlFor="packageLength"
+                                        className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                        md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        duration-300 peer-placeholder-shown:translate-y-0 
+                                        peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                        ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                        peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                        ${pkg.packageLength ? 'z-10 px-2' : ''}
+                                        `}
+                                        >
+                                            Package Length (cm)
+                                        </label>
+                                    </div>
+                                    
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] mt-1 font-medium">
+                                        {formik.touched.packages &&
+                                        formik.errors.packages &&
+                                        formik.touched.packages[index] &&
+                                        formik.errors.packages[index] &&
+                                        formik.touched.packages[index].packageLength &&
+                                        formik.errors.packages[index].packageLength}
+                                    </p>
+                                </div>
+
+                                <div className="relative flex flex-col">
+                                    <div className="relative z-10">
+                                        <input
+                                            type="text"
+                                            name={`packages[${index}].packageWidth`}
+                                            placeholder=' '
+                                            value={pkg.packageWidth}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                            peer outline-[1px] outline-main6 outline
+                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full
+                                            ${
+                                            formik.touched.packages &&
+                                            formik.errors.packages &&
+                                            formik.touched.packages[index] &&
+                                            formik.errors.packages[index] &&
+                                            formik.touched.packages[index].packageWidth &&
+                                            formik.errors.packages[index].packageWidth
+                                                ? "outline-mainRed"
+                                                : "outline-main6"
+                                            }`}
+                                        />
+
+                                        <label
+                                        htmlFor="packageWidth"
+                                        className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                        md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        duration-300 peer-placeholder-shown:translate-y-0 
+                                        peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                        ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                        peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                        ${pkg.packageWidth ? 'z-10 px-2' : ''}
+                                        `}
+                                        >
+                                            Package Width (cm)
+                                        </label>
+                                    </div>
+                                    
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] mt-1 font-medium">
+                                        {formik.touched.packages &&
+                                        formik.errors.packages &&
+                                        formik.touched.packages[index] &&
+                                        formik.errors.packages[index] &&
+                                        formik.touched.packages[index].packageWidth &&
+                                        formik.errors.packages[index].packageWidth}
+                                    </p>
+                                </div>
+
+                                <div className="relative flex flex-col">
+                                    <div className="relative z-10">
+                                        <input
+                                            type="text"
+                                            name={`packages[${index}].packageHeight`}
+                                            placeholder=' '
+                                            value={pkg.packageHeight}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                            peer outline-[1px] outline-main6 outline
+                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            ss:text-[14px] text-[12px] focus:outline-primary
+                                            bg-transparent w-full
+                                            ${
+                                            formik.touched.packages &&
+                                            formik.errors.packages &&
+                                            formik.touched.packages[index] &&
+                                            formik.errors.packages[index] &&
+                                            formik.touched.packages[index].packageHeight &&
+                                            formik.errors.packages[index].packageHeight
+                                                ? "outline-mainRed"
+                                                : "outline-main6"
+                                            }`}
+                                        />
+
+                                        <label
+                                        htmlFor="packageHeight"
+                                        className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                        md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        duration-300 peer-placeholder-shown:translate-y-0 
+                                        peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                        ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                        peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                        ${pkg.packageHeight ? 'z-10 px-2' : ''}
+                                        `}
+                                        >
+                                            Package Height (cm)
+                                        </label>
+                                    </div>
+                                    
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] mt-1 font-medium">
+                                        {formik.touched.packages &&
+                                        formik.errors.packages &&
+                                        formik.touched.packages[index] &&
+                                        formik.errors.packages[index] &&
+                                        formik.touched.packages[index].packageHeight &&
+                                        formik.errors.packages[index].packageHeight}
+                                    </p>
                                 </div>
                             </div>
-                            
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] mt-1 font-medium">
-                                {formik.touched.packageType && formik.errors.packageType}
-                            </p>
-                        </div>
 
-                        <div className="relative flex flex-col">
-                            <div className="relative z-10">
-                                <input
-                                    type="text"
-                                    name="packageWeight"
-                                    placeholder=' '
-                                    value={formik.values.packageWeight}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                    peer outline-[1px] outline-main6 outline
-                                    text-black md:rounded-lg rounded-md md:text-[13px]
-                                    ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full
-                                    ${formik.touched.packageWeight && formik.errors.packageWeight ? 'outline-mainRed' : 'outline-main6'}`}
-                                />
-
-                                <label
-                                htmlFor="packageWeight"
-                                className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                                md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                                duration-300 peer-placeholder-shown:translate-y-0 
-                                peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                                ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                                peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                ${formik.values.packageWeight ? 'z-10 px-2' : ''}
-                                `}
-                                >
-                                    Weight of package (kg)
-                                </label>
-                            </div>
-                            
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] mt-1 font-medium">
-                                {formik.touched.packageWeight && formik.errors.packageWeight}
-                            </p>
-                        </div>
-                   
-                        <div className="relative flex flex-col">
-                            <div className="relative z-10">
-                                <input
-                                    type="text"
-                                    name="packageLength"
-                                    placeholder=' '
-                                    value={formik.values.packageLength}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                    peer outline-[1px] outline-main6 outline
-                                    text-black md:rounded-lg rounded-md md:text-[13px]
-                                    ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full
-                                    ${formik.touched.packageLength && formik.errors.packageLength ? 'outline-mainRed' : 'outline-main6'}`}
-                                />
-
-                                <label
-                                htmlFor="packageLength"
-                                className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                                md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                                duration-300 peer-placeholder-shown:translate-y-0 
-                                peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                                ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                                peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                ${formik.values.packageLength ? 'z-10 px-2' : ''}
-                                `}
-                                >
-                                    Package Length (cm)
-                                </label>
-                            </div>
-                            
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] mt-1 font-medium">
-                                {formik.touched.packageLength && formik.errors.packageLength}
-                            </p>
-                        </div>
-
-                        <div className="relative flex flex-col">
-                            <div className="relative z-10">
-                                <input
-                                    type="text"
-                                    name="packageWidth"
-                                    placeholder=' '
-                                    value={formik.values.packageWidth}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                    peer outline-[1px] outline-main6 outline
-                                    text-black md:rounded-lg rounded-md md:text-[13px]
-                                    ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full
-                                    ${formik.touched.packageWidth && formik.errors.packageWidth ? 'outline-mainRed' : 'outline-main6'}`}
-                                />
-
-                                <label
-                                htmlFor="packageWidth"
-                                className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                                md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                                duration-300 peer-placeholder-shown:translate-y-0 
-                                peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                                ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                                peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                ${formik.values.packageWidth ? 'z-10 px-2' : ''}
-                                `}
-                                >
-                                    Package Width (cm)
-                                </label>
-                            </div>
-                            
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] mt-1 font-medium">
-                                {formik.touched.packageWidth && formik.errors.packageWidth}
-                            </p>
-                        </div>
-
-                        <div className="relative flex flex-col">
-                            <div className="relative z-10">
-                                <input
-                                    type="text"
-                                    name="packageHeight"
-                                    placeholder=' '
-                                    value={formik.values.packageHeight}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                    peer outline-[1px] outline-main6 outline
-                                    text-black md:rounded-lg rounded-md md:text-[13px]
-                                    ss:text-[14px] text-[12px] focus:outline-primary
-                                    bg-transparent w-full
-                                    ${formik.touched.packageHeight && formik.errors.packageHeight ? 'outline-mainRed' : 'outline-main6'}`}
-                                />
-
-                                <label
-                                htmlFor="packageHeight"
-                                className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                                md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                                duration-300 peer-placeholder-shown:translate-y-0 
-                                peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                                ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                                peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                ${formik.values.packageHeight ? 'z-10 px-2' : ''}
-                                `}
-                                >
-                                    Package Height (cm)
-                                </label>
-                            </div>
-                            
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] mt-1 font-medium">
-                                {formik.touched.packageHeight && formik.errors.packageHeight}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className='w-full h-[1px] bg-main7'/>
+                            <div className='w-full h-[1px] bg-main7'/>
                     
-                    <div className='w-full flex flex-col items-center gap-4'>
-                        <div className='w-full'>
-                            <p className='text-main4 md:text-[14px] 
-                            ss:text-[13px] text-[12px]'>
-                                Not sure about the dimensions of your package?
-                            </p>
-                        </div>
+                            <div className='w-full flex flex-col items-center gap-4'>
+                                <div className='w-full'>
+                                    <p className='text-main4 md:text-[14px] 
+                                    ss:text-[13px] text-[12px]'>
+                                        Not sure about the dimensions of your package?
+                                    </p>
+                                </div>
 
-                        <div className='grid md:grid-cols-4 ss:grid-cols-4 w-full
-                        grid-cols-2 gap-2.5'>
-                            {packageOptions.map((option, index) => (
-                                <PackageCard 
-                                    key={index}
-                                    option={option}
-                                    index={index}
-                                    selected={selectedOption === (index)}
-                                    onSelect={handleSelectOption}
-                                />
-                            ))}
-                        </div>
-                    </div>
+                                <div className='grid md:grid-cols-4 ss:grid-cols-4 w-full
+                                grid-cols-2 gap-2.5'>
+                                    {packageOptions.map((option, index) => (
+                                        <PackageCard 
+                                            key={index}
+                                            option={option}
+                                            index={index}
+                                            selected={selectedOption === (index)}
+                                            onSelect={handleSelectOption}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
 
-                    <div className='w-full h-[1px] bg-main7'/>
+                            <div className='w-full h-[1px] bg-main7'/>
+
+                            <div className='w-full'>
+                                <div className='flex gap-5'>
+                                    <div className='flex items-center gap-1.5'>
+                                        <input
+                                            type='checkbox'
+                                            className='cursor-pointer'
+                                            name={`packages[${index}].isFragile`}
+                                            checked={pkg.isFragile}
+                                            onChange={formik.handleChange}
+                                        />
+                                        <p className='text-main2 md:text-[16px]
+                                        ss:text-[16px] text-[15px] font-medium'>
+                                            Fragile
+                                        </p>
+                                    </div>
+
+                                    <div className='flex items-center gap-1.5'>
+                                        <input
+                                            type='checkbox'
+                                            className='cursor-pointer'
+                                            name={`packages[${index}].isPerishable`}
+                                            checked={pkg.isPerishable}
+                                            onChange={formik.handleChange}
+                                        />
+                                        <p className='text-main2 md:text-[16px]
+                                        ss:text-[16px] text-[15px] font-medium'>
+                                            Perishable
+                                        </p>
+                                    </div>
+
+                                    <div className='flex items-center gap-1.5'>
+                                        <input
+                                            type='checkbox'
+                                            className='cursor-pointer'
+                                            name={`packages[${index}].isHazardous`}
+                                            checked={pkg.isHazardous}
+                                            onChange={formik.handleChange}
+                                        />
+                                        <p className='text-main2 md:text-[16px]
+                                        ss:text-[16px] text-[15px] font-medium'>
+                                            Hazardous
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
 
                     <div className='w-full'>
-                        <div className='flex gap-5'>
-                            <div className='flex items-center gap-1.5'>
-                                <input
-                                    type='checkbox'
-                                    className='cursor-pointer'
-                                />
-                                <p className='text-main2 md:text-[16px]
-                                ss:text-[16px] text-[15px] font-medium'>
-                                    Fragile
-                                </p>
-                            </div>
-
-                            <div className='flex items-center gap-1.5'>
-                                <input
-                                    type='checkbox'
-                                    className='cursor-pointer'
-                                />
-                                <p className='text-main2 md:text-[16px]
-                                ss:text-[16px] text-[15px] font-medium'>
-                                    Perishable
-                                </p>
-                            </div>
-
-                            <div className='flex items-center gap-1.5'>
-                                <input
-                                    type='checkbox'
-                                    className='cursor-pointer'
-                                />
-                                <p className='text-main2 md:text-[16px]
-                                ss:text-[16px] text-[15px] font-medium'>
-                                    Hazardous
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='w-full mt-3'>
                         <div className='inline-flex items-center gap-3 
-                        grow4 cursor-pointer'>
+                        grow4 cursor-pointer'
+                        onClick={addPackage}
+                        > 
                            <img 
                                 src={addicon}
                                 alt='addpackage'
@@ -484,7 +610,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                         </div>
                     </div>
 
-                    <div className="mt-8 flex w-full items-center 
+                    <div className="mt-2 flex w-full items-center 
                     justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
                     ss:flex-row flex-col">
                         <button
