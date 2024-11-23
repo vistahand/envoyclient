@@ -25,7 +25,8 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
                 <img
                     src={option.icon}
                     alt={option.name}
-                    className='w-[1.6rem] h-auto object-contain'
+                    className={`w-[1.6rem] h-auto object-contain
+                    ${selected ? 'stroke-white' : 'primary'}`}
                 />
 
                 <div className="flex flex-col w-full">
