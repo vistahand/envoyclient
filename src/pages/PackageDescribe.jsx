@@ -56,13 +56,11 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
 const PackageDescribe = ({ onPrev, selectedTab}) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    const [selectedOption, setSelectedOption] = useState([]);
+    const [selectedOption, setSelectedOption] = useState(null)
     // const navigate = useNavigate();
 
     const handleSelectOption = (index) => {
-        setSelectedOption((prev) =>
-            prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-        );
+        setSelectedOption((prev) => (prev === index ? null : index));
     };
 
     const formik = useFormik({
@@ -93,8 +91,8 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
 
 
   return (
-    <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
-    min-h-[800px]'>
+    <section className='w-full flex md:min-h-[850px] ss:min-h-[820px]
+    min-h-[1080px]'>
         <div className='flex items-center w-full flex-col'>
             <div className='w-full flex flex-col md:gap-1.5 gap-1 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
@@ -399,13 +397,13 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                         </div>
 
                         <div className='grid md:grid-cols-4 ss:grid-cols-4 w-full
-                        grid-cols-2 md:gap-2.5 ss:gap-2.5 gap-2'>
+                        grid-cols-2 gap-2.5'>
                             {packageOptions.map((option, index) => (
                                 <PackageCard 
                                     key={index}
                                     option={option}
                                     index={index}
-                                    selected={selectedOption.includes(index)}
+                                    selected={selectedOption === (index)}
                                     onSelect={handleSelectOption}
                                 />
                             ))}
@@ -422,7 +420,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     className='cursor-pointer'
                                 />
                                 <p className='text-main2 md:text-[16px]
-                                ss:text-[16px] text-[14px] font-medium'>
+                                ss:text-[16px] text-[15px] font-medium'>
                                     Fragile
                                 </p>
                             </div>
@@ -433,7 +431,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     className='cursor-pointer'
                                 />
                                 <p className='text-main2 md:text-[16px]
-                                ss:text-[16px] text-[14px] font-medium'>
+                                ss:text-[16px] text-[15px] font-medium'>
                                     Perishable
                                 </p>
                             </div>
@@ -444,7 +442,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                     className='cursor-pointer'
                                 />
                                 <p className='text-main2 md:text-[16px]
-                                ss:text-[16px] text-[14px] font-medium'>
+                                ss:text-[16px] text-[15px] font-medium'>
                                     Hazardous
                                 </p>
                             </div>
@@ -452,7 +450,8 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                     </div>
 
                     <div className='w-full mt-3'>
-                        <div className='inline-flex items-center gap-3 cursor-pointer'>
+                        <div className='inline-flex items-center gap-3 
+                        grow4 cursor-pointer'>
                            <img 
                                 src={addicon}
                                 alt='addpackage'
