@@ -11,17 +11,26 @@ import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 import { addicon } from '../assets';
 
 const PackageCard = ({ index, option, selected, onSelect}) => {
+    const cardRef = useRef(null);
+
     const handleClick = () => {
         onSelect(index);
     };
 
+    const handleTouchEnd = () => {
+        if (cardRef.current) {
+            cardRef.current.blur();
+        }
+    };
+
     return (
-        <div className='cursor-pointer'>
+        <div ref={cardRef} className='cursor-pointer'>
             <div className={`border-[1px] border-main5 rounded-lg px-4
             py-3 hover:bg-primary hover:text-white navsmooth w-full group
             flex gap-3 items-center
             ${selected ? 'bg-primary' : 'text-white'}`}
             onClick={handleClick}
+            onTouchEnd={handleTouchEnd}
             >
                 <div>
                     {React.createElement(option.icon, {
