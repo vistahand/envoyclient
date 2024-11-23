@@ -17,12 +17,6 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
         onSelect(index);
     };
 
-    const handleTouchEnd = () => {
-        if (cardRef.current) {
-            cardRef.current.blur();
-        }
-    };
-
     return (
         <div ref={cardRef} className='cursor-pointer'>
             <div className={`border-[1px] border-main5 rounded-lg px-4
@@ -30,7 +24,6 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
             flex gap-3 items-center
             ${selected ? 'bg-primary' : 'text-white'}`}
             onClick={handleClick}
-            onTouchEnd={handleTouchEnd}
             >
                 <div>
                     {React.createElement(option.icon, {
