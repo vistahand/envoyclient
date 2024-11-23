@@ -16,27 +16,33 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
 
     return (
         <div className='cursor-pointer'>
-            <div className={`border-[1px] border-main5 rounded-lg px-3.5
+            <div className={`border-[1px] border-main5 rounded-lg px-4
             py-3 hover:bg-primary hover:text-white navsmooth w-full
-            flex gap-2 items-center
+            flex gap-3 items-center
             ${selected ? 'bg-primary text-white' : ''}`}
             onClick={handleClick}
             >
                 <img
                     src={option.icon}
                     alt={option.name}
-                    className='w-[1.5rem] h-auto object-contain'
+                    className='w-[1.6rem] h-auto object-contain'
                 />
 
-                <div className='flex flex-col gap-1 w-full items-center'>
-                    <h3 className='md:text-[13px] ss:text-[13px] text-[12px]
-                    font-semibold text-primary'>
+                <div className="flex flex-col w-full">
+                    <h3
+                        className={`md:text-[13px] ss:text-[13px] text-[12px] 
+                        font-bold ${selected ? 'text-white' : 'text-primary'}
+                        group-hover:text-white`}
+                    >
                         {option.name}
                     </h3>
 
-                    <p className='text-main4 md:text-[12px] ss:text-[12px]
-                    text-[11px]'>
-                        {option.length} x {option.width} x {option.height}cm
+                    <p
+                        className={`text-main4 md:text-[12px] ss:text-[12px] 
+                        text-[11px] ${selected ? 'text-white' : 'text-main4'}
+                        group-hover:text-white`}
+                    >
+                        {option.length} x {option.width} x {option.height} cm
                     </p>
                 </div>
             </div>
@@ -390,7 +396,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                         </div>
 
                         <div className='grid md:grid-cols-4 ss:grid-cols-4 w-full
-                        grid-cols-2 md:gap-3 ss:gap-3 gap-2'>
+                        grid-cols-2 md:gap-2.5 ss:gap-2.5 gap-2'>
                             {packageOptions.map((option, index) => (
                                 <PackageCard 
                                     key={index}
