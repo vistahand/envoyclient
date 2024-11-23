@@ -6,9 +6,12 @@ import { FaFacebook } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 import { BiLogoLinkedin } from "react-icons/bi";
 
-import { blog1, blog2, blog3, book, box, cash, fileinvoice, mapsearch, 
+import { blog1, blog2, blog3, cash, fileinvoice, mapsearch, 
     message, movecard1, movecard2, movecard3, test1, 
 } from "../assets";
+
+import { ReactComponent as book } from '../assets/book.svg';
+import { ReactComponent as box } from '../assets/box.svg';
 
 
 export const navLinks = [

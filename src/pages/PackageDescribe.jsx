@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
@@ -19,15 +19,16 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
             <div className={`border-[1px] border-main5 rounded-lg px-4
             py-3 hover:bg-primary hover:text-white navsmooth w-full
             flex gap-3 items-center
-            ${selected ? 'bg-primary text-white' : ''}`}
+            ${selected ? 'bg-primary' : 'text-white'}`}
             onClick={handleClick}
             >
-                <img
-                    src={option.icon}
-                    alt={option.name}
-                    className={`w-[1.6rem] h-auto object-contain
-                    ${selected ? 'stroke-white' : 'primary'}`}
-                />
+                <div>
+                    {React.createElement(option.icon, {
+                        className: `w-[1.6rem] h-auto object-contain ${
+                            selected ? 'text-white' : 'text-primary'
+                        } group-hover:text-white`,
+                    })}
+                </div>
 
                 <div className="flex flex-col w-full">
                     <h3
