@@ -9,7 +9,12 @@ import { packageOptions } from '../constants';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 import { addicon } from '../assets';
-import { FaBox, FaFileAlt, FaPallet, FaTruckMoving, FaEllipsisH } from 'react-icons/fa';
+import { BsBoxSeam } from "react-icons/bs";
+import { IoNewspaperOutline } from "react-icons/io5";
+import { TbSquareForbid } from "react-icons/tb";
+import { GrAppsRounded } from "react-icons/gr";
+
+import { FaPallet } from 'react-icons/fa';
 
 const PackageCard = ({ index, option, selected, onSelect}) => {
     const handleClick = () => {
@@ -159,12 +164,64 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
     };
 
     const packageTypeOptions = [
-        { value: "parcel", icon: <FaBox className="inline-block mr-2" />, label: "Parcel" },
-        { value: "documents", icon: <FaFileAlt className="inline-block mr-2" />, label: "Documents" },
-        { value: "pallet", icon: <FaPallet className="inline-block mr-2" />, label: "Pallet" },
-        { value: "container", icon: <FaTruckMoving className="inline-block mr-2" />, label: "Container" },
-        { value: "other", icon: <FaEllipsisH className="inline-block mr-2" />, label: "Other" },
+        { value: "parcel", icon: <BsBoxSeam className="inline-block mr-2.5" />, label: "Parcel" },
+        { value: "documents", icon: <IoNewspaperOutline className="inline-block mr-2.5" />, label: "Documents" },
+        { value: "pallet", icon: <FaPallet className="inline-block mr-2.5" />, label: "Pallet" },
+        { value: "container", icon: <TbSquareForbid className="inline-block mr-2.5" />, label: "Container" },
+        { value: "other", icon: <GrAppsRounded className="inline-block mr-2.5" />, label: "Other" },
     ];
+
+    const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
+        const [showOptions, setShowOptions] = useState(false);
+        const [selectedValue, setSelectedValue] = useState(value);
+
+        const handleChange = (optionValue) => {
+            setSelectedValue(optionValue);
+            onChange({ target: { name, value: optionValue } });
+            onBlur({ target: { name } }); 
+            setShowOptions(false);
+        };
+      
+        return (
+            <div className="relative">
+                <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
+                md:rounded-lg rounded-md cursor-pointer md:text-[13px] 
+                ss:text-[14px] text-[12px] focus:outline-none focus-visible:outline-primary
+                bg-transparent w-full custom-select outline-[1px] 
+                ${error ? "outline-mainRed" : "outline-main6"}
+                ${value === "" ? "text-main6" : "text-black"}
+                flex items-center justify-between`}
+                onClick={() => setShowOptions(!showOptions)}
+                >
+                    {selectedValue ? (
+                        <>
+                            {options.find((option) => option.value === value).label}
+                        </>
+                    ) : (
+                        <span className="text-main6">{placeholder}</span>
+                    )}
+                </div>
+
+                {showOptions && (
+                    <div className="absolute z-20 w-full bg-white rounded-md mt-2 
+                    shadow-[0px_5px_15px_rgba(0,0,0,0.25)]">
+                        {options.map((option, optionIndex) => (
+                            <div key={optionIndex}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
+                            hover:bg-primary flex items-center hover:text-white 
+                            md:text-[13px] ss:text-[14px] text-[12px] text-main2 font-medium
+                            ${optionIndex === 0 ? 'rounded-t-md' : optionIndex === options.length - 1 ? 'rounded-b-md' : ''}
+                            `}
+                            onClick={() => handleChange(option.value)}
+                            >
+                                {option.icon} {option.label}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    };
 
 
   return (
@@ -279,37 +336,25 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                             grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
                                 <div className="relative flex flex-col col-span-2">
                                     <div className='relative flex items-center'>
-                                        <select
-                                            type="text"
-                                            name={`packages[${index}].packageType`}
-                                            value={pkg.packageType}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            className={`md:py-3.5 py-3 md:px-3.5
-                                            px-3 outline md:rounded-lg rounded-md
-                                            cursor-pointer md:text-[13px]
-                                            ss:text-[14px] text-[12px] focus:outline-primary
-                                            bg-transparent w-full custom-select outline-[1px]
-                                            ${
-                                            formik.touched.packages &&
-                                            formik.errors.packages &&
-                                            formik.touched.packages[index] &&
-                                            formik.errors.packages[index] &&
-                                            formik.touched.packages[index].packageType &&
-                                            formik.errors.packages[index].packageType
-                                                ? "outline-mainRed"
-                                                : "outline-main6"
-                                            }
-                                            ${pkg.packageType === "" ? "text-main6" : "text-black"}`}
-                                        >
-                                            <option value="" disabled hidden>Select the type of package</option>
-                                            {packageTypeOptions.map((option, optionIndex) => (
-                                                <option key={optionIndex} value={option.value}>
-                                                    {option.icon} {option.label}
-                                                </option>
-                                            ))}
-                                        </select>
-
+                                        <div className='w-full relative'>
+                                            <CustomSelect 
+                                                name={`packages[${index}].packageType`}
+                                                value={pkg.packageType}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                options={packageTypeOptions}
+                                                placeholder="Select the type of package"
+                                                error={
+                                                    formik.touched.packages &&
+                                                    formik.errors.packages &&
+                                                    formik.touched.packages[index] &&
+                                                    formik.errors.packages[index] &&
+                                                    formik.touched.packages[index].packageType &&
+                                                    formik.errors.packages[index].packageType
+                                                }
+                                            />
+                                        </div>
+                                        
                                         <div className='absolute md:right-3.5 right-3'>
                                             <TiArrowSortedDown 
                                                 className='text-main md:text-[16px]
