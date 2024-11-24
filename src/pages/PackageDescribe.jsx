@@ -56,24 +56,31 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
 const PackageDescribe = ({ onPrev, selectedTab}) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    const [selectedOption, setSelectedOption] = useState(null)
+    const [selectedOption, setSelectedOption] = useState({})
     // const navigate = useNavigate();
 
-    const handleSelectOption = (index) => {
-        setSelectedOption(prev => {
-            if (prev === index) { 
-                formik.setFieldValue("packages[0]", {
-                    packageWeight: '',
-                    packageLength: '',
-                    packageWidth: '',
-                    packageHeight: '',
+    const handleSelectOption = (pkgIndex, optionIndex) => {
+        setSelectedOption((prevSelected) => {
+            const updatedSelected = { ...prevSelected };
+            // If the same option is clicked again for this package, deselect it
+            if (updatedSelected[pkgIndex] === optionIndex) { 
+                delete updatedSelected[pkgIndex]; // Remove the selection for this package
+                formik.setFieldValue(`packages[${pkgIndex}]`, {
+                    packageType: "",
+                    packageWeight: "",
+                    packageLength: "",
+                    packageWidth: "",
+                    packageHeight: "",
                     isFragile: false,
                     isPerishable: false,
                     isHazardous: false,
                 });
+                return updatedSelected;
             } else {
-                const selectedPackage = packageOptions[index];
-                formik.setFieldValue("packages[0]", {
+                // Select the new option for this package
+                const selectedPackage = packageOptions[optionIndex];
+                formik.setFieldValue(`packages[${pkgIndex}]`, {
+                    packageType: selectedPackage.name,
                     packageWeight: selectedPackage.weight,
                     packageLength: selectedPackage.length,
                     packageWidth: selectedPackage.width,
@@ -82,8 +89,9 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                     isPerishable: false,
                     isHazardous: false,
                 });
+                updatedSelected[pkgIndex] = optionIndex;
             }
-            return prev === index ? null : index;
+            return updatedSelected;
         });
     };
 
@@ -530,13 +538,13 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
 
                                 <div className='grid md:grid-cols-4 ss:grid-cols-4 w-full
                                 grid-cols-2 gap-2.5'>
-                                    {packageOptions.map((option, index) => (
+                                    {packageOptions.map((option, optionIndex) => (
                                         <PackageCard 
-                                            key={index}
+                                            key={optionIndex}
                                             option={option}
-                                            index={index}
-                                            selected={selectedOption === (index)}
-                                            onSelect={handleSelectOption}
+                                            index={optionIndex}
+                                            selected={selectedOption[index] === optionIndex}
+                                            onSelect={() => handleSelectOption(index, optionIndex)}
                                         />
                                     ))}
                                 </div>
