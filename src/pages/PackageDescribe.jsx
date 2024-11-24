@@ -62,9 +62,10 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
     const handleSelectOption = (pkgIndex, optionIndex) => {
         setSelectedOption((prevSelected) => {
             const updatedSelected = { ...prevSelected };
+            
             // If the same option is clicked again for this package, deselect it
             if (updatedSelected[pkgIndex] === optionIndex) { 
-                delete updatedSelected[pkgIndex]; // Remove the selection for this package
+                delete updatedSelected[pkgIndex];
                 formik.setFieldValue(`packages[${pkgIndex}]`, {
                     packageType: "",
                     packageWeight: "",
