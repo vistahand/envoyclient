@@ -191,6 +191,24 @@ export const packageOptions = [
     },
 ];
 
+export const delOptions = [
+    {
+        id: "earliest",
+        date: "Friday, 1st November, 2024",
+        price: "365,000",
+    },
+    {
+        id: "ealier",
+        date: "Saturday, 2nd November, 2024",
+        price: "365,000",
+    },
+    {
+        id: "latest",
+        date: "Friday, 8th November, 2024",
+        price: "265,000",
+    },
+];
+
 export const socialMedia = [
     {
         id: "facebook",

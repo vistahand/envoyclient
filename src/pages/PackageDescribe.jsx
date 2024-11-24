@@ -59,7 +59,7 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
     );
 };
 
-const PackageDescribe = ({ onPrev, selectedTab}) => {
+const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
     const formRef = useRef();
     const currentTab = selectedTab;
     const [selectedOption, setSelectedOption] = useState({})
@@ -137,7 +137,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
         ),
         validateOnMount: true,
         onSubmit: (values) => {
-           
+            onNext(currentTab);
         },
     });
 

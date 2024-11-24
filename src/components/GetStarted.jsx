@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import {
+    DeliveryOptions,
     GetStartedForm,
     PackageDescribe,
 } from '../pages';
@@ -32,8 +33,9 @@ const GetStarted = () => {
 
     return (
         <div ref={sectionRef} className='font-manrope'>
-           {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />} 
-           {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} selectedTab={selectedTab} />} 
+           {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />}
+           {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} onNext={handleNextStep} selectedTab={selectedTab} />}
+           {currentStep === 3 && <DeliveryOptions onNext={handleNextStep} onPrev={handlePreviousStep} selectedTab={selectedTab}/>} 
         </div>
     )
 };
