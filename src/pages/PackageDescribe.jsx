@@ -73,7 +73,6 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
             if (updatedSelected[pkgIndex] === optionIndex) { 
                 delete updatedSelected[pkgIndex];
                 formik.setFieldValue(`packages[${pkgIndex}]`, {
-                    packageType: "",
                     packageWeight: "",
                     packageLength: "",
                     packageWidth: "",
@@ -87,7 +86,6 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                 // Select the new option for this package
                 const selectedPackage = packageOptions[optionIndex];
                 formik.setFieldValue(`packages[${pkgIndex}]`, {
-                    packageType: selectedPackage.name,
                     packageWeight: selectedPackage.weight,
                     packageLength: selectedPackage.length,
                     packageWidth: selectedPackage.width,
