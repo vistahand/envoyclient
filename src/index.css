@@ -353,6 +353,14 @@ body, html {
   color: white;
 }
 
+.grow6 > * {
+  transition: transform 0.3s ease-in-out;
+}
+
+.grow6:hover > :first-child {
+  transform: translateX(-4px);
+}
+
 .expandable-div {
   transition: width 0.3s ease-in-out;
   overflow: hidden; /* Ensures content doesn’t jump or overflow abruptly */

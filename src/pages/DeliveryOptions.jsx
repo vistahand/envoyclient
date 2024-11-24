@@ -4,6 +4,7 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 // import { useNavigate } from 'react-router-dom';
 import { delOptions } from '../constants';
 import { SectionWrapper } from '../hoc';
+import { wing } from '../assets';
 
 const DeliveryCard = ({price, date, onNext, index}) => {
 
@@ -45,7 +46,7 @@ const DeliveryCard = ({price, date, onNext, index}) => {
                         <span className='line-through'>N</span> {price}.00
                     </h1>
 
-                    <div className='flex items-center gap-2 grow4 justify-end
+                    <div className='flex items-center gap-2 grow6 justify-end
                     cursor-pointer'
                     onClick={onNext}
                     >
@@ -54,22 +55,30 @@ const DeliveryCard = ({price, date, onNext, index}) => {
                             Book Now
                         </p>
 
-                        <HiOutlineArrowRight className='text-[12px] font-medium'/>
+                        <HiOutlineArrowRight className='text-[13px] font-medium'/>
                     </div>
                 </div>
             </div>
 
             <div className='w-[15%] flex flex-col px-2 py-10 items-center 
-            justify-center gap-0.5 bg-secondary rounded-r-2xl'>
-                <h1 className='md:text-[20px] ss:text-[19px] text-[16px]
-                font-bold tracking-tight'>
-                    QuickWing
-                </h1>
+            justify-center gap-0.5 bg-secondary rounded-r-2xl relative
+            overflow-hidden'>
+                <img
+                    src={wing}
+                    className='absolute bottom-0 w-[10rem] h-auto]'
+                />
+                
+                <div className='z-10 flex flex-col items-center'>
+                    <h1 className='md:text-[20px] ss:text-[19px] text-[16px]
+                    font-bold tracking-tight'>
+                        QuickWing
+                    </h1>
 
-                <p className='md:text-[12px] ss:text-[12px] text-[11px]
-                tracking-tight text-center'>
-                    Enjoy fast, priority shipping
-                </p>
+                    <p className='md:text-[12px] ss:text-[12px] text-[11px]
+                    tracking-tight text-center'>
+                        Enjoy fast, priority shipping
+                    </p>
+                </div>
             </div>
         </div>
     );
