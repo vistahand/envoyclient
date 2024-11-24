@@ -164,11 +164,36 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
     };
 
     const packageTypeOptions = [
-        { value: "parcel", icon: <BsBoxSeam className="inline-block mr-2.5" />, label: "Parcel" },
-        { value: "documents", icon: <IoNewspaperOutline className="inline-block mr-2.5" />, label: "Documents" },
-        { value: "pallet", icon: <FaPallet className="inline-block mr-2.5" />, label: "Pallet" },
-        { value: "container", icon: <TbSquareForbid className="inline-block mr-2.5" />, label: "Container" },
-        { value: "other", icon: <GrAppsRounded className="inline-block mr-2.5" />, label: "Other" },
+        { 
+            value: "parcel", 
+            icon: <BsBoxSeam className="inline-block mr-2.5" />, 
+            label: "Parcel" ,
+            className: "flex items-center"
+        },
+        { 
+            value: "documents", 
+            icon: <IoNewspaperOutline className="inline-block mr-2.5" />, 
+            label: "Documents",
+            className: "flex items-center" 
+        },
+        { 
+            value: "pallet", 
+            icon: <FaPallet className="inline-block mr-2.5" />, 
+            label: "Pallet" ,
+            className: "flex items-center" 
+        },
+        { 
+            value: "container", 
+            icon: <TbSquareForbid className="inline-block mr-2.5" />, 
+            label: "Container",
+            className: "flex items-center" 
+        },
+        { 
+            value: "other", 
+            icon: <GrAppsRounded className="inline-block mr-2.5" />, 
+            label: "Other",
+            className: "flex items-center" 
+        },
     ];
 
     const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
