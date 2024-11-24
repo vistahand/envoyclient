@@ -205,7 +205,7 @@ export const delOptions = [
     {
         id: "latest",
         date: "Friday, 8th November, 2024",
-        price: "265,000",
+        price: "200,000",
     },
 ];
 
