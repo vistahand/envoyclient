@@ -36,7 +36,7 @@ const DeliveryCard = ({price, date, onNext, index}) => {
 
                 <div className='flex flex-col gap-1'>
                     <p className='md:text-[12px] ss:text-[12px] text-[11px]
-                    tracking-tight'>
+                    tracking-tight text-right'>
                         Excluding VAT
                     </p>
 
@@ -45,15 +45,16 @@ const DeliveryCard = ({price, date, onNext, index}) => {
                         <span className='line-through'>N</span> {price}.00
                     </h1>
 
-                    <div className='flex items-center gap-2 grow4 cursor-pointer'
+                    <div className='flex items-center gap-2 grow4 justify-end
+                    cursor-pointer'
                     onClick={onNext}
                     >
                         <p className='md:text-[14px] ss:text-[14px] text-[12px]
-                        tracking-tight'>
+                        tracking-tight font-medium'>
                             Book Now
                         </p>
 
-                        <HiOutlineArrowRight className='text-[12px]'/>
+                        <HiOutlineArrowRight className='text-[12px] font-medium'/>
                     </div>
                 </div>
             </div>
