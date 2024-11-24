@@ -178,7 +178,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
         const handleChange = (optionValue) => {
             setSelectedValue(optionValue);
             onChange({ target: { name, value: optionValue } });
-            onBlur({ target: { name } }); 
+            setTimeout(() => onBlur({ target: { name } }), 0); 
             setShowOptions(false);
         };
       
@@ -186,12 +186,13 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
             <div className="relative">
                 <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
                 md:rounded-lg rounded-md cursor-pointer md:text-[13px] 
-                ss:text-[14px] text-[12px] focus:outline-none focus-visible:outline-primary
+                ss:text-[14px] text-[12px] focus:outline-primary
                 bg-transparent w-full custom-select outline-[1px] 
                 ${error ? "outline-mainRed" : "outline-main6"}
                 ${value === "" ? "text-main6" : "text-black"}
                 flex items-center justify-between`}
                 onClick={() => setShowOptions(!showOptions)}
+                tabIndex={0}
                 >
                     {selectedValue ? (
                         <>
