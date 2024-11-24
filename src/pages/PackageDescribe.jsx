@@ -9,6 +9,7 @@ import { packageOptions } from '../constants';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 import { addicon } from '../assets';
+import { FaBox, FaFileAlt, FaPallet, FaTruckMoving, FaEllipsisH } from 'react-icons/fa';
 
 const PackageCard = ({ index, option, selected, onSelect}) => {
     const handleClick = () => {
@@ -157,6 +158,14 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
         onPrev(currentTab);
     };
 
+    const packageTypeOptions = [
+        { value: "parcel", icon: <FaBox className="inline-block mr-2" />, label: "Parcel" },
+        { value: "documents", icon: <FaFileAlt className="inline-block mr-2" />, label: "Documents" },
+        { value: "pallet", icon: <FaPallet className="inline-block mr-2" />, label: "Pallet" },
+        { value: "container", icon: <FaTruckMoving className="inline-block mr-2" />, label: "Container" },
+        { value: "other", icon: <FaEllipsisH className="inline-block mr-2" />, label: "Other" },
+    ];
+
 
   return (
     <section className='w-full flex md:min-h-[850px] ss:min-h-[820px]
@@ -294,7 +303,11 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                             ${pkg.packageType === "" ? "text-main6" : "text-black"}`}
                                         >
                                             <option value="" disabled hidden>Select the type of package</option>
-                                            <option value="package" >Package</option>
+                                            {packageTypeOptions.map((option, optionIndex) => (
+                                                <option key={optionIndex} value={option.value}>
+                                                    {option.icon} {option.label}
+                                                </option>
+                                            ))}
                                         </select>
 
                                         <div className='absolute md:right-3.5 right-3'>
