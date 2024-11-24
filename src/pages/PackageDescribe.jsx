@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
@@ -174,6 +174,20 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
     const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
         const [showOptions, setShowOptions] = useState(false);
         const [selectedValue, setSelectedValue] = useState(value);
+        const selectRef = useRef(null)
+
+        useEffect(() => {
+            const handleClickOutside = (event) => {
+                if (selectRef.current && !selectRef.current.contains(event.target)) {
+                    setShowOptions(false);
+                }
+            };
+        
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => document.removeEventListener("mousedown",   
+         handleClickOutside);
+        
+        }, []);
 
         const handleChange = (optionValue) => {
             setSelectedValue(optionValue);
@@ -183,7 +197,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
         };
       
         return (
-            <div className="relative">
+            <div className="relative" ref={selectRef}>
                 <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
                 md:rounded-lg rounded-md cursor-pointer md:text-[13px] 
                 ss:text-[14px] text-[12px] focus:outline-primary
