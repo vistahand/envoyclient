@@ -62,7 +62,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
     const handleSelectOption = (pkgIndex, optionIndex) => {
         setSelectedOption((prevSelected) => {
             const updatedSelected = { ...prevSelected };
-            
+
             // If the same option is clicked again for this package, deselect it
             if (updatedSelected[pkgIndex] === optionIndex) { 
                 delete updatedSelected[pkgIndex];
@@ -277,7 +277,7 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5
-                                            px-3 outline text-main6 md:rounded-lg rounded-md
+                                            px-3 outline md:rounded-lg rounded-md
                                             cursor-pointer md:text-[13px]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full custom-select outline-[1px]
@@ -290,9 +290,11 @@ const PackageDescribe = ({ onPrev, selectedTab}) => {
                                             formik.errors.packages[index].packageType
                                                 ? "outline-mainRed"
                                                 : "outline-main6"
-                                            }`}
+                                            }
+                                            ${pkg.packageType === "" ? "text-main6" : "text-black"}`}
                                         >
                                             <option value="" disabled hidden>Select the type of package</option>
+                                            <option value="package" >Package</option>
                                         </select>
 
                                         <div className='absolute md:right-3.5 right-3'>
