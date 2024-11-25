@@ -55,19 +55,21 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         <span className='line-through'>N</span> {option.price}.00
                     </h1>
 
-                    <div className={`flex items-center gap-2.5 justify-end
-                    cursor-pointer ${index === totalOptions - 1
-                    ? 'text-primary grow7'
-                    : 'grow6'}`
-                    }
-                    onClick={onNext}
-                    >
-                        <p className='md:text-[14px] ss:text-[14px] text-[12px]
-                        tracking-tight font-medium'>
-                            Book Now
-                        </p>
+                    <div className='flex justify-end'>
+                        <div className={`inline-flex items-center gap-2.5
+                        cursor-pointer ${index === totalOptions - 1
+                        ? 'text-primary grow7'
+                        : 'grow6'}`
+                        }
+                        onClick={onNext}
+                        >
+                            <p className='md:text-[14px] ss:text-[14px] text-[12px]
+                            tracking-tight font-medium'>
+                                Book Now
+                            </p>
 
-                        <HiOutlineArrowRight className='text-[13px] font-medium'/>
+                            <HiOutlineArrowRight className='text-[13px] font-medium'/>
+                        </div>
                     </div>
                 </div>
             </div>
