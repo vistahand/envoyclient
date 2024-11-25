@@ -40,7 +40,7 @@ const GetStarted = () => {
         <div ref={sectionRef} className='font-manrope'>
            {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />}
            {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} onNext={handleNextStep} selectedTab={selectedTab} />}
-           {currentStep === 3 && <DeliveryOptions onNext={(tab) => handleNextStep(tab, 'individual')} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />}
+           {currentStep === 3 && <DeliveryOptions onNext={(tab) => handleNextStep(tab, 'individual')} onPrev={handlePreviousStep} selectedTab={selectedTab} />}
            {currentStep === 4 && <SenderForm onNext={handleNextStep} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />} 
         </div>
     )
