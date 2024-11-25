@@ -47,13 +47,19 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         Excluding VAT
                     </p>
 
-                    <h1 className='md:text-[25px] ss:text-[24px] text-[20px]
-                    font-bold tracking-tight'>
+                    <h1 className={`md:text-[25px] ss:text-[24px] text-[20px]
+                    font-bold tracking-tight ${index === totalOptions - 1
+                    ? 'text-primary'
+                    : ''}`
+                    }>
                         <span className='line-through'>N</span> {option.price}.00
                     </h1>
 
-                    <div className='flex items-center gap-2.5 grow6 justify-end
-                    cursor-pointer'
+                    <div className={`flex items-center gap-2.5 grow6 justify-end
+                    cursor-pointer ${index === totalOptions - 1
+                    ? 'text-primary'
+                    : ''}`
+                    }
                     onClick={onNext}
                     >
                         <p className='md:text-[14px] ss:text-[14px] text-[12px]
