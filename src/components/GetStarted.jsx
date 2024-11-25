@@ -3,12 +3,14 @@ import {
     DeliveryOptions,
     GetStartedForm,
     PackageDescribe,
+    SenderForm,
 } from '../pages';
 
 const GetStarted = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [initialLoad, setInitialLoad] = useState(true);
     const [selectedTab, setSelectedTab] = useState('international');
+    const [senderTab, setSenderTab] = useState('individual');
     const sectionRef = useRef(null); 
 
     useEffect(() => {
@@ -19,10 +21,13 @@ const GetStarted = () => {
         }
     }, [currentStep, initialLoad]);
 
-    const handleNextStep = (tab) => {
+    const handleNextStep = (tab, nextTab) => {
         setCurrentStep(currentStep + 1);
         setInitialLoad(false);
         setSelectedTab(tab);
+        if (nextTab) {
+            setSenderTab(nextTab); 
+        }
     };
 
     const handlePreviousStep = (tab) => {
@@ -35,7 +40,8 @@ const GetStarted = () => {
         <div ref={sectionRef} className='font-manrope'>
            {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />}
            {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} onNext={handleNextStep} selectedTab={selectedTab} />}
-           {currentStep === 3 && <DeliveryOptions onNext={handleNextStep} onPrev={handlePreviousStep} selectedTab={selectedTab}/>} 
+           {currentStep === 3 && <DeliveryOptions onNext={(tab) => handleNextStep(tab, 'individual')} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />}
+           {currentStep === 4 && <SenderForm onNext={handleNextStep} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />} 
         </div>
     )
 };
