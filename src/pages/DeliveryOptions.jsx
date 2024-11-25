@@ -9,14 +9,15 @@ import { wing } from '../assets';
 const DeliveryCard = ({option, onNext, index, totalOptions}) => {
 
     return (
-        <div className='w-full flex'>
+        <div className='w-full flex md:flex-row ss:flex-row flex-col'>
             <div className={`${index === totalOptions - 1
-            ? 'w-full rounded-2xl bg-mainalt border border-main5 text-main2' 
-            : 'w-[85%] rounded-l-2xl bg-primary text-white'} 
-            flex justify-between px-7 py-10 items-center`}
+            ? 'w-full md:rounded-2xl ss:rounded-2xl rounded-xl bg-mainalt border border-main5 text-main2' 
+            : 'md:w-[85%] ss:w-[85%] w-full md:rounded-l-2xl ss:rounded-l-2xl mobdel bg-primary text-white'} 
+            flex md:flex-row ss:flex-row flex-col justify-between md:px-7 px-7 md:py-10 py-8 md:items-center ss:items-center
+            md:gap-0 ss:gap-0 gap-4`}
             >
                 <div className='flex flex-col gap-1'>
-                    <p className='md:text-[12px] ss:text-[12px] text-[11px]
+                    <p className='md:text-[13px] ss:text-[13px] text-[12px]
                     tracking-tight'>
                         Estimated Delivery Date
                     </p>
@@ -32,7 +33,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         </span>
                     </h1>
 
-                    <p className={`md:text-[12px] ss:text-[12px] text-[11px]
+                    <p className={`md:text-[13px] ss:text-[13px] text-[12px]
                     tracking-tight ${index === totalOptions - 1
                     ? 'text-main4'
                     : ''}`
@@ -42,12 +43,12 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                    <p className='md:text-[12px] ss:text-[12px] text-[11px]
+                    <p className='md:text-[13px] ss:text-[13px] text-[12px]
                     tracking-tight text-right'>
                         Excluding VAT
                     </p>
 
-                    <h1 className={`md:text-[25px] ss:text-[24px] text-[20px]
+                    <h1 className={`md:text-[25px] ss:text-[25px] text-[24px] text-right
                     font-bold tracking-tight ${index === totalOptions - 1
                     ? 'text-primary'
                     : ''}`
@@ -63,7 +64,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         }
                         onClick={onNext}
                         >
-                            <p className='md:text-[14px] ss:text-[14px] text-[12px]
+                            <p className='md:text-[15px] ss:text-[15px] text-[14px]
                             tracking-tight font-medium'>
                                 Book Now
                             </p>
@@ -77,13 +78,13 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
             <div className={`${index === totalOptions - 1 
             ? 'hidden' 
             : 'flex' }
-            w-[15%] flex-col px-2 py-10 items-center 
-            justify-center gap-0.5 bg-secondary rounded-r-2xl relative
-            overflow-hidden text-white`}>
+            md:w-[15%] ss:w-[15%] w-full flex-col px-2 md:py-10 ss:py-8 py-3.5 items-center 
+            justify-center gap-0.5 bg-secondary md:rounded-r-2xl ss:rounded-r-2xl 
+            mobdel2 relative overflow-hidden text-white mobdelheight`}>
                 <img
                     src={wing}
                     alt='wing'
-                    className='absolute bottom-0 w-[10rem] h-auto]'
+                    className='absolute bottom-0 mobimg md:w-[10rem] ss:w-[9rem] w-[6.2rem] h-auto]'
                 />
                 
                 <div className='z-10 flex flex-col items-center'>
@@ -92,7 +93,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         QuickWing
                     </h1>
 
-                    <p className='md:text-[12px] ss:text-[12px] text-[11px]
+                    <p className='md:text-[13px] ss:text-[13px] text-[12px]
                     tracking-tight text-center'>
                         Enjoy fast, priority shipping
                     </p>

@@ -299,6 +299,24 @@ body, html {
   }
 }
 
+@media (max-width: 480px) {
+  .mobdel {
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobdel2 {
+    border-radius: 0 0 16px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobimg {
+    right: 0px;
+  }
+}
+
 .wht {
   filter: invert(1) brightness(100);
 }
