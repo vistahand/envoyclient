@@ -138,7 +138,7 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
 
   return (
     <section className='w-full flex md:min-h-[850px] ss:min-h-[820px]
-    min-h-[1080px]'>
+    min-h-[1400px]'>
         <div className='flex items-center w-full flex-col'>
             <div className='w-full flex flex-col md:gap-1.5 gap-1 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
