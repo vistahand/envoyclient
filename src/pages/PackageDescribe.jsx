@@ -222,7 +222,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
         return (
             <div className="relative" ref={selectRef}>
                 <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
-                md:rounded-lg rounded-md cursor-pointer md:text-[13px] 
+                md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
                 ss:text-[14px] text-[12px] focus:outline-primary
                 bg-transparent w-full custom-select outline-[1px] 
                 ${error ? "outline-mainRed" : "outline-main6"}
@@ -247,7 +247,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                             <div key={optionIndex}
                             className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
                             hover:bg-primary flex items-center hover:text-white 
-                            md:text-[13px] ss:text-[14px] text-[12px] text-main2 font-medium
+                            md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
                             ${optionIndex === 0 ? 'rounded-t-md' : optionIndex === options.length - 1 ? 'rounded-b-md' : ''}
                             `}
                             onClick={() => handleChange(option.value)}
@@ -423,7 +423,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                             peer outline-[1px] outline-main6 outline
-                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            text-black md:rounded-lg rounded-md md:text-[14px]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full
                                             ${
@@ -442,7 +442,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                         htmlFor="packageWeight"
                                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                         duration-300 peer-placeholder-shown:translate-y-0 
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
@@ -476,7 +476,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                             peer outline-[1px] outline-main6 outline
-                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            text-black md:rounded-lg rounded-md md:text-[14px]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full
                                             ${
@@ -495,7 +495,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                         htmlFor="packageLength"
                                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                         duration-300 peer-placeholder-shown:translate-y-0 
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
@@ -529,7 +529,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                             peer outline-[1px] outline-main6 outline
-                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            text-black md:rounded-lg rounded-md md:text-[14px]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full
                                             ${
@@ -548,7 +548,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                         htmlFor="packageWidth"
                                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                         duration-300 peer-placeholder-shown:translate-y-0 
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
@@ -582,7 +582,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                             peer outline-[1px] outline-main6 outline
-                                            text-black md:rounded-lg rounded-md md:text-[13px]
+                                            text-black md:rounded-lg rounded-md md:text-[14px]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full
                                             ${
@@ -601,7 +601,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                         htmlFor="packageHeight"
                                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                        md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                        md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                         duration-300 peer-placeholder-shown:translate-y-0 
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5

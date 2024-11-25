@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useFormik } from "formik";
+import * as Yup from 'yup';
 import { HiOutlineArrowRight } from "react-icons/hi";
 // import { useNavigate } from 'react-router-dom';
 import { delOptions } from '../constants';
@@ -122,9 +123,13 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
 
     const formik = useFormik({
         initialValues: {
-           
+           date: ''
         },
-        validateOnMount: true,
+
+        validationSchema: Yup.object({
+            date: Yup.string().required('Date is required.')
+        }),
+
         onSubmit: (values) => {
             onNext(currentTab)
         },
@@ -157,6 +162,46 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
             <form ref={formRef} onSubmit={formik.handleSubmit}
             className='md:w-[85%] w-full md:mt-12 ss:mt-10 mt-8'>
                 <div className='flex flex-col w-full items-center gap-8'>
+                    <div className='w-full'>
+                        <div className="inline-flex flex-col relative
+                        md:w-[25%] ss:w-[25%] w-[50%]">
+                            <input
+                                type="text"
+                                name="date"
+                                placeholder=''
+                                value={formik.values.date}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                peer outline text-black md:rounded-lg rounded-md 
+                                md:text-[15px] ss:text-[14px] text-[13px] outline-[1px]
+                                bg-transparent w-full focus:outline-primary
+                                ${formik.touched.date && formik.errors.date ? 'outline-mainRed' : 'outline-main6'}
+                                `}
+                            />
+
+                            <label
+                            htmlFor="date"
+                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                            md:text-[15px] ss:text-[14px] text-[13px] bg-white peer-focus:px-2
+                            duration-300 peer-placeholder-shown:translate-y-0 
+                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                            ${formik.values.date ? 'z-10 px-2' : ''}
+                            `}
+                            >
+                                Shipment Date
+                            </label>
+
+                            <p className="text-mainRed md:text-[12px] flex justify-end
+                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                {formik.touched.date && formik.errors.date}
+                            </p>
+                        </div>
+                    </div>
+
                     <div className='w-full flex flex-col gap-6'>
                         {delOptions.map((option, index) => (
                             <DeliveryCard

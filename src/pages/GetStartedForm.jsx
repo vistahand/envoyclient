@@ -195,7 +195,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
                                             px-3 outline text-main2 md:rounded-lg rounded-md
-                                            cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
+                                            cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full custom-select outline-[1px]
                                             ${formik.touched.countryFromInt && formik.errors.countryFromInt ? 'outline-mainRed' : 'outline-main6'}`}
@@ -238,7 +238,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                         onBlur={formik.handleBlur}
                                         className='md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline-[1px] outline-main6 outline
-                                        text-black md:rounded-lg rounded-md md:text-[13px]
+                                        text-black md:rounded-lg rounded-md md:text-[14px]
                                         ss:text-[14px] text-[12px] focus:outline-primary
                                         bg-transparent w-full '
                                     />
@@ -247,7 +247,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                     htmlFor="cityFromInt"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                    md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
@@ -297,7 +297,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
                                             px-3 outline text-main2 md:rounded-lg rounded-md
-                                            cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
+                                            cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full custom-select outline-[1px]
                                             ${formik.touched.countryTo && formik.errors.countryTo ? 'outline-mainRed' : 'outline-main6'}`}
@@ -340,7 +340,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                         onBlur={formik.handleBlur}
                                         className='md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline outline-main6 outline-[1px]
-                                        text-black md:rounded-lg rounded-md md:text-[13px]
+                                        text-black md:rounded-lg rounded-md md:text-[14px]
                                         ss:text-[14px] text-[12px]
                                         bg-transparent w-full focus:outline-primary'
                                     />
@@ -349,7 +349,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                     htmlFor="cityToInt"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                    md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
@@ -415,7 +415,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                             onBlur={formik.handleBlur}
                                             className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
                                             px-3 outline text-main2 md:rounded-lg rounded-md
-                                            cursor-pointer md:text-[13px] font-bold pl-[3.6rem]
+                                            cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-primary
                                             bg-transparent w-full custom-select outline-[1px]
                                             ${formik.touched.countryFromLoc && formik.errors.countryFromLoc ? 'outline-mainRed' : 'outline-main6'}`}
@@ -458,7 +458,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
-                                        md:text-[13px] ss:text-[14px] text-[12px] outline-[1px]
+                                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                                         bg-transparent w-full focus:outline-primary
                                         ${formik.touched.cityFromLoc && formik.errors.cityFromLoc ? 'outline-mainRed' : 'outline-main6'}
                                         `}
@@ -468,7 +468,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                     htmlFor="cityFromLoc"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                    md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
@@ -511,7 +511,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
-                                        md:text-[13px] ss:text-[14px] text-[12px]
+                                        md:text-[14px] ss:text-[14px] text-[12px]
                                         bg-transparent w-full focus:outline-primary outline-[1px]
                                         ${formik.touched.cityToLoc && formik.errors.cityToLoc ? 'outline-mainRed' : 'outline-main6'}
                                         `}
@@ -521,7 +521,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                                     htmlFor="cityToLoc"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                    md:text-[13px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
