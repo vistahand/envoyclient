@@ -120,10 +120,11 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
     const currentTab = selectedTab;
     // const navigate = useNavigate();
 
+    const today = new Date().toISOString().split("T")[0];
 
     const formik = useFormik({
         initialValues: {
-           date: ''
+           date: today,
         },
 
         validationSchema: Yup.object({
@@ -166,7 +167,7 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
                         <div className="inline-flex flex-col relative
                         md:w-[25%] ss:w-[25%] w-[50%]">
                             <input
-                                type="text"
+                                type="date"
                                 name="date"
                                 placeholder=''
                                 value={formik.values.date}
@@ -175,7 +176,7 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
                                 className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                 peer outline text-black md:rounded-lg rounded-md 
                                 md:text-[15px] ss:text-[14px] text-[13px] outline-[1px]
-                                bg-transparent w-full focus:outline-primary
+                                bg-transparent w-full focus:outline-primary cursor-pointer
                                 ${formik.touched.date && formik.errors.date ? 'outline-mainRed' : 'outline-main6'}
                                 `}
                             />
