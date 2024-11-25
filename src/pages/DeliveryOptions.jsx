@@ -23,7 +23,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                     </p>
 
                     <h1 className='md:text-[20px] ss:text-[20px] text-[18px]
-                    font-bold tracking-tight'>
+                    font-bold tracking-tight md:block ss:block hidden'>
                         {option.date} <span className='md:text-[19px] ml-2
                         ss:text-[19x] text-[16px] font-normal'>
                         | </span>
@@ -33,7 +33,18 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         </span>
                     </h1>
 
-                    <p className={`md:text-[13px] ss:text-[13px] text-[12px]
+                    <h1 className='flex flex-col tracking-tight block 
+                    ss:hidden md:hidden gap-1'>
+                        <h1 className='text-[20px] font-bold'>
+                            {option.date}
+                        </h1>
+
+                        <h2 className='text-[15px] font-medium'>
+                            2PM at the earliest
+                        </h2>
+                    </h1>
+
+                    <p className={`md:text-[13px] ss:text-[13px] text-[11px]
                     tracking-tight ${index === totalOptions - 1
                     ? 'text-main4'
                     : ''}`
@@ -48,7 +59,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         Excluding VAT
                     </p>
 
-                    <h1 className={`md:text-[25px] ss:text-[25px] text-[24px] text-right
+                    <h1 className={`md:text-[25px] ss:text-[25px] text-[28px] text-right
                     font-bold tracking-tight ${index === totalOptions - 1
                     ? 'text-primary'
                     : ''}`
