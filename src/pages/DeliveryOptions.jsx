@@ -6,12 +6,15 @@ import { delOptions } from '../constants';
 import { SectionWrapper } from '../hoc';
 import { wing } from '../assets';
 
-const DeliveryCard = ({price, date, onNext, index}) => {
+const DeliveryCard = ({option, onNext, index, totalOptions}) => {
 
     return (
-        <div className='w-full flex text-white'>
-            <div className='w-[85%] flex justify-between px-7 py-10 items-center
-            bg-primary rounded-l-2xl'>
+        <div className='w-full flex'>
+            <div className={`${index === totalOptions - 1
+            ? 'w-full rounded-2xl bg-mainalt border border-main5' 
+            : 'w-[85%] rounded-l-2xl bg-primary text-white'} 
+            flex justify-between px-7 py-10 items-center`}
+            >
                 <div className='flex flex-col gap-1'>
                     <p className='md:text-[12px] ss:text-[12px] text-[11px]
                     tracking-tight'>
@@ -20,7 +23,7 @@ const DeliveryCard = ({price, date, onNext, index}) => {
 
                     <h1 className='md:text-[20px] ss:text-[20px] text-[18px]
                     font-bold tracking-tight'>
-                        {date} <span className='md:text-[17px] ml-2
+                        {option.date} <span className='md:text-[17px] ml-2
                         ss:text-[17x] text-[15px] font-normal'>
                         | </span>
                         <span className='md:text-[17px] ml-2
@@ -43,10 +46,10 @@ const DeliveryCard = ({price, date, onNext, index}) => {
 
                     <h1 className='md:text-[25px] ss:text-[24px] text-[20px]
                     font-bold tracking-tight'>
-                        <span className='line-through'>N</span> {price}.00
+                        <span className='line-through'>N</span> {option.price}.00
                     </h1>
 
-                    <div className='flex items-center gap-2 grow6 justify-end
+                    <div className='flex items-center gap-2.5 grow6 justify-end
                     cursor-pointer'
                     onClick={onNext}
                     >
@@ -60,11 +63,15 @@ const DeliveryCard = ({price, date, onNext, index}) => {
                 </div>
             </div>
 
-            <div className='w-[15%] flex flex-col px-2 py-10 items-center 
+            <div className={`${index === totalOptions - 1 
+            ? 'hidden' 
+            : 'flex' }
+            w-[15%] flex-col px-2 py-10 items-center 
             justify-center gap-0.5 bg-secondary rounded-r-2xl relative
-            overflow-hidden'>
+            overflow-hidden text-white`}>
                 <img
                     src={wing}
+                    alt='wing'
                     className='absolute bottom-0 w-[10rem] h-auto]'
                 />
                 
@@ -131,8 +138,10 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
                         {delOptions.map((option, index) => (
                             <DeliveryCard
                                 key={index}
-                                {...option}
+                                index={index}
+                                option={option}
                                 onNext={() => onNext(currentTab)}
+                                totalOptions={delOptions.length}
                             />
                         ))}
                     </div>
