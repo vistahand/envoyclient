@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
+import { PiWarningCircle } from "react-icons/pi";
 import * as Yup from 'yup';
 // import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc';
@@ -77,20 +78,26 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
   return (
     <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
     min-h-[680px]'>
-        <div className='flex items-center w-full flex-col md:gap-8 
+        <div className='flex items-center w-full flex-col md:gap-10 
         ss:gap-6 gap-5'>
-            <div className='w-full flex flex-col gap-1.5 items-center'>
+            <div className='w-full flex flex-col gap-3 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
                 ss:leading-[3.5rem] leading-[2.5rem]'>
                     Let's get to know a little about you
                 </h1>
 
-                <p className='text-main4 md:text-[17px] ss:text-[16px] 
-                text-[14px] md:leading-[1.4rem] ss:leading-[1.4rem] 
-                leading-[1.3rem] tracking-tight'>
-                    if you have an account with Envoy Angel, you can login by clicking here
-                </p>
+                <div className='flex items-center gap-2 rounded-full 
+                bg-primary1 px-6 py-3 cursor-pointer grow3'>
+                    <PiWarningCircle className='md:text-[24px] ss:text-[24px] 
+                    text-[32px] text-primary'/>
+
+                    <p className='text-primary md:text-[15px] ss:text-[15px] 
+                    text-[13px] md:leading-[1.4rem] ss:leading-[1.4rem] 
+                    leading-[1.2rem] tracking-tight font-medium'>
+                        If you have an account with Envoy Angel, you can login by clicking here
+                    </p>
+                </div>
             </div>
 
             <div className='flex items-center md:gap-3
@@ -102,7 +109,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                             ${sendTab === 'individual'
                             ? 'bg-primary text-white'
                             : 'text-primary grow2'
-                            }  cursor-pointer mobbut rounded-[4px]
+                            }  cursor-pointer mobbut rounded-[4px] mobship2
                             transition-all duration-300 ease-in-out`}
                             onClick={() => handleTabChange('individual')}
                             >
@@ -119,7 +126,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                             ${sendTab === 'business'
                             ? 'bg-primary text-white'
                             : 'text-primary grow2'
-                            }  cursor-pointer mobbut rounded-[4px]
+                            }  cursor-pointer mobbut rounded-[4px] mobship2
                             transition-all duration-300 ease-in-out`}
                             onClick={() => handleTabChange('business')}
                             >
@@ -137,7 +144,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
                     <div className='w-full'>
                         <p className='text-main4 font-medium md:text-[15px]
-                        ss:text-[15px] text-[14px]'>
+                        ss:text-[15px] text-[13px]'>
                             {sendTab === 'individual' 
                             ? "The selected option is for individuals/persons shipping personal items"
                             : "The selected option is for businesses/companies shipping commercial items"
