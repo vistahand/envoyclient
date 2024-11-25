@@ -55,10 +55,10 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         <span className='line-through'>N</span> {option.price}.00
                     </h1>
 
-                    <div className={`flex items-center gap-2.5 grow6 justify-end
+                    <div className={`flex items-center gap-2.5 justify-end
                     cursor-pointer ${index === totalOptions - 1
-                    ? 'text-primary'
-                    : ''}`
+                    ? 'text-primary grow7'
+                    : 'grow6'}`
                     }
                     onClick={onNext}
                     >

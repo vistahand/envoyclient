@@ -361,6 +361,28 @@ body, html {
   transform: translateX(-4px);
 }
 
+.grow7 > :last-child {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  color: #1E3F76;
+  border-radius: 50%;
+  font-size: 13px;
+}
+
+.grow7 > :first-child {
+  transition: transform 0.2s ease-in-out;
+}
+
+.grow7:hover > :first-child {
+  transform: translateX(-4px);
+}
+
+.grow7:hover > :last-child {
+  background-color: #1E3F76;
+  font-size: 20px;
+  padding: 4px;
+  color: #F7F7F7;
+}
+
 .expandable-div {
   transition: width 0.3s ease-in-out;
   overflow: hidden; /* Ensures content doesn’t jump or overflow abruptly */
