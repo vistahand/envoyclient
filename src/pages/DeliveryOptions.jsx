@@ -11,7 +11,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
     return (
         <div className='w-full flex'>
             <div className={`${index === totalOptions - 1
-            ? 'w-full rounded-2xl bg-mainalt border border-main5' 
+            ? 'w-full rounded-2xl bg-mainalt border border-main5 text-main2' 
             : 'w-[85%] rounded-l-2xl bg-primary text-white'} 
             flex justify-between px-7 py-10 items-center`}
             >
@@ -23,17 +23,20 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
 
                     <h1 className='md:text-[20px] ss:text-[20px] text-[18px]
                     font-bold tracking-tight'>
-                        {option.date} <span className='md:text-[17px] ml-2
-                        ss:text-[17x] text-[15px] font-normal'>
+                        {option.date} <span className='md:text-[19px] ml-2
+                        ss:text-[19x] text-[16px] font-normal'>
                         | </span>
-                        <span className='md:text-[17px] ml-2
-                        ss:text-[17x] text-[15px] font-normal'>
+                        <span className='md:text-[19px] ml-2
+                        ss:text-[19x] text-[16px] font-medium'>
                             2PM at the earliest
                         </span>
                     </h1>
 
-                    <p className='md:text-[12px] ss:text-[12px] text-[11px]
-                    tracking-tight'>
+                    <p className={`md:text-[12px] ss:text-[12px] text-[11px]
+                    tracking-tight ${index === totalOptions - 1
+                    ? 'text-main4'
+                    : ''}`
+                    }>
                         Book a shipment before noon to schedule a pickup on the same day
                     </p>
                 </div>
