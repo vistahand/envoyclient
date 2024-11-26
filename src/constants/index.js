@@ -274,7 +274,7 @@ export const footerLinks = [
         links: [
             {
                 name: "Book a Shipment",
-                route: "",
+                route: "/createshipment",
             },
             {
                 name: "Track Shipment",
