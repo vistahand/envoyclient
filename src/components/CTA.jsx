@@ -15,7 +15,7 @@ const CTA = () => {
                 <motion.div variants={fadeIn('down', 'spring', 0.3)}
                 className="flex md:flex-row ss:flex-row flex-col md:gap-16 
                 ss:gap-10 gap-10 w-full md:items-center ss:items-center 
-                relative md:pb-6 ss:pb-6 pb-0 justify-between">
+                relative md:pb-6 ss:pb-6 pb-0 justify-between z-10">
                     <motion.div variants={textVariant()}
                     className='md:gap-6 ss:gap-5 gap-4 flex flex-col 
                     items-start'>
