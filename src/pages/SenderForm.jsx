@@ -50,13 +50,33 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
     const formik = useFormik({
         initialValues: {
-            countryFromInt: 'IE',
-            countryFromLoc: 'NG',
-            cityFromInt: '',
-            cityFromLoc: '',
-            countryTo: 'NG',
-            cityToInt: '',
-            cityToLoc: '',
+            fullNameInd: '',
+            phoneInd: '',
+            mailInd: '',
+            altPhoneInd: '',
+            countryInd: 'IE',
+            address1Ind: '',
+            address2Ind: '',
+            areaInd: '',
+            townInd: '',
+            stateInd: '',
+            postalInd: '',
+            vatInd: '',
+            businessName: '',
+            businessPhone: '',
+            businessMail: '',
+            businessPhoneAlt: '',
+            registrationID: '',
+            vatBus: '',
+            countryBus: 'IE',
+            address1Bus: '',
+            address2Bus: '',
+            areaBus: '',
+            townBus: '',
+            stateBus: '',
+            fullNameBus: '',
+            phoneBus: '',
+            mailBus: '',
         },
         validationSchema: sendTab === 'individual' ? individualSchema : businessSchema,
         validateOnMount: true,
@@ -465,21 +485,21 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 <div className="relative flex flex-col">
                                     <input
                                         type="text"
-                                        name="AreaInd"
+                                        name="areaInd"
                                         placeholder=' '
-                                        value={formik.values.AreaInd}
+                                        value={formik.values.areaInd}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
                                         md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                                         bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.AreaInd && formik.errors.AreaInd ? 'outline-mainRed' : 'outline-main6'}
+                                        ${formik.touched.areaInd && formik.errors.areaInd ? 'outline-mainRed' : 'outline-main6'}
                                         `}
                                     />
 
                                     <label
-                                    htmlFor="AreaInd"
+                                    htmlFor="areaInd"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -487,7 +507,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.AreaInd ? 'z-10 px-2' : ''}
+                                    ${formik.values.areaInd ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Area
@@ -495,7 +515,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.AreaInd && formik.errors.AreaInd}
+                                        {formik.touched.areaInd && formik.errors.areaInd}
                                     </p>
                                 </div>
 
@@ -751,21 +771,21 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 <div className="relative flex flex-col col-span-2">
                                     <input
                                         type="number"
-                                        name="phoneBus"
+                                        name="businessPhone"
                                         placeholder=' '
-                                        value={formik.values.phoneBus}
+                                        value={formik.values.businessPhone}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
                                         md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                                         bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.phoneBus && formik.errors.phoneBus ? 'outline-mainRed' : 'outline-main6'}
+                                        ${formik.touched.businessPhone && formik.errors.businessPhone ? 'outline-mainRed' : 'outline-main6'}
                                         `}
                                     />
 
                                     <label
-                                    htmlFor="phoneBus"
+                                    htmlFor="businessPhone"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -773,7 +793,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.phoneBus ? 'z-10 px-2' : ''}
+                                    ${formik.values.businessPhone ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter the business/company's contact number
@@ -781,28 +801,28 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.phoneBus && formik.errors.phoneBus}
+                                        {formik.touched.businessPhone && formik.errors.businessPhone}
                                     </p>
                                 </div>
 
                                 <div className="relative flex flex-col col-span-2">
                                     <input
                                         type="text"
-                                        name="mailBus"
+                                        name="businessMail"
                                         placeholder=' '
-                                        value={formik.values.mailBus}
+                                        value={formik.values.businessMail}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
                                         md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                                         bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.mailBus && formik.errors.mailBus ? 'outline-mainRed' : 'outline-main6'}
+                                        ${formik.touched.businessMail && formik.errors.businessMail ? 'outline-mainRed' : 'outline-main6'}
                                         `}
                                     />
 
                                     <label
-                                    htmlFor="mailBus"
+                                    htmlFor="businessMail"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -810,7 +830,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.mailBus ? 'z-10 px-2' : ''}
+                                    ${formik.values.businessMail ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter the business/company's contact email
@@ -818,28 +838,28 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.mailBus && formik.errors.mailBus}
+                                        {formik.touched.businessMail && formik.errors.businessMail}
                                     </p>
                                 </div>
 
                                 <div className="relative flex flex-col col-span-2">
                                     <input
                                         type="number"
-                                        name="altPhoneBus"
+                                        name="businessPhoneAlt"
                                         placeholder=' '
-                                        value={formik.values.altPhoneBus}
+                                        value={formik.values.businessPhoneAlt}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
                                         md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                                         bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.altPhoneBus && formik.errors.altPhoneBus ? 'outline-mainRed' : 'outline-main6'}
+                                        ${formik.touched.businessPhoneAlt && formik.errors.businessPhoneAlt ? 'outline-mainRed' : 'outline-main6'}
                                         `}
                                     />
 
                                     <label
-                                    htmlFor="altPhoneBus"
+                                    htmlFor="businessPhoneAlt"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -847,7 +867,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.altPhoneBus ? 'z-10 px-2' : ''}
+                                    ${formik.values.businessPhoneAlt ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Enter alternate phone number (optional)
@@ -855,7 +875,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.altPhoneBus && formik.errors.altPhoneBus}
+                                        {formik.touched.businessPhoneAlt && formik.errors.businessPhoneAlt}
                                     </p>
                                 </div>
 
@@ -1077,21 +1097,21 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 <div className="relative flex flex-col">
                                     <input
                                         type="text"
-                                        name="AreaBus"
+                                        name="areaBus"
                                         placeholder=' '
-                                        value={formik.values.AreaBus}
+                                        value={formik.values.areaBus}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
                                         md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                                         bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.AreaBus && formik.errors.AreaBus ? 'outline-mainRed' : 'outline-main6'}
+                                        ${formik.touched.areaBus && formik.errors.areaBus ? 'outline-mainRed' : 'outline-main6'}
                                         `}
                                     />
 
                                     <label
-                                    htmlFor="AreaBus"
+                                    htmlFor="areaBus"
                                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -1099,7 +1119,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.AreaBus ? 'z-10 px-2' : ''}
+                                    ${formik.values.areaBus ? 'z-10 px-2' : ''}
                                     `}
                                     >
                                         Area
@@ -1107,7 +1127,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.AreaBus && formik.errors.AreaBus}
+                                        {formik.touched.areaBus && formik.errors.areaBus}
                                     </p>
                                 </div>
 
