@@ -36,16 +36,36 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
 
     const individualSchema = Yup.object().shape({
-        countryFromInt: Yup.string().required("Sender's country is required"),
-        // cityFromInt: Yup.string().required("Sender's city is required"),
-        countryTo: Yup.string().required('Recipient country is required'),
-        // cityToInt: Yup.string().required('Recipient city is required')
+        fullNameInd: Yup.string().required("Full name is required"),
+        phoneInd: Yup.number().required("Phone number is required"),
+        mailInd: Yup.string().email("Invalid email address").required("Email is required"),
+        altPhoneInd: Yup.number(), // Optional field
+        countryInd: Yup.string().required("Country is required"),
+        address1Ind: Yup.string().required("Address is required"),
+        address2Ind: Yup.string(), // Optional field
+        areaInd: Yup.string().required("Area is required"), // Optional field
+        townInd: Yup.string().required("Town/City is required"),
+        stateInd: Yup.string().required("State is required"), // Optional field (depending on country)
+        postalInd: Yup.string().required("Postal code is required"),
+        vatInd: Yup.string(), // Optional field
     });
-
+      
     const businessSchema = Yup.object().shape({
-        countryFromLoc: Yup.string().required("Sender's country is required"),
-        cityFromLoc: Yup.string().required("Sender's city is required"),
-        cityToLoc: Yup.string().required('Recipient city is required')
+        businessName: Yup.string().required("Business name is required"),
+        businessPhone: Yup.number().required("Business phone number is required"),
+        businessMail: Yup.string().email("Invalid email address").required("Business email is required"),
+        businessPhoneAlt: Yup.number(), // Optional field
+        registrationID: Yup.string(),
+        vatBus: Yup.string(), // Optional field
+        countryBus: Yup.string().required("Country is required"),
+        address1Bus: Yup.string().required("Address is required"),
+        address2Bus: Yup.string(), // Optional field
+        areaBus: Yup.string().required("Area is required"), // Optional field
+        townBus: Yup.string().required("Town/City is required"),
+        stateBus: Yup.string().required("State is required"), // Optional field (depending on country)
+        fullNameBus: Yup.string().required("Contact person's full name is required"),
+        phoneBus: Yup.number().required("Contact person's phone number is required"),
+        mailBus: Yup.string().email("Invalid email address").required("Contact person's email is required"),
     });
 
     const formik = useFormik({
@@ -94,10 +114,87 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
         onPrev(currentTab);
     };
 
+    const stateOptions = [
+        { 
+            value: "abia", 
+            label: "Abia" ,
+        },
+        { 
+            value: "adamawa", 
+            label: "Adamawa",
+        },
+    ];
+
+    const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
+        const [showOptions, setShowOptions] = useState(false);
+        const [selectedValue, setSelectedValue] = useState(value);
+        const selectRef = useRef(null)
+
+        useEffect(() => {
+            const handleClickOutside = (event) => {
+                if (selectRef.current && !selectRef.current.contains(event.target)) {
+                    setShowOptions(false);
+                }
+            };
+        
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => document.removeEventListener("mousedown",   
+         handleClickOutside);
+        
+        }, []);
+
+        const handleChange = (optionValue) => {
+            setSelectedValue(optionValue);
+            onChange({ target: { name, value: optionValue } });
+            setTimeout(() => onBlur({ target: { name } }), 0); 
+            setShowOptions(false);
+        };
+      
+        return (
+            <div className="relative" ref={selectRef}>
+                <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
+                md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
+                ss:text-[14px] text-[12px] focus:outline-primary
+                bg-transparent w-full custom-select outline-[1px] 
+                ${error ? "outline-mainRed" : "outline-main6"}
+                ${value === "" ? "text-main6" : "text-black"}
+                flex items-center justify-between`}
+                onClick={() => setShowOptions(!showOptions)}
+                tabIndex={0}
+                >
+                    {selectedValue ? (
+                        <>
+                            {options.find((option) => option.value === value).label}
+                        </>
+                    ) : (
+                        <span className="text-main6">{placeholder}</span>
+                    )}
+                </div>
+
+                {showOptions && (
+                    <div className="absolute z-20 w-full bg-white rounded-md mt-2 
+                    shadow-[0px_5px_15px_rgba(0,0,0,0.25)]">
+                        {options.map((option, optionIndex) => (
+                            <div key={optionIndex}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
+                            hover:bg-primary flex items-center hover:text-white 
+                            md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
+                            ${optionIndex === 0 ? 'rounded-t-md' : optionIndex === options.length - 1 ? 'rounded-b-md' : ''}
+                            `}
+                            onClick={() => handleChange(option.value)}
+                            >
+                                {option.label}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    };
 
   return (
-    <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
-    min-h-[680px]'>
+    <section className='w-full flex md:min-h-[600px] ss:min-h-[1400px]
+    min-h-[1400px]'>
         <div className='flex items-center w-full flex-col'>
             <div className='w-full flex flex-col gap-3 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
@@ -191,8 +288,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </h2>
                             </div>
 
-                            <div className='grid md:grid-cols-4 ss:grid-cols-4
-                            grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
+                            <div className='grid md:grid-cols-4 grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
                                 <div className="relative flex flex-col col-span-2">
                                     <input
                                         type="text"
@@ -406,8 +502,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </div>
                             </div>
 
-                            <div className='grid md:grid-cols-4 ss:grid-cols-4
-                            grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
+                            <div className='grid md:grid-cols-4 grid-cols-2 md:gap-5 
+                            ss:gap-5 gap-4 w-full'>
                                 <div className="relative flex flex-col col-span-2">
                                     <input
                                         type="text"
@@ -557,35 +653,28 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </div>
 
                                 <div className="relative flex flex-col col-span-2">
-                                    <input
-                                        type="text"
-                                        name="stateInd"
-                                        placeholder=' '
-                                        value={formik.values.stateInd}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                        peer outline text-black md:rounded-lg rounded-md 
-                                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                                        bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.stateInd && formik.errors.stateInd ? 'outline-mainRed' : 'outline-main6'}
-                                        `}
-                                    />
+                                    <div className='relative flex items-center'>
+                                        <div className='w-full'>
+                                            <CustomSelect 
+                                                name="stateInd"
+                                                value={formik.values.stateInd}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                options={stateOptions}
+                                                placeholder="State of residence"
+                                                error={
+                                                    formik.touched.stateInd && formik.errors.stateInd
+                                                }
+                                            />
+                                        </div>
 
-                                    <label
-                                    htmlFor="stateInd"
-                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                                    duration-300 peer-placeholder-shown:translate-y-0 
-                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.stateInd ? 'z-10 px-2' : ''}
-                                    `}
-                                    >
-                                        State of residence
-                                    </label>
+                                        <div className='absolute md:right-3.5 right-3'>
+                                            <TiArrowSortedDown 
+                                                className='text-main md:text-[16px]
+                                                ss:text-[18px] text-[16px]'
+                                            />
+                                        </div>
+                                    </div>
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
@@ -729,8 +818,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </h2>
                             </div>
 
-                            <div className='grid md:grid-cols-4 ss:grid-cols-4
-                            grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
+                            <div className='grid md:grid-cols-4 grid-cols-2 md:gap-5 
+                            ss:gap-5 gap-4 w-full'>
                                 <div className="relative flex flex-col col-span-2">
                                     <input
                                         type="text"
@@ -879,7 +968,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     </p>
                                 </div>
 
-                                <div className="relative flex flex-col">
+                                <div className="relative flex flex-col md:col-span-1
+                                ss:col-span-1 col-span-2">
                                     <input
                                         type="text"
                                         name="registrationID"
@@ -916,7 +1006,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     </p>
                                 </div>
 
-                                <div className="relative flex flex-col">
+                                <div className="relative flex flex-col md:col-span-1
+                                ss:col-span-1 col-span-2">
                                     <input
                                         type="text"
                                         name="vatBus"
@@ -1169,39 +1260,32 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </div>
 
                                 <div className="relative flex flex-col col-span-2">
-                                    <input
-                                        type="text"
-                                        name="stateBus"
-                                        placeholder=' '
-                                        value={formik.values.stateBus}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                        peer outline text-black md:rounded-lg rounded-md 
-                                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                                        bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.stateBus && formik.errors.stateBus ? 'outline-mainRed' : 'outline-main6'}
-                                        `}
-                                    />
+                                    <div className='relative flex items-center'>
+                                        <div className='w-full'>
+                                            <CustomSelect 
+                                                name="stateInd"
+                                                value={formik.values.stateInd}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                options={stateOptions}
+                                                placeholder="State of residence"
+                                                error={
+                                                    formik.touched.stateInd && formik.errors.stateInd
+                                                }
+                                            />
+                                        </div>
 
-                                    <label
-                                    htmlFor="stateBus"
-                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                                    duration-300 peer-placeholder-shown:translate-y-0 
-                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.stateBus ? 'z-10 px-2' : ''}
-                                    `}
-                                    >
-                                        State of residence
-                                    </label>
+                                        <div className='absolute md:right-3.5 right-3'>
+                                            <TiArrowSortedDown 
+                                                className='text-main md:text-[16px]
+                                                ss:text-[18px] text-[16px]'
+                                            />
+                                        </div>
+                                    </div>
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.stateBus && formik.errors.stateBus}
+                                        {formik.touched.stateInd && formik.errors.stateInd}
                                     </p>
                                 </div>
                             </div>
