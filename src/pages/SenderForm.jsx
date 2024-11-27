@@ -463,7 +463,44 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     </p>
                                 </div>
 
-                                <div className="relative flex flex-col col-span-2">
+                                <div className="relative flex flex-col">
+                                    <input
+                                        type="text"
+                                        name="cityFromLoc"
+                                        placeholder=' '
+                                        value={formik.values.cityFromLoc}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                        peer outline text-black md:rounded-lg rounded-md 
+                                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                        bg-transparent w-full focus:outline-primary
+                                        ${formik.touched.cityFromLoc && formik.errors.cityFromLoc ? 'outline-mainRed' : 'outline-main6'}
+                                        `}
+                                    />
+
+                                    <label
+                                    htmlFor="cityFromLoc"
+                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    duration-300 peer-placeholder-shown:translate-y-0 
+                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.values.cityFromLoc ? 'z-10 px-2' : ''}
+                                    `}
+                                    >
+                                        Enter your city/town
+                                    </label>
+
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                        {formik.touched.cityFromLoc && formik.errors.cityFromLoc}
+                                    </p>
+                                </div>
+
+                                <div className="relative flex flex-col">
                                     <input
                                         type="text"
                                         name="cityFromLoc"
@@ -501,6 +538,80 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </div>
 
                                 <div className="relative flex flex-col col-span-2">
+                                    <input
+                                        type="text"
+                                        name="cityFromLoc"
+                                        placeholder=' '
+                                        value={formik.values.cityFromLoc}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                        peer outline text-black md:rounded-lg rounded-md 
+                                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                        bg-transparent w-full focus:outline-primary
+                                        ${formik.touched.cityFromLoc && formik.errors.cityFromLoc ? 'outline-mainRed' : 'outline-main6'}
+                                        `}
+                                    />
+
+                                    <label
+                                    htmlFor="cityFromLoc"
+                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    duration-300 peer-placeholder-shown:translate-y-0 
+                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.values.cityFromLoc ? 'z-10 px-2' : ''}
+                                    `}
+                                    >
+                                        Enter your city/town
+                                    </label>
+
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                        {formik.touched.cityFromLoc && formik.errors.cityFromLoc}
+                                    </p>
+                                </div>
+
+                                <div className="relative flex flex-col">
+                                    <input
+                                        type="text"
+                                        name="cityFromLoc"
+                                        placeholder=' '
+                                        value={formik.values.cityFromLoc}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                        peer outline text-black md:rounded-lg rounded-md 
+                                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                        bg-transparent w-full focus:outline-primary
+                                        ${formik.touched.cityFromLoc && formik.errors.cityFromLoc ? 'outline-mainRed' : 'outline-main6'}
+                                        `}
+                                    />
+
+                                    <label
+                                    htmlFor="cityFromLoc"
+                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    duration-300 peer-placeholder-shown:translate-y-0 
+                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.values.cityFromLoc ? 'z-10 px-2' : ''}
+                                    `}
+                                    >
+                                        Enter your city/town
+                                    </label>
+
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                        {formik.touched.cityFromLoc && formik.errors.cityFromLoc}
+                                    </p>
+                                </div>
+
+                                <div className="relative flex flex-col">
                                     <input
                                         type="text"
                                         name="cityFromLoc"
