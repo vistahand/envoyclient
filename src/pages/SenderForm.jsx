@@ -78,8 +78,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
   return (
     <section className='w-full flex md:min-h-[600px] ss:min-h-[550px]
     min-h-[680px]'>
-        <div className='flex items-center w-full flex-col md:gap-10 
-        ss:gap-6 gap-5'>
+        <div className='flex items-center w-full flex-col'>
             <div className='w-full flex flex-col gap-3 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
@@ -100,8 +99,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 </div>
             </div>
 
-            <div className='flex items-center md:gap-3
-            ss:gap-3 gap-2.5 md:w-[80%] w-full mt-3'>
+            <div className='flex items-center md:gap-3 ss:gap-3 gap-2.5 
+            md:w-[80%] w-full md:mt-10 ss:mt-10 mt-8'>
                 <div className='flex flex-col w-full gap-3 items-center'>
                     <div className='w-full'>
                         <div className='inline-flex bg-mainalt rounded-lg p-1'>
@@ -140,7 +139,6 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                             </div>
                         </div>
                     </div>
-                    
 
                     <div className='w-full'>
                         <p className='text-main4 font-medium md:text-[15px]
@@ -154,11 +152,21 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 </div>
             </div>
 
+            <div className='md:w-[70%] w-full md:mt-10 ss:mt-10 mt-8'>
+                <h1 className='flex text-main2 font-bold md:text-[30px] 
+                    ss:text-[25px] text-[22px] tracking-tighter'>
+                    Sender Information
+                </h1>
+            </div>
+
             <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='md:w-[80%] w-full md:mt-0 ss:mt-0 mt-2'>
+            className='md:w-[80%] w-full md:mt-6 ss:mt-6 mt-4'>
                 {sendTab === 'individual' ? (
-                    <div className='flex flex-col w-full items-center gap-3'>
-                        <div className='flex flex-col w-full'>
+                    <div className='flex flex-col w-full items-center gap-8'>
+                        <div className='flex flex-col w-full items-center gap-4'>
+                            <div className='w-full'>
+
+                            </div>
                             <h2 className='text-main2 font-bold md:text-[17px]
                             ss:text-[17px] text-[15px] tracking-tight'>
                                 I am shipping from
