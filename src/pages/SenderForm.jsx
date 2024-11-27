@@ -62,7 +62,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
         address2Bus: Yup.string(), // Optional field
         areaBus: Yup.string().required("Area is required"), // Optional field
         townBus: Yup.string().required("Town/City is required"),
-        stateBus: Yup.string().required("State is required"), // Optional field (depending on country)
+        stateBus: Yup.string().required("State is required"),
         fullNameBus: Yup.string().required("Contact person's full name is required"),
         phoneBus: Yup.number().required("Contact person's phone number is required"),
         mailBus: Yup.string().email("Invalid email address").required("Contact person's email is required"),
@@ -199,7 +199,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
             <div className='w-full flex flex-col gap-3 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
-                ss:leading-[3.5rem] leading-[2.5rem]'>
+                ss:leading-[3.5rem] leading-[2.5rem] text-center'>
                     Let's get to know a little about you
                 </h1>
 
@@ -1263,14 +1263,14 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     <div className='relative flex items-center'>
                                         <div className='w-full'>
                                             <CustomSelect 
-                                                name="stateInd"
-                                                value={formik.values.stateInd}
+                                                name="stateBus"
+                                                value={formik.values.stateBus}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 options={stateOptions}
                                                 placeholder="State of residence"
                                                 error={
-                                                    formik.touched.stateInd && formik.errors.stateInd
+                                                    formik.touched.stateBus && formik.errors.stateBus
                                                 }
                                             />
                                         </div>
@@ -1285,7 +1285,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
                                     <p className="text-mainRed md:text-[12px] flex justify-end
                                     ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.stateInd && formik.errors.stateInd}
+                                        {formik.touched.stateBus && formik.errors.stateBus}
                                     </p>
                                 </div>
                             </div>

@@ -79,13 +79,13 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
             <div className='w-full flex flex-col gap-1.5 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
-                ss:leading-[3.5rem] leading-[2.5rem]'>
+                ss:leading-[3.5rem] leading-[2.5rem] text-center'>
                     Shall we get started?
                 </h1>
 
                 <p className='text-main4 md:text-[17px] ss:text-[16px] 
-                text-[14px] md:leading-[1.4rem] ss:leading-[1.4rem] 
-                leading-[1.3rem] tracking-tight'>
+                text-[15px] md:leading-[1.4rem] ss:leading-[1.4rem] 
+                leading-[1.3rem] tracking-tight text-center'>
                     Where do you want us to go?
                 </p>
             </div>

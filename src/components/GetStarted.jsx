@@ -31,10 +31,14 @@ const GetStarted = () => {
         }
     };
 
-    const handlePreviousStep = (tab) => {
+    const handlePreviousStep = (tab, prevTab) => {
         setCurrentStep(currentStep - 1);
         setInitialLoad(false);
         setSelectedTab(tab);
+      
+        if (prevTab) {
+            setSenderTab(prevTab);
+        }
     };
 
     return (
@@ -43,7 +47,7 @@ const GetStarted = () => {
            {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} onNext={handleNextStep} selectedTab={selectedTab} />}
            {currentStep === 3 && <DeliveryOptions onNext={(tab) => handleNextStep(tab, 'individual')} onPrev={handlePreviousStep} selectedTab={selectedTab} />}
            {currentStep === 4 && <SenderForm onNext={() => handleNextStep(selectedTab, senderTab)} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />}
-           {currentStep === 5 && <RecipientForm onNext={handleNextStep} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />} 
+           {currentStep === 5 && <RecipientForm onNext={handleNextStep} onPrev={(tab) => handlePreviousStep(tab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />} 
         </div>
     )
 };
