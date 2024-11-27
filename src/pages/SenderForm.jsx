@@ -101,7 +101,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
         validationSchema: sendTab === 'individual' ? individualSchema : businessSchema,
         validateOnMount: true,
         onSubmit: (values) => {
-           onNext(sendTab);
+           onNext(currentTab, sendTab );
         },
     });
 

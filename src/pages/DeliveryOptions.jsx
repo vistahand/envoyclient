@@ -34,7 +34,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         </span>
                     </h1>
 
-                    <h1 className='flex flex-col tracking-tight block 
+                    <div className='flex flex-col tracking-tight block 
                     ss:hidden md:hidden gap-1'>
                         <h1 className='text-[20px] font-bold'>
                             {option.date}
@@ -43,7 +43,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         <h2 className='text-[15px] font-medium'>
                             2PM at the earliest
                         </h2>
-                    </h1>
+                    </div>
 
                     <p className={`md:text-[13px] ss:text-[13px] text-[11px]
                     tracking-tight ${index === totalOptions - 1

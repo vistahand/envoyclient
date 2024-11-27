@@ -3,6 +3,7 @@ import {
     DeliveryOptions,
     GetStartedForm,
     PackageDescribe,
+    RecipientForm,
     SenderForm,
 } from '../pages';
 
@@ -41,7 +42,8 @@ const GetStarted = () => {
            {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />}
            {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} onNext={handleNextStep} selectedTab={selectedTab} />}
            {currentStep === 3 && <DeliveryOptions onNext={(tab) => handleNextStep(tab, 'individual')} onPrev={handlePreviousStep} selectedTab={selectedTab} />}
-           {currentStep === 4 && <SenderForm onNext={handleNextStep} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />} 
+           {currentStep === 4 && <SenderForm onNext={() => handleNextStep(selectedTab, senderTab)} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />}
+           {currentStep === 5 && <RecipientForm onNext={handleNextStep} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} />} 
         </div>
     )
 };
