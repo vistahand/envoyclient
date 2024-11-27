@@ -100,7 +100,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
             </div>
 
             <div className='flex items-center md:gap-3 ss:gap-3 gap-2.5 
-            md:w-[80%] w-full md:mt-10 ss:mt-10 mt-8'>
+            md:w-[85%] w-full md:mt-12 ss:mt-10 mt-8'>
                 <div className='flex flex-col w-full gap-3 items-center'>
                     <div className='w-full'>
                         <div className='inline-flex bg-mainalt rounded-lg p-1'>
@@ -152,7 +152,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 </div>
             </div>
 
-            <div className='md:w-[80%] w-full md:mt-10 ss:mt-10 mt-8'>
+            <div className='md:w-[85%] w-full md:mt-10 ss:mt-10 mt-8'>
                 <h1 className='flex text-main2 font-bold md:text-[30px] 
                     ss:text-[25px] text-[22px] tracking-tighter'>
                     Sender Information
@@ -160,7 +160,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
             </div>
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='md:w-[80%] w-full md:mt-6 ss:mt-6 mt-4'>
+            className='md:w-[85%] w-full md:mt-6 ss:mt-6 mt-4'>
                 {sendTab === 'individual' ? (
                     <div className='flex flex-col w-full items-center gap-8'>
                         <div className='flex flex-col w-full items-center gap-4'>
@@ -322,7 +322,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </div>
                             </div>
 
-                            <div className='w-full'>
+                            <div className='w-full mt-2'>
                                 <h2 className='text-main2 font-semibold md:text-[20px]
                                 ss:text-[20px] text-[17px] tracking-tight'>
                                     Location Information
@@ -379,9 +379,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                         {formik.touched.countryFromInt && formik.errors.countryFromInt}
                                     </p>
 
-                                    <p className='text-main2 font-medium md:text-[11px]
-                                    ss:text-[11px] text-[10px] tracking-tight md:hidden 
-                                    ss:hidden flex'>
+                                    <p className='text-main2 font-medium md:text-[12px]
+                                    ss:text-[12px] text-[11px] tracking-tight'>
                                         This is your billing country/region
                                     </p>
                                 </div>
@@ -647,6 +646,16 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                         {formik.touched.cityFromLoc && formik.errors.cityFromLoc}
                                     </p>
                                 </div>
+                            </div>
+
+                            <div className='w-full mt-2'>
+                                <h2 className='text-main4 font-semibold md:text-[15px]
+                                ss:text-[15px] text-[13px] tracking-tight'>
+                                    NB: This information will be set as both 
+                                    your billing and shipping address. 
+                                    To change this, you can <span className='font-bold text-primary'>create an account</span> or 
+                                    <span className='font-bold text-primary'> login here</span>
+                                </h2>
                             </div>
                         </div>
 
