@@ -653,8 +653,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 ss:text-[15px] text-[13px] tracking-tight'>
                                     NB: This information will be set as both 
                                     your billing and shipping address. 
-                                    To change this, you can <span className='font-bold text-primary'>create an account</span> or 
-                                    <span className='font-bold text-primary'> login here</span>
+                                    To change this, you can <a href="/create-account" className='font-bold text-primary'>create an account</a> or 
+                                    <a href="/login" className='font-bold text-primary'> login here</a>
                                 </h2>
                             </div>
                         </div>
