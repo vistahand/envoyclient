@@ -114,7 +114,26 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
     const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
         const [showOptions, setShowOptions] = useState(false);
         const [selectedValue, setSelectedValue] = useState(value);
-        const selectRef = useRef(null)
+        const selectRef = useRef(null);
+        const [filterText, setFilterText] = useState("");
+        const [inputValue, setInputValue] = useState(value);
+
+        const handleKeyDown = (event) => {
+            if (event.key.length === 1) {
+                setInputValue(prev => prev + event.key); // Update inputValue
+            } else if (event.key === "Backspace") {
+                setInputValue(prev => prev.slice(0, -1));
+            }
+        };
+
+        useEffect(() => {
+            // Update filterText when inputValue changes
+            setFilterText(inputValue); 
+        }, [inputValue]);
+
+        const filteredOptions = options.filter(option => 
+            option.label.toLowerCase().includes(filterText.toLowerCase())
+        );
 
         useEffect(() => {
             const handleClickOutside = (event) => {
@@ -137,7 +156,7 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
         };
       
         return (
-            <div className="relative" ref={selectRef}>
+            <div className="relative" ref={selectRef} onKeyDown={handleKeyDown}>
                 <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
                 md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
                 ss:text-[14px] text-[12px] focus:outline-primary
@@ -153,15 +172,17 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                             {options.find((option) => option.value === value).label}
                         </>
                     ) : (
-                        <span className="text-main6">{placeholder}</span>
+                        <span className="text-main6">{inputValue || placeholder}</span>
                     )}
                 </div>
 
                 {showOptions && (
                     <div className="absolute z-20 w-full bg-white rounded-md mt-2 
                     shadow-[0px_5px_15px_rgba(0,0,0,0.25)] max-h-[16rem] overflow-auto">
-                        {options.map((option, optionIndex) => (
-                            <div key={optionIndex}
+                        {filteredOptions.map((option, optionIndex) => (
+                            <div 
+                            key={optionIndex}
+                            data-option-index={optionIndex}
                             className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
                             hover:bg-primary flex items-center hover:text-white 
                             md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium

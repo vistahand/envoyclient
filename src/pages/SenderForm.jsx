@@ -159,14 +159,20 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
         const [selectedValue, setSelectedValue] = useState(value);
         const selectRef = useRef(null);
         const [filterText, setFilterText] = useState("");
+        const [inputValue, setInputValue] = useState(value);
 
         const handleKeyDown = (event) => {
-            if (event.key.length === 1) { // Check if a single character is pressed
-                setFilterText(prev => prev + event.key); 
+            if (event.key.length === 1) {
+                setInputValue(prev => prev + event.key); // Update inputValue
             } else if (event.key === "Backspace") {
-                setFilterText(prev => prev.slice(0, -1));
+                setInputValue(prev => prev.slice(0, -1));
             }
         };
+
+        useEffect(() => {
+            // Update filterText when inputValue changes
+            setFilterText(inputValue); 
+        }, [inputValue]);
 
         const filteredOptions = options.filter(option => 
             option.label.toLowerCase().includes(filterText.toLowerCase())
@@ -209,7 +215,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
                             {options.find((option) => option.value === value).label}
                         </>
                     ) : (
-                        <span className="text-main6">{placeholder}</span>
+                        <span className="text-main6">{inputValue || placeholder}</span>
                     )}
                 </div>
 
