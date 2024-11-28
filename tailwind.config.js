@@ -23,7 +23,8 @@ module.exports = {
         green: "#4CA735",
         greenBright: "#27E63A",
         greenDeep: "#11AD21",
-        brightRed: "#EA4335"
+        brightRed: "#EA4335",
+        realRed: "#FF0000",
       },
       fontFamily: {
         'manrope': ["Manrope", "sans-serif"],

@@ -3,7 +3,8 @@ import PackageDescribe from './PackageDescribe';
 import DeliveryOptions from './DeliveryOptions';
 import SenderForm from './SenderForm';
 import RecipientForm from './RecipientForm';
-import PickupLocation from './PickupLocation'
+import PickupLocation from './PickupLocation';
+import InsuranceForm from './InsuranceForm';
 
 export {
     GetStartedForm,
@@ -12,4 +13,5 @@ export {
     SenderForm,
     RecipientForm,
     PickupLocation,
+    InsuranceForm,
 }
