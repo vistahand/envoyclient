@@ -11,7 +11,7 @@ import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 import { addicon } from '../assets';
 import { BsBoxSeam } from "react-icons/bs";
 import { IoNewspaperOutline } from "react-icons/io5";
-import { TbSquareForbid } from "react-icons/tb";
+import { TbSquareForbid, TbTrashX } from "react-icons/tb";
 import { GrAppsRounded } from "react-icons/gr";
 
 import { FaPallet } from 'react-icons/fa';
@@ -363,11 +363,22 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                     {formik.values.packages.map((pkg, index) => (
                         <div key={index} className='flex flex-col w-full 
                         items-center gap-4'>
-                            <div className='w-full'>
+                            <div className='w-full flex justify-between items-center'>
                                 <h2 className='text-main2 font-semibold md:text-[20px]
                                 ss:text-[20px] text-[17px] tracking-tight'>
                                     Package {index + 1}
                                 </h2>
+
+                                <div className='flex items-center md:gap-2 ss:gap-2 gap-1.5 
+                                cursor-pointer grow6'>
+                                    <TbTrashX className='md:text-[20px] ss:text-[20px] 
+                                    text-[17px] text-realRed'/>
+
+                                    <p className='md:text-[15px] ss:text-[15px] 
+                                    text-[12px] font-semibold text-realRed'>
+                                        Remove Package
+                                    </p>
+                                </div>
                             </div>
 
                             <div className='grid md:grid-cols-3 ss:grid-cols-3
