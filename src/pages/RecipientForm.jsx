@@ -24,7 +24,6 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 );
 
                 setCountries(sortedCountries);
-                console.log("SenderTab in RecipientForm:", senderTab);
             } catch (error) {
                 console.error("Error fetching countries:", error);
             }
@@ -151,8 +150,8 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
     };
 
   return (
-    <section className='w-full flex md:min-h-[900px] ss:min-h-[1400px]
-    min-h-[1400px]'>
+    <section className='w-full flex md:min-h-[900px] ss:min-h-[1150px]
+    min-h-[1150px]'>
         <div className='flex items-center w-full flex-col'>
             <div className='w-full flex flex-col gap-1.5 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 

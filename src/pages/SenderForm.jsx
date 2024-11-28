@@ -8,10 +8,9 @@ import * as Yup from 'yup';
 import { SectionWrapper } from '../hoc';
 
 
-const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
+const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    const [sendTab, setSendTab] = useState(senderTab);
     const [countries, setCountries] = useState([]);
     // const navigate = useNavigate();
 
@@ -98,16 +97,16 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
             phoneBus: '',
             mailBus: '',
         },
-        validationSchema: sendTab === 'individual' ? individualSchema : businessSchema,
+        validationSchema: senderTab === 'individual' ? individualSchema : businessSchema,
         validateOnMount: true,
         onSubmit: (values) => {
-           onNext(currentTab, sendTab);
-           console.log(sendTab);
+           onNext(currentTab, senderTab);
+           console.log(senderTab);
         },
     });
 
     const handleTabChange = (tab) => {
-        setSendTab(tab);
+        setSenderTab(tab);
         formik.resetForm();
     };
 
@@ -223,7 +222,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                     <div className='w-full'>
                         <div className='inline-flex bg-mainalt rounded-lg p-1'>
                             <div className={`py-3.5 px-4 flex items-center mobship
-                            ${sendTab === 'individual'
+                            ${senderTab === 'individual'
                             ? 'bg-primary text-white'
                             : 'text-primary grow2'
                             }  cursor-pointer mobbut rounded-[4px] mobship2
@@ -231,7 +230,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                             onClick={() => handleTabChange('individual')}
                             >
                                 <h2 className={`md:text-[15px] ss:text-[15px] 
-                                text-[14px] ${sendTab === 'individual'
+                                text-[14px] ${senderTab === 'individual'
                                 ? 'font-bold'
                                 : 'font-medium'}`}
                                 >
@@ -240,7 +239,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                             </div>
                             
                             <div className={`py-3.5 px-4 flex items-center mobship
-                            ${sendTab === 'business'
+                            ${senderTab === 'business'
                             ? 'bg-primary text-white'
                             : 'text-primary grow2'
                             }  cursor-pointer mobbut rounded-[4px] mobship2
@@ -248,7 +247,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                             onClick={() => handleTabChange('business')}
                             >
                                 <h2 className={`md:text-[15px] ss:text-[15px] 
-                                text-[14px] ${sendTab === 'business'
+                                text-[14px] ${senderTab === 'business'
                                 ? 'font-bold'
                                 : 'font-medium'}`}
                                 >
@@ -261,7 +260,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                     <div className='w-full'>
                         <p className='text-main4 font-medium md:text-[15px]
                         ss:text-[15px] text-[13px]'>
-                            {sendTab === 'individual' 
+                            {senderTab === 'individual' 
                             ? "The selected option is for individuals/persons shipping personal items"
                             : "The selected option is for businesses/companies shipping commercial items"
                             }
@@ -279,7 +278,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
             className='md:w-[85%] w-full md:mt-6 ss:mt-6 mt-4'>
-                {sendTab === 'individual' ? (
+                {senderTab === 'individual' ? (
                     <div className='flex flex-col w-full items-center gap-8'>
                         <div className='flex flex-col w-full items-center gap-4'>
                             <div className='w-full'>
