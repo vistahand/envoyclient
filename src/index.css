@@ -407,6 +407,14 @@ body, html {
   color: #F7F7F7;
 }
 
+.grow8 > * {
+  transition: transform 0.3s ease-in-out;
+}
+
+.grow8:hover > :last-child {
+  transform: translateX(4px);
+}
+
 .expandable-div {
   transition: width 0.3s ease-in-out;
   overflow: hidden; /* Ensures content doesn’t jump or overflow abruptly */

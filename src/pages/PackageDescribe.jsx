@@ -719,7 +719,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
 
                     <div className='w-full'>
                         <div className='inline-flex items-center gap-3 
-                        grow4 cursor-pointer'
+                        grow8 cursor-pointer'
                         onClick={addPackage}
                         > 
                            <img 
