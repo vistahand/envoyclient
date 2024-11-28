@@ -10,7 +10,6 @@ import { SectionWrapper } from '../hoc';
 const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    const sendTab = senderTab;
     const [countries, setCountries] = useState([]);
     // const navigate = useNavigate();
 
@@ -25,6 +24,7 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 );
 
                 setCountries(sortedCountries);
+                console.log("SenderTab in RecipientForm:", senderTab);
             } catch (error) {
                 console.error("Error fetching countries:", error);
             }
@@ -64,12 +64,12 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
         }),
         
         onSubmit: (values) => {
-           onNext(currentTab, sendTab );
+           onNext(currentTab, senderTab );
         },
     });
 
     const handlePrevious = () => {
-        onPrev(currentTab, sendTab);
+        onPrev(currentTab, senderTab);
     };
 
     const stateOptions = [
@@ -151,7 +151,7 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
     };
 
   return (
-    <section className='w-full flex md:min-h-[600px] ss:min-h-[1400px]
+    <section className='w-full flex md:min-h-[900px] ss:min-h-[1400px]
     min-h-[1400px]'>
         <div className='flex items-center w-full flex-col'>
             <div className='w-full flex flex-col gap-1.5 items-center'>

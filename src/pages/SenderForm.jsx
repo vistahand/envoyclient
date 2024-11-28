@@ -101,7 +101,8 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
         validationSchema: sendTab === 'individual' ? individualSchema : businessSchema,
         validateOnMount: true,
         onSubmit: (values) => {
-           onNext(currentTab, sendTab );
+           onNext(currentTab, sendTab);
+           console.log(sendTab);
         },
     });
 
@@ -193,7 +194,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
     };
 
   return (
-    <section className='w-full flex md:min-h-[600px] ss:min-h-[1400px]
+    <section className='w-full flex md:min-h-[1100px] ss:min-h-[1400px]
     min-h-[1400px]'>
         <div className='flex items-center w-full flex-col'>
             <div className='w-full flex flex-col gap-3 items-center'>
