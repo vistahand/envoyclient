@@ -115,14 +115,43 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
     };
 
     const stateOptions = [
-        { 
-            value: "abia", 
-            label: "Abia" ,
-        },
-        { 
-            value: "adamawa", 
-            label: "Adamawa",
-        },
+        { value: "abia", label: "Abia" },
+        { value: "adamawa", label: "Adamawa" },
+        { value: "akwa-ibom", label: "Akwa Ibom" },
+        { value: "anambra", label: "Anambra" },
+        { value: "bauchi", label: "Bauchi" },
+        { value: "bayelsa", label: "Bayelsa" },
+        { value: "benue", label: "Benue" },
+        { value: "borno", label: "Borno" },
+        { value: "cross-river", label: "Cross River" },
+        { value: "delta", label: "Delta" },
+        { value: "ebonyi", label: "Ebonyi" },
+        { value: "edo", label: "Edo" },
+        { value: "ekiti", label: "Ekiti" },
+        { value: "enugu", label: "Enugu" },
+        { value: "gombe", label: "Gombe" },
+        { value: "imo", label: "Imo" },
+        { value: "jigawa", label: "Jigawa" },
+        { value: "kaduna", label: "Kaduna" },
+        { value: "kano", label: "Kano" },
+        { value: "katsina", label: "Katsina" },
+        { value: "kebbi", label: "Kebbi" },
+        { value: "kogi", label: "Kogi" },
+        { value: "kwara", label: "Kwara" },
+        { value: "lagos", label: "Lagos" },
+        { value: "nasarawa", label: "Nasarawa" },
+        { value: "niger", label: "Niger" },
+        { value: "ogun", label: "Ogun" },
+        { value: "ondo", label: "Ondo" },
+        { value: "osun", label: "Osun" },
+        { value: "oyo", label: "Oyo" },
+        { value: "plateau", label: "Plateau" },
+        { value: "rivers", label: "Rivers" },
+        { value: "sokoto", label: "Sokoto" },
+        { value: "taraba", label: "Taraba" },
+        { value: "yobe", label: "Yobe" },
+        { value: "zamfara", label: "Zamfara" },
+        { value: "fct", label: "Federal Capital Territory" },
     ];
 
     const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
@@ -173,7 +202,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
 
                 {showOptions && (
                     <div className="absolute z-20 w-full bg-white rounded-md mt-2 
-                    shadow-[0px_5px_15px_rgba(0,0,0,0.25)]">
+                    shadow-[0px_5px_15px_rgba(0,0,0,0.25)] max-h-[16rem] overflow-auto">
                         {options.map((option, optionIndex) => (
                             <div key={optionIndex}
                             className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
