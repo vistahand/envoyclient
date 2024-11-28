@@ -157,6 +157,10 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
         ]);
     };
 
+    const removePackage = (index) => {
+        formik.setFieldValue("packages", formik.values.packages.filter((_, i) => i !== index));
+    };
+
     const handlePrevious = () => {
         onPrev(currentTab);
     };
@@ -369,16 +373,19 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                     Package {index + 1}
                                 </h2>
 
-                                <div className='flex items-center md:gap-2 ss:gap-2 gap-1.5 
-                                cursor-pointer grow6'>
-                                    <TbTrashX className='md:text-[20px] ss:text-[20px] 
-                                    text-[17px] text-realRed'/>
+                                {formik.values.packages.length > 1 && index > 0 && ( 
+                                    <div className='flex items-center md:gap-2 ss:gap-2 gap-1.5 
+                                    cursor-pointer grow6'
+                                    onClick={() => removePackage(index)}>
+                                        <TbTrashX className='md:text-[20px] ss:text-[20px] 
+                                        text-[17px] text-realRed'/>
 
-                                    <p className='md:text-[15px] ss:text-[15px] 
-                                    text-[12px] font-semibold text-realRed'>
-                                        Remove Package
-                                    </p>
-                                </div>
+                                        <p className='md:text-[15px] ss:text-[15px] 
+                                        text-[12px] font-semibold text-realRed'>
+                                            Remove Package
+                                        </p>
+                                    </div>
+                                )}
                             </div>
 
                             <div className='grid md:grid-cols-3 ss:grid-cols-3
