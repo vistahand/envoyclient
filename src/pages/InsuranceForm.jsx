@@ -133,6 +133,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                     Insurance Services
                 </h1>
             </div>
+            
 
             <form ref={formRef} onSubmit={formik.handleSubmit}
             className='md:w-[50%] ss:w-[70%] w-full md:mt-6 ss:mt-6 mt-4'>
