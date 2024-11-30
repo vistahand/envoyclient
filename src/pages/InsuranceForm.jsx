@@ -129,7 +129,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
             <div className='md:w-[50%] ss:w-[70%] w-full md:mt-10 ss:mt-10 mt-8'>
                 <h1 className='flex text-main2 font-bold md:text-[30px] 
-                    ss:text-[25px] text-[22px] tracking-tighter'>
+                ss:text-[25px] text-[22px] tracking-tighter'>
                     Insurance Services
                 </h1>
             </div>
