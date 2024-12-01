@@ -9,6 +9,7 @@ import {
     SenderForm,
 } from '../pages';
 
+
 const GetStarted = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [initialLoad, setInitialLoad] = useState(true);
