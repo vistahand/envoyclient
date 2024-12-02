@@ -45,13 +45,13 @@ const GetStarted = () => {
 
     return (
         <div ref={sectionRef} className='font-manrope'>
-           {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />}
-           {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} onNext={handleNextStep} selectedTab={selectedTab} />}
-           {currentStep === 3 && <DeliveryOptions onNext={(tab) => handleNextStep(tab, 'individual')} onPrev={handlePreviousStep} selectedTab={selectedTab} />}
-           {currentStep === 4 && <SenderForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} setSenderTab={setSenderTab} />}
-           {currentStep === 5 && <RecipientForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />}
-           {currentStep === 6 && <PickupLocation onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />}
-           {currentStep === 7 && <InsuranceForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />} 
+            {currentStep === 1 && <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />}
+            {currentStep === 2 && <PackageDescribe onPrev={handlePreviousStep} onNext={handleNextStep} selectedTab={selectedTab} />}
+            {currentStep === 3 && <DeliveryOptions onNext={(tab) => handleNextStep(tab, 'individual')} onPrev={handlePreviousStep} selectedTab={selectedTab} />}
+            {currentStep === 4 && <SenderForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} setSenderTab={setSenderTab} />}
+            {currentStep === 5 && <RecipientForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />}
+            {currentStep === 6 && <PickupLocation onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />}
+            {currentStep === 7 && <InsuranceForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />} 
         </div>
     )
 };
