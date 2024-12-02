@@ -169,7 +169,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 </p>
                             </div>
 
-                            <div className='flex gap-3'>
+                            <div className='flex gap-3 md:w-[80%] ss:w-[80%]'>
                                 <input
                                     type='checkbox'
                                     className='cursor-pointer'
