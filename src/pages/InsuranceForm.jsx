@@ -173,7 +173,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                 <input
                                     type='checkbox'
                                     className='cursor-pointer checkbox'
-                                    name='asisstance'
+                                    name='assistance'
                                     checked={formik.values.assistance}
                                     onChange={formik.handleChange}
                                 />
