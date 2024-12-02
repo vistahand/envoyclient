@@ -51,7 +51,7 @@ const GetStarted = () => {
             {currentStep === 4 && <SenderForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={handlePreviousStep} selectedTab={selectedTab} senderTab={senderTab} setSenderTab={setSenderTab} />}
             {currentStep === 5 && <RecipientForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />}
             {currentStep === 6 && <PickupLocation onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />}
-            {currentStep === 7 && <InsuranceForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} />} 
+            {currentStep === 7 && <InsuranceForm onNext={(tab) => handleNextStep(tab, senderTab)} onPrev={() => handlePreviousStep(selectedTab, senderTab)} selectedTab={selectedTab} senderTab={senderTab} setCurrentStep={setCurrentStep} />} 
         </div>
     )
 };

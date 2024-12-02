@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { SectionWrapper } from '../hoc';
 
 
-const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
+const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
     // const navigate = useNavigate();
@@ -29,6 +29,10 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
     const handlePrevious = () => {
         onPrev(currentTab, senderTab);
+    };
+
+    const handleCancelShipment = () => {
+        setCurrentStep(1); 
     };
 
     const insuranceOptions = [
@@ -227,7 +231,8 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                     </div>
 
                     <p className='text-realRed md:text-[16px] ss:text-[16px] 
-                    text-[15px] font-semibold cursor-pointer grow2'>
+                    text-[15px] font-semibold cursor-pointer grow2'
+                    onClick={handleCancelShipment}>
                         Cancel Shipment
                     </p>
                 </div>
