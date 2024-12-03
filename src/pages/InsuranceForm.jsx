@@ -165,6 +165,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep 
                                             ss:text-[18px] text-[16px]'
                                         />
                                     </div>
+                                    
                                 </div>
 
                                 <p className="text-mainRed md:text-[12px] flex justify-end
