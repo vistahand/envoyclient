@@ -168,7 +168,8 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep 
                                 </div>
 
                                 <p className="text-mainRed md:text-[12px] flex justify-end
-                                ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                ss:text-[12p
+                                x] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
                                     {formik.touched.insurance && formik.errors.insurance}
                                 </p>
                             </div>
