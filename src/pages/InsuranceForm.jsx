@@ -172,6 +172,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep 
                                     {formik.touched.insurance && formik.errors.insurance}
                                 </p>
                             </div>
+                            
 
                             <div className='flex gap-3 md:w-[80%] ss:w-[80%] items-center'>
                                 <input
