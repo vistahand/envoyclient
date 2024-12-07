@@ -176,7 +176,6 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep 
                             <div className='flex gap-3 md:w-[80%] ss:w-[80%] items-center'>
                                 <input
                                     type='checkbox'
-                                    
                                     className='cursor-pointer checkbox'
                                     name='assistance'
                                     checked={formik.values.assistance}
