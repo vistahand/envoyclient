@@ -181,6 +181,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep 
                                     checked={formik.values.assistance}
                                     onChange={formik.handleChange}
                                 />
+                                
                                 <p className='text-main2 md:text-[16px]
                                 ss:text-[16px] text-[15px] font-medium'>
                                     Require assistance with customs documents
