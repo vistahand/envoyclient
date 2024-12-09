@@ -183,8 +183,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep 
                                 />
                                 <p className='text-main2 md:text-[16px]
                                 ss:text-[16px] text-[15px] font-medium'>
-                                    Require assistance w
-                                    ith customs documents
+                                    Require assistance with customs documents
                                     (International Shipments only)
                                 </p>
                             </div>
