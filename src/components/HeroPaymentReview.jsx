@@ -30,7 +30,7 @@ const HeroPaymentReview = () => {
           </p>
         </motion.div>
       </div>
-    </section>  
+    </section>
   )
 };
 
