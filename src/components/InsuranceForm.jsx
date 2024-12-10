@@ -3,14 +3,14 @@ import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc';
 
 
-const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep }) => {
+const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -23,7 +23,7 @@ const InsuranceForm = ({ onNext, onPrev, selectedTab, senderTab, setCurrentStep 
         }),
         
         onSubmit: (values) => {
-           onNext(currentTab, senderTab );
+           navigate('/createshipment-paymentreview');
         },
     });
 
