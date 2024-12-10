@@ -1,9 +1,28 @@
-import React from 'react'
+import { SectionWrapper } from '../hoc';
+import { motion } from 'framer-motion';
+import { textVariant } from '../utils/motion';
 
 const HeroPaymentReview = () => {
   return (
-    <div>HeroPaymentReview</div>
-  )
-}
+    <section className='relative w-full md:min-h-[100px] ss:min-h-[100px] 
+    items-center flex'>
+      <div className='relative items-center w-full max-w-[86rem]
+      md:mt-24 ss:mt-8 mt-16 flex'>
+        <motion.div variants={textVariant()}
+        className='flex md:gap-4 ss:gap-2 gap-2 text-main 
+        md:text-[15px] ss:text-[15px] text-[13px]'
+        >
+          <a href='/' className='hover:text-secondary'>
+            Home
+          </a>
 
-export default HeroPaymentReview
+          <p> {'>'} </p>
+
+          <p>Cart</p>
+        </motion.div>
+      </div>
+    </section>  
+  )
+};
+
+export default SectionWrapper(HeroPaymentReview, '');
