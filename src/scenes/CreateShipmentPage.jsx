@@ -3,8 +3,9 @@ import {
     HeroShipment,
     Footer,
     ShipmentSteps,
-    GetStarted
 } from '../components';
+
+import { GetStarted } from '../pages';
 
 import { Helmet } from 'react-helmet';
 

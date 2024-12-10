@@ -1,9 +1,10 @@
 import {
     Navbar,
     HeroPaymentReview,
-    ShipmentReview,
     Footer,
 } from '../components';
+
+import { ShipmentReview } from '../pages';
 
 import { Helmet } from 'react-helmet';
 

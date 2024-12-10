@@ -10,13 +10,15 @@ import CTA from './CTA';
 import Footer from './Footer';
 import HeroShipment from './HeroShipment';
 import ShipmentSteps from './ShipmentSteps';
-import GetStartedForm from '../components/GetStartedForm';
-import PackageDescribe from '../components/PackageDescribe';
-import DeliveryOptions from '../components/DeliveryOptions';
-import SenderForm from '../components/SenderForm';
-import RecipientForm from '../components/RecipientForm';
-import PickupLocation from '../components/PickupLocation';
-import InsuranceForm from '../components/InsuranceForm';
+import GetStartedForm from './GetStartedForm';
+import PackageDescribe from './PackageDescribe';
+import DeliveryOptions from './DeliveryOptions';
+import SenderForm from './SenderForm';
+import RecipientForm from './RecipientForm';
+import PickupLocation from './PickupLocation';
+import InsuranceForm from './InsuranceForm';
+import HeroPaymentReview from './HeroPaymentReview';
+import ShipmentDetails from './ShipmentDetails';
 
 export {
     Navbar,
@@ -38,4 +40,6 @@ export {
     RecipientForm,
     PickupLocation,
     InsuranceForm,
+    HeroPaymentReview,
+    ShipmentDetails,
 }
