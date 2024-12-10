@@ -10,7 +10,13 @@ import CTA from './CTA';
 import Footer from './Footer';
 import HeroShipment from './HeroShipment';
 import ShipmentSteps from './ShipmentSteps';
-import GetStarted from './GetStarted';
+import GetStartedForm from '../components/GetStartedForm';
+import PackageDescribe from '../components/PackageDescribe';
+import DeliveryOptions from '../components/DeliveryOptions';
+import SenderForm from '../components/SenderForm';
+import RecipientForm from '../components/RecipientForm';
+import PickupLocation from '../components/PickupLocation';
+import InsuranceForm from '../components/InsuranceForm';
 
 export {
     Navbar,
@@ -25,5 +31,11 @@ export {
     Footer,
     HeroShipment,
     ShipmentSteps,
-    GetStarted,
+    GetStartedForm,
+    PackageDescribe,
+    DeliveryOptions,
+    SenderForm,
+    RecipientForm,
+    PickupLocation,
+    InsuranceForm,
 }

@@ -1,7 +1,7 @@
 import {
     Navbar,
     HeroPaymentReview,
-    ShipmentDetails,
+    ShipmentReview,
     Footer,
 } from '../components';
 
@@ -20,7 +20,7 @@ const PaymentReview = () => {
 
             <HeroPaymentReview />
 
-            <ShipmentDetails />
+            <ShipmentReview />
             
             <div className='footer'>
                 <Footer />

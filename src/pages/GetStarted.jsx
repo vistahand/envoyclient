@@ -7,7 +7,7 @@ import {
     PickupLocation,
     RecipientForm,
     SenderForm,
-} from '../pages';
+} from '../components';
 
 const GetStarted = () => {
     const [currentStep, setCurrentStep] = useState(1);
