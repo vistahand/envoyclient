@@ -180,17 +180,7 @@ const Hero = () => {
                     ss:text-[43px] text-[35px] md:leading-[4.2rem] tracking-tighter
                     ss:leading-[3.5rem] leading-[2.5rem] md:text-center relative
                     ss:text-center md:max-w-[25ch] ss:max-w-[25ch] max-w-[14ch]'>
-                        <span className="relative inline-block">
-                            Secure
-                            <img 
-                                src={curve}
-                                alt="curve-line" 
-                                className="absolute md:top-0 ss:top-0
-                                -top-1 md:-left-2 ss:-left-2 -left-1
-                                w-full h-auto md:scale-[1.23] ss:scale-[1.23] 
-                                scale-[1.1] pointer-events-none z-[-10]" 
-                            />
-                        </span> and seamless deliveries across borders
+                       Yoyinnnnnnnnnn
                     </h1>
 
                     <p className='text-main font-[500] md:text-[17px] 

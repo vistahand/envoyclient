@@ -8,26 +8,26 @@ const ShipmentDetails = () => {
     <section className='w-full flex md:min-h-[1500px] ss:min-h-[1500px]
     min-h-[1500px]'>
       <div className="w-full md:flex-row ss:flex-row flex-col justify-between">
-        <div className="w-[60%] flex flex-col gap-8">
+        <div className="w-[60%] flex flex-col gap-6">
           <h1 className='text-primary font-bold md:text-[30px] 
           ss:text-[25px] text-[22px] tracking-tighter'>
             Your Shipment Details
           </h1>
 
-          <div className="flex flex-col gap-5">
-            <h2 className="font-bold md:text-[20px] ss:text-[20px] 
-            text-[16px] tracking-tight text-main4">
+          <div className="flex flex-col gap-4">
+            <h2 className="font-bold md:text-[15px] ss:text-[15px] 
+            text-[13px] tracking-tight text-main4">
               SHIPPING DETAILS
             </h2>
 
-            <div className='flex items-center text-primary gap-3'>
+            <div className='flex items-center text-primary gap-2'>
               <InternationalIcon 
-                className='w-[2.3rem] h-auto object-contain
+                className='w-[1.8rem] h-auto object-contain
                 stroke-primary'
               />
 
-              <h2 className='md:text-[18px] ss:text-[18px] 
-              text-[15px] font-bold'
+              <h2 className='md:text-[15px] ss:text-[15px] text-[13px] 
+              font-bold'
               >
                 International Shipping
               </h2>
