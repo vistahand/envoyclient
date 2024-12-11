@@ -7,8 +7,9 @@ const ShipmentDetails = () => {
   return (
     <section className='w-full flex md:min-h-[1500px] ss:min-h-[1500px]
     min-h-[1500px]'>
-      <div className="w-full md:flex-row ss:flex-row flex-col justify-between">
-        <div className="w-[60%] flex flex-col gap-6">
+      <div className="w-full flex md:flex-row ss:flex-row flex-col 
+      gap-6 justify-between">
+        <div className="w-full flex flex-col gap-6">
           <h1 className='text-primary font-bold md:text-[30px] 
           ss:text-[25px] text-[22px] tracking-tighter'>
             Your Shipment Details
@@ -35,14 +36,16 @@ const ShipmentDetails = () => {
           </div>
         </div>
 
-        <div className="bg-primary1 p-6 flex flex-col rounded-lg gap-5">
-          <h1 className="font-bold md:text-[15px] ss:text-[15px] text-[14px]
-          tracking-tight text-main2">
-            Payment Summary
-          </h1>
+        <div className="md:w-[45%] ss:w-[45%]">
+          <div className="bg-primary1 p-6 flex flex-col rounded-lg gap-5">
+            <h1 className="font-bold md:text-[15px] ss:text-[15px] text-[14px]
+            tracking-tight text-main2">
+              Payment Summary
+            </h1>
 
-          <div className="">
+            <div className="">
 
+            </div>
           </div>
         </div>
       </div>
