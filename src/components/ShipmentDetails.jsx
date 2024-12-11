@@ -104,6 +104,14 @@ const ShipmentDetails = () => {
             </div>
 
             <div className='w-full h-[1px] bg-main5'/>
+
+            <p className="text-main4 md:text-[11px] ss:text-[11px] 
+            text-[10px] font-medium md:leading-[20px] ss:leading-[20px]
+            leading-[18px]">
+              This figure does not include any other extra fees that may 
+              be incurred via delayed orders, payment gateway fees, etc. 
+              For more details, <span className="text-primary font-semibold">read our terms of usage here.</span>
+            </p>
           </div>
         </div>
       </div>
