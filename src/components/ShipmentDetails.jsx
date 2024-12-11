@@ -39,7 +39,7 @@ const ShipmentDetails = () => {
 
         <div className="md:w-[55%] ss:w-[55%]">
           <div className="bg-primary1 md:p-10 ss:p-10 p-8 flex flex-col 
-          rounded-2xl gap-6">
+          rounded-2xl gap-6 sticky-cart">
             <h1 className="font-bold md:text-[16px] ss:text-[16px] text-[14px]
             tracking-tight text-main2">
               Payment Summary
