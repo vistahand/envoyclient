@@ -102,6 +102,8 @@ const ShipmentDetails = () => {
                 412,375.00
               </p>
             </div>
+
+            <div className='w-full h-[1px] bg-main5'/>
           </div>
         </div>
       </div>
