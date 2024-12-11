@@ -111,15 +111,14 @@ const ShipmentDetails = () => {
             leading-[14px]">
               This figure does not include any other extra fees that may 
               be incurred via delayed orders, payment gateway fees, etc. 
-              For more details, <span className="text-primary font-semibold">read our terms of usage here.</span>
+              For more details, <a href='/terms' className="text-primary font-semibold">read our terms of usage here.</a>
             </p>
 
             <a href='/createshipment-paymentreview'
-            className='bg-primary text-[13px] py-3 w-full flex
-            text-white rounded-full grow4 cursor-pointer items-center 
-            gap-3 justify-center'
+            className='bg-primary py-3 w-full flex text-white rounded-full 
+            grow4 cursor-pointer items-center gap-3 justify-center'
             >
-              <p className='font-[500]'>
+              <p className='text-[12px]'>
                 Proceed to Payment
               </p>
               
