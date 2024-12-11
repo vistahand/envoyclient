@@ -1,11 +1,10 @@
-import { SectionWrapper } from '../hoc';
+import { SectionWrapperAlt } from '../hoc';
 import { motion } from 'framer-motion';
 import { textVariant } from '../utils/motion';
 
 const HeroPaymentReview = () => {
   return (
-    <section className='w-full md:min-h-[100px] ss:min-h-[100px] 
-    md:mt-12 ss:mt-12 mt-8 items-center'>
+    <section className='w-full md:mt-32 ss:mt-32 mt-28 items-center'>
       <div className='items-center w-full'>
         <motion.div variants={textVariant()}
         className='flex md:w-[38%] ss:w-[38%] w-full md:gap-6 ss:gap-4 
@@ -34,4 +33,4 @@ const HeroPaymentReview = () => {
   )
 };
 
-export default SectionWrapper(HeroPaymentReview, '');
+export default SectionWrapperAlt(HeroPaymentReview, '');
