@@ -280,6 +280,71 @@ const ShipmentDetails = () => {
                   </p>
                 </div>
               </div>
+
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="md:text-[15px] ss:text-[15px] text-[12px] 
+                  tracking-tight font-bold text-main2">
+                    Annabella Isiagu Johnbosco
+                  </h3>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px] 
+                  tracking-tight font-medium text-main2">
+                    annabellajb24@email.com
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    0703 123 4567
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    15 Barracks Road
+                  </h3>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px] 
+                  tracking-tight font-medium text-main2">
+                    Off Biogbolo School Road
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    Biogbolo, Yenagoa
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    Bayelsa, <span className="font-bold">NG.</span>
+                  </p>
+
+                  <div className="flex items-center gap-3">
+                    <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                    tracking-tight font-medium text-main2">
+                      123890
+                    </p>
+
+                    <div className='h-[70%] w-[1px] bg-main4'/>
+
+                    <p className="md:text-[15px] ss:text-[15px] text-[12px] 
+                    tracking-tight font-medium text-main2">
+                      Tax ID: NG0685TGY8R
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="md:text-[13px] ss:text-[13px] text-[10px] 
+                  tracking-tight font-semibold text-primary underline
+                  hover:text-secondary cursor-pointer inline-flex navsmooth"
+                  // onClick={f}
+                  >
+                    Change recipient address
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
