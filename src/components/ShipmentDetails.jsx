@@ -7,7 +7,7 @@ import { BsBoxSeam } from "react-icons/bs";
 
 const ShipmentDetails = () => {
   return (
-    <section className='w-full flex md:min-h-[1500px] ss:min-h-[1500px]
+    <section className='w-full flex md:min-h-[1320px] ss:min-h-[1500px]
     min-h-[1500px]'>
       <div className="w-full flex md:flex-row ss:flex-row flex-col 
       gap-14 justify-between">
