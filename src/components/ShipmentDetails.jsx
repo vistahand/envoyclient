@@ -31,7 +31,7 @@ const ShipmentDetails = () => {
 
   return (
     <section className='w-full flex md:min-h-[1320px] ss:min-h-[1500px]
-    min-h-[1500px]'>
+    min-h-[1800px]'>
       <div className="w-full flex md:flex-row flex-col md:gap-14 gap-10 
       justify-between">
         <div className="w-full flex flex-col gap-6">
@@ -255,8 +255,8 @@ const ShipmentDetails = () => {
             </h2>
 
             <div className="flex md:flex-row ss:flex-row flex-col w-full 
-            justify-between">
-              <div className="flex flex-col gap-6">
+            justify-between md:gap-0 ss:gap-0 gap-5">
+              <div className="flex flex-col md:gap-6 ss:gap-6 gap-5">
                 <div className="flex flex-col gap-0.5">
                   <h3 className="md:text-[15px] ss:text-[15px] text-[14px] 
                   tracking-tight font-bold text-main2">
@@ -321,7 +321,7 @@ const ShipmentDetails = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col md:gap-6 ss:gap-6 gap-5">
                 <div className="flex flex-col gap-0.5">
                   <h3 className="md:text-[15px] ss:text-[15px] text-[14px] 
                   tracking-tight font-bold text-main2">
@@ -436,7 +436,7 @@ const ShipmentDetails = () => {
           </div>
         </div>
 
-        <div className="md:w-[55%] ss:w-[60%]">
+        <div className="md:w-[55%] ss:w-[60%] md:mb-0 ss:mb-0 mb-8">
           <div className="bg-primary1 md:p-10 ss:p-10 p-5 flex flex-col 
           rounded-2xl gap-6 sticky-cart">
             <h1 className="font-bold md:text-[16px] ss:text-[16px] text-[15px]
