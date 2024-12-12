@@ -16,7 +16,7 @@ const ShipmentDetails = () => {
             Your Shipment Details
           </h1>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             <h2 className="font-bold md:text-[15px] ss:text-[15px] 
             text-[14px] tracking-tight text-main4">
               SHIPPING DETAILS
@@ -35,8 +35,25 @@ const ShipmentDetails = () => {
               </h2>
             </div>
 
-            <div>
-              
+            <div className="w-full flex gap-4 items-center">
+              <div className="rounded-lg px-5 py-3 bg-mainalt">
+                <p className="md:text-[15px] ss:text-[15px] 
+                text-[14px] tracking-tight font-bold text-main2">
+                  Ireland
+                </p>
+              </div>
+
+              <p className="md:text-[15px] ss:text-[15px] 
+              text-[14px] tracking-tight font-semibold text-main4">
+                to
+              </p>
+
+              <div className="rounded-lg px-5 py-3 bg-mainalt">
+                <p className="md:text-[15px] ss:text-[15px] 
+                text-[14px] tracking-tight font-bold text-main2">
+                  Nigeria
+                </p>
+              </div>
             </div>
           </div>
         </div>
