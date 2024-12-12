@@ -12,8 +12,8 @@ const ShipmentDetails = () => {
       <div className="w-full flex md:flex-row ss:flex-row flex-col 
       gap-14 justify-between">
         <div className="w-full flex flex-col gap-6">
-          <h1 className='text-primary font-bold md:text-[33px] 
-          ss:text-[30px] text-[25px] tracking-tight'>
+          <h1 className='text-primary font-bold md:text-[30px] 
+          ss:text-[28px] text-[22px] tracking-tight'>
             Your Shipment Details
           </h1>
 
