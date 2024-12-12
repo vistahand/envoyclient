@@ -235,10 +235,10 @@ const ShipmentDetails = () => {
                 </div>
 
                 <div className="flex flex-col gap-0.5">
-                  <h3 className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                   tracking-tight font-medium text-main2">
                     No. 5 Friday Anazodo Street
-                  </h3>
+                  </p>
 
                   <p className="md:text-[15px] ss:text-[15px] text-[12px] 
                   tracking-tight font-medium text-main2">
@@ -300,10 +300,10 @@ const ShipmentDetails = () => {
                 </div>
 
                 <div className="flex flex-col gap-0.5">
-                  <h3 className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                   tracking-tight font-medium text-main2">
                     15 Barracks Road
-                  </h3>
+                  </p>
 
                   <p className="md:text-[15px] ss:text-[15px] text-[12px] 
                   tracking-tight font-medium text-main2">
@@ -344,6 +344,54 @@ const ShipmentDetails = () => {
                     Change recipient address
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div className='w-full h-[1px] bg-main5 mt-4'/>
+
+          <div className="flex flex-col gap-4 mt-4">
+            <h2 className="font-bold md:text-[15px] ss:text-[15px] 
+            text-[14px] tracking-tight text-main4">
+              PICKUP LOCATION
+            </h2>
+
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-0.5">
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                tracking-tight font-medium text-main2">
+                  276 Garden Heights Road
+                </p>
+
+                <p className="md:text-[15px] ss:text-[15px] text-[12px] 
+                tracking-tight font-medium text-main2">
+                  Heightenton Industrial Layout
+                </p>
+
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                tracking-tight font-medium text-main2">
+                  Brooks Heights, Dublin
+                </p>
+
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                tracking-tight font-medium text-main2">
+                  Leinster, <span className="font-bold">IE.</span>
+                </p>
+                
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                tracking-tight font-medium text-main2">
+                  456882
+                </p>
+              </div>
+
+              <div>
+                <p className="md:text-[13px] ss:text-[13px] text-[10px] 
+                tracking-tight font-semibold text-primary underline
+                hover:text-secondary cursor-pointer inline-flex navsmooth"
+                // onClick={f}
+                >
+                  Change pickup location
+                </p>
               </div>
             </div>
           </div>
