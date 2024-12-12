@@ -5,6 +5,7 @@ import { SectionWrapper } from "../hoc";
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { BsBoxSeam } from "react-icons/bs";
+import { ShippingModal, RecipientModal, PickupModal } from '../components';
 
 const ShipmentDetails = () => {
   const [countries, setCountries] = useState([]);
@@ -12,6 +13,12 @@ const ShipmentDetails = () => {
   const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
   const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  const disableScroll = () => {
+    setScrollPosition(window.pageYOffset);
+    document.body.style.overflow = 'hidden';
+    document.body.style.top = `-${scrollPosition}px`;
+  };
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -318,7 +325,10 @@ const ShipmentDetails = () => {
                   <p className="md:text-[13px] ss:text-[13px] text-[12px] 
                   tracking-tight font-semibold text-primary underline
                   hover:text-secondary cursor-pointer inline-flex navsmooth"
-                  onClick={setIsShippingModalOpen(true)}
+                  onClick={() => {
+                    setIsShippingModalOpen(true);
+                    disableScroll();
+                  }}
                   >
                     Change shipping address
                   </p>
@@ -383,7 +393,10 @@ const ShipmentDetails = () => {
                   <p className="md:text-[13px] ss:text-[13px] text-[12px] 
                   tracking-tight font-semibold text-primary underline
                   hover:text-secondary cursor-pointer inline-flex navsmooth"
-                  onClick={setIsRecipientModalOpen(true)}
+                  onClick={() => {
+                    setIsRecipientModalOpen(true);
+                    disableScroll();
+                  }}
                   >
                     Change recipient address
                   </p>
@@ -431,7 +444,10 @@ const ShipmentDetails = () => {
                 <p className="md:text-[13px] ss:text-[13px] text-[12px] 
                 tracking-tight font-semibold text-primary underline
                 hover:text-secondary cursor-pointer inline-flex navsmooth"
-                onClick={setIsPickupModalOpen(true)}
+                onClick={() => {
+                  setIsPickupModalOpen(true);
+                  disableScroll();
+                }}
                 >
                   Change pickup location
                 </p>

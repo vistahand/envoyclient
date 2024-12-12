@@ -19,6 +19,9 @@ import PickupLocation from './PickupLocation';
 import InsuranceForm from './InsuranceForm';
 import HeroPaymentReview from './HeroPaymentReview';
 import ShipmentDetails from './ShipmentDetails';
+import ShippingModal from './ShippingModal';
+import RecipientModal from './RecipientModal';
+import PickupModal from './PickupModal';
 
 export {
     Navbar,
@@ -42,4 +45,7 @@ export {
     InsuranceForm,
     HeroPaymentReview,
     ShipmentDetails,
+    ShippingModal,
+    RecipientModal,
+    PickupModal,
 }
