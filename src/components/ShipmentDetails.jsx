@@ -41,8 +41,7 @@ const ShipmentDetails = () => {
           </h1>
 
           <div className="flex flex-col gap-4">
-            <h2 className="font-bold md:text-[15px] ss:text-[15px] 
-            text-[14px] tracking-tight text-main4">
+            <h2 className="font-bold text-[15px] tracking-tight text-main4">
               SHIPPING DETAILS
             </h2>
 
@@ -52,15 +51,15 @@ const ShipmentDetails = () => {
                 stroke-primary'
               />
 
-              <h2 className='md:text-[15px] ss:text-[15px] text-[14px] 
-              font-bold tracking-tight'
+              <h2 className='text-[15px] font-bold tracking-tight'
               >
                 International Shipping
               </h2>
             </div>
 
             <div className="w-full flex gap-6 items-center">
-              <div className="rounded-lg px-8 py-5 bg-mainalt flex gap-2">
+              <div className="rounded-lg md:px-8 ss:px-8 px-6 md:py-5 
+              ss:py-5 py-4 bg-mainalt flex gap-2">
                 <img
                   src={
                     countries.find(
@@ -82,7 +81,8 @@ const ShipmentDetails = () => {
                 to
               </p>
 
-              <div className="rounded-lg px-8 py-5 bg-mainalt flex gap-2">
+              <div className="rounded-lg  md:px-8 ss:px-8 px-6 md:py-5 
+              ss:py-5 py-4 bg-mainalt flex gap-2">
                 <img
                   src={
                     countries.find(
@@ -101,8 +101,8 @@ const ShipmentDetails = () => {
             </div>
 
             <div className="flex flex-col w-full gap-1">
-              <p className="md:text-[14px] ss:text-[14px] 
-              text-[13px] tracking-tight font-medium text-main4">
+              <p className="text-[14px] tracking-tight font-medium 
+              text-main4">
                 Shipping Date
               </p>
 
@@ -111,17 +111,16 @@ const ShipmentDetails = () => {
                 Monday 28th October, 2024
               </h1>
 
-              <p className="text-main4 md:text-[12px] ss:text-[12px] 
-              text-[10px] font-medium md:leading-[16px] ss:leading-[15px]
-              leading-[14px] tracking-tight">
+              <p className="text-main4 text-[12px] font-medium 
+              md:leading-[16px] leading-[17px] tracking-tight">
                 Shipments may not always be shipped on the date of
                 payment. <a href='/terms' className="text-primary font-semibold">Read our terms for more details.</a>
               </p>
             </div>
 
             <div className="flex flex-col w-full gap-1 mt-3">
-              <p className="md:text-[14px] ss:text-[14px] 
-              text-[13px] tracking-tight font-medium text-main4">
+              <p className="text-[14px] tracking-tight font-medium 
+              text-main4">
                 Estimated Delivery Date
               </p>
 
@@ -130,9 +129,8 @@ const ShipmentDetails = () => {
                 Friday 1st November, 2024
               </h1>
 
-              <p className="text-main4 md:text-[12px] ss:text-[12px] 
-              text-[10px] font-medium md:leading-[16px] ss:leading-[15px]
-              leading-[14px] tracking-tight">
+              <p className="text-main4 text-[12px] font-medium 
+              md:leading-[16px] leading-[17px] tracking-tight">
                 Estimated delivery date only valid if you make payment
                 before 6PM on 29th October, 2024
               </p>
