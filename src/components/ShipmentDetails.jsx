@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
+import { BsBoxSeam } from "react-icons/bs";
 
 const ShipmentDetails = () => {
   return (
     <section className='w-full flex md:min-h-[1500px] ss:min-h-[1500px]
     min-h-[1500px]'>
       <div className="w-full flex md:flex-row ss:flex-row flex-col 
-      gap-6 justify-between">
+      gap-14 justify-between">
         <div className="w-full flex flex-col gap-6">
           <h1 className='text-primary font-bold md:text-[33px] 
           ss:text-[30px] text-[25px] tracking-tight'>
@@ -57,8 +58,8 @@ const ShipmentDetails = () => {
             </div>
 
             <div className="flex flex-col w-full gap-1">
-              <p className="md:text-[15px] ss:text-[15px] 
-              text-[14px] tracking-tight font-medium text-main4">
+              <p className="md:text-[14px] ss:text-[14px] 
+              text-[13px] tracking-tight font-medium text-main4">
                 Shipping Date
               </p>
 
@@ -73,6 +74,46 @@ const ShipmentDetails = () => {
                 Shipments may not always be shipped on the date of
                 payment. <a href='/terms' className="text-primary font-semibold">Read our terms for more details.</a>
               </p>
+            </div>
+
+            <div className="flex flex-col w-full gap-1 mt-3">
+              <p className="md:text-[14px] ss:text-[14px] 
+              text-[13px] tracking-tight font-medium text-main4">
+                Estimated Delivery Date
+              </p>
+
+              <h1 className="md:text-[25px] ss:text-[23px] 
+                text-[20px] tracking-tight font-bold text-main2">
+                Friday 1st November, 2024
+              </h1>
+
+              <p className="text-main4 md:text-[12px] ss:text-[12px] 
+              text-[10px] font-medium md:leading-[16px] ss:leading-[15px]
+              leading-[14px] tracking-tight">
+                Estimated delivery date only valid if you make payment
+                before 6PM on 29th October, 2024
+              </p>
+            </div>
+          </div>
+
+          <div className='w-full h-[1px] bg-main5 mt-4'/>
+
+          <div className="flex flex-col gap-4 mt-4">
+            <h2 className="font-bold md:text-[15px] ss:text-[15px] 
+            text-[14px] tracking-tight text-main4">
+              PACKAGE DETAILS
+            </h2>
+
+            <div className='flex items-center text-primary gap-3'>
+              <BsBoxSeam 
+                className='w-[1.5rem] h-auto text-primary'
+              />
+
+              <h2 className='md:text-[15px] ss:text-[15px] text-[14px] 
+              font-bold tracking-tight'
+              >
+                Parcel
+              </h2>
             </div>
           </div>
         </div>
