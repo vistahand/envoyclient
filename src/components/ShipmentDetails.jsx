@@ -116,7 +116,7 @@ const ShipmentDetails = () => {
               </h2>
             </div>
 
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-5 items-center">
               <div className="flex items-center gap-1">
                 <p className="md:text-[14px] ss:text-[14px] text-[11px] 
                 tracking-tight font-medium text-main2">
@@ -134,7 +134,7 @@ const ShipmentDetails = () => {
                 </p>
               </div>
 
-              <div className='h-full w-[1px] bg-main4'/>
+              <div className='h-[80%] w-[1px] bg-main4'/>
 
               <div className="flex items-center gap-1">
                 <p className="md:text-[14px] ss:text-[14px] text-[11px] 
@@ -153,7 +153,7 @@ const ShipmentDetails = () => {
                 </p>
               </div>
 
-              <div className='h-full w-[1px] bg-main4'/>
+              <div className='h-[80%] w-[1px] bg-main4'/>
 
               <div className="flex items-center gap-1">
                 <p className="md:text-[14px] ss:text-[14px] text-[11px] 
@@ -172,7 +172,7 @@ const ShipmentDetails = () => {
                 </p>
               </div>
 
-              <div className='h-full w-[1px] bg-main4'/>
+              <div className='h-[80%] w-[1px] bg-main4'/>
 
               <div className="flex items-center gap-1">
                 <p className="md:text-[14px] ss:text-[14px] text-[11px] 
@@ -192,19 +192,28 @@ const ShipmentDetails = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-5 items-center">
               <p className="md:text-[14px] ss:text-[14px] text-[11px] 
               tracking-tight font-medium text-main2">
                 Fragile
               </p>
 
-              <div className='h-full w-[1px] bg-main4'/>
+              <div className='h-[80%] w-[1px] bg-main4'/>
 
               <p className="md:text-[14px] ss:text-[14px] text-[11px] 
               tracking-tight font-medium text-main2">
                 Perishable
               </p>
             </div>
+          </div>
+
+          <div className='w-full h-[1px] bg-main5 mt-4'/>
+
+          <div className="flex flex-col gap-4 mt-4">
+            <h2 className="font-bold md:text-[15px] ss:text-[15px] 
+            text-[14px] tracking-tight text-main4">
+              CONTACT DETAILS
+            </h2>
           </div>
         </div>
 
