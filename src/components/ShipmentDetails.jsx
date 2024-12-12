@@ -8,6 +8,10 @@ import { BsBoxSeam } from "react-icons/bs";
 
 const ShipmentDetails = () => {
   const [countries, setCountries] = useState([]);
+  const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
+  const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
+  const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -314,7 +318,7 @@ const ShipmentDetails = () => {
                   <p className="md:text-[13px] ss:text-[13px] text-[12px] 
                   tracking-tight font-semibold text-primary underline
                   hover:text-secondary cursor-pointer inline-flex navsmooth"
-                  // onClick={f}
+                  onClick={setIsShippingModalOpen(true)}
                   >
                     Change shipping address
                   </p>
@@ -379,7 +383,7 @@ const ShipmentDetails = () => {
                   <p className="md:text-[13px] ss:text-[13px] text-[12px] 
                   tracking-tight font-semibold text-primary underline
                   hover:text-secondary cursor-pointer inline-flex navsmooth"
-                  // onClick={f}
+                  onClick={setIsRecipientModalOpen(true)}
                   >
                     Change recipient address
                   </p>
@@ -427,7 +431,7 @@ const ShipmentDetails = () => {
                 <p className="md:text-[13px] ss:text-[13px] text-[12px] 
                 tracking-tight font-semibold text-primary underline
                 hover:text-secondary cursor-pointer inline-flex navsmooth"
-                // onClick={f}
+                onClick={setIsPickupModalOpen(true)}
                 >
                   Change pickup location
                 </p>
@@ -525,6 +529,24 @@ const ShipmentDetails = () => {
           </div>
         </div>
       </div>
+
+      {isShippingModalOpen && (
+        <ShippingModal 
+          onClose={() => setIsShippingModalOpen(false)}
+        />
+      )}
+
+      {isRecipientModalOpen && (
+        <RecipientModal 
+          onClose={() => setIsRecipientModalOpen(false)}
+        />
+      )}
+
+      {isPickupModalOpen && (
+        <PickupModal 
+          onClose={() => setIsPickupModalOpen(false)}
+        />
+      )}
     </section>
   )
 };
