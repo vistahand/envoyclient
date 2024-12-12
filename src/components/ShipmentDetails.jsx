@@ -140,8 +140,7 @@ const ShipmentDetails = () => {
           <div className='w-full h-[1px] bg-main5 mt-4'/>
 
           <div className="flex flex-col gap-4 mt-4">
-            <h2 className="font-bold md:text-[15px] ss:text-[15px] 
-            text-[14px] tracking-tight text-main4">
+            <h2 className="font-bold text-[15px] tracking-tight text-main4">
               PACKAGE DETAILS
             </h2>
 
@@ -150,8 +149,7 @@ const ShipmentDetails = () => {
                 className='w-[1.5rem] h-auto text-primary'
               />
 
-              <h2 className='md:text-[15px] ss:text-[15px] text-[14px] 
-              font-bold tracking-tight'
+              <h2 className='text-[15px] font-bold tracking-tight'
               >
                 Parcel
               </h2>
