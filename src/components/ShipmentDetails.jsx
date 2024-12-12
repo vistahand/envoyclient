@@ -59,16 +59,16 @@ const ShipmentDetails = () => {
               </h2>
             </div>
 
-            <div className="w-full flex gap-4 items-center">
-              <div className="rounded-lg px-7 py-3.5 bg-mainalt flex gap-1">
+            <div className="w-full flex gap-6 items-center">
+              <div className="rounded-lg px-8 py-5 bg-mainalt flex gap-2">
                 <img
                   src={
                     countries.find(
-                      (country) => country.cca2 === IR
+                      (country) => country.cca2 === 'IE'
                     )?.flags?.png
                   }
                   alt="flag"
-                  className="w-10 h-[1.4rem] rounded-sm"
+                  className="w-10 h-[1.4rem] rounded-[0.2rem]"
                 />
 
                 <p className="md:text-[15px] ss:text-[15px] 
@@ -82,15 +82,15 @@ const ShipmentDetails = () => {
                 to
               </p>
 
-              <div className="rounded-lg px-7 py-3.5 bg-mainalt flex gap-1">
+              <div className="rounded-lg px-8 py-5 bg-mainalt flex gap-2">
                 <img
                   src={
                     countries.find(
-                      (country) => country.cca2 === IR
+                      (country) => country.cca2 === 'NG'
                     )?.flags?.png
                   }
                   alt="flag"
-                  className="w-10 h-[1.4rem] rounded-sm"
+                  className="w-10 h-[1.4rem] rounded-[0.2rem]"
                 />
 
                 <p className="md:text-[15px] ss:text-[15px] 
