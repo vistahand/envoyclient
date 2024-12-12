@@ -1,11 +1,34 @@
+import { useState, useEffect } from 'react';
 import { SectionWrapper } from "../hoc";
-import { motion } from "framer-motion";
-import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
+// import { motion } from "framer-motion";
+// import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { BsBoxSeam } from "react-icons/bs";
 
 const ShipmentDetails = () => {
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('https://restcountries.com/v3.1/all');
+
+        const data = await response.json();
+        const sortedCountries = [...data].sort((a, b) => 
+          a.name.common.localeCompare(b.name.common)
+        );
+
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+
   return (
     <section className='w-full flex md:min-h-[1320px] ss:min-h-[1500px]
     min-h-[1500px]'>
@@ -37,7 +60,17 @@ const ShipmentDetails = () => {
             </div>
 
             <div className="w-full flex gap-4 items-center">
-              <div className="rounded-lg px-6 py-3 bg-mainalt">
+              <div className="rounded-lg px-7 py-3.5 bg-mainalt flex gap-1">
+                <img
+                  src={
+                    countries.find(
+                      (country) => country.cca2 === IR
+                    )?.flags?.png
+                  }
+                  alt="flag"
+                  className="w-10 h-[1.4rem] rounded-sm"
+                />
+
                 <p className="md:text-[15px] ss:text-[15px] 
                 text-[14px] tracking-tight font-bold text-main2">
                   Ireland
@@ -49,7 +82,17 @@ const ShipmentDetails = () => {
                 to
               </p>
 
-              <div className="rounded-lg px-6 py-3 bg-mainalt">
+              <div className="rounded-lg px-7 py-3.5 bg-mainalt flex gap-1">
+                <img
+                  src={
+                    countries.find(
+                      (country) => country.cca2 === IR
+                    )?.flags?.png
+                  }
+                  alt="flag"
+                  className="w-10 h-[1.4rem] rounded-sm"
+                />
+
                 <p className="md:text-[15px] ss:text-[15px] 
                 text-[14px] tracking-tight font-bold text-main2">
                   Nigeria
