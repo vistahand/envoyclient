@@ -115,6 +115,96 @@ const ShipmentDetails = () => {
                 Parcel
               </h2>
             </div>
+
+            <div className="flex flex-wrap gap-4 items-center">
+              <div className="flex items-center gap-1">
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-medium text-main2">
+                  Weight
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                font-medium text-main2">
+                  -
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-bold text-main2">
+                  12kg
+                </p>
+              </div>
+
+              <div className='h-full w-[1px] bg-main4'/>
+
+              <div className="flex items-center gap-1">
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-medium text-main2">
+                  Length
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                font-medium text-main2">
+                  -
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-bold text-main2">
+                  15cm
+                </p>
+              </div>
+
+              <div className='h-full w-[1px] bg-main4'/>
+
+              <div className="flex items-center gap-1">
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-medium text-main2">
+                  Width
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                font-medium text-main2">
+                  -
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-bold text-main2">
+                  24cm
+                </p>
+              </div>
+
+              <div className='h-full w-[1px] bg-main4'/>
+
+              <div className="flex items-center gap-1">
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-medium text-main2">
+                  Height
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                font-medium text-main2">
+                  -
+                </p>
+
+                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                tracking-tight font-bold text-main2">
+                  20cm
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4 items-center">
+              <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+              tracking-tight font-medium text-main2">
+                Fragile
+              </p>
+
+              <div className='h-full w-[1px] bg-main4'/>
+
+              <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+              tracking-tight font-medium text-main2">
+                Perishable
+              </p>
+            </div>
           </div>
         </div>
 
