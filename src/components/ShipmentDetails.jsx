@@ -114,7 +114,7 @@ const ShipmentDetails = () => {
               <p className="text-main4 text-[12px] font-medium 
               md:leading-[16px] leading-[17px] tracking-tight">
                 Shipments may not always be shipped on the date of
-                payment. <a href='/terms' className="text-primary font-semibold">Read our terms for more details.</a>
+                payment. <a target='blank' href='/terms' className="text-primary font-semibold">Read our terms for more details.</a>
               </p>
             </div>
 
