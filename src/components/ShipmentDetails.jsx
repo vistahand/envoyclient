@@ -34,6 +34,10 @@ const ShipmentDetails = () => {
                 International Shipping
               </h2>
             </div>
+
+            <div>
+              
+            </div>
           </div>
         </div>
 
