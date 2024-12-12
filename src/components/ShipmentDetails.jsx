@@ -118,17 +118,17 @@ const ShipmentDetails = () => {
 
             <div className="flex flex-wrap gap-5 items-center">
               <div className="flex items-center gap-1">
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px] 
                 tracking-tight font-medium text-main2">
                   Weight
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px] 
                 font-medium text-main2">
                   -
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 tracking-tight font-bold text-main2">
                   12kg
                 </p>
@@ -137,17 +137,17 @@ const ShipmentDetails = () => {
               <div className='h-[80%] w-[1px] bg-main4'/>
 
               <div className="flex items-center gap-1">
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 tracking-tight font-medium text-main2">
                   Length
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 font-medium text-main2">
                   -
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 tracking-tight font-bold text-main2">
                   15cm
                 </p>
@@ -156,17 +156,17 @@ const ShipmentDetails = () => {
               <div className='h-[80%] w-[1px] bg-main4'/>
 
               <div className="flex items-center gap-1">
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 tracking-tight font-medium text-main2">
                   Width
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 font-medium text-main2">
                   -
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 tracking-tight font-bold text-main2">
                   24cm
                 </p>
@@ -175,17 +175,17 @@ const ShipmentDetails = () => {
               <div className='h-[80%] w-[1px] bg-main4'/>
 
               <div className="flex items-center gap-1">
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 tracking-tight font-medium text-main2">
                   Height
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px]  
                 font-medium text-main2">
                   -
                 </p>
 
-                <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+                <p className="md:text-[15px] ss:text-[15px] text-[12px] 
                 tracking-tight font-bold text-main2">
                   20cm
                 </p>
@@ -193,14 +193,14 @@ const ShipmentDetails = () => {
             </div>
 
             <div className="flex flex-wrap gap-5 items-center">
-              <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+              <p className="md:text-[15px] ss:text-[15px] text-[12px]  
               tracking-tight font-medium text-main2">
                 Fragile
               </p>
 
               <div className='h-[80%] w-[1px] bg-main4'/>
 
-              <p className="md:text-[14px] ss:text-[14px] text-[11px] 
+              <p className="md:text-[15px] ss:text-[15px] text-[12px]  
               tracking-tight font-medium text-main2">
                 Perishable
               </p>
@@ -214,6 +214,73 @@ const ShipmentDetails = () => {
             text-[14px] tracking-tight text-main4">
               CONTACT DETAILS
             </h2>
+
+            <div className="flex w-full justify-between">
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="md:text-[15px] ss:text-[15px] text-[12px] 
+                  tracking-tight font-bold text-main2">
+                    Rufus Benson Antagony
+                  </h3>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px] 
+                  tracking-tight font-medium text-main2">
+                    rufusbantags@email.com
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    0901 234 5678
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    No. 5 Friday Anazodo Street
+                  </h3>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px] 
+                  tracking-tight font-medium text-main2">
+                    Cleveland Estates
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    Brooks Heights, Dublin
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                  tracking-tight font-medium text-main2">
+                    Leinster, <span className="font-bold">IE.</span>
+                  </p>
+
+                  <div className="flex items-center gap-3">
+                    <p className="md:text-[15px] ss:text-[15px] text-[12px]  
+                    tracking-tight font-medium text-main2">
+                      456789
+                    </p>
+
+                    <div className='h-[70%] w-[1px] bg-main4'/>
+
+                    <p className="md:text-[15px] ss:text-[15px] text-[12px] 
+                    tracking-tight font-medium text-main2">
+                      Tax ID: 34FA89000HJ1
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="md:text-[13px] ss:text-[13px] text-[10px] 
+                  tracking-tight font-semibold text-primary underline
+                  hover:text-secondary cursor-pointer inline-flex navsmooth"
+                  // onClick={f}
+                  >
+                    Change shipping address
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -275,8 +342,8 @@ const ShipmentDetails = () => {
                 Subtotal:
               </p>
 
-              <p className="text-primary md:text-[20px] ss:text-[20px] 
-              text-[17px] font-bold">
+              <p className="text-primary md:text-[23px] ss:text-[22px] 
+              text-[18px] font-bold">
                 <span className='line-through'>
                   N
                 </span>
