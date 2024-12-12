@@ -149,6 +149,14 @@ body, html {
   }
 }
 
+@media (max-width: 480px) {
+  .sticky-cartmob {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 110px;
+  }
+}
+
 .sticky-filter-main {
   position: -webkit-sticky; /* For Safari */
   position: sticky;
