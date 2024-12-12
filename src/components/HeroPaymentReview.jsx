@@ -4,8 +4,9 @@ import { textVariant } from '../utils/motion';
 
 const HeroPaymentReview = () => {
   return (
-    <section className='w-full md:mt-32 ss:mt-32 mt-28 items-center'>
-      <div className='items-center w-full'>
+    <section className='w-full md:mt-32 ss:mt-32 mt-28 items-center
+    md:p-0 ss:pl-16 ss:pr-16 pl-6 pr-6'>
+      <div className='items-center w-full max-w-[68rem]'>
         <motion.div variants={textVariant()}
         className='flex md:w-[38%] ss:w-[38%] w-full md:gap-6 ss:gap-4 
         gap-3 items-center'>
