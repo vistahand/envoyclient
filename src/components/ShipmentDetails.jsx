@@ -11,8 +11,8 @@ const ShipmentDetails = () => {
       <div className="w-full flex md:flex-row ss:flex-row flex-col 
       gap-6 justify-between">
         <div className="w-full flex flex-col gap-6">
-          <h1 className='text-primary font-bold md:text-[30px] 
-          ss:text-[25px] text-[22px] tracking-tighter'>
+          <h1 className='text-primary font-bold md:text-[33px] 
+          ss:text-[30px] text-[25px] tracking-tight'>
             Your Shipment Details
           </h1>
 
@@ -36,7 +36,7 @@ const ShipmentDetails = () => {
             </div>
 
             <div className="w-full flex gap-4 items-center">
-              <div className="rounded-lg px-5 py-3 bg-mainalt">
+              <div className="rounded-lg px-6 py-3 bg-mainalt">
                 <p className="md:text-[15px] ss:text-[15px] 
                 text-[14px] tracking-tight font-bold text-main2">
                   Ireland
@@ -48,12 +48,31 @@ const ShipmentDetails = () => {
                 to
               </p>
 
-              <div className="rounded-lg px-5 py-3 bg-mainalt">
+              <div className="rounded-lg px-6 py-3 bg-mainalt">
                 <p className="md:text-[15px] ss:text-[15px] 
                 text-[14px] tracking-tight font-bold text-main2">
                   Nigeria
                 </p>
               </div>
+            </div>
+
+            <div className="flex flex-col w-full gap-1">
+              <p className="md:text-[15px] ss:text-[15px] 
+              text-[14px] tracking-tight font-medium text-main4">
+                Shipping Date
+              </p>
+
+              <h1 className="md:text-[25px] ss:text-[23px] 
+                text-[20px] tracking-tight font-bold text-main2">
+                Monday 28th October, 2024
+              </h1>
+
+              <p className="text-main4 md:text-[12px] ss:text-[12px] 
+              text-[10px] font-medium md:leading-[16px] ss:leading-[15px]
+              leading-[14px] tracking-tight">
+                Shipments may not always be shipped on the date of
+                payment. <a href='/terms' className="text-primary font-semibold">Read our terms for more details.</a>
+              </p>
             </div>
           </div>
         </div>
