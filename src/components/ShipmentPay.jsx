@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
 // import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
@@ -7,7 +7,7 @@ import { PiWarningCircle } from "react-icons/pi";
 import { ShippingModal } from '../components';
 import { paystack } from '../assets';
 
-const ShipmentPay = ({ onNext, onPrev }) => {
+const ShipmentPay = ({ onPrev }) => {
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
 
