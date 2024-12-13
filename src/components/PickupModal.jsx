@@ -215,7 +215,140 @@ const PickupModal = ({ onClose }) => {
               />
             </div>
 
-            
+            <div className='flex items-center w-full flex-col md:px-12 
+            ss:px-12 px-5 mb-3'>
+              <form ref={formRef} onSubmit={formik.handleSubmit}
+              className='w-full md:mt-6 ss:mt-6 mt-4'>
+                <div className='flex flex-col w-full items-center'>
+                  <div className='flex flex-col w-full items-center gap-4'>   
+                    <div className='grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4'>
+                      <div className="relative flex flex-col">
+                        <div className='relative flex items-center'>
+                          {formik.values.countryPick && (
+                            <img
+                              src={
+                                countries.find(
+                                  (country) => country.cca2 === formik.values.countryPick
+                                )?.flags?.png
+                              }
+                              alt="flag"
+                              className="absolute md:left-3.5 left-3 w-10
+                              h-[1.4rem] rounded-sm"
+                            />
+                          )}
+                          <select
+                            type="text"
+                            name="countryPick"
+                            value={formik.values.countryPick}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
+                            px-3 outline text-main2 md:rounded-lg rounded-md
+                            cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
+                            ss:text-[14px] text-[12px] focus:outline-primary
+                            bg-transparent w-full custom-select outline-[1px]
+                            ${formik.touched.countryPick && formik.errors.countryPick ? 'outline-mainRed' : 'outline-main6'}`}
+                          >
+                            <option value="" disabled hidden>Select recipient's country</option>
+                            {countries.map((country) => (
+                              <option key={country.cca2} value={country.cca2}>
+                                {country.name.common}
+                              </option>
+                            ))}
+                          </select>
+
+                          <div className='absolute md:right-3.5 right-3'>
+                            <TiArrowSortedDown 
+                              className='text-main md:text-[16px]
+                              ss:text-[18px] text-[16px]'
+                            />
+                          </div>
+                        </div>
+                        
+                        <p className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                          {formik.touched.countryPick && formik.errors.countryPick}
+                        </p>
+
+                        <p className='text-main2 font-medium md:text-[12px]
+                        ss:text-[12px] text-[11px] tracking-tight'>
+                          You cannot change the pickup country/region unless you cancel shipment.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className='grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4'>
+                      <div className="relative flex flex-col">
+                        <div className='relative flex items-center'>
+                          <div className='w-full'>
+                            <CustomSelect 
+                              name="statePick"
+                              value={formik.values.statePick}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              options={stateOptions}
+                              placeholder="Select a state/district"
+                              error={
+                                formik.touched.statePick && formik.errors.statePick
+                              }
+                            />
+                          </div>
+
+                          <div className='absolute md:right-3.5 right-3'>
+                            <TiArrowSortedDown 
+                              className='text-main md:text-[16px]
+                              ss:text-[18px] text-[16px]'
+                            />
+                          </div>
+                        </div>
+
+                        <p className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                          {formik.touched.statePick && formik.errors.statePick}
+                        </p>
+                      </div>
+
+                      <div className="relative flex flex-col">
+                        <input
+                          type="text"
+                          name="townPick"
+                          placeholder=' '
+                          value={formik.values.townPick}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                          peer outline text-black md:rounded-lg rounded-md 
+                          md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                          bg-transparent w-full focus:outline-primary
+                          ${formik.touched.townPick && formik.errors.townPick ? 'outline-mainRed' : 'outline-main6'}
+                          `}
+                        />
+
+                        <label
+                        htmlFor="townPick"
+                        className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                        md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                        md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                        duration-300 peer-placeholder-shown:translate-y-0 
+                        peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                        ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                        peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                        ${formik.values.townPick ? 'z-10 px-2' : ''}
+                        `}
+                        >
+                          Enter a town/city
+                        </label>
+
+                        <p className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                          {formik.touched.townPick && formik.errors.townPick}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
 
             <div className='flex md:justify-end ss:justify-end w-full
             border-t border-t-main7  md:py-6 md:px-12 ss:py-6 
