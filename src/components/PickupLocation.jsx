@@ -92,7 +92,6 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
         { value: "zamfara", label: "Zamfara" },
         { value: "fct", label: "Federal Capital Territory" },
     ];
-    
 
     const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
         const [showOptions, setShowOptions] = useState(false);
