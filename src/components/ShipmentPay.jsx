@@ -129,9 +129,6 @@ const ShipmentPay = ({ onPrev }) => {
                             </p>
                         </div>
                     </div>
-
-                    
-                    
                 </div>
 
                 <div className='w-full h-[1px] bg-main5 md:mt-4 ss:mt-4 mt-2'/>
