@@ -23,7 +23,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
         }),
         
         onSubmit: (values) => {
-           navigate('/createshipment-paymentreview');
+           navigate('/createshipment-payment');
         },
     });
 

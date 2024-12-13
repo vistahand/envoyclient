@@ -22,6 +22,7 @@ import ShipmentDetails from './ShipmentDetails';
 import ShippingModal from './ShippingModal';
 import RecipientModal from './RecipientModal';
 import PickupModal from './PickupModal';
+import ShipmentPay from './ShipmentPay';
 
 export {
     Navbar,
@@ -48,4 +49,5 @@ export {
     ShippingModal,
     RecipientModal,
     PickupModal,
+    ShipmentPay,
 }
