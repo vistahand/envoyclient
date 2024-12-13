@@ -218,8 +218,8 @@ const RecipientModal = ({ onClose }) => {
             <div className='flex justify-between items-center w-full
             border-b border-b-main7 md:py-6 md:px-12 ss:py-6 
             ss:px-12 py-4 px-5 bg-white top-0 sticky z-10'>
-              <h1 className="md:text-[30px] ss:text-[25px] 
-              text-[20px] tracking-tight font-bold text-main2">
+              <h1 className="md:text-[30px] ss:text-[25px] text-[20px] 
+              tracking-tight font-bold text-main2">
                 Edit Recipient Information
               </h1>
 

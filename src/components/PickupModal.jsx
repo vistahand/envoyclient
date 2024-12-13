@@ -187,7 +187,7 @@ const PickupModal = ({ onClose }) => {
       className="fixed inset-0 flex items-center justify-center
       bg-black bg-opacity-40 z-50">
         <div className='max-w-[68rem] w-full flex md:justify-center 
-        ss:justify-center md:mx-0 ss:mx-16 mx-5'>
+        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:max-h-[75%] h-auto'>
           <motion.div
           initial={{ y: 0, opacity: 0.7 }}
           animate={{ y: 0, opacity: 1 }}
@@ -195,12 +195,12 @@ const PickupModal = ({ onClose }) => {
           transition={{ duration: 0.1 }}
           className="bg-white md:rounded-3xl ss:rounded-3xl relative
           rounded-2xl shadow-xl flex flex-col md:w-[90%] w-full 
-          items-center">
+          overflow-auto items-center scrollbar-hidden">
             <div className='flex justify-between items-center w-full
             border-b border-b-main7 md:py-6 md:px-12 ss:py-6 
-            ss:px-12 py-4 px-5'>
-              <h1 className="md:text-[30px] ss:text-[25px] 
-              text-[20px] tracking-tight font-bold text-main2">
+            ss:px-12 py-4 px-5 bg-white top-0 sticky z-10'>
+              <h1 className="md:text-[30px] ss:text-[25px] text-[20px] 
+              tracking-tight font-bold text-main2">
                 Change Pickup Location
               </h1>
 
@@ -386,7 +386,7 @@ const PickupModal = ({ onClose }) => {
 
             <div className='flex md:justify-end ss:justify-end w-full
             border-t border-t-main7 md:py-6 md:px-12 ss:py-6 
-            ss:px-12 py-4 px-5'>
+            ss:px-12 py-4 px-5 bg-white bottom-0 sticky'>
               <div className="flex md:w-[45%] ss:w-[45%] w-full items-center 
               md:gap-5 ss:gap-5 gap-3">
                 <button
