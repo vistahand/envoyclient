@@ -24,6 +24,8 @@ module.exports = {
         greenBright: "#27E63A",
         greenDeep: "#11AD21",
         brightRed: "#EA4335",
+        redClose: "#EB1E1E",
+        redCircle: "#FDE9E9",
         realRed: "#FF0000",
       },
       fontFamily: {
