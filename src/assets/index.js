@@ -26,6 +26,7 @@ import book from './book.svg';
 import box from './box.svg';
 import addicon from './add-icon.svg';
 import wing from './wing.png';
+import paystack from './paystack.svg';
 
 export {
     logo,
@@ -56,6 +57,7 @@ export {
     box,
     addicon,
     wing,
+    paystack,
 }
 
 export const heroImages = [
