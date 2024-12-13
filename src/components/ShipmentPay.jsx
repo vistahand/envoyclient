@@ -42,13 +42,14 @@ const ShipmentPay = ({ onPrev }) => {
 
                 <div className="flex flex-col gap-4 w-full">
                     <div className='flex items-center gap-2 rounded-xl 
-                    bg-primary1 px-5 py-3 cursor-pointer w-full'>
-                        <PiWarningCircle className='md:text-[24px] ss:text-[24px] 
-                        text-[32px] text-primary'/>
+                    bg-primary1 px-5 py-3.5 cursor-pointer w-full'>
+                        <PiWarningCircle 
+                            className='w-[1.8rem] h-auto text-primary'
+                        />
 
-                        <p className='text-main4 md:text-[15px] ss:text-[15px] 
-                        text-[13px] md:leading-[1.4rem] ss:leading-[1.4rem] 
-                        leading-[1.2rem] tracking-tight font-medium'>
+                        <p className='text-main4 md:text-[14px] ss:text-[13px] 
+                        text-[11px] md:leading-[1.3rem] ss:leading-[1.2rem] 
+                        leading-[1rem] tracking-tight font-medium'>
                             NB: Your billing address has been set to 
                             your shipping address by default as a guest. 
                             To  change this, you can <a href='/createshipment-payment' className='font-bold text-primary'>
