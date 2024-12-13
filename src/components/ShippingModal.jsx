@@ -254,8 +254,8 @@ const ShippingModal = ({ onClose }) => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 10, opacity: 0 }}
           transition={{ duration: 0.1 }}
-          className="bg-white md:rounded-2xl ss:rounded-2xl relative
-          rounded-xl shadow-xl flex flex-col md:w-[90%] w-full 
+          className="bg-white md:rounded-3xl ss:rounded-3xl relative
+          rounded-2xl shadow-xl flex flex-col md:w-[90%] w-full 
           overflow-auto items-center">
             <div className='flex justify-between items-center w-full
             border-b border-b-main7 md:py-6 md:px-12 ss:py-6 
@@ -277,7 +277,7 @@ const ShippingModal = ({ onClose }) => {
             </div>
 
             <div className='flex items-center w-full flex-col md:px-12 
-            ss:px-12 px-5 mb-5'>
+            ss:px-12 px-5 mb-3'>
               <div className='flex items-center md:gap-3 ss:gap-3 gap-2.5 
               w-full mt-5'>
                 <div className='flex flex-col w-full gap-3 items-center'>
@@ -816,7 +816,7 @@ const ShippingModal = ({ onClose }) => {
                 ) : (
                   <div className='flex flex-col w-full items-center gap-8'>
                     <div className='flex flex-col w-full items-center gap-4'>
-                      <div className='w-full'>
+                      <div className='w-full mt-5'>
                         <h2 className='text-main2 font-semibold md:text-[20px]
                         ss:text-[20px] text-[17px] tracking-tight'>
                           Business Information
