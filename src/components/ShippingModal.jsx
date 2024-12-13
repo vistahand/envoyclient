@@ -247,16 +247,16 @@ const ShippingModal = ({ onClose }) => {
       className="fixed inset-0 flex items-center justify-center
       bg-black bg-opacity-40 z-50">
         <div className='max-w-[68rem] w-full flex md:justify-center 
-        ss:justify-center md:mx-0 ss:mx-0 mx-5 md:h-[70%] ss:h-[70%] 
-        h-[100%]'>
+        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:h-[75%] ss:h-[75%] 
+        h-[80%]'>
           <motion.div
           initial={{ y: 0, opacity: 0.7 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 10, opacity: 0 }}
           transition={{ duration: 0.1 }}
           className="bg-white md:rounded-2xl ss:rounded-2xl relative
-          rounded-xl shadow-xl flex flex-col md:w-[85%] ss:w-[85%]
-          w-full overflow-auto items-center md:px-12 ss:px-12 px-5">
+          rounded-xl shadow-xl flex flex-col md:w-[90%] w-full 
+          overflow-auto items-center">
             <div className='flex justify-between items-center w-full
             border-b border-b-main7 md:py-6 md:px-12 ss:py-6 
             ss:px-12 py-4 px-5 bg-white top-0 sticky z-10'>
@@ -276,10 +276,10 @@ const ShippingModal = ({ onClose }) => {
               />
             </div>
 
-            <div className='flex items-center w-full flex-col md:mt-20
-            ss:mt-20 mt-12'>
+            <div className='flex items-center w-full flex-col md:px-12 
+            ss:px-12 px-5 mb-5'>
               <div className='flex items-center md:gap-3 ss:gap-3 gap-2.5 
-              w-full md:mt-12 ss:mt-10 mt-8'>
+              w-full mt-5'>
                 <div className='flex flex-col w-full gap-3 items-center'>
                   <div className='w-full'>
                     <div className='inline-flex bg-mainalt rounded-lg p-1'>
@@ -334,9 +334,9 @@ const ShippingModal = ({ onClose }) => {
               <form ref={formRef} onSubmit={formik.handleSubmit}
               className='w-full md:mt-6 ss:mt-6 mt-4'>
                 {senderTab === 'individual' ? (
-                  <div className='flex flex-col w-full items-center gap-8'>
+                  <div className='flex flex-col w-full items-center'>
                     <div className='flex flex-col w-full items-center gap-4'>
-                      <div className='w-full'>
+                      <div className='w-full mt-5'>
                         <h2 className='text-main2 font-semibold md:text-[20px]
                         ss:text-[20px] text-[17px] tracking-tight'>
                           Personal Information
