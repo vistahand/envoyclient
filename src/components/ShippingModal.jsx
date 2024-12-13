@@ -1421,7 +1421,9 @@ const ShippingModal = ({ onClose }) => {
               </form>
             </div>
 
-            <div className='flex md:justify-end ss:justify-end w-full'>
+            <div className='flex md:justify-end ss:justify-end w-full
+            border-t border-t-main7 absolute md:py-6 md:px-12 ss:py-6 
+            ss:px-12 py-4 px-5 bg-white bottom-0'>
               <div className="flex md:w-[45%] ss:w-[45%] w-full items-center 
               phone4 md:gap-5 ss:gap-5 gap-3">
                 <button
