@@ -248,7 +248,7 @@ const ShippingModal = ({ onClose }) => {
       bg-black bg-opacity-40 z-50">
         <div className='max-w-[68rem] w-full flex md:justify-center 
         ss:justify-center md:mx-0 ss:mx-16 mx-5 md:h-[75%] ss:h-[75%] 
-        h-[85%]'>
+        h-[80%]'>
           <motion.div
           initial={{ y: 0, opacity: 0.7 }}
           animate={{ y: 0, opacity: 1 }}
