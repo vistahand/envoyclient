@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 const ShippingModal = ({ onClose }) => {
   const formRef = useRef();
-  const currentTab = selectedTab;
+  const [senderTab, setSenderTab] = useState('individual');
   const [countries, setCountries] = useState([]);
   // const navigate = useNavigate();
 
