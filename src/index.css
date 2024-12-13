@@ -198,6 +198,10 @@ body, html {
   }
 }
 
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 480px) {
   .phone {
     position: sticky;

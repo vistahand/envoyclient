@@ -256,7 +256,7 @@ const ShippingModal = ({ onClose }) => {
           transition={{ duration: 0.1 }}
           className="bg-white md:rounded-3xl ss:rounded-3xl relative
           rounded-2xl shadow-xl flex flex-col md:w-[90%] w-full 
-          overflow-auto items-center">
+          overflow-auto items-center scrollbar-hidden">
             <div className='flex justify-between items-center w-full
             border-b border-b-main7 md:py-6 md:px-12 ss:py-6 
             ss:px-12 py-4 px-5 bg-white top-0 sticky z-10'>
@@ -1425,7 +1425,7 @@ const ShippingModal = ({ onClose }) => {
             border-t border-t-main7  md:py-6 md:px-12 ss:py-6 
             ss:px-12 py-4 px-5 bg-white bottom-0 sticky'>
               <div className="flex md:w-[45%] ss:w-[45%] w-full items-center 
-              phone4 md:gap-5 ss:gap-5 gap-3">
+              md:gap-5 ss:gap-5 gap-3">
                 <button
                 className='bg-none text-[13px] py-3.5 w-[50%]
                 text-primary rounded-full grow2 cursor-pointer
