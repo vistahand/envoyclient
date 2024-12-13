@@ -7,15 +7,23 @@ import { PiWarningCircle } from "react-icons/pi";
 import { ShippingModal } from '../components';
 import { paystack } from '../assets';
 
-const ShipmentPay = () => {
+const ShipmentPay = ({ onNext, onPrev }) => {
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const disableScroll = () => {
-    setScrollPosition(window.pageYOffset);
-    document.body.style.overflow = 'hidden';
-    document.body.style.top = `-${scrollPosition}px`;
-  };
+    const disableScroll = () => {
+        setScrollPosition(window.pageYOffset);
+        document.body.style.overflow = 'hidden';
+        document.body.style.top = `-${scrollPosition}px`;
+    };
+
+    const handlePay = () => {
+        
+    };
+
+    const handlePrevious = () => {
+        onPrev();
+    };
 
 
   return (
@@ -148,7 +156,7 @@ const ShipmentPay = () => {
                             className='bg-none text-[13px] py-3.5 w-[50%]
                             text-primary rounded-full grow2 cursor-pointer
                             items-center justify-center border border-primary'
-                            // onClick={handlePrevious}
+                            onClick={handlePrevious}
                             >
                                 <p className='font-semibold'>
                                     Go back
@@ -159,6 +167,7 @@ const ShipmentPay = () => {
                             className='bg-primary text-[13px] py-3.5 w-[50%] 
                             flex text-white rounded-full grow4 cursor-pointer
                             items-center justify-center gap-3 mobbut'
+                            onClick={handlePay}
                             >
                                 <p>
                                     Pay Now

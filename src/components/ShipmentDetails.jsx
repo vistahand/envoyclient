@@ -7,7 +7,7 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { BsBoxSeam } from "react-icons/bs";
 import { ShippingModal, RecipientModal, PickupModal } from '../components';
 
-const ShipmentDetails = () => {
+const ShipmentDetails = ({ onNext }) => {
   const [countries, setCountries] = useState([]);
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
@@ -38,6 +38,10 @@ const ShipmentDetails = () => {
 
     fetchCountries();
   }, []);
+
+  const handleNext = () => {
+    onNext();
+  };
 
 
   return (
@@ -532,16 +536,16 @@ const ShipmentDetails = () => {
               For more details, <a href='/terms' className="text-primary font-semibold">read our terms of usage here.</a>
             </p>
 
-            <a href='/createshipment-paymentreview'
-            className='bg-primary py-3 w-full flex text-white rounded-full 
+            <div className='bg-primary py-3 w-full flex text-white rounded-full 
             grow4 cursor-pointer items-center gap-3 justify-center'
+            onClick={handleNext}
             >
               <p className='text-[12px]'>
                 Proceed to Payment
               </p>
               
               <HiOutlineArrowRight className='text-[14px]'/>
-            </a>
+            </div>
           </div>
         </div>
       </div>
