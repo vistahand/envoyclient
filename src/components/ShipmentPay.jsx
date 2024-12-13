@@ -3,6 +3,7 @@ import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
 // import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
+import { PiWarningCircle } from "react-icons/pi";
 import { ShippingModal } from '../components';
 import { paystack } from '../assets';
 
@@ -31,7 +32,23 @@ const ShipmentPay = () => {
                     412,375.00
                 </h1>
 
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 w-full">
+                    <div className='flex items-center gap-2 rounded-xl 
+                    bg-primary1 px-5 py-3 cursor-pointer w-full'>
+                        <PiWarningCircle className='md:text-[24px] ss:text-[24px] 
+                        text-[32px] text-primary'/>
+
+                        <p className='text-main4 md:text-[15px] ss:text-[15px] 
+                        text-[13px] md:leading-[1.4rem] ss:leading-[1.4rem] 
+                        leading-[1.2rem] tracking-tight font-medium'>
+                            NB: Your billing address has been set to 
+                            your shipping address by default as a guest. 
+                            To  change this, you can <a href='/createshipment-payment' className='font-bold text-primary'>
+                            create an account
+                            </a> or <a href='/createshipment-payment' className='font-bold text-primary'>login here</a>
+                        </p>
+                    </div>
+
                     <h2 className="font-bold text-[15px] tracking-tight text-main4">
                         BILLING DETAILS
                     </h2>
