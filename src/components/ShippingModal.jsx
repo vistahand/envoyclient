@@ -247,18 +247,19 @@ const ShippingModal = ({ onClose }) => {
       className="fixed inset-0 flex items-center justify-center
       bg-black bg-opacity-40 z-50">
         <div className='max-w-[68rem] w-full flex md:justify-center 
-        ss:justify-center md:mx-0 ss:mx-0 mx-5'>
+        ss:justify-center md:mx-0 ss:mx-0 mx-5 md:h-[70%] ss:h-[70%] 
+        h-[100%] relative'>
           <motion.div
           initial={{ y: 0, opacity: 0.7 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 10, opacity: 0 }}
           transition={{ duration: 0.1 }}
           className="bg-white padphone md:rounded-2xl ss:rounded-2xl
-          rounded-xl shadow-xl flex flex-col gap-5 md:w-[85%] ss:w-[85%]
-          w-full md:h-[80%] ss:h-[80%] h-[100%] overflow-auto items-center 
-          relative  md:py-6 md:px-12 ss:py-6 ss:px-12 py-4
-          px-5">
-            <div className='flex justify-between items-center w-full'>
+          rounded-xl shadow-xl flex flex-col md:w-[85%] ss:w-[85%]
+          w-full overflow-auto items-center md:px-12 ss:px-12 px-5">
+            <div className='flex justify-between items-center w-full
+            border-b border-b-main7 absolute md:py-6 md:px-12 ss:py-6 
+            ss:px-12 py-4 px-5 bg-white'>
               <h1 className="md:text-[30px] ss:text-[25px] 
               text-[20px] tracking-tight font-bold text-main2">
                 Edit Sender Information
@@ -275,7 +276,8 @@ const ShippingModal = ({ onClose }) => {
               />
             </div>
 
-            <div className='flex items-center w-full flex-col'>
+            <div className='flex items-center w-full flex-col md:mt-20
+            ss:mt-20 mt-12'>
               <div className='flex items-center md:gap-3 ss:gap-3 gap-2.5 
               w-full md:mt-12 ss:mt-10 mt-8'>
                 <div className='flex flex-col w-full gap-3 items-center'>
