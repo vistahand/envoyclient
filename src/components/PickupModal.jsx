@@ -198,7 +198,7 @@ const PickupModal = ({ onClose }) => {
           items-center">
             <div className='flex justify-between items-center w-full
             border-b border-b-main7 md:py-6 md:px-12 ss:py-6 
-            ss:px-12 py-4 px-5 bg-white top-0 sticky z-10'>
+            ss:px-12 py-4 px-5'>
               <h1 className="md:text-[30px] ss:text-[25px] 
               text-[20px] tracking-tight font-bold text-main2">
                 Change Pickup Location
@@ -216,7 +216,7 @@ const PickupModal = ({ onClose }) => {
             </div>
 
             <div className='flex items-center w-full flex-col md:px-12 
-            ss:px-12 px-5 mb-3'>
+            ss:px-12 px-5 mb-3 md:gap-5 ss:gap-5 gap-4'>
               <form ref={formRef} onSubmit={formik.handleSubmit}
               className='w-full md:mt-6 ss:mt-6 mt-4'>
                 <div className='flex flex-col w-full items-center'>
@@ -348,11 +348,45 @@ const PickupModal = ({ onClose }) => {
                   </div>
                 </div>
               </form>
+
+              <div className="flex flex-col gap-4 w-full">
+                <h2 className="font-bold md:text-[18px] ss:text-[18px] 
+                text-[16px] tracking-tight text-main4">
+                  SELECTED PICKUP LOCATION
+                </h2>
+            
+                <div className="flex flex-col gap-0.5">
+                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
+                  tracking-tight font-medium text-main2">
+                    276 Garden Heights Road
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[14px] 
+                  tracking-tight font-medium text-main2">
+                    Heightenton Industrial Layout
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
+                  tracking-tight font-medium text-main2">
+                    Brooks Heights, Dublin
+                  </p>
+
+                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
+                  tracking-tight font-medium text-main2">
+                    Leinster, <span className="font-bold">IE.</span>
+                  </p>
+                  
+                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
+                  tracking-tight font-medium text-main2">
+                    456882
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className='flex md:justify-end ss:justify-end w-full
-            border-t border-t-main7  md:py-6 md:px-12 ss:py-6 
-            ss:px-12 py-4 px-5 bg-white bottom-0 sticky'>
+            border-t border-t-main7 md:py-6 md:px-12 ss:py-6 
+            ss:px-12 py-4 px-5'>
               <div className="flex md:w-[45%] ss:w-[45%] w-full items-center 
               md:gap-5 ss:gap-5 gap-3">
                 <button
