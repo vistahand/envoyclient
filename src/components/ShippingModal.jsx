@@ -36,9 +36,13 @@ const ShippingModal = ({ onClose }) => {
                 </h1>
 
                 <BsX 
-                  className='w-[3.5rem] h-auto text-redClose bg-redCircle
-                  p-3 rounded-full cursor-pointer grow2'
+                  className='w-[3.2rem] h-auto text-redClose bg-redCircle
+                  p-2.5 rounded-full cursor-pointer grow2'
                   strokeWidth={0.2}
+                  onClick={() => {
+                    onClose();
+                    enableScroll();
+                  }}
                 />
               </div>
 
