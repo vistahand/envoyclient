@@ -133,8 +133,7 @@ const ShipmentPay = ({ onPrev }) => {
 
                 <div className='w-full h-[1px] bg-main5 md:mt-4 ss:mt-4 mt-2'/>
                 
-                <div className='w-full h-[1px] bg-main5 md:mt-4 ss:mt-4 
-                mt-2 flex flex-col gap-4'>
+                <div className='w-full md:mt-4 ss:mt-4 mt-2 flex flex-col gap-4'>
                     <p className="text-main4 text-[11px] font-medium 
                     leading-[16px]">
                         By clicking on the Pay Now button, you agree to 
