@@ -341,484 +341,474 @@ const ShippingModal = ({ onClose }) => {
                         </h2>
                       </div>
 
-                        <div className='grid md:grid-cols-4 grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
-                          <div className="relative flex flex-col col-span-2">
-                            <input
-                              type="text"
-                              name="fullNameInd"
-                              placeholder=' '
-                              value={formik.values.fullNameInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.fullNameInd && formik.errors.fullNameInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="fullNameInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.fullNameInd ? 'z-10 px-2' : ''}
+                      <div className='grid md:grid-cols-4 grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
+                        <div className="relative flex flex-col col-span-2">
+                          <input
+                            type="text"
+                            name="fullNameInd"
+                            placeholder=' '
+                            value={formik.values.fullNameInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.fullNameInd && formik.errors.fullNameInd ? 'outline-mainRed' : 'outline-main6'}
                             `}
-                            >
-                              Enter your full name
-                            </label>
+                          />
 
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.fullNameInd && formik.errors.fullNameInd}
-                            </p>
-                          </div>
+                          <label
+                          htmlFor="fullNameInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.fullNameInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Enter your full name
+                          </label>
 
-                          <div className="relative flex flex-col col-span-2">
-                            <input
-                              type="number"
-                              name="phoneInd"
-                              placeholder=' '
-                              value={formik.values.phoneInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.phoneInd && formik.errors.phoneInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="phoneInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.phoneInd ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Enter your phone number
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.phoneInd && formik.errors.phoneInd}
-                            </p>
-                          </div>
-
-                          <div className="relative flex flex-col col-span-2">
-                            <input
-                              type="text"
-                              name="mailInd"
-                              placeholder=' '
-                              value={formik.values.mailInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.mailInd && formik.errors.mailInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="mailInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.mailInd ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Enter your email (we will send notifications here)
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.mailInd && formik.errors.mailInd}
-                            </p>
-                          </div>
-
-                          <div className="relative flex flex-col col-span-2">
-                            <input
-                              type="number"
-                              name="altPhoneInd"
-                              placeholder=' '
-                              value={formik.values.altPhoneInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.altPhoneInd && formik.errors.altPhoneInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="altPhoneInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.altPhoneInd ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Enter alternate phone number (optional)
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.altPhoneInd && formik.errors.altPhoneInd}
-                            </p>
-                          </div>
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.fullNameInd && formik.errors.fullNameInd}
+                          </p>
                         </div>
 
-                        <div className='w-full mt-2'>
-                          <h2 className='text-main2 font-semibold md:text-[20px]
-                          ss:text-[20px] text-[17px] tracking-tight'>
-                            Location Information
-                          </h2>
+                        <div className="relative flex flex-col col-span-2">
+                          <input
+                            type="number"
+                            name="phoneInd"
+                            placeholder=' '
+                            value={formik.values.phoneInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.phoneInd && formik.errors.phoneInd ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="phoneInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.phoneInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Enter your phone number
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.phoneInd && formik.errors.phoneInd}
+                          </p>
                         </div>
+
+                        <div className="relative flex flex-col col-span-2">
+                          <input
+                            type="text"
+                            name="mailInd"
+                            placeholder=' '
+                            value={formik.values.mailInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.mailInd && formik.errors.mailInd ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="mailInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.mailInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Enter your email (we will send notifications here)
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.mailInd && formik.errors.mailInd}
+                          </p>
+                        </div>
+
+                        <div className="relative flex flex-col col-span-2">
+                          <input
+                            type="number"
+                            name="altPhoneInd"
+                            placeholder=' '
+                            value={formik.values.altPhoneInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.altPhoneInd && formik.errors.altPhoneInd ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="altPhoneInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.altPhoneInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Enter alternate phone number (optional)
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.altPhoneInd && formik.errors.altPhoneInd}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className='w-full mt-2'>
+                        <h2 className='text-main2 font-semibold md:text-[20px]
+                        ss:text-[20px] text-[17px] tracking-tight'>
+                          Location Information
+                        </h2>
+                      </div>
                         
-                        <div className='grid md:grid-cols-4 ss:grid-cols-4
-                        grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
-                          <div className="relative flex flex-col col-span-2">
-                            <div className='relative flex items-center'>
-                              {formik.values.countryInd && (
-                                <img
-                                  src={
-                                    countries.find(
-                                      (country) => country.cca2 === formik.values.countryInd
-                                    )?.flags?.png
-                                  }
-                                  alt="flag"
-                                  className="absolute md:left-3.5 left-3 w-10
-                                  h-[1.4rem] rounded-sm"
-                                />
-                              )}
-                              <select
-                                type="text"
-                                name="countryInd"
-                                value={formik.values.countryInd}
+                      <div className='grid md:grid-cols-4 ss:grid-cols-4
+                      grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full'>
+                        <div className="relative flex flex-col col-span-2">
+                          <div className='relative flex items-center'>
+                            {formik.values.countryInd && (
+                              <img
+                                src={
+                                  countries.find(
+                                    (country) => country.cca2 === formik.values.countryInd
+                                  )?.flags?.png
+                                }
+                                alt="flag"
+                                className="absolute md:left-3.5 left-3 w-10
+                                h-[1.4rem] rounded-sm"
+                              />
+                            )}
+                            <select
+                              type="text"
+                              name="countryInd"
+                              value={formik.values.countryInd}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
+                              px-3 outline text-main2 md:rounded-lg rounded-md
+                              cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
+                              ss:text-[14px] text-[12px] focus:outline-primary
+                              bg-transparent w-full custom-select outline-[1px]
+                              ${formik.touched.countryInd && formik.errors.countryInd ? 'outline-mainRed' : 'outline-main6'}`}
+                            >
+                              <option value="" disabled hidden>Select your country of residence</option>
+                              {countries.map((country) => (
+                                <option key={country.cca2} value={country.cca2}>
+                                  {country.name.common}
+                                </option>
+                              ))}
+                            </select>
+
+                            <div className='absolute md:right-3.5 right-3'>
+                              <TiArrowSortedDown 
+                                className='text-main md:text-[16px]
+                                ss:text-[18px] text-[16px]'
+                              />
+                            </div>
+                          </div>
+                          
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.countryInd && formik.errors.countryInd}
+                          </p>
+
+                          <p className='text-main2 font-medium md:text-[12px]
+                          ss:text-[12px] text-[11px] tracking-tight'>
+                            You cannot change your billing country/region unless you cancel shipment.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className='grid md:grid-cols-4 grid-cols-2 md:gap-5 
+                      ss:gap-5 gap-4 w-full'>
+                        <div className="relative flex flex-col col-span-2">
+                          <input
+                            type="text"
+                            name="address1Ind"
+                            placeholder=' '
+                            value={formik.values.address1Ind}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.address1Ind && formik.errors.address1Ind ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="address1Ind"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.address1Ind ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Address Line 1
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.address1Ind && formik.errors.address1Ind}
+                          </p>
+                        </div>
+
+                        <div className="relative flex flex-col col-span-2">
+                          <input
+                            type="text"
+                            name="address2Ind"
+                            placeholder=' '
+                            value={formik.values.address2Ind}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.address2Ind && formik.errors.address2Ind ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="address2Ind"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.address2Ind ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Address Line 2 (optional)
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.address2Ind && formik.errors.address2Ind}
+                          </p>
+                        </div>
+
+                        <div className="relative flex flex-col">
+                          <input
+                            type="text"
+                            name="areaInd"
+                            placeholder=' '
+                            value={formik.values.areaInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.areaInd && formik.errors.areaInd ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="areaInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.areaInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Area
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.areaInd && formik.errors.areaInd}
+                          </p>
+                        </div>
+
+                        <div className="relative flex flex-col">
+                          <input
+                            type="text"
+                            name="townInd"
+                            placeholder=' '
+                            value={formik.values.townInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.townInd && formik.errors.townInd ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="townInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.townInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Town/City
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.townInd && formik.errors.townInd}
+                          </p>
+                        </div>
+
+                        <div className="relative flex flex-col col-span-2">
+                          <div className='relative flex items-center'>
+                            <div className='w-full'>
+                              <CustomSelect 
+                                name="stateInd"
+                                value={formik.values.stateInd}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
-                                px-3 outline text-main2 md:rounded-lg rounded-md
-                                cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
-                                ss:text-[14px] text-[12px] focus:outline-primary
-                                bg-transparent w-full custom-select outline-[1px]
-                                ${formik.touched.countryInd && formik.errors.countryInd ? 'outline-mainRed' : 'outline-main6'}`}
-                              >
-                                <option value="" disabled hidden>Select your country of residence</option>
-                                {countries.map((country) => (
-                                  <option key={country.cca2} value={country.cca2}>
-                                    {country.name.common}
-                                  </option>
-                                ))}
-                              </select>
-
-                              <div className='absolute md:right-3.5 right-3'>
-                                <TiArrowSortedDown 
-                                  className='text-main md:text-[16px]
-                                  ss:text-[18px] text-[16px]'
-                                />
-                              </div>
-                            </div>
-                            
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.countryInd && formik.errors.countryInd}
-                            </p>
-
-                            <p className='text-main2 font-medium md:text-[12px]
-                            ss:text-[12px] text-[11px] tracking-tight'>
-                              You cannot change your billing country/region unless you cancel shipment.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className='grid md:grid-cols-4 grid-cols-2 md:gap-5 
-                        ss:gap-5 gap-4 w-full'>
-                          <div className="relative flex flex-col col-span-2">
-                            <input
-                              type="text"
-                              name="address1Ind"
-                              placeholder=' '
-                              value={formik.values.address1Ind}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.address1Ind && formik.errors.address1Ind ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="address1Ind"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.address1Ind ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Address Line 1
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.address1Ind && formik.errors.address1Ind}
-                            </p>
-                          </div>
-
-                          <div className="relative flex flex-col col-span-2">
-                            <input
-                              type="text"
-                              name="address2Ind"
-                              placeholder=' '
-                              value={formik.values.address2Ind}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.address2Ind && formik.errors.address2Ind ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="address2Ind"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.address2Ind ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Address Line 2 (optional)
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.address2Ind && formik.errors.address2Ind}
-                            </p>
-                          </div>
-
-                          <div className="relative flex flex-col">
-                            <input
-                              type="text"
-                              name="areaInd"
-                              placeholder=' '
-                              value={formik.values.areaInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.areaInd && formik.errors.areaInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="areaInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.areaInd ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Area
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.areaInd && formik.errors.areaInd}
-                            </p>
-                          </div>
-
-                          <div className="relative flex flex-col">
-                            <input
-                              type="text"
-                              name="townInd"
-                              placeholder=' '
-                              value={formik.values.townInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.townInd && formik.errors.townInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="townInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.townInd ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Town/City
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.townInd && formik.errors.townInd}
-                            </p>
-                          </div>
-
-                          <div className="relative flex flex-col col-span-2">
-                            <div className='relative flex items-center'>
-                              <div className='w-full'>
-                                <CustomSelect 
-                                  name="stateInd"
-                                  value={formik.values.stateInd}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  options={stateOptions}
-                                  placeholder="State of residence"
-                                  error={
-                                    formik.touched.stateInd && formik.errors.stateInd
-                                  }
-                                />
-                              </div>
-
-                              <div className='absolute md:right-3.5 right-3'>
-                                <TiArrowSortedDown 
-                                  className='text-main md:text-[16px]
-                                  ss:text-[18px] text-[16px]'
-                                />
-                              </div>
+                                options={stateOptions}
+                                placeholder="State of residence"
+                                error={
+                                  formik.touched.stateInd && formik.errors.stateInd
+                                }
+                              />
                             </div>
 
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.stateInd && formik.errors.stateInd}
-                            </p>
+                            <div className='absolute md:right-3.5 right-3'>
+                              <TiArrowSortedDown 
+                                className='text-main md:text-[16px]
+                                ss:text-[18px] text-[16px]'
+                              />
+                            </div>
                           </div>
 
-                          <div className="relative flex flex-col">
-                            <input
-                              type="text"
-                              name="postalInd"
-                              placeholder=' '
-                              value={formik.values.postalInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.postalInd && formik.errors.postalInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="postalInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.postalInd ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              Postal Code
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.postalInd && formik.errors.postalInd}
-                            </p>
-                          </div>
-
-                          <div className="relative flex flex-col">
-                            <input
-                              type="text"
-                              name="vatInd"
-                              placeholder=' '
-                              value={formik.values.vatInd}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                              peer outline text-black md:rounded-lg rounded-md 
-                              md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                              bg-transparent w-full focus:outline-primary
-                              ${formik.touched.vatInd && formik.errors.vatInd ? 'outline-mainRed' : 'outline-main6'}
-                              `}
-                            />
-
-                            <label
-                            htmlFor="vatInd"
-                            className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.vatInd ? 'z-10 px-2' : ''}
-                            `}
-                            >
-                              VAT/Tax ID (optional)
-                            </label>
-
-                            <p className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                              {formik.touched.vatInd && formik.errors.vatInd}
-                            </p>
-                          </div>
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.stateInd && formik.errors.stateInd}
+                          </p>
                         </div>
 
-                        <div className='w-full mt-2'>
-                            <h2 className='text-main4 font-semibold md:text-[15px]
-                            ss:text-[15px] text-[13px] tracking-tight'>
-                                NB: This information will be set as both 
-                                your billing and shipping address. 
-                                To change this, you can <a href="/create-account" className='font-bold text-primary hover:text-secondary'>create an account</a> or 
-                                <a href="/login" className='font-bold text-primary hover:text-secondary'> login here</a>
-                            </h2>
+                        <div className="relative flex flex-col">
+                          <input
+                            type="text"
+                            name="postalInd"
+                            placeholder=' '
+                            value={formik.values.postalInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.postalInd && formik.errors.postalInd ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="postalInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.postalInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            Postal Code
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.postalInd && formik.errors.postalInd}
+                          </p>
                         </div>
+
+                        <div className="relative flex flex-col">
+                          <input
+                            type="text"
+                            name="vatInd"
+                            placeholder=' '
+                            value={formik.values.vatInd}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                            peer outline text-black md:rounded-lg rounded-md 
+                            md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                            bg-transparent w-full focus:outline-primary
+                            ${formik.touched.vatInd && formik.errors.vatInd ? 'outline-mainRed' : 'outline-main6'}
+                            `}
+                          />
+
+                          <label
+                          htmlFor="vatInd"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.vatInd ? 'z-10 px-2' : ''}
+                          `}
+                          >
+                            VAT/Tax ID (optional)
+                          </label>
+
+                          <p className="text-mainRed md:text-[12px] flex justify-end
+                          ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                            {formik.touched.vatInd && formik.errors.vatInd}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
