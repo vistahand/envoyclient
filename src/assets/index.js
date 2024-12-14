@@ -29,6 +29,7 @@ import wing from './wing.png';
 import paystack from './paystack.svg';
 import shipconfirm from './shipconfirm.png';
 import copy from './copy.svg';
+import tracking from './tracking.png';
 
 export {
     logo,
@@ -62,6 +63,7 @@ export {
     paystack,
     shipconfirm,
     copy,
+    tracking,
 }
 
 export const heroImages = [

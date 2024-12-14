@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { PiWarningCircle } from "react-icons/pi";
 import { TrackModal } from '../components';
 import { copy, shipconfirm } from '../assets';
 
