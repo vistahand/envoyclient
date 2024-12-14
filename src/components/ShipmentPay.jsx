@@ -4,11 +4,12 @@ import { SectionWrapper } from "../hoc";
 // import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { PiWarningCircle } from "react-icons/pi";
-import { ShippingModal } from '../components';
+import { ShippingModal, PaystackModal } from '../components';
 import { paystack } from '../assets';
 
 const ShipmentPay = ({ onPrev }) => {
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
+  const [isPayStackModalOpen, setIsPaystackModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
 
     const disableScroll = () => {
@@ -18,7 +19,8 @@ const ShipmentPay = ({ onPrev }) => {
     };
 
     const handlePay = () => {
-        
+        setIsPaystackModalOpen(true);
+        disableScroll();
     };
 
     const handlePrevious = () => {
@@ -267,6 +269,12 @@ const ShipmentPay = ({ onPrev }) => {
         {isShippingModalOpen && (
             <ShippingModal 
                 onClose={() => setIsShippingModalOpen(false)}
+            />
+        )}
+
+        {isPayStackModalOpen && (
+            <PaystackModal 
+                onClose={() => setIsPaystackModalOpen(false)}
             />
         )}
     </section>
