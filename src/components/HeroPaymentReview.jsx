@@ -13,7 +13,7 @@ const HeroPaymentReview = ({ currentStep, onNavigate }) => {
           <p className={`${currentStep === 1 
           ? 'text-white font-bold bg-primary py-2 px-6 rounded-full'
           : currentStep === 2 ? 'cursor-pointer'
-          : 'text-main2 font-semibold'} md:text-[14px] ss:text-[14px] text-[13px]`}
+          : 'text-main2 font-semibold'} md:text-[14px] ss:text-[14px] text-[13px] navsmooth`}
           onClick={() => currentStep === 2 && onNavigate(1)}
           >
             Review
@@ -23,7 +23,7 @@ const HeroPaymentReview = ({ currentStep, onNavigate }) => {
 
           <p className={`${currentStep === 2 
           ? 'text-white font-bold bg-primary py-2 px-6 rounded-full'
-          : 'text-main2 font-semibold'} md:text-[14px] ss:text-[14px] text-[13px]`}
+          : 'text-main2 font-semibold'} md:text-[14px] ss:text-[14px] text-[13px] navsmooth`}
           >
             Pay
           </p>
