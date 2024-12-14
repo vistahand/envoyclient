@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import {
     ShipmentDetails,
+    ShipmentFinish,
     ShipmentPay,
 } from '../components';
 
@@ -30,6 +31,7 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
         <div ref={sectionRef} className='font-manrope'>
             {currentStep === 1 && <ShipmentDetails onNext={handleNextStep} />}
             {currentStep === 2 && <ShipmentPay onPrev={handlePreviousStep} onNext={handleNextStep} />}
+            {currentStep === 3 && <ShipmentFinish />}
         </div>
     )
 };

@@ -7,7 +7,7 @@ import { PiWarningCircle } from "react-icons/pi";
 import { ShippingModal, PaystackModal } from '../components';
 import { paystack } from '../assets';
 
-const ShipmentPay = ({ onPrev }) => {
+const ShipmentPay = ({ onPrev, onNext }) => {
     const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
     const [isPayStackModalOpen, setIsPaystackModalOpen] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -275,6 +275,7 @@ const ShipmentPay = ({ onPrev }) => {
             {isPayStackModalOpen && (
                 <PaystackModal 
                     onClose={() => setIsPaystackModalOpen(false)}
+                    onNext={onNext()}
                 />
             )}
         </section>

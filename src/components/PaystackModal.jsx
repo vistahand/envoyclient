@@ -5,7 +5,7 @@ import { BsX } from 'react-icons/bs';
 import { paystack } from '../assets';
 
 
-const PaystackModal = ({ onClose }) => {
+const PaystackModal = ({ onClose, onNext }) => {
   // const navigate = useNavigate();
 
     const enableScroll = () => {
@@ -82,6 +82,7 @@ const PaystackModal = ({ onClose }) => {
                                 className='bg-primary text-[13px] py-3.5 w-[50%] flex
                                 text-white rounded-full grow4 cursor-pointer
                                 items-center justify-center gap-3'
+                                onClick={onNext}
                                 >
                                     <p>
                                         Confirm
