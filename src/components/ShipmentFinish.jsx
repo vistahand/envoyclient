@@ -16,7 +16,7 @@ const ShipmentFinish = () => {
     };
 
     return (
-        <section className='w-full flex min-h-[600px]'>
+        <section className='w-full flex min-h-[400px]'>
             <div className="w-full flex md:flex-row flex-col gap-14 
             md:justify-between">
                 <div className="md:w-[50%] w-full flex flex-col gap-3">
