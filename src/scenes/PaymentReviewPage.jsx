@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import {
     Navbar,
     HeroPaymentReview,
     Footer,
 } from '../components';
-
 import { ShipmentReview } from '../pages';
-
 import { Helmet } from 'react-helmet';
 
 const PaymentReview = () => {
+    const [currentStep, setCurrentStep] = useState(1);
+
+    const handleNavigateToStep = (step) => {
+        setCurrentStep(step);
+    };
 
     return (
         <div className='font-manrope'>
@@ -19,9 +23,9 @@ const PaymentReview = () => {
 
             <Navbar />
 
-            <HeroPaymentReview />
+            <HeroPaymentReview currentStep={currentStep} onNavigate={handleNavigateToStep} />
 
-            <ShipmentReview />
+            <ShipmentReview currentStep={currentStep} onStepChange={setCurrentStep} />
             
             <div className='footer'>
                 <Footer />

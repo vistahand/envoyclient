@@ -4,11 +4,8 @@ import {
     ShipmentPay,
 } from '../components';
 
-const ShipmentReview = () => {
-    const [currentStep, setCurrentStep] = useState(1);
+const ShipmentReview = ({ currentStep, onStepChange }) => {
     const [initialLoad, setInitialLoad] = useState(true);
-    // const [selectedTab, setSelectedTab] = useState('international');
-    // const [senderTab, setSenderTab] = useState('individual');
     const sectionRef = useRef(null); 
 
     useEffect(() => {
@@ -19,16 +16,14 @@ const ShipmentReview = () => {
         }
     }, [currentStep, initialLoad]);
 
-    const handleNextStep = (tab) => {
-        setCurrentStep(currentStep + 1);
+    const handleNextStep = () => {
+        onStepChange(currentStep + 1);
         setInitialLoad(false);
-        // setSelectedTab(tab);
     };
 
-    const handlePreviousStep = (tab, ) => {
-        setCurrentStep(currentStep - 1);
+    const handlePreviousStep = () => {
+        onStepChange(currentStep - 1);
         setInitialLoad(false);
-        // setSelectedTab(tab);
     };
 
     return (
