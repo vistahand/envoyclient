@@ -30,6 +30,7 @@ import paystack from './paystack.svg';
 import shipconfirm from './shipconfirm.jpg';
 import copy from './copy.svg';
 import tracking from './tracking.jpg';
+import chat from './chat.svg';
 
 export {
     logo,
@@ -64,6 +65,7 @@ export {
     shipconfirm,
     copy,
     tracking,
+    chat,
 }
 
 export const heroImages = [
