@@ -29,8 +29,8 @@ const ShipmentPay = ({ onPrev }) => {
   return (
     <section className='w-full flex md:min-h-[600px] ss:min-h-[800px]
     min-h-[800px]'>
-        <div className="w-full flex md:flex-row flex-col md:gap-14 
-        ss:gap-14 gap-10 justify-between">
+        <div className="w-full flex md:flex-row flex-col gap-14 
+        justify-between">
             <div className="w-full flex flex-col gap-6">
                 <h1 className='text-primary font-bold md:text-[30px] 
                 ss:text-[28px] text-[22px] tracking-tight'>
