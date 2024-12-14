@@ -111,7 +111,7 @@ const TrackModal = ({ onClose }) => {
                   </div>
 
                   <div className='flex md:justify-end ss:justify-end w-full
-                  md:mb-8'>
+                  md:mb-5'>
                     <div className="flex md:flex-row ss:flex-row flex-col 
                     w-full items-center md:gap-6 ss:gap-5 gap-3">
                       <a href='/createshipment-payment' 
