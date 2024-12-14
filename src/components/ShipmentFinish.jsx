@@ -30,9 +30,9 @@ const ShipmentFinish = () => {
                     </h1>
 
                     <div className="flex flex-col gap-5 w-full">
-                        <div className='flex items-center justify-between rounded-lg 
+                        <div className='flex items-center justify-between rounded-xl 
                         bg-primary1 px-5 py-3.5 w-full'>
-                            <p className='text-primary md:text-[22px] ss:text-[22px] 
+                            <p className='text-primary md:text-[21px] ss:text-[21px] 
                             text-[18px] tracking-tight font-medium'>
                                 Tracking ID: <span className='font-bold'>
                                 001F5TG8XR4U
@@ -84,11 +84,20 @@ const ShipmentFinish = () => {
                 </div>
 
                 <div className="md:w-[50%] ss:w-[50%] md:mb-0 ss:mb-0 mb-8">
-                   <img
-                        src={shipconfirm}
-                        alt='shipmentconfirmed'
-                        className='object-cover'
-                   />
+                    <div className='w-full relative md:rounded-2xl
+                    ss:rounded-2xl rounded-xl relative overflow-hidden'>
+                        <img
+                            src={shipconfirm}
+                            alt='shipmentconfirmed'
+                            className='object-cover md:rounded-2xl
+                            ss:rounded-2xl rounded-xl'
+                        />
+
+                        <div 
+                            className='h-[15px] w-full absolute bottom-0 
+                            bg-secondary'
+                        />
+                    </div>
                 </div>
             </div>
 
