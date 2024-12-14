@@ -27,10 +27,6 @@ const ShipmentPay = ({ onPrev, onNext }) => {
         onPrev();
     };
 
-    const handleNext = () => {
-        onNext();
-    }
-
 
   return (
         <section className='w-full flex md:min-h-[600px] ss:min-h-[800px]
@@ -279,7 +275,7 @@ const ShipmentPay = ({ onPrev, onNext }) => {
             {isPayStackModalOpen && (
                 <PaystackModal 
                     onClose={() => setIsPaystackModalOpen(false)}
-                    onNext={handleNext}
+                    handleNext={onNext}
                 />
             )}
         </section>
