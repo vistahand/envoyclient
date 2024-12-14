@@ -27,10 +27,10 @@ const ShipmentPay = ({ onPrev }) => {
 
 
   return (
-    <section className='w-full flex md:min-h-[900px] ss:min-h-[1200px]
+    <section className='w-full flex md:min-h-[600px] ss:min-h-[800px]
     min-h-[1200px]'>
-        <div className="w-full flex md:flex-row flex-col md:gap-14 gap-10 
-        justify-between">
+        <div className="w-full flex md:flex-row flex-col md:gap-14 
+        ss:gap-14 gap-8 justify-between">
             <div className="w-full flex flex-col gap-6">
                 <h1 className='text-primary font-bold md:text-[30px] 
                 ss:text-[28px] text-[22px] tracking-tight'>
@@ -58,7 +58,8 @@ const ShipmentPay = ({ onPrev }) => {
                         </p>
                     </div>
 
-                    <h2 className="font-bold text-[15px] tracking-tight text-main4">
+                    <h2 className="font-bold md:text-[18px] ss:text-[18px] 
+                    text-[15px] tracking-tight text-main4 mt-2">
                         BILLING DETAILS
                     </h2>
 
@@ -131,9 +132,9 @@ const ShipmentPay = ({ onPrev }) => {
                     </div>
                 </div>
 
-                <div className='w-full h-[1px] bg-main5 md:mt-4 ss:mt-4 mt-2'/>
+                <div className='w-full h-[1px] bg-main5 mt-2'/>
                 
-                <div className='w-full md:mt-4 ss:mt-4 mt-2 flex flex-col gap-4'>
+                <div className='w-full mt-2 flex flex-col gap-5'>
                     <p className="text-main4 text-[11px] font-medium 
                     leading-[16px]">
                         By clicking on the Pay Now button, you agree to 
@@ -178,7 +179,7 @@ const ShipmentPay = ({ onPrev }) => {
                     <img
                         src={paystack}
                         alt='paystack'
-                        className='w-auto h-auto'
+                        className='md:w-[10rem] ss:w-[10rem] w-[8rem] h-auto'
                     />
                 </div>
             </div>
