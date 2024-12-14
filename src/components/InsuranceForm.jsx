@@ -3,14 +3,14 @@ import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc';
 
 
 const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -23,7 +23,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
         }),
         
         onSubmit: (values) => {
-           navigate('/createshipment-payment');
+           
         },
     });
 
@@ -205,7 +205,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                             </p>
                         </button>
 
-                        <button type='submit'
+                        <a href='/createshipment-payment'
                         className='bg-primary text-[13px] py-3.5 px-14 flex
                         text-white rounded-full grow4 cursor-pointer
                         items-center justify-center gap-3 mobbut'
@@ -215,7 +215,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                             </p>
                             
                             <HiOutlineArrowRight className='text-[14px]'/>
-                        </button>
+                        </a>
 
                         <button
                         className='bg-none text-[13px] py-3.5 px-14
