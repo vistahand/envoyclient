@@ -343,6 +343,19 @@ body, html {
   }
 }
 
+@media (max-width: 480px) {
+  .shipmodmob {
+    justify-items: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .trackmodmob {
+    text-align: center;
+  }
+}
+
 .wht {
   filter: invert(1) brightness(100);
 }

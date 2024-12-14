@@ -22,8 +22,8 @@ const TrackModal = ({ onClose }) => {
       className="fixed inset-0 flex items-center justify-center
       bg-black bg-opacity-40 z-50">
         <div className='max-w-[68rem] w-full flex md:justify-center 
-        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:h-[550px] ss:h-[60%] 
-        h-[80%]'>
+        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:h-[550px] ss:h-[450px] 
+        h-auto'>
           <motion.div
           initial={{ y: 0, opacity: 0.7 }}
           animate={{ y: 0, opacity: 1 }}
@@ -33,10 +33,10 @@ const TrackModal = ({ onClose }) => {
           rounded-2xl shadow-xl flex flex-col md:w-[93%] w-full 
           items-center">
             <div className='flex justify-end items-center w-full
-            md:py-10 md:px-10 ss:py-10 ss:px-10 py-5 px-5 top-0 absolute 
+            md:py-10 md:px-10 ss:py-10 ss:px-10 py-6 px-6 top-0 absolute 
             z-10'>
               <BsX 
-                className='md:w-[3.2rem] ss:w-[3.2rem] w-[2rem] h-auto 
+                className='md:w-[3.2rem] ss:w-[3.2rem] w-[2.3rem] h-auto 
                 text-redClose bg-redCircle md:p-2.5 ss:p-2.5 p-1.5 rounded-full 
                 cursor-pointer grow2'
                 strokeWidth={0.2}
@@ -47,39 +47,41 @@ const TrackModal = ({ onClose }) => {
               />
             </div>
 
-            <div className='flex w-full md:justify-between md:gap-0
-            ss:gap-10 gap-8 h-full'>
-              <div className='md:w-[50%] ss:w-[70%] md:hidden flex'>
-                <div className='w-full relative ss:rounded-2xl rounded-xl'>
+            <div className='flex md:flex-row ss:flex-row flex-col w-full 
+            md:justify-between md:gap-0 ss:gap-0 gap-2 h-full'>
+              <div className='w-full md:hidden ss:hidden flex'>
+                <div className='w-full relative rounded-xl p-2'>
                   <img
                     src={tracking}
                     alt='trackshipment'
-                    className='object-cover ss:rounded-2xl rounded-xl'
+                    className='object-cover rounded-xl'
                   />
                 </div>
               </div>
 
-              <div className='md:w-[50%] w-full flex flex-col gap-8
-              md:py-6 md:px-10 ss:py-6 ss:px-10 py-4 px-5'>
-                <div className='md:w-[5rem] ss:w-[5rem] w-[4rem] h-auto md:mt-24
+              <div className='md:w-[50%] ss:w-[50%] w-full flex flex-col 
+              md:gap-8 ss:gap-8 gap-2 md:py-6 md:px-10 ss:py-6 ss:px-8 
+              py-4 px-5 shipmodmob'>
+                <div className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto md:mt-24
                 bg-primary1 rounded-full items-center justify-center'>
                   <GrLocation 
-                    className='md:w-[5rem] ss:w-[5rem] w-[4rem] h-auto
-                    text-primary md:p-4 ss:p-3 p-2'
+                    className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
+                    text-primary md:p-4 ss:p-3 p-4'
                   />
                 </div>
                 
                 <div className='w-full flex flex-col h-full justify-between
-                md:py-0 ss:py-6 py-4'>
-                  <div className='flex flex-col gap-3 w-full'>
+                md:py-0 ss:py-3 py-4 md:gap-0 ss:gap-0 gap-12'>
+                  <div className='flex flex-col md:gap-3 ss:gap-3 gap-2 
+                  w-full'>
                     <h1 className='text-primary font-bold md:text-[35px]
-                    ss:text-[33px] text-[27px] tracking-tight'>
+                    ss:text-[33px] text-[28px] tracking-tight trackmodmob'>
                       Track a Shipment
                     </h1>
 
                     <h2 className="md:text-[17px] ss:text-[17px] text-[14px]  
                     tracking-tight font-medium text-main2 md:leading-[22px]
-                    ss:leading-[22px] leading-[18px]">
+                    ss:leading-[22px] leading-[20px] trackmodmob">
                       Enter your shipment tracking ID to see where your
                       package is and where it's been in real time.
                     </h2>
@@ -111,27 +113,28 @@ const TrackModal = ({ onClose }) => {
                   </div>
 
                   <div className='flex md:justify-end ss:justify-end w-full
-                  md:mb-5'>
+                  md:mb-5 ss:mb-0 mb-1'>
                     <div className="flex md:flex-row ss:flex-row flex-col 
                     w-full items-center md:gap-6 ss:gap-5 gap-3">
                       <a href='/createshipment-payment' 
-                      className='text-primary text-[14px] underline cursor-pointer 
-                      font-semibold hover:text-secondary navsmooth'>
+                      className='text-primary md:text-[14px] ss:text-[14px]
+                      text-[13px] underline cursor-pointer font-semibold 
+                      hover:text-secondary navsmooth'>
                         I don't remember my tracking ID
                       </a>
 
                       <a href='/createshipment-payment'
-                      className='text-primary text-[14px] underline cursor-pointer 
-                      font-semibold hover:text-secondary navsmooth'>
+                      className='text-primary md:text-[14px] ss:text-[14px]
+                      text-[13px] underline cursor-pointer font-semibold 
+                      hover:text-secondary navsmooth'>
                         Still need help? Contact Us
                       </a>
                     </div>
                   </div>
                 </div>
-                
               </div>
 
-              <div className='w-[50%] h-full md:flex hidden'>
+              <div className='w-[50%] h-full md:flex ss:flex hidden'>
                 <div className='w-full h-full relative rounded-2xl p-3'>
                   <img
                     src={tracking}
