@@ -3,6 +3,8 @@ import {
     Navbar,
     HeroPaymentReview,
     Footer,
+    NextSteps,
+    ShipCTA,
 } from '../components';
 import { ShipmentReview } from '../pages';
 import { Helmet } from 'react-helmet';
@@ -26,6 +28,16 @@ const PaymentReview = () => {
             <HeroPaymentReview currentStep={currentStep} onNavigate={handleNavigateToStep} />
 
             <ShipmentReview currentStep={currentStep} onStepChange={setCurrentStep} />
+
+            {currentStep === 3 && (
+                <div>
+                    <NextSteps />
+
+                    <div className='cta'>
+                        <ShipCTA />
+                    </div>
+                </div>
+            )}
             
             <div className='footer'>
                 <Footer />

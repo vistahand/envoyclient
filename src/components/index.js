@@ -26,6 +26,8 @@ import ShipmentPay from './ShipmentPay';
 import PaystackModal from './PaystackModal';
 import ShipmentFinish from './ShipmentFinish';
 import TrackModal from './TrackModal';
+import NextSteps from './NextSteps';
+import ShipCTA from './ShipCTA';
 
 export {
     Navbar,
@@ -56,4 +58,6 @@ export {
     PaystackModal,
     ShipmentFinish,
     TrackModal,
+    NextSteps,
+    ShipCTA,
 }
