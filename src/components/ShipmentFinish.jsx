@@ -4,7 +4,7 @@ import { SectionWrapper } from "../hoc";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { PiWarningCircle } from "react-icons/pi";
 import { TrackModal } from '../components';
-import { shipconfirm } from '../assets';
+import { copy, shipconfirm } from '../assets';
 
 const ShipmentFinish = () => {
     const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
@@ -17,32 +17,40 @@ const ShipmentFinish = () => {
     };
 
     return (
-        <section className='w-full flex md:min-h-[600px] ss:min-h-[800px]
-        min-h-[800px]'>
+        <section className='w-full flex min-h-[600px]'>
             <div className="w-full flex md:flex-row flex-col gap-14 
-            justify-between">
-                <div className="md:w-[50%] ss:w-[50%] w-full flex flex-col 
-                gap-3">
+            md:justify-between">
+                <div className="md:w-[50%] w-full flex flex-col gap-3">
                     <h1 className='text-primary font-bold md:text-[35px] 
-                    ss:text-[33px] text-[25px] tracking-tight 
-                    md:leading-[2.8rem] ss:leading-[2.6rem] leading-[2.3rem]'>
+                    ss:text-[33px] text-[27px] tracking-tight 
+                    md:leading-[2.8rem] ss:leading-[2.6rem] leading-[2.1rem]'>
                         Your shipment has been confirmed!
                     </h1>
 
                     <div className="flex flex-col gap-5 w-full">
                         <div className='flex items-center justify-between rounded-xl 
-                        bg-primary1 px-5 py-3.5 w-full'>
+                        bg-primary1 px-5 py-3.5 md:w-full ss:w-[70%]
+                        w-full'>
                             <p className='text-primary md:text-[21px] ss:text-[21px] 
-                            text-[18px] tracking-tight font-medium'>
+                            text-[17px] tracking-tight font-medium'>
                                 Tracking ID: <span className='font-bold'>
                                 001F5TG8XR4U
                                 </span>
                             </p>
 
-                            <PiWarningCircle 
-                                className='md:w-[1.8rem] ss:w-[1.8rem] w-[3.2rem] 
-                                h-auto text-primary cursor-pointer'
-                            />
+                            <div className='flex items-center gap-2 cursor-pointer'>
+                                <img
+                                    src={copy}
+                                    alt='copy'
+                                    className='w-[1rem] h-auto text-primary'
+                                />
+
+                                <p className='text-primary md:text-[12px] ss:text-[12px] 
+                                text-[11px] tracking-tight font-bold'>
+                                    Copy
+                                </p>
+                            </div>
+                            
                         </div>
 
                         <div className="flex flex-col md:gap-6 ss:gap-6 gap-5">
@@ -64,7 +72,7 @@ const ShipmentFinish = () => {
                         </div>
                     </div>
                     
-                    <div className='w-full mt-5'>
+                    <div className='w-full md:mt-5 ss:mt-5 mt-3'>
                         <button
                         className='bg-primary text-[13px] py-3.5 px-8
                         flex text-white rounded-full grow4 cursor-pointer
@@ -83,7 +91,7 @@ const ShipmentFinish = () => {
                     </div>
                 </div>
 
-                <div className="md:w-[50%] ss:w-[50%] md:mb-0 ss:mb-0 mb-8">
+                <div className="md:w-[50%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
                     <div className='w-full relative md:rounded-2xl
                     ss:rounded-2xl rounded-xl relative overflow-hidden'>
                         <img

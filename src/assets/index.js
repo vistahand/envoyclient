@@ -28,6 +28,7 @@ import addicon from './add-icon.svg';
 import wing from './wing.png';
 import paystack from './paystack.svg';
 import shipconfirm from './shipconfirm.png';
+import copy from './copy.svg';
 
 export {
     logo,
@@ -60,6 +61,7 @@ export {
     wing,
     paystack,
     shipconfirm,
+    copy,
 }
 
 export const heroImages = [
