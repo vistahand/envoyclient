@@ -326,9 +326,9 @@ const ShipmentDetails = ({ onNext }) => {
                 </div>
 
                 <div>
-                  <p className="md:text-[13px] ss:text-[13px] text-[12px] 
-                  tracking-tight font-semibold text-primary underline
-                  hover:text-secondary cursor-pointer inline-flex navsmooth"
+                  <p className="text-[13px] tracking-tight font-semibold 
+                  text-primary underline hover:text-secondary cursor-pointer 
+                  inline-flex navsmooth"
                   onClick={() => {
                     setIsShippingModalOpen(true);
                     disableScroll();
@@ -394,9 +394,9 @@ const ShipmentDetails = ({ onNext }) => {
                 </div>
 
                 <div>
-                  <p className="md:text-[13px] ss:text-[13px] text-[12px] 
-                  tracking-tight font-semibold text-primary underline
-                  hover:text-secondary cursor-pointer inline-flex navsmooth"
+                  <p className="text-[13px] tracking-tight font-semibold 
+                  text-primary underline hover:text-secondary cursor-pointer 
+                  inline-flex navsmooth"
                   onClick={() => {
                     setIsRecipientModalOpen(true);
                     disableScroll();
@@ -445,9 +445,9 @@ const ShipmentDetails = ({ onNext }) => {
               </div>
 
               <div>
-                <p className="md:text-[13px] ss:text-[13px] text-[12px] 
-                tracking-tight font-semibold text-primary underline
-                hover:text-secondary cursor-pointer inline-flex navsmooth"
+                <p className="text-[13px] tracking-tight font-semibold 
+                text-primary underline hover:text-secondary cursor-pointer 
+                inline-flex navsmooth"
                 onClick={() => {
                   setIsPickupModalOpen(true);
                   disableScroll();
@@ -462,14 +462,13 @@ const ShipmentDetails = ({ onNext }) => {
 
         <div className="md:w-[55%] ss:w-[60%] md:mb-0 ss:mb-0 mb-8">
           <div className="bg-primary1 md:p-10 ss:p-10 p-5 flex flex-col 
-          rounded-2xl gap-6 sticky-cart">
-            <h1 className="font-bold md:text-[16px] ss:text-[16px] text-[15px]
-            tracking-tight text-main2">
+          rounded-2xl md:gap-6 ss:gap-6 gap-5 sticky-cart">
+            <h1 className="font-bold text-[16px] tracking-tight text-main2">
               Payment Summary
             </h1>
 
             <div className="flex flex-col w-full gap-2.5 md:text-[13px] 
-            ss:text-[15px] text-[13px] tracking-tight">
+            ss:text-[15px] text-[14px] tracking-tight">
               <div className="flex justify-between items-center w-full
               text-main2 font-medium">
                 <p>
@@ -514,12 +513,12 @@ const ShipmentDetails = ({ onNext }) => {
             </div>
 
             <div className="flex justify-between items-center w-full">
-              <p className="md:text-[13px] ss:text-[15px] text-[13px]">
+              <p className="md:text-[13px] ss:text-[15px] text-[14px]">
                 Subtotal:
               </p>
 
               <p className="text-primary md:text-[23px] ss:text-[24px] 
-              text-[20px] font-bold">
+              text-[22px] font-bold">
                 <span className='line-through'>
                   N
                 </span>
@@ -529,9 +528,9 @@ const ShipmentDetails = ({ onNext }) => {
 
             <div className='w-full h-[1px] bg-main5'/>
 
-            <p className="text-main4 md:text-[11px] ss:text-[13px]
-            text-[11px] font-medium md:leading-[16px] ss:leading-[18px]
-            leading-[16px]">
+            <p className="text-main4 md:text-[12px] ss:text-[13px]
+            text-[12px] font-medium md:leading-[17px] ss:leading-[18px]
+            leading-[17px]">
               This figure does not include any other extra fees that may 
               be incurred via delayed orders, payment gateway fees, etc. 
               For more details, <a href='/terms' className="text-primary font-semibold">read our terms of usage here.</a>
