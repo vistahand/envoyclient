@@ -25,6 +25,7 @@ import PickupModal from './PickupModal';
 import ShipmentPay from './ShipmentPay';
 import PaystackModal from './PaystackModal';
 import ShipmentFinish from './ShipmentFinish';
+import TrackModal from './TrackModal';
 
 export {
     Navbar,
@@ -54,4 +55,5 @@ export {
     ShipmentPay,
     PaystackModal,
     ShipmentFinish,
+    TrackModal,
 }

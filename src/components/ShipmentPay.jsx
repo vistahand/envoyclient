@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
-// import { motion } from "framer-motion";
-// import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { PiWarningCircle } from "react-icons/pi";
 import { ShippingModal, PaystackModal } from '../components';
