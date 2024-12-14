@@ -1,7 +1,7 @@
 import { SectionWrapper5 } from "../hoc";
 import { motion } from 'framer-motion';
 import { fadeIn, textVariant } from '../utils/motion';
-import { chat, cta } from '../assets';
+import { chat } from '../assets';
 import { HiOutlineArrowRight } from "react-icons/hi";
 
 const ShipCTA = () => {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -8,6 +8,13 @@ import { copy, shipconfirm } from '../assets';
 const ShipmentFinish = () => {
     const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(0);
+
+    useEffect(() => {
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+    
 
     const disableScroll = () => {
         setScrollPosition(window.pageYOffset);
