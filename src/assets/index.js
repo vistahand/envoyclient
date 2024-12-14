@@ -27,9 +27,9 @@ import box from './box.svg';
 import addicon from './add-icon.svg';
 import wing from './wing.png';
 import paystack from './paystack.svg';
-import shipconfirm from './shipconfirm.png';
+import shipconfirm from './shipconfirm.jpg';
 import copy from './copy.svg';
-import tracking from './tracking.png';
+import tracking from './tracking.jpg';
 
 export {
     logo,
