@@ -47,8 +47,8 @@ const ShipmentPay = ({ onPrev }) => {
                             className='w-[1.8rem] h-auto text-primary'
                         />
 
-                        <p className='text-main4 md:text-[14px] ss:text-[13px] 
-                        text-[11px] md:leading-[1.3rem] ss:leading-[1.2rem] 
+                        <p className='text-main4 md:text-[14px] ss:text-[14px] 
+                        text-[11px] md:leading-[1.3rem] ss:leading-[1.3rem] 
                         leading-[1rem] tracking-tight font-medium'>
                             NB: Your billing address has been set to 
                             your shipping address by default as a guest. 
@@ -192,8 +192,8 @@ const ShipmentPay = ({ onPrev }) => {
                     Payment Summary
                     </h1>
 
-                    <div className="flex flex-col w-full gap-2.5 text-[13px] 
-                    tracking-tight">
+                    <div className="flex flex-col w-full gap-2.5 md:text-[13px] 
+                    ss:text-[15px] text-[13px] tracking-tight">
                         <div className="flex justify-between items-center w-full
                         text-main2 font-medium">
                             <p>
@@ -238,11 +238,11 @@ const ShipmentPay = ({ onPrev }) => {
                     </div>
 
                     <div className="flex justify-between items-center w-full">
-                        <p className="text-[13px]">
+                        <p className="md:text-[13px] ss:text-[15px] text-[13px]">
                             Subtotal:
                         </p>
 
-                        <p className="text-primary md:text-[23px] ss:text-[22px] 
+                        <p className="text-primary md:text-[23px] ss:text-[24px] 
                         text-[20px] font-bold">
                             <span className='line-through'>
                             N
@@ -253,7 +253,8 @@ const ShipmentPay = ({ onPrev }) => {
 
                     <div className='w-full h-[1px] bg-main5'/>
 
-                    <p className="text-main4 text-[11px] font-medium 
+                    <p className="text-main4 md:text-[11px] ss:text-[13px]
+                    text-[11px] font-medium md:leading-[16px] ss:leading-[18px]
                     leading-[16px]">
                         This figure does not include any other extra fees that may 
                         be incurred via delayed orders, payment gateway fees, etc. 
