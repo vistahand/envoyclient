@@ -61,10 +61,13 @@ const TrackModal = ({ onClose }) => {
 
               <div className='md:w-[50%] w-full flex flex-col gap-8
               md:py-6 md:px-10 ss:py-6 ss:px-10 py-4 px-5'>
-                <GrLocation 
-                  className='md:w-[5rem] ss:w-[5rem] w-[4rem] h-auto md:mt-24
-                  text-primary bg-primary1 md:p-3 ss:p-3 p-2 rounded-full'
-                />
+                <div className='md:w-[5rem] ss:w-[5rem] w-[4rem] h-auto md:mt-24
+                bg-primary1 rounded-full items-center justify-center'>
+                  <GrLocation 
+                    className='md:w-[5rem] ss:w-[5rem] w-[4rem] h-auto
+                    text-primary md:p-4 ss:p-3 p-2'
+                  />
+                </div>
                 
                 <div className='w-full flex flex-col h-full justify-between
                 md:py-0 ss:py-6 py-4'>
