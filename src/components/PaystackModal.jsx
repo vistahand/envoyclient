@@ -82,7 +82,7 @@ const PaystackModal = ({ onClose, onNext }) => {
                                 className='bg-primary text-[13px] py-3.5 w-[50%] flex
                                 text-white rounded-full grow4 cursor-pointer
                                 items-center justify-center gap-3'
-                                onClick={onNext}
+                                // onClick={onNext}
                                 >
                                     <p>
                                         Confirm
