@@ -1,49 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BsX } from 'react-icons/bs';
-import { useFormik } from "formik";
-import * as Yup from 'yup';
-import { tracking } from '../assets';
+// import { useFormik } from "formik";
+// import * as Yup from 'yup';
+import { tracking, websearch } from '../assets';
 import { GrLocation } from "react-icons/gr";
 
 const TrackModal = ({ onClose }) => {
-  const formRef = useRef();
   // const navigate = useNavigate();
-
-  const formik = useFormik({
-    initialValues: {
-      fullNameRec: '',
-      phoneRec: '',
-      mailRec: '',
-      altPhoneRec: '',
-      countryRec: 'NG',
-      address1Rec: '',
-      address2Rec: '',
-      areaRec: '',
-      townRec: '',
-      stateRec: '',
-      postalRec: '',
-      vatRec: '',
-    },
-    validationSchema: Yup.object().shape({
-      fullNameRec: Yup.string().required("Full name is required"),
-      phoneRec: Yup.number().required("Phone number is required"),
-      mailRec: Yup.string().email("Invalid email address").required("Email is required"),
-      altPhoneRec: Yup.number(), // Optional field
-      countryRec: Yup.string().required("Country is required"),
-      address1Rec: Yup.string().required("Address is required"),
-      address2Rec: Yup.string(), // Optional field
-      areaRec: Yup.string().required("Area is required"), // Optional field
-      townRec: Yup.string().required("Town/City is required"),
-      stateRec: Yup.string().required("State is required"), // Optional field (depending on country)
-      postalRec: Yup.string().required("Postal code is required"),
-      vatRec: Yup.string(), // Optional field
-    }),
-    
-    onSubmit: (values) => {
-
-    },
-  });
 
   const enableScroll = () => {
     document.body.style.overflow = 'auto';
@@ -117,7 +80,29 @@ const TrackModal = ({ onClose }) => {
                     package is and where it's been in real time.
                   </h2>
 
-                  
+                  <div className='text-[13px] rounded-full py-3.5 px-5 
+                  items-center flex border border-secondary relative w-full'
+                  >
+                    <input
+                      type="text"
+                      placeholder="Enter Tracking Number"
+                      className="flex-grow text-main focus:outline-none 
+                      text-[14px] placeholder:text-main4"
+                    />
+                       
+                    <div className='bg-secondary cursor-pointer p-1.5 
+                    pr-2 rounded-full flex gap-1.5 items-center 
+                    absolute right-1.5'
+                    >
+                      <img src={websearch} alt='trackshipment'
+                        className='wht w-5 h-5'
+                      />
+
+                      <p className='text-white text-[12.5px]'>
+                        Track
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className='flex md:justify-end ss:justify-end w-full
