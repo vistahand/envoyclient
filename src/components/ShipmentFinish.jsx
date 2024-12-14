@@ -22,7 +22,7 @@ const ShipmentFinish = () => {
             <div className="w-full flex md:flex-row flex-col gap-14 
             justify-between">
                 <div className="md:w-[50%] ss:w-[50%] w-full flex flex-col 
-                gap-4">
+                gap-3">
                     <h1 className='text-primary font-bold md:text-[35px] 
                     ss:text-[33px] text-[25px] tracking-tight 
                     md:leading-[2.8rem] ss:leading-[2.6rem] leading-[2.3rem]'>
