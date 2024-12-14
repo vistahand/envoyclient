@@ -22,7 +22,7 @@ const TrackModal = ({ onClose }) => {
       className="fixed inset-0 flex items-center justify-center
       bg-black bg-opacity-40 z-50">
         <div className='max-w-[68rem] w-full flex md:justify-center 
-        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:h-[55%] ss:h-[60%] 
+        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:h-[550px] ss:h-[60%] 
         h-[80%]'>
           <motion.div
           initial={{ y: 0, opacity: 0.7 }}
@@ -30,7 +30,7 @@ const TrackModal = ({ onClose }) => {
           exit={{ y: 10, opacity: 0 }}
           transition={{ duration: 0.1 }}
           className="bg-white md:rounded-3xl ss:rounded-3xl relative
-          rounded-2xl shadow-xl flex flex-col md:w-[95%] w-full 
+          rounded-2xl shadow-xl flex flex-col md:w-[93%] w-full 
           items-center">
             <div className='flex justify-end items-center w-full
             md:py-10 md:px-10 ss:py-10 ss:px-10 py-5 px-5 top-0 absolute 
@@ -60,67 +60,72 @@ const TrackModal = ({ onClose }) => {
               </div>
 
               <div className='md:w-[50%] w-full flex flex-col gap-8
-              md:py-6 md:px-12 ss:py-6 ss:px-12 py-4 px-5'>
+              md:py-6 md:px-10 ss:py-6 ss:px-10 py-4 px-5'>
                 <GrLocation 
-                  className='md:w-[4.8rem] ss:w-[5rem] w-[4rem] h-auto 
-                  text-primary bg-primary1 md:p-3.5 ss:p-3 p-2 rounded-full'
+                  className='md:w-[5rem] ss:w-[5rem] w-[4rem] h-auto md:mt-24
+                  text-primary bg-primary1 md:p-3 ss:p-3 p-2 rounded-full'
                 />
                 
-                <div className='flex flex-col gap-3 w-full'>
-                  <h1 className='text-primary font-bold md:text-[35px]
-                  ss:text-[33px] text-[27px] tracking-tight'>
-                    Track a Shipment
-                  </h1>
+                <div className='w-full flex flex-col h-full justify-between
+                md:py-0 ss:py-6 py-4'>
+                  <div className='flex flex-col gap-3 w-full'>
+                    <h1 className='text-primary font-bold md:text-[35px]
+                    ss:text-[33px] text-[27px] tracking-tight'>
+                      Track a Shipment
+                    </h1>
 
-                  <h2 className="md:text-[17px] ss:text-[17px] text-[14px]  
-                  tracking-tight font-medium text-main2 md:leading-[22px]
-                  ss:leading-[22px] leading-[18px]">
-                    Enter your shipment tracking ID to see where your
-                    package is and where it's been in real time.
-                  </h2>
+                    <h2 className="md:text-[17px] ss:text-[17px] text-[14px]  
+                    tracking-tight font-medium text-main2 md:leading-[22px]
+                    ss:leading-[22px] leading-[18px]">
+                      Enter your shipment tracking ID to see where your
+                      package is and where it's been in real time.
+                    </h2>
 
-                  <div className='text-[13px] rounded-full py-3.5 px-5 
-                  items-center flex border border-secondary relative w-full
-                  mt-3'
-                  >
-                    <input
-                      type="text"
-                      placeholder="Enter Tracking Number"
-                      className="flex-grow text-main focus:outline-none 
-                      text-[14px] placeholder:text-main4"
-                    />
-                       
-                    <div className='bg-secondary cursor-pointer p-2 
-                    pr-3 rounded-full flex gap-1.5 items-center 
-                    absolute right-1.5'
+                    <div className='text-[13px] rounded-full py-3.5 px-5 
+                    items-center flex border border-secondary relative w-full
+                    mt-3'
                     >
-                      <img src={websearch} alt='trackshipment'
-                        className='wht w-5 h-5'
+                      <input
+                        type="text"
+                        placeholder="Enter Tracking Number"
+                        className="flex-grow text-main focus:outline-none 
+                        text-[14px] placeholder:text-main4"
                       />
+                        
+                      <div className='bg-secondary cursor-pointer p-2 
+                      pr-3 rounded-full flex gap-1.5 items-center 
+                      absolute right-1.5'
+                      >
+                        <img src={websearch} alt='trackshipment'
+                          className='wht w-5 h-5'
+                        />
 
-                      <p className='text-white text-[12.5px]'>
-                        Track
-                      </p>
+                        <p className='text-white text-[12.5px]'>
+                          Track
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='flex md:justify-end ss:justify-end w-full
+                  md:mb-8'>
+                    <div className="flex md:flex-row ss:flex-row flex-col 
+                    w-full items-center md:gap-6 ss:gap-5 gap-3">
+                      <a href='/createshipment-payment' 
+                      className='text-primary text-[14px] underline cursor-pointer 
+                      font-semibold hover:text-secondary navsmooth'>
+                        I don't remember my tracking ID
+                      </a>
+
+                      <a href='/createshipment-payment'
+                      className='text-primary text-[14px] underline cursor-pointer 
+                      font-semibold hover:text-secondary navsmooth'>
+                        Still need help? Contact Us
+                      </a>
                     </div>
                   </div>
                 </div>
-
-                <div className='flex md:justify-end ss:justify-end w-full'>
-                  <div className="flex md:flex-row ss:flex-row flex-col 
-                  w-full items-center md:gap-6 ss:gap-5 gap-3">
-                    <a href='/createshipment-payment' 
-                    className='text-primary text-[14px] underline cursor-pointer 
-                    font-semibold hover:text-secondary navsmooth'>
-                      I don't remember my tracking ID
-                    </a>
-
-                    <a href='/createshipment-payment'
-                    className='text-primary text-[14px] underline cursor-pointer 
-                    font-semibold hover:text-secondary navsmooth'>
-                      Still need help? Contact Us
-                    </a>
-                  </div>
-                </div>
+                
               </div>
 
               <div className='w-[50%] h-full md:flex hidden'>
