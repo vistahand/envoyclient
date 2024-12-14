@@ -255,6 +255,33 @@ export const shipmentSteps = [
     }
 ];
   
+export const nextSteps = [
+    {
+        title: "Prepare for pickup",
+        description: "Ensure your shipment is sent to the designated pickup location at the scheduled time. Once it arrives, we'll take care of the rest, and you'll be able to track its journey.",
+        link: "Change pickup location",
+        route: '/createshipment-payment'
+    },
+    {
+        title: "Track your shipment",
+        description: "Once your shipment is in transit, use the Track My Shipment page with your tracking ID to follow its progress. You'll also receive notifications to keep you updated.",
+        link: "Track my shipment",
+        route: '/createshipment-payment'
+    },
+    {
+        title: "Account dashboard",
+        description: "For an overview of this and future bookings, log into your Account Dashboard. Here, you can review past shipments, manage details, and make updates.",
+        link: "Login to my account",
+        route: '/createshipment-payment'
+    },
+    {
+        title: "Still need help?",
+        description: "If you have questions, our support team is ready to assist. Connect via Live Chat or email us at support@envoyangel.com.",
+        link: "Contact Us",
+        route: '/createshipment-payment'
+    },
+];
+
 export const footerLinks = [
     {
       title: "COMPANY",
