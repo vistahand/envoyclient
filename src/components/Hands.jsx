@@ -96,8 +96,8 @@ const Hands = () => {
                                 ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
-                                className="flex-grow text-main
-                                focus:outline-none text-[13px]"
+                                className="flex-grow text-main flex 
+                                pr-16 focus:outline-none text-[13px]"
                             />
                         ) : (
                             <p>
@@ -137,8 +137,8 @@ const Hands = () => {
                                 ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
-                                className="flex-grow text-main
-                                focus:outline-none text-[13px]" 
+                                className="flex-grow text-main flex
+                                focus:outline-none text-[13px] pr-16" 
                             />
                         ) : (
                             <p>

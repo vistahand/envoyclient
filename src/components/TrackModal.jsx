@@ -94,7 +94,7 @@ const TrackModal = ({ onClose }) => {
                         type="text"
                         placeholder="Enter Tracking Number"
                         className="flex-grow text-main focus:outline-none 
-                        text-[14px] placeholder:text-main4"
+                        text-[14px] placeholder:text-main4 pr-20"
                       />
                         
                       <div className='bg-secondary cursor-pointer p-2 
