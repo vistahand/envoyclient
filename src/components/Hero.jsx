@@ -241,7 +241,8 @@ const Hero = () => {
                                     type="text"
                                     placeholder="Enter Tracking Number"
                                     className="flex-grow text-main
-                                    focus:outline-none text-[13px]"
+                                    focus:outline-none text-[13px] flex
+                                    pr-16"
                                     onBlur={() => setIsExpanded(false)}
                                 />
                             ) : (
