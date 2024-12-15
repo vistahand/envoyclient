@@ -97,9 +97,11 @@ const TrackModal = ({ onClose }) => {
                         pr-20"
                       />
                         
-                      <div className='bg-secondary cursor-pointer p-2 
+                      <a href='/trackshipment'
+                      className='bg-secondary cursor-pointer p-2 
                       pr-3 rounded-full flex gap-1.5 items-center 
                       absolute right-1.5'
+                      
                       >
                         <img src={websearch} alt='trackshipment'
                           className='wht w-5 h-5'
@@ -108,7 +110,7 @@ const TrackModal = ({ onClose }) => {
                         <p className='text-white text-[12.5px]'>
                           Track
                         </p>
-                      </div>
+                      </a>
                     </div>
                   </div>
 
