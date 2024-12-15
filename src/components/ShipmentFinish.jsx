@@ -8,6 +8,7 @@ import { copy, shipconfirm } from '../assets';
 const ShipmentFinish = () => {
     const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [copyButtonText, setCopyButtonText] = useState('Copy'); 
 
     useEffect(() => {
         return () => {
@@ -21,6 +22,19 @@ const ShipmentFinish = () => {
         document.body.style.overflow = 'hidden';
         document.body.style.top = `-${scrollPosition}px`;
     };
+
+    const handleCopyClick = () => {
+        navigator.clipboard.writeText('001F5TG8XR4U')
+        .then(() => {
+            setCopyButtonText('Copied!');
+            setTimeout(() => {
+                setCopyButtonText('Copy');
+            }, 3000);
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    }
 
     return (
         <section className='w-full flex min-h-[400px]'>
@@ -44,7 +58,9 @@ const ShipmentFinish = () => {
                                 </span>
                             </p>
 
-                            <div className='flex items-center gap-2 cursor-pointer'>
+                            <div className='flex items-center gap-2 cursor-pointer'
+                            onClick={handleCopyClick}
+                            >
                                 <img
                                     src={copy}
                                     alt='copy'
@@ -53,7 +69,7 @@ const ShipmentFinish = () => {
 
                                 <p className='text-primary md:text-[12px] ss:text-[12px] 
                                 text-[11px] tracking-tight font-bold'>
-                                    Copy
+                                    {copyButtonText}
                                 </p>
                             </div>
                             
