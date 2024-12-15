@@ -18,7 +18,7 @@ const ShipCTA = () => {
                 relative md:pb-6 ss:pb-6 pb-0 justify-between z-10">
                     <motion.div variants={textVariant()}
                     className='md:gap-3 ss:gap-3 gap-4 flex flex-col 
-                    items-start md:mt-4 ss:mt-3 mt-7'>
+                    items-start md:mt-4 ss:mt-3 mt-6'>
                         <h1 className="text-white font-bold md:text-[40px]
                         ss:text-[35px] text-[33px] md:leading-[3rem] 
                         ss:leading-[2.8rem] leading-[2.6rem] tracking-tight
