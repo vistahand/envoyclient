@@ -104,7 +104,7 @@ const Hands = () => {
                                 Track Shipment
                             </p>
                         )}
-                        <div className={`${isDesktopExpanded
+                        <a href='/trackshipment' className={`${isDesktopExpanded
                             ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                             : ''}`}
                         >
@@ -117,7 +117,7 @@ const Hands = () => {
                                     Track
                                 </p>
                             }
-                        </div>
+                        </a>
                     </motion.div>
 
                     {/* Mobile Track Shipment */}
@@ -145,7 +145,7 @@ const Hands = () => {
                                 Track Shipment
                             </p>
                         )}
-                        <div className={`${isMobileExpanded
+                        <a href='/trackshipment' className={`${isMobileExpanded
                             ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                             : ''}`}
                         >
@@ -158,7 +158,7 @@ const Hands = () => {
                                     Track
                                 </p>
                             }
-                        </div>
+                        </a>
                     </motion.div>
                 </motion.div>
             </motion.div>
