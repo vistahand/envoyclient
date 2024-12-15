@@ -373,7 +373,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                                     Package {index + 1}
                                 </h2>
 
-                                {formik.values.packages.length > 1 && index > 0 && ( 
+                                {formik.values.packages.length > 1 && ( 
                                     <div className='flex items-center md:gap-2 ss:gap-2 gap-1.5 
                                     cursor-pointer grow6'
                                     onClick={() => removePackage(index)}>
