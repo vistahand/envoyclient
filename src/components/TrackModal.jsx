@@ -86,15 +86,15 @@ const TrackModal = ({ onClose }) => {
                       package is and where it's been in real time.
                     </h2>
 
-                    <div className='text-[13px] rounded-full py-3.5 px-5 
-                    items-center flex border border-secondary relative w-full
-                    mt-3'
+                    <div className='text-[13px] rounded-full md:py-3 py-3.5 px-5 
+                    items-center flex border border-secondary relative w-full mt-3'
                     >
                       <input
                         type="text"
                         placeholder="Enter Tracking Number"
-                        className="flex-grow text-main focus:outline-none 
-                        text-[14px] placeholder:text-main4 pr-20"
+                        className="flex-grow text-main2 focus:outline-none 
+                        md:text-[17px] text-[14px] placeholder:text-main4 
+                        pr-20"
                       />
                         
                       <div className='bg-secondary cursor-pointer p-2 
