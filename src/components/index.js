@@ -28,6 +28,7 @@ import ShipmentFinish from './ShipmentFinish';
 import TrackModal from './TrackModal';
 import NextSteps from './NextSteps';
 import ShipCTA from './ShipCTA';
+import TrackShipment from './TrackShipment';
 
 export {
     Navbar,
@@ -60,4 +61,5 @@ export {
     TrackModal,
     NextSteps,
     ShipCTA,
+    TrackShipment,
 }
