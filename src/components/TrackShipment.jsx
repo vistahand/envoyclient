@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
 import { TbCircleCheckFilled } from "react-icons/tb";
-import { copy, track, } from '../assets';
+import { copy, track } from '../assets';
 
 const TrackShipment = () => {
     const [copyButtonText, setCopyButtonText] = useState('Copy'); 
@@ -97,16 +97,17 @@ const TrackShipment = () => {
 
                                     <div className='flex items-center gap-3.5'>
                                         <p className="font-medium md:text-[14px] 
-                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        ss:text-[14px] text-[13px] tracking-tight 
                                         text-main4">
-                                            Monday 28th October, 2024
+                                            Monday 28th October, 2024<span className='md:hidden ss:hidden'>, 11:25AM</span>
                                         </p>
 
-                                        <div className='h-[3px] w-[3px] bg-main4'/>
+                                        <div className='h-[3px] w-[3px] bg-main4
+                                        hidden md:flex ss:flex'/>
 
                                         <p className="font-medium md:text-[14px] 
-                                        ss:text-[14px] text-[12px] tracking-tight 
-                                        text-main4">
+                                        ss:text-[14px] tracking-tight 
+                                        text-main4 hidden md:flex ss:flex">
                                             11:25AM
                                         </p>
                                     </div>
@@ -136,22 +137,23 @@ const TrackShipment = () => {
 
                                     <div className='flex items-center gap-3.5'>
                                         <p className="font-medium md:text-[14px] 
-                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        ss:text-[14px] text-[13px] tracking-tight 
                                         text-main4">
-                                            Monday 28th October, 2024
+                                            Tuesday 29th October, 2024<span className='md:hidden ss:hidden'>, 11:03AM</span>
                                         </p>
 
-                                        <div className='h-[3px] w-[3px] bg-main4'/>
+                                        <div className='h-[3px] w-[3px] bg-main4 hidden
+                                        md:flex ss:flex'/>
 
                                         <p className="font-medium md:text-[14px] 
-                                        ss:text-[14px] text-[12px] tracking-tight 
-                                        text-main4">
+                                        ss:text-[14px] tracking-tight 
+                                        text-main4 hidden md:flex ss:flex">
                                             11:25AM
                                         </p>
                                     </div>
 
                                     <p className="font-medium md:text-[14px] 
-                                    ss:text-[14px] text-[12px] tracking-tight 
+                                    ss:text-[14px] text-[13px] tracking-tight 
                                     text-main4">
                                         Package dropped at the Dublin 248 
                                         Metropolis Pickup Station
@@ -182,22 +184,23 @@ const TrackShipment = () => {
 
                                     <div className='flex items-center gap-3.5'>
                                         <p className="font-medium md:text-[14px] 
-                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        ss:text-[14px] text-[13px] tracking-tight 
                                         text-main4">
-                                            Wednesday 30th October, 2024
+                                            Wednesday 30th October, 2024<span className='md:hidden ss:hidden'>, 04:48PM</span>
                                         </p>
 
-                                        <div className='h-[3px] w-[3px] bg-main4'/>
+                                        <div className='h-[3px] w-[3px] bg-main4 hidden 
+                                        md:flex ss:flex'/>
 
                                         <p className="font-medium md:text-[14px] 
-                                        ss:text-[14px] text-[12px] tracking-tight 
-                                        text-main4">
+                                        ss:text-[14px] tracking-tight 
+                                        text-main4 hidden md:flex ss:flex">
                                             04:48PM
                                         </p>
                                     </div>
 
                                     <p className="font-medium md:text-[14px] 
-                                    ss:text-[14px] text-[12px] tracking-tight 
+                                    ss:text-[14px] text-[13px] tracking-tight 
                                     text-main4">
                                         Shipment leaves Dublin Dispatch Station, 
                                         Ireland for Lagos, Nigeria
@@ -230,7 +233,7 @@ const TrackShipment = () => {
 
                                     <div className='flex'>
                                         <p className="font-medium md:text-[14px] 
-                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        ss:text-[14px] text-[13px] tracking-tight 
                                         text-main4">
                                             Est.: Saturday 2nd November, 2024
                                         </p>
