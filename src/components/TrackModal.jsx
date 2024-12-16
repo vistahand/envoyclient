@@ -62,8 +62,8 @@ const TrackModal = ({ onClose }) => {
               <div className='md:w-[50%] ss:w-[50%] w-full flex flex-col 
               md:gap-8 ss:gap-8 gap-2 md:py-6 md:px-10 ss:py-6 ss:px-8 
               py-4 px-5 shipmodmob'>
-                <div className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto md:mt-24
-                bg-primary1 rounded-full items-center justify-center'>
+                <div className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
+                md:mt-24 bg-primary1 rounded-full'>
                   <GrLocation 
                     className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
                     text-primary md:p-4 ss:p-3 p-4'
