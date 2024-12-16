@@ -74,18 +74,18 @@ const TrackShipment = () => {
                     <div className='w-full md:mt-6 ss:mt-6 mt-4 gap-5
                     rounded-xl p-5 border-main7 border flex flex-col'>
                         <h2 className="font-bold md:text-[17px] ss:text-[18px] 
-                        text-[15px] tracking-tight text-main4">
+                        text-[16px] tracking-tight text-main4">
                             SHIPMENT TRAIL
                         </h2>
 
                         <div className='flex flex-col gap-4 w-full'>
                             <div className='flex gap-4 items-center'>
-                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                <div className='md:w-[4.5rem] w-[4rem] 
                                 h-auto bg-primary1 rounded-full'>
-                                <TbCircleCheckFilled 
-                                    className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
-                                    h-auto text-primary md:p-4 ss:p-3 p-4'
-                                />
+                                    <TbCircleCheckFilled 
+                                        className='md:w-[4.5rem] w-[4rem] 
+                                        h-auto text-primary md:p-4 p-3'
+                                    />
                                 </div>
 
                                 <div className='flex flex-col gap-0.5'>
@@ -113,17 +113,18 @@ const TrackShipment = () => {
                                 </div>
                             </div>
 
-                            <div className='h-[3rem] w-[2px] bg-primary 
-                                md:ml-[2.2rem]'
+                            <div className='md:h-[3rem] ss:h-[3rem] h-[2rem]
+                                w-[2px] bg-primary md:ml-[2.2rem] ss:ml-[2rem]
+                                ml-[1.95rem]'
                             />
 
                             <div className='flex gap-4 items-center'>
-                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                <div className='md:w-[4.5rem] w-[4rem] 
                                 h-auto bg-primary1 rounded-full'>
-                                <TbCircleCheckFilled 
-                                    className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
-                                    h-auto text-primary md:p-4 ss:p-3 p-4'
-                                />
+                                    <TbCircleCheckFilled 
+                                        className='md:w-[4.5rem] w-[4rem] 
+                                        h-auto text-primary md:p-4 p-3'
+                                    />
                                 </div>
 
                                 <div className='flex flex-col gap-0.5'>
@@ -158,17 +159,18 @@ const TrackShipment = () => {
                                 </div>
                             </div>
 
-                            <div className='h-[3rem] w-[2px] bg-primary 
-                                md:ml-[2.2rem]'
+                            <div className='md:h-[3rem] ss:h-[3rem] h-[2rem]
+                                w-[2px] bg-primary md:ml-[2.2rem] ss:ml-[2rem]
+                                ml-[1.95rem]'
                             />
 
                             <div className='flex gap-4 items-center'>
-                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                <div className='md:w-[4.5rem] w-[4rem] 
                                 h-auto bg-primary1 rounded-full'>
-                                <TbCircleCheckFilled 
-                                    className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
-                                    h-auto text-primary md:p-4 ss:p-3 p-4'
-                                />
+                                    <TbCircleCheckFilled 
+                                        className='md:w-[4.5rem] w-[4rem] 
+                                        h-auto text-primary md:p-4 p-3'
+                                    />
                                 </div>
 
                                 <div className='flex flex-col gap-0.5'>
@@ -203,18 +205,19 @@ const TrackShipment = () => {
                                 </div>
                             </div>
 
-                            <div className='h-[3rem] w-[2px] bg-primary 
-                                md:ml-[2.2rem]'
+                            <div className='md:h-[3rem] ss:h-[3rem] h-[2rem]
+                                w-[2px] bg-primary md:ml-[2.2rem] ss:ml-[2rem]
+                                ml-[1.95rem]'
                             />
 
                             <div className='flex gap-4 items-center'>
-                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
-                                md:h-[4.5rem] ss:h-[4rem] h-[4.5rem] bg-mainalt rounded-full 
+                                <div className='md:w-[4.5rem] w-[4rem] 
+                                md:h-[4.5rem] h-[4rem] bg-mainalt rounded-full 
                                 items-center justify-center flex'>
                                 <div 
-                                    className='md:w-[2.2rem] ss:w-[4rem] w-[4.5rem] 
-                                    md:h-[2.2rem] ss:h-[4rem] h-[4.5rem] bg-main7 
-                                    md:p-4 ss:p-3 p-4 rounded-full'
+                                    className='md:w-[2.2rem] w-[2rem] 
+                                    md:h-[2.2rem] h-[2rem] bg-main7 
+                                    md:p-4 p-3 rounded-full'
                                 />
                                 </div>
 
