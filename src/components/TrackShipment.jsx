@@ -60,12 +60,12 @@ const TrackShipment = () => {
                         </div>
 
                         <div className="w-full">
-                            <p className="md:text-[15px] ss:text-[15px] text-[14px]  
-                            tracking-tight font-medium text-main2 leading-[20px]">
-                                The package left the <span className='font-bold'>
-                                Dublin Dispatch Station</span> on <span className='font-bold'>
+                            <p className="md:text-[16px] ss:text-[16px] text-[15px]  
+                            tracking-tight font-medium text-main2 leading-[23px]">
+                                The package left the <span className='font-extrabold'>
+                                Dublin Dispatch Station</span> on <span className='font-extrabold'>
                                 Wednesday 30th October, 2024 </span>
-                                and is currently on its way to <span className='font-bold'>
+                                and is currently on its way to <span className='font-extrabold'>
                                 Lagos Sorting Hub.</span>
                             </p>
                         </div>
@@ -78,25 +78,24 @@ const TrackShipment = () => {
                             SHIPMENT TRAIL
                         </h2>
 
-                        <div className='flex flex-col gap-3 w-full'>
+                        <div className='flex flex-col gap-4 w-full'>
                             <div className='flex gap-4 items-center'>
-                                <div className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] 
-                                h-auto bg-primary1 rounded-full items-center 
-                                justify-center'>
+                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                h-auto bg-primary1 rounded-full'>
                                 <TbCircleCheckFilled 
-                                    className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] 
+                                    className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
                                     h-auto text-primary md:p-4 ss:p-3 p-4'
                                 />
                                 </div>
 
-                                <div className='flex flex-col gap-1'>
+                                <div className='flex flex-col gap-0.5'>
                                     <h3 className="md:text-[17px] ss:text-[17px] 
                                     text-[15px] tracking-tight font-bold 
                                     text-main2 leading-[20px]">
                                         Shipment Confirmed
                                     </h3>
 
-                                    <div className='flex items-center gap-3'>
+                                    <div className='flex items-center gap-3.5'>
                                         <p className="font-medium md:text-[14px] 
                                         ss:text-[14px] text-[12px] tracking-tight 
                                         text-main4">
@@ -114,12 +113,132 @@ const TrackShipment = () => {
                                 </div>
                             </div>
 
-                            <div className='h-[3rem] w-[2px] bg-primary'/>
+                            <div className='h-[3rem] w-[2px] bg-primary 
+                                md:ml-[2.2rem]'
+                            />
+
+                            <div className='flex gap-4 items-center'>
+                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                h-auto bg-primary1 rounded-full'>
+                                <TbCircleCheckFilled 
+                                    className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                    h-auto text-primary md:p-4 ss:p-3 p-4'
+                                />
+                                </div>
+
+                                <div className='flex flex-col gap-0.5'>
+                                    <h3 className="md:text-[17px] ss:text-[17px] 
+                                    text-[15px] tracking-tight font-bold 
+                                    text-main2 leading-[20px]">
+                                        Package Dropped off at Pickup Location
+                                    </h3>
+
+                                    <div className='flex items-center gap-3.5'>
+                                        <p className="font-medium md:text-[14px] 
+                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        text-main4">
+                                            Monday 28th October, 2024
+                                        </p>
+
+                                        <div className='h-[3px] w-[3px] bg-main4'/>
+
+                                        <p className="font-medium md:text-[14px] 
+                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        text-main4">
+                                            11:25AM
+                                        </p>
+                                    </div>
+
+                                    <p className="font-medium md:text-[14px] 
+                                    ss:text-[14px] text-[12px] tracking-tight 
+                                    text-main4">
+                                        Package dropped at the Dublin 248 
+                                        Metropolis Pickup Station
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className='h-[3rem] w-[2px] bg-primary 
+                                md:ml-[2.2rem]'
+                            />
+
+                            <div className='flex gap-4 items-center'>
+                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                h-auto bg-primary1 rounded-full'>
+                                <TbCircleCheckFilled 
+                                    className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                    h-auto text-primary md:p-4 ss:p-3 p-4'
+                                />
+                                </div>
+
+                                <div className='flex flex-col gap-0.5'>
+                                    <h3 className="md:text-[17px] ss:text-[17px] 
+                                    text-[15px] tracking-tight font-bold 
+                                    text-main2 leading-[20px]">
+                                        Package Shipped
+                                    </h3>
+
+                                    <div className='flex items-center gap-3.5'>
+                                        <p className="font-medium md:text-[14px] 
+                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        text-main4">
+                                            Wednesday 30th October, 2024
+                                        </p>
+
+                                        <div className='h-[3px] w-[3px] bg-main4'/>
+
+                                        <p className="font-medium md:text-[14px] 
+                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        text-main4">
+                                            04:48PM
+                                        </p>
+                                    </div>
+
+                                    <p className="font-medium md:text-[14px] 
+                                    ss:text-[14px] text-[12px] tracking-tight 
+                                    text-main4">
+                                        Shipment leaves Dublin Dispatch Station, 
+                                        Ireland for Lagos, Nigeria
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className='h-[3rem] w-[2px] bg-primary 
+                                md:ml-[2.2rem]'
+                            />
+
+                            <div className='flex gap-4 items-center'>
+                                <div className='md:w-[4.5rem] ss:w-[4rem] w-[4.5rem] 
+                                md:h-[4.5rem] ss:h-[4rem] h-[4.5rem] bg-mainalt rounded-full 
+                                items-center justify-center flex'>
+                                <div 
+                                    className='md:w-[2.2rem] ss:w-[4rem] w-[4.5rem] 
+                                    md:h-[2.2rem] ss:h-[4rem] h-[4.5rem] bg-main7 
+                                    md:p-4 ss:p-3 p-4 rounded-full'
+                                />
+                                </div>
+
+                                <div className='flex flex-col gap-0.5'>
+                                    <h3 className="md:text-[17px] ss:text-[17px] 
+                                    text-[15px] tracking-tight font-bold 
+                                    text-main2 leading-[20px]">
+                                        Shipment Arrival
+                                    </h3>
+
+                                    <div className='flex'>
+                                        <p className="font-medium md:text-[14px] 
+                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        text-main4">
+                                            Est.: Saturday 2nd November, 2024
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="md:w-[50%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
+                <div className="md:w-[45%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
                     <div className='w-full relative md:rounded-2xl
                     ss:rounded-2xl rounded-xl relative overflow-hidden'>
                         <img
