@@ -76,6 +76,41 @@ const TrackShipment = () => {
                         text-[15px] tracking-tight text-main4">
                             SHIPMENT TRAIL
                         </h2>
+
+                        <div className='flex flex-col gap-3 w-full'>
+                            <div className='flex gap-3 items-center'>
+                                <div>
+
+                                </div>
+
+                                <div className='flex flex-col items-center
+                                gap-1'>
+                                    <h3 className="md:text-[16px] ss:text-[16px] 
+                                    text-[14px] tracking-tight font-bold 
+                                    text-main2 leading-[20px]">
+                                        Shipment Confirmed
+                                    </h3>
+
+                                    <div className='flex items-center gap-3'>
+                                        <p className="font-medium md:text-[14px] 
+                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        text-main4">
+                                            Monday 28th October, 2024
+                                        </p>
+
+                                        <div>
+                                            
+                                        </div>
+
+                                        <p className="font-medium md:text-[14px] 
+                                        ss:text-[14px] text-[12px] tracking-tight 
+                                        text-main4">
+                                            11:25AM
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
