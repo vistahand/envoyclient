@@ -30,7 +30,7 @@ import paystack from './paystack.svg';
 import shipconfirm from './shipconfirm.jpg';
 import copy from './copy.svg';
 import tracking from './tracking.jpg';
-import chat from './chat.svg';
+import chat from './chat.png';
 import track from './track.jpg';
 
 export {
