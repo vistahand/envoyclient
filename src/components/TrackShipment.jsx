@@ -1,27 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
-import { HiOutlineArrowRight } from "react-icons/hi";
-import { TrackModal } from '../components';
-import { copy, shipconfirm } from '../assets';
+import { copy, track,  } from '../assets';
 
 const TrackShipment = () => {
-    const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
-    const [scrollPosition, setScrollPosition] = useState(0);
     const [copyButtonText, setCopyButtonText] = useState('Copy'); 
-
-    useEffect(() => {
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, []);
-    
-
-    const disableScroll = () => {
-        setScrollPosition(window.pageYOffset);
-        document.body.style.overflow = 'hidden';
-        document.body.style.top = `-${scrollPosition}px`;
-    };
 
     const handleCopyClick = () => {
         navigator.clipboard.writeText('001F5TG8XR4U')
@@ -44,7 +27,7 @@ const TrackShipment = () => {
                     <h1 className='text-primary font-bold md:text-[35px] 
                     ss:text-[33px] text-[27px] tracking-tight 
                     md:leading-[2.8rem] ss:leading-[2.6rem] leading-[2.1rem]'>
-                        Your shipment has been confirmed!
+                        Your package is on its way!
                     </h1>
 
                     <div className="flex flex-col gap-5 w-full">
@@ -75,41 +58,24 @@ const TrackShipment = () => {
                             
                         </div>
 
-                        <div className="flex flex-col md:gap-6 ss:gap-6 gap-5">
+                        <div className="w-full">
                             <p className="md:text-[15px] ss:text-[15px] text-[14px]  
                             tracking-tight font-medium text-main2 leading-[20px]">
-                                We've successfully processed your payment 
-                                and assigned a tracking ID, which you'll 
-                                use to monitor your shipment's progress 
-                                once it's received at our pickup location 
-                                and ready to ship.
-                            </p>
-
-                            <p className="md:text-[15px] ss:text-[15px] text-[14px] 
-                            tracking-tight font-bold text-main2 leading-[20px]">
-                                Endeavour to send your package(s) to your 
-                                selected pickup station on or before 29th 
-                                of October, 2024.
+                                The package left the <span className='font-bold'>
+                                Dublin Dispatch Station</span> on <span className='font-bold'>
+                                Wednesday 30th October, 2024</span>
+                                and is currently on its way to <span className='font-bold'>
+                                Lagos Sorting Hub.</span>
                             </p>
                         </div>
                     </div>
                     
-                    <div className='w-full md:mt-5 ss:mt-5 mt-3'>
-                        <button
-                        className='bg-primary text-[13px] py-3.5 px-8
-                        flex text-white rounded-full grow4 cursor-pointer
-                        items-center justify-center gap-3'
-                        onClick={() => {
-                            setIsTrackModalOpen(true);
-                            disableScroll();
-                        }}
-                        >
-                            <p>
-                                Track Shipment
-                            </p>
-                            
-                            <HiOutlineArrowRight className='text-[14px]'/>
-                        </button>
+                    <div className='w-full md:mt-6 ss:mt-6 mt-4 gap-5
+                    rounded-xl p-5 border-main7 border flex flex-col'>
+                        <h2 className="font-bold md:text-[18px] ss:text-[18px] 
+                        text-[15px] tracking-tight text-main4">
+                            SHIPMENT TRAIL
+                        </h2>
                     </div>
                 </div>
 
@@ -117,7 +83,7 @@ const TrackShipment = () => {
                     <div className='w-full relative md:rounded-2xl
                     ss:rounded-2xl rounded-xl relative overflow-hidden'>
                         <img
-                            src={shipconfirm}
+                            src={track}
                             alt='shipmentconfirmed'
                             className='object-cover md:rounded-2xl
                             ss:rounded-2xl rounded-xl'
@@ -130,12 +96,6 @@ const TrackShipment = () => {
                     </div>
                 </div>
             </div>
-
-            {isTrackModalOpen && (
-                <TrackModal 
-                    onClose={() => setIsTrackModalOpen(false)}
-                />
-            )}
         </section>
     );
 };

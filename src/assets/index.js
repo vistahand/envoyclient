@@ -31,6 +31,7 @@ import shipconfirm from './shipconfirm.jpg';
 import copy from './copy.svg';
 import tracking from './tracking.jpg';
 import chat from './chat.svg';
+import track from './track.jpg';
 
 export {
     logo,
@@ -66,6 +67,7 @@ export {
     copy,
     tracking,
     chat,
+    track,
 }
 
 export const heroImages = [
