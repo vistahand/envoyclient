@@ -250,7 +250,7 @@ const Hero = () => {
                                     Track Shipment
                                 </p>
                             )}
-                            <div className={`${isExpanded 
+                            <a href='/trackshipment' className={`${isExpanded 
                                 ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                                 : ''}`}
                             >
@@ -263,7 +263,7 @@ const Hero = () => {
                                         Track
                                     </p>
                                 }
-                            </div>
+                            </a>
                         </motion.div>
                     </div>  
                 </motion.div> 
