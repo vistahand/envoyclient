@@ -20,7 +20,7 @@ const TrackShipment = () => {
     }
 
     return (
-        <section className='w-full flex min-h-[400px]'>
+        <section className='w-full flex min-h-[400px] mt-20'>
             <div className="w-full flex md:flex-row flex-col gap-14 
             md:justify-between">
                 <div className="md:w-[50%] w-full flex flex-col gap-3">
@@ -63,7 +63,7 @@ const TrackShipment = () => {
                             tracking-tight font-medium text-main2 leading-[20px]">
                                 The package left the <span className='font-bold'>
                                 Dublin Dispatch Station</span> on <span className='font-bold'>
-                                Wednesday 30th October, 2024</span>
+                                Wednesday 30th October, 2024 </span>
                                 and is currently on its way to <span className='font-bold'>
                                 Lagos Sorting Hub.</span>
                             </p>
@@ -72,7 +72,7 @@ const TrackShipment = () => {
                     
                     <div className='w-full md:mt-6 ss:mt-6 mt-4 gap-5
                     rounded-xl p-5 border-main7 border flex flex-col'>
-                        <h2 className="font-bold md:text-[18px] ss:text-[18px] 
+                        <h2 className="font-bold md:text-[17px] ss:text-[18px] 
                         text-[15px] tracking-tight text-main4">
                             SHIPMENT TRAIL
                         </h2>
