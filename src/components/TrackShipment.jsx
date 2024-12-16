@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
+import { TbCircleCheckFilled } from "react-icons/tb";
 import { copy, track, } from '../assets';
 
 const TrackShipment = () => {
@@ -78,15 +79,19 @@ const TrackShipment = () => {
                         </h2>
 
                         <div className='flex flex-col gap-3 w-full'>
-                            <div className='flex gap-3 items-center'>
-                                <div>
-
+                            <div className='flex gap-4 items-center'>
+                                <div className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] 
+                                h-auto bg-primary1 rounded-full items-center 
+                                justify-center'>
+                                <TbCircleCheckFilled 
+                                    className='md:w-[5rem] ss:w-[4rem] w-[4.5rem] 
+                                    h-auto text-primary md:p-4 ss:p-3 p-4'
+                                />
                                 </div>
 
-                                <div className='flex flex-col items-center
-                                gap-1'>
-                                    <h3 className="md:text-[16px] ss:text-[16px] 
-                                    text-[14px] tracking-tight font-bold 
+                                <div className='flex flex-col gap-1'>
+                                    <h3 className="md:text-[17px] ss:text-[17px] 
+                                    text-[15px] tracking-tight font-bold 
                                     text-main2 leading-[20px]">
                                         Shipment Confirmed
                                     </h3>
@@ -98,9 +103,7 @@ const TrackShipment = () => {
                                             Monday 28th October, 2024
                                         </p>
 
-                                        <div>
-                                            
-                                        </div>
+                                        <div className='h-[3px] w-[3px] bg-main4'/>
 
                                         <p className="font-medium md:text-[14px] 
                                         ss:text-[14px] text-[12px] tracking-tight 
@@ -110,6 +113,8 @@ const TrackShipment = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className='h-[3rem] w-[2px] bg-primary'/>
                         </div>
                     </div>
                 </div>
