@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
 // import { motion } from "framer-motion";
-import { copy, track,  } from '../assets';
+import { copy, track, } from '../assets';
 
 const TrackShipment = () => {
     const [copyButtonText, setCopyButtonText] = useState('Copy'); 
