@@ -42,7 +42,7 @@ const ShipmentPay = ({ onPrev, onNext }) => {
 
                     <div className="flex flex-col gap-4 w-full">
                         <div className='flex items-center gap-2 rounded-xl 
-                        bg-primary1 px-5 py-3.5 cursor-pointer w-full'>
+                        bg-primary1 px-5 py-3.5 w-full'>
                             <PiWarningCircle 
                                 className='md:w-[1.8rem] ss:w-[1.8rem] w-[3.2rem] 
                                 h-auto text-primary'
