@@ -9,7 +9,7 @@ const Register = () => {
   return (
     <section className='relative w-full flex items-center'>
       <div className='flex md:flex-row ss:flex-row flex-col w-full 
-      md:justify-between md:gap-12 ss:gap-0 gap-2'>
+      md:justify-between md:gap-16 ss:gap-8 gap-6'>
         <div className='md:w-[50%] w-full flex flex-col md:gap-8 ss:gap-8 
         gap-2'>
           <div className='w-full flex flex-col h-full justify-between
