@@ -12,9 +12,8 @@ const Register = () => {
       <div className='flex md:flex-row ss:flex-row flex-col w-full 
       md:justify-between md:gap-16 ss:gap-8 gap-6'>
         <div className='md:w-[50%] w-full flex flex-col md:gap-8 ss:gap-8 
-        gap-2'>
-          <div className='w-full flex flex-col h-full justify-between
-          gap-12'>
+        gap-2 md:py-10'>
+          <div className='w-full flex flex-col h-full gap-12'>
             <div className='flex flex-col gap-1 w-full'>
               <h1 className='text-primary font-semibold md:text-[35px]
               ss:text-[33px] text-[28px] tracking-tight'>
@@ -28,6 +27,22 @@ const Register = () => {
                 <a href='/login' className='text-primary font-bold 
                 hover:text-secondary navsmooth'> Log in here</a>
               </h2>
+            </div>
+
+            <div className="flex justify-between items-center w-full 
+            gap-3">
+              <div className="flex-grow">
+                <div className='bg-main7 w-full h-[1px]' />
+              </div>
+
+              <h1 className="md:text-[15px] ss:text-[15px] text-[14px] 
+              text-main5">
+                or
+              </h1>
+
+              <div className="flex-grow">
+                <div className='bg-main7 w-full h-[1px]' />
+              </div>
             </div>
 
             <div className='flex w-full'>
