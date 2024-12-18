@@ -1,5 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { CreateShipmentPage, HomePage, PaymentReviewPage, TrackResultsPage, } from './scenes';
+import { 
+  CreateShipmentPage, 
+  HomePage, 
+  PaymentReviewPage, 
+  TrackResultsPage, 
+  RegisterPage,
+} from './scenes';
 import ScrollToTopButton from './constants/ScrollToTop';
 
 
@@ -13,12 +19,8 @@ const App = () => {
           <Route path='/createshipment' element={<CreateShipmentPage />} />
           <Route path='/createshipment-payment' element={<PaymentReviewPage />} />
           <Route path='/trackshipment' element={<TrackResultsPage />} />
-          {/* <Route path='/products' element={<ProductsPage />} />
-          <Route path='/products/:slug' element={<CategoryPage />} />
-          <Route path='/products/:categorySlug/:productSlug' element={<ProductPage />} />
-          <Route path='/cart' element={<CartPage />} />
-          <Route path='/cart/checkout' element={<CheckoutPage />} />
-          <Route path='/search' element={<SearchPage />} /> */}
+          
+          <Route path='/register' element={<RegisterPage />} />
         </Routes>
 
         <ScrollToTopButton />
