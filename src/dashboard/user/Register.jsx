@@ -222,8 +222,8 @@ const Register = () => {
           </div>
         </div>
 
-        <div className='w-[50%] h-full md:flex hidden'>
-          <div className='w-full h-full relative rounded-2xl p-3'>
+        <div className='w-[50%] h-auto md:flex hidden'>
+          <div className='w-full h-auto relative rounded-2xl'>
             <img
               src={register}
               alt='register'
