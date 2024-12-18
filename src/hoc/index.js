@@ -3,10 +3,12 @@ import SectionWrapperAlt from "./SectionWrapperAlt";
 import SectionWrapper2 from "./SectionWrapper2";
 import SectionWrapper3 from "./SectionWrapper3";
 import SectionWrapper5 from './SectionWrapper5';
+import SectionWrapperApp from './SectionWrapperApp';
 
 export { SectionWrapper, 
     SectionWrapperAlt, 
     SectionWrapper2, 
     SectionWrapper3 ,
-    SectionWrapper5
+    SectionWrapper5,
+    SectionWrapperApp,
 }
