@@ -9,11 +9,17 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const Register = () => {
   // const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showChoosePass, setShowChoosePass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const toggleChoosePassVisibility = () => {
+    setShowChoosePass(!showChoosePass);
   };
+
+  const toggleConfirmPassVisibility = () => {
+    setShowConfirmPass(!showConfirmPass);
+  };
+
 
   const formik = useFormik({
     initialValues: {
@@ -24,7 +30,9 @@ const Register = () => {
     validationSchema: Yup.object().shape({
       email: Yup.string().email('Invalid email address.').required('Email is required.'),
       choosePass: Yup.string().required("Password is required"),
-      confirmPass: Yup.string().required("Passwords do not match"),
+      confirmPass: Yup.string()
+      .oneOf([Yup.ref('choosePass'), null], 'Passwords must match')
+      .required('Confirm password is required'),
     }),
     
     onSubmit: (values) => {
@@ -79,6 +87,7 @@ const Register = () => {
                     <input
                       type="text"
                       name="email"
+                      id="email"
                       placeholder=' '
                       value={formik.values.email}
                       onChange={formik.handleChange}
@@ -115,9 +124,10 @@ const Register = () => {
                   <div className="relative flex flex-col">
                     <div className="relative">
                       <input
-                        type={showPassword ? "text" : "password"}
+                        type={showChoosePass ? "text" : "password"}
                         name="choosePass"
                         placeholder=' '
+                        id="choosePass"
                         value={formik.values.choosePass}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -131,15 +141,15 @@ const Register = () => {
 
                       <div className="absolute right-0 inset-y-0 flex pr-4
                       items-center">
-                        {showPassword ? (
+                        {showChoosePass ? (
                           <AiOutlineEyeInvisible
                             className="text-main6 text-[18px] cursor-pointer"
-                            onClick={togglePasswordVisibility}
+                            onClick={toggleChoosePassVisibility}
                           />
                         ) : (
                           <AiOutlineEye
                             className="text-main6 text-[18px] cursor-pointer"
-                            onClick={togglePasswordVisibility}
+                            onClick={toggleChoosePassVisibility}
                           />
                         )}
                       </div>
@@ -169,9 +179,10 @@ const Register = () => {
                   <div className="relative flex flex-col">
                     <div className="relative">
                       <input
-                        type={showPassword ? "text" : "password"}
+                        type={showConfirmPass ? "text" : "password"}
                         name="confirmPass"
                         placeholder=' '
+                        id="confirmPass"
                         value={formik.values.confirmPass}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -185,15 +196,15 @@ const Register = () => {
 
                       <div className="absolute right-0 inset-y-0 flex pr-4
                       items-center">
-                        {showPassword ? (
+                        {showConfirmPass ? (
                           <AiOutlineEyeInvisible
                             className="text-main6 text-[18px] cursor-pointer"
-                            onClick={togglePasswordVisibility}
+                            onClick={toggleConfirmPassVisibility}
                           />
                         ) : (
                           <AiOutlineEye
                             className="text-main6 text-[18px] cursor-pointer"
-                            onClick={togglePasswordVisibility}
+                            onClick={toggleConfirmPassVisibility}
                           />
                         )}
                       </div>
