@@ -49,7 +49,7 @@ const Register = () => {
             </div>
 
             <div className="flex justify-between items-center w-full 
-            gap-3">
+            gap-4">
               <div className="flex-grow">
                 <div className='bg-main7 w-full h-[1px]' />
               </div>
