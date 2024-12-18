@@ -3,6 +3,7 @@
 import { BiCopyright } from 'react-icons/bi';
 import { SectionWrapperApp } from '../../hoc';
 import { register } from '../../assets';
+import { HiOutlineArrowRight } from 'react-icons/hi';
 
 const Register = () => {
   // const navigate = useNavigate();
@@ -15,8 +16,8 @@ const Register = () => {
           <div className='w-full flex flex-col h-full md:gap-6 ss:gap-6 
           gap-5'>
             <div className='flex flex-col gap-1 w-full'>
-              <h1 className='text-primary font-semibold md:text-[35px]
-              ss:text-[33px] text-[28px] tracking-tight'>
+              <h1 className='text-primary font-semibold md:text-[37px]
+              ss:text-[35px] text-[28px] tracking-tight'>
                 Your experience begins here!
               </h1>
 
@@ -50,13 +51,29 @@ const Register = () => {
               <form className='flex flex-col w-full gap-5'>
                 <p className='md:text-[13px] ss:text-[14px] text-[13px]  
                 tracking-tight font-medium text-main4 md:leading-[18px]
-                ss:leading-[19px] leading-[18px]'>
+                ss:leading-[19px] leading-[18px] mt-3'>
                   By clicking on Register, you agree to Envoy Angel's Terms 
                   of Service and Privacy Policy. You consent to the 
                   collection, storage, and use of your information as 
                   outlined in our Privacy Policy, which includes account 
                   setup, service updates, and communications.
                 </p>
+
+                <div className='w-full'>
+                  <button
+                  className='bg-primary text-[13px] py-3.5 px-12
+                  flex text-white rounded-full grow4 cursor-pointer
+                  items-center justify-center gap-3'
+                  onClick={() => {
+                  }}
+                  >
+                    <p>
+                      Register
+                    </p>
+                    
+                    <HiOutlineArrowRight className='text-[14px]'/>
+                  </button>
+                </div>
               </form>
             </div>
 
