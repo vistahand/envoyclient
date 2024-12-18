@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { BiCopyright } from 'react-icons/bi';
 import { SectionWrapperApp } from '../../hoc';
 import { register } from '../../assets';
 import { HiOutlineArrowRight } from 'react-icons/hi';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
   // const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -15,7 +18,7 @@ const Register = () => {
       confirmPass: '',
     },
     validationSchema: Yup.object().shape({
-      email: Yup.string().required("Email is required"),
+      email: Yup.string().email('Invalid email address.').required('Email is required.'),
       choosePass: Yup.string().required("Password is required"),
       confirmPass: Yup.string().required("Passwords do not match"),
     }),
