@@ -1,5 +1,6 @@
 // import { useFormik } from "formik";
 // import * as Yup from 'yup';
+import { BiCopyright } from 'react-icons/bi';
 import { SectionWrapperApp } from '../../hoc';
 import { register } from '../../assets';
 
@@ -32,19 +33,15 @@ const Register = () => {
             <div className='flex w-full'>
               <div className="flex md:flex-row ss:flex-row flex-col 
               w-full items-center md:gap-6 ss:gap-5 gap-3">
-                <a href='/createshipment-payment' 
-                className='text-primary md:text-[14px] ss:text-[14px]
-                text-[13px] underline cursor-pointer font-semibold 
-                hover:text-secondary navsmooth'>
-                  I don't remember my tracking ID
-                </a>
-
-                <a href='/createshipment-payment'
-                className='text-primary md:text-[14px] ss:text-[14px]
-                text-[13px] underline cursor-pointer font-semibold 
-                hover:text-secondary navsmooth'>
-                  Still need help? Contact Us
-                </a>
+                <div className='flex md:items-center ss:items-center'>
+                  <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
+                  ss:text-[18px] text-[15px] mt-1 text-main4' />
+  
+                  <p className='md:text-[13px] ss:text-[15px] text-[12px] 
+                  text-main4 md:mt-1 ss:mt-1 mt-0.5'>
+                    2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
