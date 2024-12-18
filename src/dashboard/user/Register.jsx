@@ -5,11 +5,15 @@ import { BiCopyright } from 'react-icons/bi';
 import { SectionWrapperApp } from '../../hoc';
 import { register } from '../../assets';
 import { HiOutlineArrowRight } from 'react-icons/hi';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const Register = () => {
   // const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -109,20 +113,37 @@ const Register = () => {
                   </div>
 
                   <div className="relative flex flex-col">
-                    <input
-                      type="text"
-                      name="choosePass"
-                      placeholder=' '
-                      value={formik.values.choosePass}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                      peer outline text-black md:rounded-lg rounded-md 
-                      md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                      bg-transparent w-full focus:outline-primary
-                      ${formik.touched.choosePass && formik.errors.choosePass ? 'outline-mainRed' : 'outline-main6'}
-                      `}
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="choosePass"
+                        placeholder=' '
+                        value={formik.values.choosePass}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                        peer outline text-black md:rounded-lg rounded-md 
+                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                        bg-transparent w-full focus:outline-primary
+                        ${formik.touched.choosePass && formik.errors.choosePass ? 'outline-mainRed' : 'outline-main6'}
+                        `}
+                      />
+
+                      <div className="absolute right-0 inset-y-0 flex pr-4
+                      items-center">
+                        {showPassword ? (
+                          <AiOutlineEyeInvisible
+                            className="text-main6 text-[18px] cursor-pointer"
+                            onClick={togglePasswordVisibility}
+                          />
+                        ) : (
+                          <AiOutlineEye
+                            className="text-main6 text-[18px] cursor-pointer"
+                            onClick={togglePasswordVisibility}
+                          />
+                        )}
+                      </div>
+                    </div>
 
                     <label
                     htmlFor="choosePass"
@@ -146,20 +167,37 @@ const Register = () => {
                   </div>
 
                   <div className="relative flex flex-col">
-                    <input
-                      type="text"
-                      name="confirmPass"
-                      placeholder=' '
-                      value={formik.values.confirmPass}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                      peer outline text-black md:rounded-lg rounded-md 
-                      md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
-                      bg-transparent w-full focus:outline-primary
-                      ${formik.touched.confirmPass && formik.errors.confirmPass ? 'outline-mainRed' : 'outline-main6'}
-                      `}
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="confirmPass"
+                        placeholder=' '
+                        value={formik.values.confirmPass}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                        peer outline text-black md:rounded-lg rounded-md 
+                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                        bg-transparent w-full focus:outline-primary
+                        ${formik.touched.confirmPass && formik.errors.confirmPass ? 'outline-mainRed' : 'outline-main6'}
+                        `}
+                      />
+
+                      <div className="absolute right-0 inset-y-0 flex pr-4
+                      items-center">
+                        {showPassword ? (
+                          <AiOutlineEyeInvisible
+                            className="text-main6 text-[18px] cursor-pointer"
+                            onClick={togglePasswordVisibility}
+                          />
+                        ) : (
+                          <AiOutlineEye
+                            className="text-main6 text-[18px] cursor-pointer"
+                            onClick={togglePasswordVisibility}
+                          />
+                        )}
+                      </div>
+                    </div>
 
                     <label
                     htmlFor="confirmPass"
