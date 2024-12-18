@@ -32,6 +32,7 @@ import copy from './copy.svg';
 import tracking from './tracking.jpg';
 import chat from './chat.svg';
 import track from './track.jpg';
+import register from './register.jpg';
 
 export {
     logo,
@@ -68,6 +69,7 @@ export {
     tracking,
     chat,
     track,
+    register,
 }
 
 export const heroImages = [
