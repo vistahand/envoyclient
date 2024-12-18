@@ -8,6 +8,23 @@ import { HiOutlineArrowRight } from 'react-icons/hi';
 const Register = () => {
   // const navigate = useNavigate();
 
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      choosePass: '',
+      confirmPass: '',
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string().required("Email is required"),
+      choosePass: Yup.string().required("Password is required"),
+      confirmPass: Yup.string().required("Passwords do not match"),
+    }),
+    
+    onSubmit: (values) => {
+      
+    },
+  });
+
   return (
     <section className='relative w-full flex items-center'>
       <div className='flex md:flex-row ss:flex-row flex-col w-full 
@@ -49,8 +66,8 @@ const Register = () => {
 
             <div className='w-full'>
               <form className='flex flex-col w-full gap-5'>
-                <div className='flex flex-col md:w-[90%] ss:w-[90%] w-full 
-                items-center gap-4'>
+                <div className='flex flex-col md:w-[80%] ss:w-[80%] w-full 
+                md:gap-4 ss:gap-4 gap-3 mt-1'>
                   <div className="relative flex flex-col">
                     <input
                       type="text"
@@ -165,7 +182,7 @@ const Register = () => {
 
                 <p className='md:text-[13px] ss:text-[14px] text-[13px]  
                 tracking-tight font-medium text-main4 md:leading-[18px]
-                ss:leading-[19px] leading-[18px] mt-3'>
+                ss:leading-[19px] leading-[18px] mt-1'>
                   By clicking on Register, you agree to Envoy Angel's Terms 
                   of Service and Privacy Policy. You consent to the 
                   collection, storage, and use of your information as 
@@ -174,13 +191,10 @@ const Register = () => {
                 </p>
 
                 <div className='w-full'>
-                  <button
+                  <button type="submit"
                   className='bg-primary text-[13px] py-3.5 px-12
                   flex text-white rounded-full grow4 cursor-pointer
-                  items-center justify-center gap-3'
-                  onClick={() => {
-                  }}
-                  >
+                  items-center justify-center gap-3'>
                     <p>
                       Register
                     </p>
@@ -191,7 +205,7 @@ const Register = () => {
               </form>
             </div>
 
-            <div className='flex w-full'>
+            <div className='flex w-full md:mt-12 ss:mt-10 mt-8'>
               <div className="flex md:flex-row ss:flex-row flex-col 
               w-full items-center md:gap-6 ss:gap-5 gap-3">
                 <div className='flex md:items-center ss:items-center'>
