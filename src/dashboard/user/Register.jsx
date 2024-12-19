@@ -22,7 +22,6 @@ const Register = () => {
 
 
   const formik = useFormik({
-    
     initialValues: {
       email: '',
       choosePass: '',
