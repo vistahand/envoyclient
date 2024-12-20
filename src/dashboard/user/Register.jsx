@@ -26,6 +26,7 @@ const Register = () => {
       choosePass: '',
       confirmPass: '',
     },
+    
     validationSchema: Yup.object().shape({
       email: Yup.string().email('Invalid email address.').required('Email is required.'),
       choosePass: Yup.string().required("Password is required"),
