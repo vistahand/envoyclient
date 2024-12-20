@@ -20,7 +20,6 @@ const Register = () => {
     setShowConfirmPass(!showConfirmPass);
   };
 
-
   const formik = useFormik({
     initialValues: {
       email: '',
