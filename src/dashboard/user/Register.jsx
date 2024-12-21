@@ -39,6 +39,7 @@ const Register = () => {
 
     },
   });
+  
 
   return (
     <section className='relative w-full flex items-center'>
