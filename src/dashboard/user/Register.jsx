@@ -29,7 +29,10 @@ const Register = () => {
 
     validationSchema: Yup.object().shape({
       email: Yup.string().email('Invalid email address.').required('Email is required.'),
-      choosePass: Yup.string().required("Password is required"),
+      choosePass: Yup.string()
+      .min(8, 'Password must be at least 8 characters.')
+      .matches(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$/, 'Password must contain alphanumeric characters and at least one special character.')
+      .required("Password is required"),  
       confirmPass: Yup.string()
       .oneOf([Yup.ref('choosePass'), null], 'Passwords must match')
       .required('Confirm password is required'),
