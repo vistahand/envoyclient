@@ -215,7 +215,9 @@ const Register = () => {
                     <label
                     htmlFor="confirmPass"
                     className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform  
+                    ${formik.values.confirmPass 
+                      ? 'md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75' 
+                      : ''} transform   
                     md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                     duration-300 peer-placeholder-shown:translate-y-0 text-main6
                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
