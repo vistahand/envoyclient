@@ -90,7 +90,6 @@ const Register = () => {
                     <input
                       type="text"
                       name="email"
-                      id="email"
                       placeholder=' '
                       value={formik.values.email}
                       onChange={formik.handleChange}
@@ -130,7 +129,6 @@ const Register = () => {
                         type={showChoosePass ? "text" : "password"}
                         name="choosePass"
                         placeholder=' '
-                        id="choosePass"
                         value={formik.values.choosePass}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -187,7 +185,6 @@ const Register = () => {
                         type={showConfirmPass ? "text" : "password"}
                         name="confirmPass"
                         placeholder=' '
-                        id="confirmPass"
                         value={formik.values.confirmPass}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
