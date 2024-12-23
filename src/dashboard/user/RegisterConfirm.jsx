@@ -134,7 +134,7 @@ const RegisterConfirm = ({ onNext }) => {
                 ss:text-[18px] text-[15px] mt-1 text-main4' />
 
                 <p className='md:text-[13px] ss:text-[13px] text-[11px] 
-                text-main4 md:mt-1 ss:mt-1 mt-0.5 font-medium'>
+                text-main4 mt-0.5 font-medium'>
                   2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
                 </p>
               </div>
