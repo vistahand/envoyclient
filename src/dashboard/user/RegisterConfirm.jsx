@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { BiCopyright } from 'react-icons/bi';
 import { SectionWrapperApp } from '../../hoc';
-import { register } from '../../assets';
+import { incmail, register } from '../../assets';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 
 const RegisterConfirm = ({ onNext }) => {
@@ -32,6 +32,18 @@ const RegisterConfirm = ({ onNext }) => {
         <div className='md:w-[50%] w-full flex flex-col md:py-10'>
           <div className='w-full flex flex-col h-full md:gap-6 ss:gap-6 
           gap-5'>
+            <div className="w-full">
+                <div className='md:w-[10rem] ss:w-[4rem] w-[4.5rem] h-auto 
+                bg-primary1 rounded-full'>
+                    <img
+                        src={incmail}
+                        alt="incomingmail"
+                        className='md:w-[10rem] ss:w-[4rem] w-[4.5rem] 
+                        h-auto md:p-12 ss:p-3 p-4'
+                    />
+                </div>
+            </div>
+
             <div className='flex flex-col gap-1 w-full'>
               <h1 className='text-primary font-semibold md:text-[37px]
               ss:text-[35px] text-[32px] tracking-tight mobline'>
