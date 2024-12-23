@@ -36,7 +36,7 @@ const RegisterFinish = ({ onNext }) => {
             firstName: '',
             lastName: '',
             phone: '',
-            country: 'IL',
+            country: 'IE',
         },
         validationSchema: Yup.object().shape({
             firstName: Yup.string().required("First name is required"),
@@ -89,8 +89,8 @@ const RegisterFinish = ({ onNext }) => {
               className='flex flex-col w-full gap-5'>
                 <div className='flex md:w-[80%] ss:w-[80%] w-full mt-1'>
                     <div className='grid md:grid-cols-4 ss:grid-cols-4 
-                    grid-cols-2  md:gap-5 ss:gap-5 gap-4 w-full'>
-                        <div className="relative flex flex-col">
+                    md:gap-4 ss:gap-4 gap-3 w-full'>
+                        <div className="relative flex flex-col col-span-2">
                             <input
                                 type="text"
                                 name="firstName"
@@ -127,7 +127,7 @@ const RegisterFinish = ({ onNext }) => {
                             </p>
                         </div>
 
-                        <div className="relative flex flex-col">
+                        <div className="relative flex flex-col col-span-2">
                             <input
                                 type="text"
                                 name="lastName"
@@ -164,7 +164,7 @@ const RegisterFinish = ({ onNext }) => {
                             </p>
                         </div>
 
-                        <div className="relative flex flex-col col-span-2">
+                        <div className="relative flex flex-col col-span-4">
                             <input
                                 type="number"
                                 name="phone"
@@ -201,7 +201,7 @@ const RegisterFinish = ({ onNext }) => {
                             </p>
                         </div>
 
-                        <div className="relative flex flex-col col-span-2">
+                        <div className="relative flex flex-col col-span-4">
                             <div className='relative flex items-center'>
                                 {formik.values.country && (
                                     <img
@@ -259,11 +259,11 @@ const RegisterFinish = ({ onNext }) => {
 
                 <div className='w-full'>
                   <button type='submit'
-                  className='bg-primary text-[13px] py-3.5 px-12
+                  className='bg-primary text-[13px] py-3.5 px-14
                   flex text-white rounded-full grow4 cursor-pointer
-                  items-center justify-center gap-3'>
+                  items-center justify-center gap-3 mobbut'>
                     <p>
-                      Finish
+                        Finish
                     </p>
                     
                     <HiOutlineArrowRight className='text-[14px]'/>

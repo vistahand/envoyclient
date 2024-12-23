@@ -297,9 +297,9 @@ const RegisterStart = ({ onNext }) => {
 
                 <div className='w-full'>
                   <button type="submit"
-                  className='bg-primary text-[13px] py-3.5 px-12
+                  className='bg-primary text-[13px] py-3.5 px-14
                   flex text-white rounded-full grow4 cursor-pointer
-                  items-center justify-center gap-3'>
+                  items-center justify-center gap-3 mobbut'>
                     <p>
                       Register
                     </p>
