@@ -67,6 +67,23 @@ const Register = () => {
             </div>
 
             <div className="flex justify-between items-center w-full 
+            md:gap-5 ss:gap-5 gap-4">
+              <div className="flex items-center gap-3 p-3 rounded-full
+              border-main7">
+                <img
+                  src=""
+                  alt="Google"
+                  className=""
+                />
+
+                <h4 className="md:text-[14px] ss:text-[14px] text-[13px]  
+                tracking-tight font-semibold text-main2">
+                  Continue with Google
+                </h4>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center w-full 
             gap-4">
               <div className="flex-grow">
                 <div className='bg-main7 w-full h-[1px]' />
