@@ -18,7 +18,7 @@ const Register = () => {
         }
     }, [currentStep, initialLoad]);
    
-    const handleNextStep = () => {
+    const handleNext = () => {
         setCurrentStep(currentStep + 1);
         setInitialLoad(false);
     };
@@ -26,8 +26,8 @@ const Register = () => {
 
     return (
         <div ref={sectionRef} className='font-manrope'>
-            {currentStep === 1 && <RegisterStart onNext={handleNextStep} />}
-            {currentStep === 2 && <RegisterConfirm onNext={handleNextStep} />}
+            {currentStep === 1 && <RegisterStart onNext={handleNext} />}
+            {currentStep === 2 && <RegisterConfirm onNext={handleNext} />}
             {currentStep === 3 && <RegisterFinish />}
         </div>
     )

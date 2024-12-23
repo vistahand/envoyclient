@@ -7,7 +7,7 @@ import { apple, facebook, google, register } from '../../assets';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
-const Register = () => {
+const RegisterStart = ({ onNext }) => {
   // const navigate = useNavigate();
   const [showChoosePass, setShowChoosePass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
@@ -39,7 +39,7 @@ const Register = () => {
     }),
     
     onSubmit: (values) => {
-
+      onNext();
     },
   });
 
@@ -338,4 +338,4 @@ const Register = () => {
   );
 };
 
-export default SectionWrapperApp(Register, '');
+export default SectionWrapperApp(RegisterStart, '');
