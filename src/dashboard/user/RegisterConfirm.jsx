@@ -26,20 +26,21 @@ const RegisterConfirm = ({ onNext }) => {
   });
 
   return (
-    <section className='relative w-full flex items-center'>
+    <section className='relative w-full flex items-center md:h-auto 
+    ss:h-[60vh] h-[90vh]'>
       <div className='flex md:flex-row ss:flex-row flex-col w-full 
       md:justify-between md:gap-20 ss:gap-8 gap-6 h-full'>
         <div className='md:w-[50%] w-full flex flex-col md:py-10'>
           <div className='w-full flex flex-col h-full md:gap-6 ss:gap-6 
           gap-5'>
-            <div className="w-full">
-                <div className='md:w-[10rem] ss:w-[4rem] w-[4.5rem] h-auto 
+            <div className="w-full shipmodmob">
+                <div className='md:w-[10rem] ss:w-[8rem] w-[6rem] h-auto 
                 bg-primary1 rounded-full'>
                     <img
                         src={incmail}
                         alt="incomingmail"
-                        className='md:w-[10rem] ss:w-[4rem] w-[4.5rem] 
-                        h-auto md:p-12 ss:p-3 p-4'
+                        className='md:w-[10rem] ss:w-[8rem] w-[6rem] 
+                        h-auto md:p-12 ss:p-10 p-6'
                     />
                 </div>
             </div>
@@ -47,7 +48,7 @@ const RegisterConfirm = ({ onNext }) => {
             <div className='flex flex-col gap-1 w-full'>
               <h1 className='text-primary font-semibold md:text-[37px]
               ss:text-[35px] text-[32px] tracking-tight mobline'>
-               We shot you a heads up
+                We shot you a heads up
               </h1>
 
               <h2 className="md:text-[15px] ss:text-[16px] text-[14px]  
@@ -123,7 +124,8 @@ const RegisterConfirm = ({ onNext }) => {
               </form>
             </div>
 
-            <div className='flex w-full md:mt-12 ss:mt-10 mt-8'>
+            <div className='flex md:relative absolute w-full md:mt-20 
+            bottom-0'>
               <div className="flex w-full">
                 <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
                 ss:text-[18px] text-[15px] mt-1 text-main4' />

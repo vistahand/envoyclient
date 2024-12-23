@@ -48,7 +48,8 @@ const RegisterStart = ({ onNext }) => {
   });
 
   return (
-    <section className='relative w-full flex items-center'>
+    <section className='relative w-full flex items-center md:h-auto 
+    ss:h-[60vh] h-[90vh]'>
       <div className='flex md:flex-row ss:flex-row flex-col w-full 
       md:justify-between md:gap-20 ss:gap-8 gap-6 h-full'>
         <div className='md:w-[50%] w-full flex flex-col md:py-10'>
@@ -311,7 +312,7 @@ const RegisterStart = ({ onNext }) => {
               </form>
             </div>
 
-            <div className='flex w-full md:mt-12 ss:mt-10 mt-8'>
+            <div className='flex md:relative absolute w-full md:mt-12 bottom-0'>
               <div className="flex w-full">
                 <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
                 ss:text-[18px] text-[15px] mt-1 text-main4' />
