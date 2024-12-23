@@ -1,6 +1,6 @@
 import {
     Register,
-} from '../dashboard/user';
+} from '../pages';
 
 import { Helmet } from 'react-helmet';
 

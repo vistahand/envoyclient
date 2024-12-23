@@ -1,5 +1,9 @@
-import Register from './Register';
+import RegisterStart from './RegisterStart';
+import RegisterConfirm from './RegisterConfirm';
+import RegisterFinish from './RegisterFinish';
 
 export {
-    Register,
+    RegisterStart,
+    RegisterConfirm,
+    RegisterFinish,
 }
