@@ -17,9 +17,9 @@ const RegisterConfirm = ({ onNext }) => {
 
     validationSchema: Yup.object().shape({
       code: Yup.string()
-      .min(6, 'Code must be 6 characters.')
+      .length(6, 'Code must be 6 characters.')
       .matches(/^[a-zA-Z0-9]+$/, 'Code must contain alphanumeric characters.')
-      .required("Code is required"),  
+      .required("Code is required."),  
     }),
     
     onSubmit: (values) => {
