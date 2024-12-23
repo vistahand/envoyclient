@@ -69,7 +69,7 @@ const Register = () => {
             <div className="flex justify-between items-center w-full 
             md:gap-5 ss:gap-5 gap-4">
               <div className="flex items-center gap-3 p-3 rounded-full
-              border-main7">
+              border border-main7">
                 <img
                   src=""
                   alt="Google"
@@ -79,6 +79,34 @@ const Register = () => {
                 <h4 className="md:text-[14px] ss:text-[14px] text-[13px]  
                 tracking-tight font-semibold text-main2">
                   Continue with Google
+                </h4>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 rounded-full
+              border border-main7">
+                <img
+                  src=""
+                  alt="Apple"
+                  className=""
+                />
+
+                <h4 className="md:text-[14px] ss:text-[14px] text-[13px]  
+                tracking-tight font-semibold text-main2">
+                  Continue with Apple
+                </h4>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 rounded-full
+              border border-main7">
+                <img
+                  src=""
+                  alt="Facebook"
+                  className=""
+                />
+
+                <h4 className="md:text-[14px] ss:text-[14px] text-[13px]  
+                tracking-tight font-semibold text-main2">
+                  Continue with Facebook
                 </h4>
               </div>
             </div>
