@@ -37,6 +37,7 @@ import apple from './apple.svg';
 import facebook from './facebook.svg';
 import google from './google.svg';
 import incmail from './incmail.svg';
+import useradd from './useradd.svg';
 
 export {
     logo,
@@ -78,6 +79,7 @@ export {
     facebook,
     google,
     incmail,
+    useradd,
 }
 
 export const heroImages = [

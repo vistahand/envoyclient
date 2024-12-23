@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { BiCopyright } from 'react-icons/bi';
@@ -9,6 +9,7 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const RegisterStart = ({ onNext }) => {
   // const navigate = useNavigate();
+  const formRef = useRef();
   const [showChoosePass, setShowChoosePass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
@@ -19,10 +20,6 @@ const RegisterStart = ({ onNext }) => {
   const toggleConfirmPassVisibility = () => {
     setShowConfirmPass(!showConfirmPass);
   };
-
-  const handleNextStep = () => {
-    onNext();
-  }
 
   const formik = useFormik({
     initialValues: {
@@ -43,7 +40,7 @@ const RegisterStart = ({ onNext }) => {
     }),
     
     onSubmit: (values) => {
-      
+      onNext();
     },
   });
 
@@ -134,7 +131,8 @@ const RegisterStart = ({ onNext }) => {
             </div>
 
             <div className='w-full'>
-              <form className='flex flex-col w-full gap-5'>
+              <form ref={formRef} onSubmit={formik.handleSubmit}
+              className='flex flex-col w-full gap-5'>
                 <div className='flex flex-col md:w-[80%] ss:w-[80%] w-full 
                 md:gap-4 ss:gap-4 gap-4 mt-1'>
                   <div className="relative flex flex-col">
@@ -298,7 +296,7 @@ const RegisterStart = ({ onNext }) => {
                 </p>
 
                 <div className='w-full'>
-                  <button onClick={handleNextStep}
+                  <button type="submit"
                   className='bg-primary text-[13px] py-3.5 px-12
                   flex text-white rounded-full grow4 cursor-pointer
                   items-center justify-center gap-3'>
@@ -312,7 +310,8 @@ const RegisterStart = ({ onNext }) => {
               </form>
             </div>
 
-            <div className='flex md:relative absolute w-full md:mt-12 bottom-0'>
+            <div className='flex md:relative absolute w-full md:mt-12 
+            bottom-0'>
               <div className="flex w-full">
                 <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
                 ss:text-[18px] text-[15px] mt-1 text-main4' />

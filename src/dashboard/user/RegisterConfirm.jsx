@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { BiCopyright } from 'react-icons/bi';
@@ -7,6 +8,7 @@ import { HiOutlineArrowRight } from 'react-icons/hi';
 
 const RegisterConfirm = ({ onNext }) => {
   // const navigate = useNavigate();
+  const formRef = useRef();
 
   const formik = useFormik({
     initialValues: {
@@ -60,7 +62,8 @@ const RegisterConfirm = ({ onNext }) => {
             </div>
 
             <div className='w-full'>
-              <form className='flex flex-col w-full gap-5'>
+              <form ref={formRef} onSubmit={formik.handleSubmit}
+              className='flex flex-col w-full gap-5'>
                 <div className='flex md:w-[80%] ss:w-[80%] w-full mt-1'>
                     <div className="relative flex flex-col w-full">
                         <input
@@ -101,7 +104,7 @@ const RegisterConfirm = ({ onNext }) => {
                 </div>
 
                 <div className='w-full'>
-                  <button type="submit"
+                  <button type='submit'
                   className='bg-primary text-[13px] py-3.5 px-12
                   flex text-white rounded-full grow4 cursor-pointer
                   items-center justify-center gap-3'>
