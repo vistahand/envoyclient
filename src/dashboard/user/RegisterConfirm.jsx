@@ -49,7 +49,7 @@ const RegisterConfirm = ({ onNext }) => {
             <div className='w-full'>
               <form className='flex flex-col w-full gap-5'>
                 <div className='flex md:w-[80%] ss:w-[80%] w-full mt-1'>
-                    <div className="relative flex flex-col">
+                    <div className="relative flex flex-col w-full">
                         <input
                             type="text"
                             name="code"
@@ -102,28 +102,24 @@ const RegisterConfirm = ({ onNext }) => {
 
                 <p className="md:text-[15px] ss:text-[16px] text-[14px]  
                 tracking-tight font-medium text-main4 md:leading-[22px]
-                ss:leading-[22px] leading-[20px] md:mt-0 ss:mt-0 mt-1">
+                ss:leading-[22px] leading-[20px] md:mt-2 ss:mt-0 mt-1">
                     Make sure to check your spam folder if you do not find 
-                    our mail in your inbox. Didn't get a code? <br className="hidden
-                    ss:flex"/>
-                    <span href='/login' className='text-primary font-bold'> 
+                    our mail in your inbox. 
+                    <br className="flex"/>Didn't get a code? <span href='/login' className='text-primary font-bold'> 
                     Send the code again in 27s</span>
                 </p>
               </form>
             </div>
 
             <div className='flex w-full md:mt-12 ss:mt-10 mt-8'>
-              <div className="flex md:flex-row ss:flex-row flex-col 
-              w-full items-center md:gap-6 ss:gap-5 gap-3">
-                <div className='flex md:items-center ss:items-center'>
-                  <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
-                  ss:text-[18px] text-[15px] mt-1 text-main4' />
-  
-                  <p className='md:text-[13px] ss:text-[13px] text-[11px] 
-                  text-main4 md:mt-1 ss:mt-1 mt-0.5 font-medium'>
-                    2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
-                  </p>
-                </div>
+              <div className="flex w-full">
+                <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
+                ss:text-[18px] text-[15px] mt-1 text-main4' />
+
+                <p className='md:text-[13px] ss:text-[13px] text-[11px] 
+                text-main4 md:mt-1 ss:mt-1 mt-0.5 font-medium'>
+                  2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
+                </p>
               </div>
             </div>
           </div>

@@ -20,6 +20,10 @@ const RegisterStart = ({ onNext }) => {
     setShowConfirmPass(!showConfirmPass);
   };
 
+  const handleNextStep = () => {
+    onNext();
+  }
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -39,7 +43,7 @@ const RegisterStart = ({ onNext }) => {
     }),
     
     onSubmit: (values) => {
-      onNext();
+      
     },
   });
 
@@ -293,7 +297,7 @@ const RegisterStart = ({ onNext }) => {
                 </p>
 
                 <div className='w-full'>
-                  <button type="submit"
+                  <button onClick={handleNextStep}
                   className='bg-primary text-[13px] py-3.5 px-12
                   flex text-white rounded-full grow4 cursor-pointer
                   items-center justify-center gap-3'>
@@ -308,17 +312,14 @@ const RegisterStart = ({ onNext }) => {
             </div>
 
             <div className='flex w-full md:mt-12 ss:mt-10 mt-8'>
-              <div className="flex md:flex-row ss:flex-row flex-col 
-              w-full items-center md:gap-6 ss:gap-5 gap-3">
-                <div className='flex md:items-center ss:items-center'>
-                  <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
-                  ss:text-[18px] text-[15px] mt-1 text-main4' />
-  
-                  <p className='md:text-[13px] ss:text-[13px] text-[11px] 
-                  text-main4 md:mt-1 ss:mt-1 mt-0.5 font-medium'>
-                    2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
-                  </p>
-                </div>
+              <div className="flex w-full">
+                <BiCopyright className='sm:mr-1 mr-1 md:text-[16px] 
+                ss:text-[18px] text-[15px] mt-1 text-main4' />
+
+                <p className='md:text-[13px] ss:text-[13px] text-[11px] 
+                text-main4 md:mt-1 ss:mt-1 mt-0.5 font-medium'>
+                  2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
+                </p>
               </div>
             </div>
           </div>
