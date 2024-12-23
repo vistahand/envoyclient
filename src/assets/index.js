@@ -33,6 +33,9 @@ import tracking from './tracking.jpg';
 import chat from './chat.svg';
 import track from './track.jpg';
 import register from './register.jpg';
+import apple from './apple.svg';
+import facebook from './facebook.svg';
+import google from './google.svg';
 
 export {
     logo,
@@ -70,6 +73,9 @@ export {
     chat,
     track,
     register,
+    apple,
+    facebook,
+    google,
 }
 
 export const heroImages = [
