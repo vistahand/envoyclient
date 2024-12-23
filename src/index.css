@@ -356,6 +356,19 @@ body, html {
   }
 }
 
+@media (max-width: 480px) {
+  .mobline {
+    line-height: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobauth {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
 .wht {
   filter: invert(1) brightness(100);
 }
