@@ -38,6 +38,10 @@ import facebook from './facebook.svg';
 import google from './google.svg';
 import incmail from './incmail.svg';
 import useradd from './useradd.svg';
+import shome from './shome.svg';
+import packagex from './packagex.svg';
+import invoice from './invoice.svg';
+import savedloc from './savedloc.svg';
 
 export {
     logo,
@@ -80,6 +84,10 @@ export {
     google,
     incmail,
     useradd,
+    savedloc,
+    shome,
+    packagex,
+    invoice,
 }
 
 export const heroImages = [

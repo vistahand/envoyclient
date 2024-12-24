@@ -1,14 +1,13 @@
-import { useState } from 'react';
-import styles from '../../styles';
+// import { useState } from 'react';
 // import { sideLinks } from '../../constants';
 import { logo } from '../../assets';
-import { useNavigate } from 'react-router-dom';
-import { HiLogout } from "react-icons/hi";
+// import { useNavigate } from 'react-router-dom';
+// import { HiLogout } from "react-icons/hi";
 
 const Sidebar = () => {
 //   const { data: session } = useSession();
-    const navigate = useNavigate();
-    const [active, setActive] = useState('');
+    // const navigate = useNavigate();
+    // const [active, setActive] = useState('');
 
 //   useEffect(() => {
 //     if (session) {

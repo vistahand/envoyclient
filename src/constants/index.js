@@ -6,8 +6,8 @@ import { FaFacebook } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 import { BiLogoLinkedin } from "react-icons/bi";
 
-import { blog1, blog2, blog3, cash, fileinvoice, mapsearch, 
-    message, movecard1, movecard2, movecard3, test1, 
+import { blog1, blog2, blog3, cash, fileinvoice, invoice, mapsearch, 
+    message, movecard1, movecard2, movecard3, packagex, savedloc, shome, test1, 
 } from "../assets";
 
 import { ReactComponent as book } from '../assets/book.svg';
@@ -364,5 +364,32 @@ export const footerLinks = [
                 route: "",
             },
         ],
+    },
+];
+
+export const sideLinks = [
+    {
+        id: 'home',
+        title: 'Home',
+        route: '/user',
+        Icon: shome,
+    },
+    {
+        id: 'shipments',
+        title: 'Shipments',
+        route: '/user/shipments',
+        Icon: packagex,
+    },
+    {
+        id: 'paymentsandinvoices',
+        title: 'Payments and Invoices',
+        route: '/user/paymentsandinvoices',
+        Icon: invoice,
+    },
+    {
+        id: 'savedlocations',
+        title: 'Saved Locations',
+        route: '/user/savedlocations',
+        Icon: savedloc,
     },
 ];
