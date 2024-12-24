@@ -33,10 +33,9 @@ const Sidebar = () => {
 //   };
 
   return (
-        <section className='px-8 flex items-center z-20'>
+        <section className='w-full px-8 flex items-center z-20'>
             <div className="w-full flex justify-between items-center py-10">
-                <div className="flex flex-col items-center w-full
-                h-screen">
+                <div className="flex flex-col items-center w-full h-screen">
                     <div className='w-full'>
                         <img
                             src={logo} alt='logo'
@@ -44,25 +43,24 @@ const Sidebar = () => {
                         />
                     </div>
 
-                    <ul className="list-none flex flex-col gap-3 hidden md:flex
-                    mt-24">
+                    <ul className="list-none flex flex-col gap-2.5 mt-16 w-full">
                         {sideLinks.map((link) => (
                             <li
                                 key={link.id}
                                 className={`${
                                 active === link.title
-                                    ? 'bg-secondary rounded-md text-primary'
-                                    : 'bg-none text-textalt hover:text-secondary grow3'
-                                } cursor-pointer text-[19px] list-item`}
+                                    ? 'bg-primary rounded-lg text-white font-bold'
+                                    : 'bg-none text-main2 grow4 font-semibold'
+                                } cursor-pointer text-[17px] tracking-tight`}
                                 onClick={() => {
                                     handleSideItemClick(link);
                                 }}
                             >
-                                <div className={`py-2 px-5 flex gap-6 items-center`}>
+                                <div className={`p-3 flex gap-4 items-center`}>
                                     <img 
                                         src={link.Icon}
                                         alt={link.id}
-                                        className=''
+                                        className='w-[1.6rem] h-auto'
                                     />
                                     {link.title}
                                 </div>
