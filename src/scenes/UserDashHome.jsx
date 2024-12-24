@@ -1,4 +1,5 @@
-import { SectionWrapperDash } from '../hoc';
+// import { SectionWrapperDash } from '../hoc';
+import styles from '../styles';
 import {
   Navbar,
   Sidebar,
@@ -9,19 +10,19 @@ import { Helmet } from 'react-helmet';
 const UserDashHome = () => {
 
   return (
-    <div className='font-manrope'>
+    <div className={`${styles.padding1} font-manrope`}>
       <Helmet>
         <title>User | Envoy Angel Shipping and Logistics</title>
         <meta name="description" content="Content" />
       </Helmet>
 
-      <div className='flex w-full relative'>
-        <div className='md:w-[23%] footer hidden md:flex'>
+      <div className='flex w-full h-full relative'>
+        <div className='w-[23%] footer hidden md:flex fixed overflow-y-auto'>
           <Sidebar />
         </div>
         
         <div className='flex flex-col flex-1 w-full'>
-          <div className='fixed w-full md:w-[77%]'>
+          <div className='fixed w-full md:w-[77%] top-0 left-[23%]'>
             <Navbar />
           </div>
           
@@ -31,4 +32,4 @@ const UserDashHome = () => {
   )
 };
 
-export default SectionWrapperDash(UserDashHome, '');
+export default UserDashHome;
