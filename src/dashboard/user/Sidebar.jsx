@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Sidebar = () => {
 //   const { data: session } = useSession();
     const navigate = useNavigate();
-    const [active, setActive] = useState('home');
+    const [active, setActive] = useState('Home');
 
 //   useEffect(() => {
 //     if (session) {
@@ -59,7 +59,11 @@ const Sidebar = () => {
                                 }}
                             >
                                 <div className={`py-2 px-5 flex gap-6 items-center`}>
-                                    {link.Icon && <link.Icon />}
+                                    <img 
+                                        src={link.Icon}
+                                        alt={link.id}
+                                        className=''
+                                    />
                                     {link.title}
                                 </div>
                             </li>
