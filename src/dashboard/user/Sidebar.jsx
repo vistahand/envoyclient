@@ -42,7 +42,7 @@ const Sidebar = () => {
                         />
                     </div>
 
-                    <ul className="list-none flex flex-col gap-2 mt-16 w-full">
+                    <ul className="list-none flex flex-col gap-2 mt-14 w-full">
                         {sideLinks.map((link) => (
                             <li
                                 key={link.id}
