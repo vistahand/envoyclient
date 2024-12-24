@@ -50,7 +50,7 @@ const Sidebar = () => {
                                 active === link.title
                                     ? 'bg-primary rounded-lg text-white font-bold'
                                     : 'bg-none text-main2 grow4 font-semibold'
-                                } cursor-pointer text-[17px] tracking-tight`}
+                                } cursor-pointer text-[16px] tracking-tight`}
                                 onClick={() => {
                                     handleSideItemClick(link);
                                 }}
@@ -59,7 +59,7 @@ const Sidebar = () => {
                                     <img 
                                         src={link.Icon}
                                         alt={link.id}
-                                        className='w-[1.6rem] h-auto'
+                                        className='w-[1.5rem] h-auto'
                                     />
                                     {link.title}
                                 </div>
@@ -81,36 +81,36 @@ const Sidebar = () => {
                     <ul className="list-none flex flex-col gap-2.5 mt-32 
                     w-full border-t border-t-main7 pt-12">
                         <li className='text-main2 grow4 font-semibold
-                        cursor-pointer text-[17px] tracking-tight'>
+                        cursor-pointer text-[16px] tracking-tight'>
                             <div className={`flex p-3 gap-4 items-center`}>
                                 <img 
                                     src={help}
                                     alt='helpcentre'
-                                    className='w-[1.6rem] h-auto'
+                                    className='w-[1.5rem] h-auto'
                                 />
                                 Help Centre
                             </div>
                         </li>
 
                         <li className='text-main2 grow4 font-semibold
-                        cursor-pointer text-[17px] tracking-tight'>
+                        cursor-pointer text-[16px] tracking-tight'>
                             <div className={`flex p-3 gap-4 items-center`}>
                                 <img 
                                     src={settings}
                                     alt='settings'
-                                    className='w-[1.6rem] h-auto'
+                                    className='w-[1.5rem] h-auto'
                                 />
                                 Settings
                             </div>
                         </li>
 
                         <li className='text-logRed grow4 font-semibold
-                        cursor-pointer text-[17px] tracking-tight'>
+                        cursor-pointer text-[16px] tracking-tight'>
                             <div className={`flex p-3 gap-4 items-center`}>
                                 <img 
                                     src={logout}
                                     alt='logout'
-                                    className='w-[1.6rem] h-auto'
+                                    className='w-[1.5rem] h-auto'
                                 />
                                 Logout
                             </div>
