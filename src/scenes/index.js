@@ -4,10 +4,13 @@ import PaymentReviewPage from './PaymentReviewPage';
 import TrackResultsPage from './TrackResultsPage';
 import RegisterPage from './RegisterPage';
 
+import UserDashHome from './UserDashHome';
+
 export {
     HomePage,
     CreateShipmentPage,
     PaymentReviewPage,
     TrackResultsPage,
     RegisterPage,
+    UserDashHome,
 }

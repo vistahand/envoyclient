@@ -5,9 +5,9 @@ import {
   PaymentReviewPage, 
   TrackResultsPage, 
   RegisterPage,
+  UserDashHome,
 } from './scenes';
 import ScrollToTopButton from './constants/ScrollToTop';
-import { UserDashHome } from './pages';
 
 
 const App = () => {
