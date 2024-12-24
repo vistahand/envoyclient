@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { BiCopyright } from 'react-icons/bi';
@@ -7,10 +8,10 @@ import { register, useradd } from '../../assets';
 import { TiArrowSortedDown } from "react-icons/ti";
 import { HiOutlineArrowRight } from 'react-icons/hi';
 
-const RegisterFinish = ({ onNext }) => {
+const RegisterFinish = () => {
     const [countries, setCountries] = useState([]);
     const formRef = useRef();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
   
     useEffect(() => {
         const fetchCountries = async () => {
@@ -46,7 +47,7 @@ const RegisterFinish = ({ onNext }) => {
         }),
 
         onSubmit: (values) => {
-            onNext();
+            navigate('/user');
         },
     });
 
