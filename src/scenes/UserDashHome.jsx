@@ -16,12 +16,12 @@ const UserDashHome = () => {
       </Helmet>
 
       <div className='flex w-full relative'>
-        <div className='md:w-1/5 footer'>
+        <div className='md:w-[23%] footer hidden md:flex'>
           <Sidebar />
         </div>
         
         <div className='flex flex-col flex-1 w-full'>
-          <div className='fixed w-full md:w-4/5'>
+          <div className='fixed w-full md:w-[77%]'>
             <Navbar />
           </div>
           
