@@ -42,6 +42,9 @@ import shome from './shome.svg';
 import packagex from './packagex.svg';
 import invoice from './invoice.svg';
 import savedloc from './savedloc.svg';
+import help from './help.svg';
+import settings from './settings.svg';
+import logout from './logout.svg';
 
 export {
     logo,
@@ -88,6 +91,9 @@ export {
     shome,
     packagex,
     invoice,
+    help,
+    settings,
+    logout,
 }
 
 export const heroImages = [
