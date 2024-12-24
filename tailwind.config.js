@@ -27,6 +27,7 @@ module.exports = {
         redClose: "#EB1E1E",
         redCircle: "#FDE9E9",
         realRed: "#FF0000",
+        logRed: '#DF1818',
       },
       fontFamily: {
         'manrope': ["Manrope", "sans-serif"],

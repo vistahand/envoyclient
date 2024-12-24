@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { sideLinks } from '../../constants';
-import { logo } from '../../assets';
+import { help, logo, logout, settings } from '../../assets';
 import { useNavigate } from 'react-router-dom';
 // import { HiLogout } from "react-icons/hi";
 
@@ -34,7 +34,7 @@ const Sidebar = () => {
 
   return (
         <section className='w-full px-8 flex items-center z-20'>
-            <div className="w-full flex justify-between items-center py-10">
+            <div className="w-full flex items-center py-10">
                 <div className="flex flex-col items-center w-full h-screen">
                     <div className='w-full'>
                         <img
@@ -77,6 +77,45 @@ const Sidebar = () => {
                                 Logout
                             </div>
                         </li> */}
+                    </ul>
+
+                    <ul className="list-none flex flex-col gap-2.5 mt-32 
+                    w-full border-t border-t-main7 pt-12">
+                        <li className='text-main2 grow4 font-semibold
+                        cursor-pointer text-[17px] tracking-tight'>
+                            <div className={`flex p-3 gap-4 items-center`}>
+                                <img 
+                                    src={help}
+                                    alt='helpcentre'
+                                    className='w-[1.6rem] h-auto'
+                                />
+                                Help Centre
+                            </div>
+                        </li>
+
+                        <li className='text-main2 grow4 font-semibold
+                        cursor-pointer text-[17px] tracking-tight'>
+                            <div className={`flex p-3 gap-4 items-center`}>
+                                <img 
+                                    src={settings}
+                                    alt='settings'
+                                    className='w-[1.6rem] h-auto'
+                                />
+                                Settings
+                            </div>
+                        </li>
+
+                        <li className='text-logRed grow4 font-semibold
+                        cursor-pointer text-[17px] tracking-tight'>
+                            <div className={`flex p-3 gap-4 items-center`}>
+                                <img 
+                                    src={logout}
+                                    alt='logout'
+                                    className='w-[1.6rem] h-auto'
+                                />
+                                Logout
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
