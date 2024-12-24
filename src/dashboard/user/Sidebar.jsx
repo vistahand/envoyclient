@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { sideLinks } from '../../constants';
 import { help, logo, logout, settings } from '../../assets';
 import { useNavigate } from 'react-router-dom';
-// import { HiLogout } from "react-icons/hi";
 
 const Sidebar = () => {
 //   const { data: session } = useSession();
@@ -43,7 +42,7 @@ const Sidebar = () => {
                         />
                     </div>
 
-                    <ul className="list-none flex flex-col gap-2.5 mt-16 w-full">
+                    <ul className="list-none flex flex-col gap-2 mt-16 w-full">
                         {sideLinks.map((link) => (
                             <li
                                 key={link.id}
@@ -79,7 +78,7 @@ const Sidebar = () => {
                         </li> */}
                     </ul>
 
-                    <ul className="list-none flex flex-col gap-2.5 mt-32 
+                    <ul className="list-none flex flex-col gap-2 mt-32 
                     w-full border-t border-t-main7 pt-12">
                         <li className='text-main2 grow4 font-semibold
                         cursor-pointer text-[17px] tracking-tight'>
@@ -117,6 +116,18 @@ const Sidebar = () => {
                             </div>
                         </li>
                     </ul>
+
+                    <div className="flex flex-col gap-1.5 mt-14 w-full 
+                    border-t border-t-main7 pt-3">
+                        <p className='text-main4 text-[13px] tracking-tight
+                        font-medium'>
+                            v. 1.0.1
+                        </p>
+                      
+                        <p className='text-[13px] text-main4 mt-0.5 font-medium tracking-tight'>
+                            ©2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
