@@ -1,13 +1,13 @@
-// import { useState } from 'react';
-// import { sideLinks } from '../../constants';
+import { useState } from 'react';
+import { sideLinks } from '../../constants';
 import { logo } from '../../assets';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { HiLogout } from "react-icons/hi";
 
 const Sidebar = () => {
 //   const { data: session } = useSession();
-    // const navigate = useNavigate();
-    // const [active, setActive] = useState('');
+    const navigate = useNavigate();
+    const [active, setActive] = useState('home');
 
 //   useEffect(() => {
 //     if (session) {
@@ -19,12 +19,12 @@ const Sidebar = () => {
 //     }
 //   }, [pathname, session]);
 
-//   const handleSideItemClick = (link) => {
-//     if (session) {
-//       setActive(link.title);
-//       router.push(link.route);
-//     }
-//   };
+    const handleSideItemClick = (link) => {
+        // if (session) {
+        setActive(link.title);
+        navigate(link.route);
+        // }
+    };
 
 //   const handleLogout = () => {
 //     if (session) {
@@ -44,39 +44,38 @@ const Sidebar = () => {
                         />
                     </div>
 
-                {/* <ul className="list-none flex flex-col gap-3 hidden md:flex
-                mt-24">
-                    {sideLinks.map((link) => (
-                    <li
-                        key={link.id}
-                        className={`${
-                        active === link.title
-                            ? 'bg-secondary rounded-md text-primary'
-                            : 'bg-none text-textalt hover:text-secondary grow3'
-                        } ${!session ? 'opacity-50' : 'cursor-pointer'}  
-                        text-[19px] list-item`}
-                        onClick={() => {
-                        handleSideItemClick(link);
-                        }}
-                    >
-                        <div className={`py-2 px-5 flex gap-6 items-center`}>
-                        {link.Icon && <link.Icon />}
-                        {link.title}
-                        </div>
-                    </li>
-                    ))}
+                    <ul className="list-none flex flex-col gap-3 hidden md:flex
+                    mt-24">
+                        {sideLinks.map((link) => (
+                            <li
+                                key={link.id}
+                                className={`${
+                                active === link.title
+                                    ? 'bg-secondary rounded-md text-primary'
+                                    : 'bg-none text-textalt hover:text-secondary grow3'
+                                } cursor-pointer text-[19px] list-item`}
+                                onClick={() => {
+                                    handleSideItemClick(link);
+                                }}
+                            >
+                                <div className={`py-2 px-5 flex gap-6 items-center`}>
+                                    {link.Icon && <link.Icon />}
+                                    {link.title}
+                                </div>
+                            </li>
+                        ))}
 
-                    <li className={`text-[19px] list-item
-                    ${!session ? 'opacity-50' : 'hover:text-secondary cursor-pointer grow3'} 
-                    text-textalt mt-20`}>
-                    <div className='flex gap-6 px-5 items-center'
-                    onClick={handleLogout}>
-                        <HiLogout className='transform scale-x-[-1]'
-                        />
-                        Logout
-                    </div>
-                    </li>
-                </ul> */}
+                        {/* <li className={`text-[19px] list-item
+                        ${!session ? 'opacity-50' : 'hover:text-secondary cursor-pointer grow3'} 
+                        text-textalt mt-20`}>
+                            <div className='flex gap-6 px-5 items-center'
+                            onClick={handleLogout}>
+                                <HiLogout className='transform scale-x-[-1]'
+                                />
+                                Logout
+                            </div>
+                        </li> */}
+                    </ul>
                 </div>
             </div>
         </section>
