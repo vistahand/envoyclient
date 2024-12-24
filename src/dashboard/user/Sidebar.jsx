@@ -42,7 +42,7 @@ const Sidebar = () => {
                         />
                     </div>
 
-                    <ul className="list-none flex flex-col gap-2 mt-14 w-full">
+                    <ul className="list-none flex flex-col gap-2.5 mt-14 w-full">
                         {sideLinks.map((link) => (
                             <li
                                 key={link.id}
@@ -78,7 +78,7 @@ const Sidebar = () => {
                         </li> */}
                     </ul>
 
-                    <ul className="list-none flex flex-col gap-2 mt-32 
+                    <ul className="list-none flex flex-col gap-2.5 mt-32 
                     w-full border-t border-t-main7 pt-12">
                         <li className='text-main2 grow4 font-semibold
                         cursor-pointer text-[17px] tracking-tight'>
