@@ -7,6 +7,7 @@ import {
   RegisterPage,
 } from './scenes';
 import ScrollToTopButton from './constants/ScrollToTop';
+import { UserDashHome } from './pages';
 
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
           <Route path='/trackshipment' element={<TrackResultsPage />} />
           
           <Route path='/register' element={<RegisterPage />} />
+          <Route path='/user' element={<UserDashHome />} />
         </Routes>
 
         <ScrollToTopButton />
