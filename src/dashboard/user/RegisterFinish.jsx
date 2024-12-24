@@ -63,7 +63,7 @@ const RegisterFinish = ({ onNext }) => {
                 bg-primary1 rounded-full'>
                     <img
                         src={useradd}
-                        alt="incomingmail"
+                        alt="useradd"
                         className='md:w-[10rem] ss:w-[8rem] w-[6rem] 
                         h-auto md:p-12 ss:p-10 p-6'
                     />
