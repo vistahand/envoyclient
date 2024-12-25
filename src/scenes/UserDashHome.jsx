@@ -39,14 +39,15 @@ const UserDashHome = () => {
           <Sidebar onTabChange={handleTabChange}/>
         </div>
         
-        <div className='flex flex-col flex-1 w-full'>
+        <div className='w-full'>
           <div className='fixed w-full md:w-[80%] top-0 left-[20%]'>
             <Navbar />
+
+            <div className='md:py-6 md:px-7 ss:py-6 py-5'>
+              <TabComponent />
+            </div>
           </div>
-          
-          <div className='md:py-6 md:px-7 ss:py-6 py-5'>
-            <TabComponent />
-          </div>
+        
         </div>
       </div>
     </div>
