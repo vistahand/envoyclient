@@ -17,7 +17,7 @@ const Navbar = () => {
           <input
             type="text"
             placeholder="Search for anything"
-            className="text-main4 focus:outline-none text-[15px] 
+            className="text-main4 focus:outline-none text-[15px] placeholder:text-[14px]
             placeholder:text-main4 font-semibold tracking-tight bg-transparent"
           />
         </div>
