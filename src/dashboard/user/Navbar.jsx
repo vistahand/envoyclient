@@ -7,7 +7,7 @@ import { profilepic } from "../../assets";
 const Navbar = () => {
   return (
     <section className='w-full flex items-center z-20 border-b border-b-main7'>
-      <div className="w-full flex items-center py-4 px-8 justify-between">
+      <div className="w-full flex items-center py-4 px-7 justify-between">
         <div className='bg-mainalt w-[50%] rounded-full flex p-3 gap-3
         items-center'>
           <IoSearchOutline
@@ -26,7 +26,7 @@ const Navbar = () => {
           <a href="/user" 
           className="bg-mainalt rounded-full p-3 relative grow2">
             <FiMail
-              className='text-main2 text-[20px]'
+              className='text-main2 text-[19px]'
             />
             
             <span className='absolute top-0 right-0 bg-logRed 
@@ -37,7 +37,7 @@ const Navbar = () => {
           <a href="/user" 
           className="bg-mainalt rounded-full p-3 relative grow2">
             <PiBell
-              className='text-main2 text-[20px]'
+              className='text-main2 text-[19px]'
               strokeWidth={3}
             />
 
