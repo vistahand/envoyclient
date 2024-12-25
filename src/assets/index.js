@@ -45,6 +45,7 @@ import savedloc from './savedloc.svg';
 import help from './help.svg';
 import settings from './settings.svg';
 import logout from './logout.svg';
+import profilepic from './profilepic.jpg';
 
 export {
     logo,
@@ -94,6 +95,7 @@ export {
     help,
     settings,
     logout,
+    profilepic,
 }
 
 export const heroImages = [

@@ -2,6 +2,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { PiBell } from "react-icons/pi";
+import { profilepic } from "../../assets";
 
 const Navbar = () => {
   return (
@@ -36,8 +37,12 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="rounded-full">
-              
+            <div className="rounded-full overflow-hidden">
+              <img
+                src={profilepic}
+                alt="profilepic"
+                className="w-11 h-11 object-cover"
+              />
             </div>
 
             <p className="text-[16px] tracking-tight text-main2
