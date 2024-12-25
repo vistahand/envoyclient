@@ -4,6 +4,10 @@ import RegisterFinish from './RegisterFinish';
 
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import Home from './Home';
+import Shipments from './Shipments';
+import PaymentsInv from './PaymentsInv';
+import SavedLoc from './SavedLoc';
 
 export {
     RegisterStart,
@@ -11,4 +15,8 @@ export {
     RegisterFinish,
     Sidebar,
     Navbar,
+    Home,
+    Shipments,
+    PaymentsInv,
+    SavedLoc,
 }
