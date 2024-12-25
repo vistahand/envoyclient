@@ -59,7 +59,9 @@ const Sidebar = () => {
                                     <img 
                                         src={link.Icon}
                                         alt={link.id}
-                                        className='w-[1.5rem] h-auto'
+                                        className={`w-[1.5rem] h-auto ${
+                                            active === link.title ? 's-white' : 's-main2'
+                                        }`}                                  
                                     />
                                     {link.title}
                                 </div>

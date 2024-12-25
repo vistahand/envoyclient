@@ -124,27 +124,6 @@ body, html {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-/* 
-@media (min-width: 1060px) {
-  .help {
-    background-image: url('./assets/helpImg.png');
-    background-size: 49vw 100%;
-    background-repeat: no-repeat;
-    background-position: right top;
-  }
-}
-
-.footer {
-  background-image: url('./assets/footer.jpg');
-  object-fit: cover;
-}
-
-.heroProducts {
-  background-image: url('./assets/productsHeroImage.jpg');
-  background-position: center;
-  background-size: cover;
-} */
-
 @media (min-width: 1024px) {
   .sticky-cart {
     position: -webkit-sticky; /* For Safari */
@@ -461,9 +440,17 @@ body, html {
   transform: translateX(4px);
 }
 
+.s-white {
+  stroke: white;
+}
+
+.s-main2 {
+  stroke: #3c3c3c;
+}
+
 .expandable-div {
   transition: width 0.3s ease-in-out;
-  overflow: hidden; /* Ensures content doesn’t jump or overflow abruptly */
+  overflow: hidden;
 }
 
 .menu-slide-enter {
@@ -471,7 +458,6 @@ body, html {
   opacity: 0.8;
   will-change: transform;
   will-change: opacity;
-
 }
 
 .menu-slide-enter-active {
