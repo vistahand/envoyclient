@@ -2,14 +2,10 @@ import styles from '../styles';
 import {
   Navbar,
   Sidebar,
-  Home,
-  Shipments,
-  PaymentsInv,
-  SavedLoc,
 } from '../dashboard/user';
 
 import { Helmet } from 'react-helmet';
-import { Routes, Route } from 'react-router-dom';
+import { Outlet} from 'react-router-dom';
 
 const UserDashHome = () => {
  
@@ -30,12 +26,7 @@ const UserDashHome = () => {
             <Navbar />
 
             <div className='md:py-6 ss:py-6 py-5 md:px-7'>
-              <Routes>
-                <Route index element={<Home />} />
-                <Route path='shipments' element={<Shipments />} />
-                <Route path='paymentsandinvoices' element={<PaymentsInv />} />
-                <Route path='savedlocations' element={<SavedLoc />} />
-              </Routes>
+              <Outlet />
             </div>
           </div>
         </div>

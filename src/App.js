@@ -24,6 +24,7 @@ const App = () => {
           <Route path='/trackshipment' element={<TrackResultsPage />} />
           
           <Route path='/register' element={<RegisterPage />} />
+          
           <Route path='/user' element={<UserDashHome />}>
             <Route index element={<Home />} />
             <Route path='shipments' element={<Shipments />} />
