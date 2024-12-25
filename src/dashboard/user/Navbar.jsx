@@ -21,31 +21,32 @@ const Navbar = () => {
           />
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <div className="bg-mainalt rounded-full p-3">
             <FiMail
-              className='text-main2 text-[16px]'
+              className='text-main2 text-[20px]'
             />
           </div>
 
           <div className="bg-mainalt rounded-full p-3">
             <PiBell
-              className='text-main2 text-[16px]'
+              className='text-main2 text-[20px]'
+              strokeWidth={3}
             />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="rounded-full">
               
             </div>
 
-            <p className="text-[14px] tracking-tight text-main2
+            <p className="text-[16px] tracking-tight text-main2
             font-semibold">
               Peter Alaks
             </p>
 
             <MdKeyboardArrowDown
-              className='text-main2 text-[16px]'
+              className='text-main2 text-[20px]'
             />
           </div>
         </div>
