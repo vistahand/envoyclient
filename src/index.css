@@ -441,11 +441,13 @@ body, html {
 }
 
 .s-white {
-  stroke: white;
+  filter: contrast(10000) invert(1);
 }
 
 .s-main2 {
-  stroke: #3c3c3c;
+  filter: invert(0) sepia(1) saturate(0) hue-rotate(0deg);
+  mix-blend-mode: multiply;
+  color: #3c3c3c;
 }
 
 .expandable-div {
