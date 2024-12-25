@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { sideLinks } from '../../constants';
 import { help, logo, logout, settings } from '../../assets';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ onTabChange }) => {
+const Sidebar = () => {
 //   const { data: session } = useSession();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [active, setActive] = useState('Home');
 
 //   useEffect(() => {
@@ -21,7 +21,7 @@ const Sidebar = ({ onTabChange }) => {
     const handleSideItemClick = (link) => {
         // if (session) {
         setActive(link.title);
-        onTabChange(link.route);
+        navigate(link.route);
         // }
     };
 
