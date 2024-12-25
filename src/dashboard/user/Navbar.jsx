@@ -22,21 +22,31 @@ const Navbar = () => {
           />
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="bg-mainalt rounded-full p-3">
+        <div className="flex items-center gap-7">
+          <a href="/user" 
+          className="bg-mainalt rounded-full p-3 relative grow2">
             <FiMail
               className='text-main2 text-[20px]'
             />
-          </div>
+            
+            <span className='absolute top-0 right-0 bg-logRed 
+              rounded-full w-[12px] h-[12px]'
+            />
+          </a>
 
-          <div className="bg-mainalt rounded-full p-3">
+          <a href="/user" 
+          className="bg-mainalt rounded-full p-3 relative grow2">
             <PiBell
               className='text-main2 text-[20px]'
               strokeWidth={3}
             />
-          </div>
 
-          <div className="flex items-center gap-4">
+            <span className='absolute top-0 right-0 bg-logRed 
+              rounded-full w-[12px] h-[12px]'
+            />
+          </a>
+
+          <div className="flex items-center gap-4 cursor-pointer grow2">
             <div className="rounded-full overflow-hidden">
               <img
                 src={profilepic}
