@@ -7,8 +7,8 @@ import { profilepic } from "../../assets";
 const Navbar = () => {
   return (
     <section className='w-full flex items-center z-20 border-b border-b-main7'>
-      <div className="w-full flex items-center py-4 px-7 justify-between">
-        <div className='bg-mainalt w-[50%] rounded-full flex p-3 gap-3
+      <div className="w-full flex items-center py-5 px-7 justify-between">
+        <div className='bg-mainalt w-[50%] rounded-full flex p-3 gap-3 
         items-center'>
           <IoSearchOutline
             className='w-[1.3rem] h-auto text-main2'
@@ -17,8 +17,9 @@ const Navbar = () => {
           <input
             type="text"
             placeholder="Search for anything"
-            className="text-main4 focus:outline-none text-[15px] placeholder:text-[14px]
-            placeholder:text-main4 font-semibold tracking-tight bg-transparent"
+            className="text-main4 focus:outline-none text-[15px] w-full
+            placeholder:text-[14px] placeholder:text-main4 font-semibold 
+            tracking-tight bg-transparent"
           />
         </div>
 

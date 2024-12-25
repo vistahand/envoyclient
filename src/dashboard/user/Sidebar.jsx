@@ -32,7 +32,7 @@ const Sidebar = () => {
 //   };
 
   return (
-        <section className='w-full px-8 flex items-center z-20'>
+        <section className='w-full px-7 flex items-center z-20'>
             <div className="w-full flex items-center py-10">
                 <div className="flex flex-col items-center w-full h-screen">
                     <div className='w-full'>

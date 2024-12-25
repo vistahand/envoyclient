@@ -17,12 +17,12 @@ const UserDashHome = () => {
       </Helmet>
 
       <div className='flex w-full h-full relative'>
-        <div className='w-[22%] footer hidden md:flex fixed overflow-y-auto'>
+        <div className='w-[20%] footer hidden md:flex fixed overflow-y-auto'>
           <Sidebar />
         </div>
         
         <div className='flex flex-col flex-1 w-full'>
-          <div className='fixed w-full md:w-[78%] top-0 left-[22%]'>
+          <div className='fixed w-full md:w-[80%] top-0 left-[20%]'>
             <Navbar />
           </div>
           
