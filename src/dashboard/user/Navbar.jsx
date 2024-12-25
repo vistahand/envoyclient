@@ -1,5 +1,7 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { FiMail } from "react-icons/fi";
+import { PiBell } from "react-icons/pi";
 
 const Navbar = () => {
   return (
@@ -20,17 +22,21 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="bg-mainalt rounded-full">
-
+          <div className="bg-mainalt rounded-full p-3">
+            <FiMail
+              className='text-main2 text-[16px]'
+            />
           </div>
 
-          <div className="bg-mainalt rounded-full">
-
+          <div className="bg-mainalt rounded-full p-3">
+            <PiBell
+              className='text-main2 text-[16px]'
+            />
           </div>
 
           <div className="flex items-center gap-3">
             <div className="rounded-full">
-
+              
             </div>
 
             <p className="text-[14px] tracking-tight text-main2
@@ -39,7 +45,7 @@ const Navbar = () => {
             </p>
 
             <MdKeyboardArrowDown
-              className='text-main2 text-[16px] font-medium'
+              className='text-main2 text-[16px]'
             />
           </div>
         </div>
