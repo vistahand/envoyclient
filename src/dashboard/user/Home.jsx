@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import { ReactComponent as LocalIcon } from '../../assets/loc-ship.svg';
+import { ReactComponent as LocalIcon } from '../../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../../assets/int-ship.svg';
 
 const Home = () => {
@@ -45,7 +45,7 @@ const Home = () => {
             </h4>
           </div>
 
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-5'>
             <div className='flex items-center gap-2'>
               <h4 className='tracking-tight text-main4 md:text-[16px] 
               ss:text-[16px] text-[14px] font-semibold'>
@@ -56,7 +56,7 @@ const Home = () => {
             </div>
 
             <div className='w-full flex md:flex-row ss:flex-row flex-col 
-            gap-4'>
+            md:gap-6 ss:gap-6 gap-5'>
               <div className='md:w-[50%] bg-primary3 rounded-lg p-5 flex 
               flex-col gap-6'>
                 <div className='flex items-center gap-2'>
@@ -71,7 +71,7 @@ const Home = () => {
                   </p>
                 </div>
 
-                <div className="w-full flex gap-6 items-center">
+                <div className="w-full flex gap-5 items-center">
                   <div className="flex gap-2.5">
                     <img
                       src={
@@ -135,6 +135,85 @@ const Home = () => {
                       11:25AM
                     </p>
                   </div>
+
+                  <h3 className='text-primary underline cursor-pointer
+                  hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
+                  text-[13px] font-semibold mt-6'>
+                    See shipment details
+                  </h3>
+                </div>
+              </div>
+
+              <div className='md:w-[50%] bg-primary3 rounded-lg p-5 flex 
+              flex-col gap-6'>
+                <div className='flex items-center gap-2'>
+                  <LocalIcon 
+                    className='w-[1.5rem] h-auto object-contain
+                    text-primary'
+                  />
+
+                  <p className='text-primary tracking-tight md:text-[14px] 
+                  ss:text-[15px] text-[13px] font-bold'>
+                    Local Shipping
+                  </p>
+                </div>
+
+                <div className="w-full flex gap-5 items-center">
+                  <div className="flex gap-2.5">
+                    <img
+                      src={
+                        countries.find(
+                          (country) => country.cca2 === 'IE'
+                        )?.flags?.png
+                      }
+                      alt="flag"
+                      className="w-10 h-[1.4rem] rounded-[0.2rem]"
+                    />
+
+                    <p className="md:text-[16px] ss:text-[16px] 
+                    text-[14px] tracking-tight font-extrabold text-main2">
+                      Dublin
+                    </p>
+                  </div>
+
+                  <p className="md:text-[15px] ss:text-[15px] 
+                  text-[14px] tracking-tight font-semibold text-main4">
+                    to
+                  </p>
+                  
+                  <p className="md:text-[16px] ss:text-[16px] 
+                  text-[14px] tracking-tight font-extrabold text-main2">
+                    Galway
+                  </p>
+                </div>
+
+                <div className='flex flex-col gap-1'>
+                  <p className='text-[13px] font-medium text-main4'>
+                    Status
+                  </p>
+
+                  <h4 className='md:text-[16px] ss:text-[16px] text-[14px] 
+                  tracking-tight font-extrabold text-main2'>
+                    Awaiting drop-off
+                  </h4>
+
+                  <p className="font-medium text-[13px] text-main4">
+                    Drop your shipment at the selected pickup station
+                  </p>
+
+                  {/* <div className='flex items-center gap-3.5'>
+                    <p className="font-medium text-[13px] text-main4">
+                      Monday 28th October, 2024<span className='md:hidden ss:hidden'>, 11:25AM</span>
+                    </p>
+
+                    <div className='h-[3px] w-[3px] bg-main4
+                    hidden md:flex ss:flex rounded-full'/>
+
+                    <p className="font-medium text-[13px] tracking-tight 
+                    text-main4 hidden md:flex ss:flex">
+                      11:25AM
+                    </p>
+                  </div> */}
 
                   <h3 className='text-primary underline cursor-pointer
                   hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
