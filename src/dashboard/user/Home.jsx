@@ -59,10 +59,10 @@ const Home = () => {
             <div className='w-full flex md:flex-row ss:flex-row flex-col 
             md:gap-6 ss:gap-6 gap-5'>
               <div className='md:w-[50%] bg-primary3 rounded-lg p-5 flex 
-              flex-col gap-6'>
+              flex-col gap-5'>
                 <div className='flex items-center gap-2'>
                   <InternationalIcon 
-                    className='w-[1.5rem] h-auto object-contain
+                    className='w-[1.4rem] h-auto object-contain
                     text-primary'
                   />
 
@@ -90,8 +90,8 @@ const Home = () => {
                     </p>
                   </div>
 
-                  <p className="md:text-[15px] ss:text-[15px] 
-                  text-[14px] tracking-tight font-semibold text-main4">
+                  <p className="md:text-[14px] ss:text-[15px] 
+                  text-[13px] tracking-tight font-semibold text-main4">
                     to
                   </p>
 
@@ -114,7 +114,8 @@ const Home = () => {
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                  <p className='text-[13px] font-medium text-main4'>
+                  <p className='text-[13px] font-medium text-main4
+                  tracking-tight'>
                     Status
                   </p>
 
@@ -124,7 +125,8 @@ const Home = () => {
                   </h4>
 
                   <div className='flex items-center gap-3.5'>
-                    <p className="font-medium text-[13px] text-main4">
+                    <p className="font-medium text-[13px] text-main4
+                    tracking-tight">
                       Monday 28th October, 2024<span className='md:hidden ss:hidden'>, 11:25AM</span>
                     </p>
 
@@ -139,17 +141,17 @@ const Home = () => {
 
                   <h3 className='text-primary underline cursor-pointer
                   hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
-                  text-[13px] font-semibold mt-6'>
+                  text-[13px] font-semibold mt-6 tracking-tight'>
                     See shipment details
                   </h3>
                 </div>
               </div>
 
               <div className='md:w-[50%] bg-primary3 rounded-lg p-5 flex 
-              flex-col gap-6'>
+              flex-col gap-5'>
                 <div className='flex items-center gap-2'>
                   <LocalIcon 
-                    className='w-[1.5rem] h-auto object-contain
+                    className='w-[1.4rem] h-auto object-contain
                     text-primary'
                   />
 
@@ -177,8 +179,8 @@ const Home = () => {
                     </p>
                   </div>
 
-                  <p className="md:text-[15px] ss:text-[15px] 
-                  text-[14px] tracking-tight font-semibold text-main4">
+                  <p className="md:text-[14px] ss:text-[15px] 
+                  text-[13px] tracking-tight font-semibold text-main4">
                     to
                   </p>
                   
@@ -189,7 +191,8 @@ const Home = () => {
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                  <p className='text-[13px] font-medium text-main4'>
+                  <p className='text-[13px] font-medium text-main4
+                  tracking-tight'>
                     Status
                   </p>
 
@@ -198,7 +201,8 @@ const Home = () => {
                     Awaiting drop-off
                   </h4>
 
-                  <p className="font-medium text-[13px] text-main4">
+                  <p className="font-medium text-[13px] text-main4
+                  tracking-tight">
                     Drop your shipment at the selected pickup station
                   </p>
 
@@ -218,7 +222,7 @@ const Home = () => {
 
                   <h3 className='text-primary underline cursor-pointer
                   hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
-                  text-[13px] font-semibold mt-6'>
+                  text-[13px] font-semibold mt-6 tracking-tight'>
                     See shipment details
                   </h3>
                 </div>
