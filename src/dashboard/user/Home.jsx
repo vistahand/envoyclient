@@ -232,12 +232,12 @@ const Home = () => {
             <div className='flex items-center gap-3 mt-2 cursor-pointer
             grow4'>
               <h3 className='text-primary md:text-[16px] ss:text-[16px] 
-              text-[14px] font-semibold'>
+              text-[14px] font-semibold tracking-tight'>
                 See all shipments
               </h3>
 
               <HiOutlineArrowRight className='text-[14px] text-primary'
-                strokeWidth={2.8}
+                strokeWidth={2.5}
               />
             </div>
           </div>
