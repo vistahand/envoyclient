@@ -308,9 +308,26 @@ const Home = () => {
                 </h2>
               </div>
 
-              <div>
+              <table className="w-full">
+                <thead className='text-[13px] font-medium text-main4
+                tracking-tight'>
+                  <tr>
+                    <th className="py-1 px-2 text-left w-1/3">Amount</th>
+                    <th className="py-1 px-2 text-left w-1/3">Shipment ID</th>
+                    <th className="py-1 px-2 text-left w-1/3">Date</th>
+                  </tr>
+                </thead>
 
-              </div>
+                <tbody className='md:text-[14px] ss:text-[15px] text-[13px] 
+                text-main2 font-bold'>
+                  <tr className='hover:bg-main3 border-b border-main7
+                  cursor-pointer'>
+                    <td className="px-2 py-1"><span className='line-through'>N</span>280,500</td>
+                    <td className="px-2 py-1">001F5TG8XR4U</td>
+                    <td className="px-2 py-1">29 Oct 2024</td>
+                  </tr>
+                </tbody>
+              </table>
 
               <div className='flex items-center gap-3 cursor-pointer grow8'>
                 <h3 className='text-primary md:text-[16px] ss:text-[16px] 
