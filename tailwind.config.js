@@ -10,6 +10,7 @@ module.exports = {
         primaryalt: "#122A53",
         primary1: "#F1F5FD",
         primary2: "#1E3F76",
+        primary3: '#F7F8FC',
         mainalt: "#F7F7F7",
         mainRed: "#E30613",
         main: "#4D4D4D",
@@ -28,6 +29,7 @@ module.exports = {
         redCircle: "#FDE9E9",
         realRed: "#FF0000",
         logRed: '#DF1818',
+        greenSuccess: '#1BBE3E',
       },
       fontFamily: {
         'manrope': ["Manrope", "sans-serif"],
