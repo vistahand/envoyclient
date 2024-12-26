@@ -29,9 +29,9 @@ const Home = () => {
     <section className='w-full h-full'>
       <div className='w-full h-full flex md:flex-row flex-col md:gap-8
       ss:gap-8 gap-6'>
-        <div className='md:w-[67%] w-full flex flex-col md:gap-6 ss:gap-6 
-        gap-5'>
-          <div className='flex flex-col gap-3'>
+        <div className='md:w-[67%] w-full flex flex-col md:gap-8 ss:gap-6 
+        gap-6'>
+          <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
             ss:text-[28px] text-[22px]'>
               User Dashboard
@@ -48,32 +48,31 @@ const Home = () => {
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-2'>
               <h4 className='tracking-tight text-main4 md:text-[16px] 
-              ss:text-[16px] text-[14px]'>
+              ss:text-[16px] text-[14px] font-semibold'>
                 Active Shipments
               </h4>
 
-              <div className='w-2 h-2 rounded-full bg-greenSuccess'/>
+              <div className='w-3 h-3 rounded-full bg-greenSuccess'/>
             </div>
 
             <div className='w-full flex md:flex-row ss:flex-row flex-col 
             gap-4'>
-              <div className='md:w-[50%] bg-primary3 rounded-lg p-3 flex 
-              flex-col gap-4'>
+              <div className='md:w-[50%] bg-primary3 rounded-xl p-5 flex 
+              flex-col gap-6'>
                 <div className='flex items-center gap-2'>
                   <InternationalIcon 
-                    className='w-[1.8rem] h-auto object-contain
-                    stroke-primary'
+                    className='w-[1.5rem] h-auto object-contain
+                    text-primary'
                   />
 
-                  <p className='text-primary tracking-tight text-[15px] 
-                  font-bold'>
+                  <p className='text-primary tracking-tight md:text-[14px] 
+                  ss:text-[15px] text-[13px] font-bold'>
                     International Shipping
                   </p>
                 </div>
 
                 <div className="w-full flex gap-6 items-center">
-                  <div className="rounded-lg md:px-8 ss:px-8 px-6 md:py-5 
-                  ss:py-5 py-4 bg-mainalt flex gap-2">
+                  <div className="flex gap-2.5">
                     <img
                       src={
                         countries.find(
@@ -84,8 +83,8 @@ const Home = () => {
                       className="w-10 h-[1.4rem] rounded-[0.2rem]"
                     />
 
-                    <p className="md:text-[15px] ss:text-[15px] 
-                    text-[14px] tracking-tight font-bold text-main2">
+                    <p className="md:text-[16px] ss:text-[16px] 
+                    text-[14px] tracking-tight font-extrabold text-main2">
                       Ireland
                     </p>
                   </div>
@@ -95,8 +94,7 @@ const Home = () => {
                     to
                   </p>
 
-                  <div className="rounded-lg  md:px-8 ss:px-8 px-6 md:py-5 
-                  ss:py-5 py-4 bg-mainalt flex gap-2">
+                  <div className="flex gap-2.5">
                     <img
                       src={
                         countries.find(
@@ -107,19 +105,21 @@ const Home = () => {
                       className="w-10 h-[1.4rem] rounded-[0.2rem]"
                     />
 
-                    <p className="md:text-[15px] ss:text-[15px] 
-                    text-[14px] tracking-tight font-bold text-main2">
+                    <p className="md:text-[16px] ss:text-[16px] 
+                    text-[14px] tracking-tight font-extrabold text-main2">
                       Nigeria
                     </p>
                   </div>
                 </div>
 
-                <div className='flex flex-col gap-2'>
-                  <p className='tracking-tight'>
+                <div className='flex flex-col gap-0.5'>
+                  <p className='text-[13px] tracking-tight font-medium 
+                  text-main4'>
                     Status
                   </p>
 
-                  <h4 className='tracking-tight'>
+                  <h4 className='md:text-[16px] ss:text-[16px] text-[14px] 
+                  tracking-tight font-extrabold text-main2'>
                     Package Shipped
                   </h4>
 
@@ -130,7 +130,8 @@ const Home = () => {
                   </div>
 
                   <h3 className='text-primary underline cursor-pointer
-                  hover:text-secondary grow2'>
+                  hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
+                  text-[13px] font-semibold mt-6'>
                     See shipment details
                   </h3>
                 </div>
