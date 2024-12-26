@@ -57,7 +57,7 @@ const Home = () => {
 
             <div className='w-full flex md:flex-row ss:flex-row flex-col 
             gap-4'>
-              <div className='md:w-[50%] bg-primary3 rounded-xl p-5 flex 
+              <div className='md:w-[50%] bg-primary3 rounded-lg p-5 flex 
               flex-col gap-6'>
                 <div className='flex items-center gap-2'>
                   <InternationalIcon 
@@ -112,9 +112,8 @@ const Home = () => {
                   </div>
                 </div>
 
-                <div className='flex flex-col gap-0.5'>
-                  <p className='text-[13px] tracking-tight font-medium 
-                  text-main4'>
+                <div className='flex flex-col gap-1'>
+                  <p className='text-[13px] font-medium text-main4'>
                     Status
                   </p>
 
@@ -123,9 +122,17 @@ const Home = () => {
                     Package Shipped
                   </h4>
 
-                  <div className='flex items-center gap-3'>
-                    <p>
-                      Wednesday 30th October, 2024.
+                  <div className='flex items-center gap-3.5'>
+                    <p className="font-medium text-[13px] text-main4">
+                      Monday 28th October, 2024<span className='md:hidden ss:hidden'>, 11:25AM</span>
+                    </p>
+
+                    <div className='h-[3px] w-[3px] bg-main4
+                    hidden md:flex ss:flex rounded-full'/>
+
+                    <p className="font-medium text-[13px] tracking-tight 
+                    text-main4 hidden md:flex ss:flex">
+                      11:25AM
                     </p>
                   </div>
 

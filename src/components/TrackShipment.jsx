@@ -103,7 +103,7 @@ const TrackShipment = () => {
                                         </p>
 
                                         <div className='h-[3px] w-[3px] bg-main4
-                                        hidden md:flex ss:flex'/>
+                                        hidden md:flex ss:flex rounded-full'/>
 
                                         <p className="font-medium md:text-[14px] 
                                         ss:text-[14px] tracking-tight 
