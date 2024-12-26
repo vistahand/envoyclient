@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { ReactComponent as LocalIcon } from '../../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../../assets/int-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
+import { MdArrowOutward } from "react-icons/md";
+import { blogpic } from '../../assets';
 
 const Home = () => {
   const [countries, setCountries] = useState([]);
@@ -245,7 +247,58 @@ const Home = () => {
 
         <div className='md:w-[33%] ss:w-[50%] w-full h-full flex flex-col
         md:gap-8 ss:gap-8 gap-6'>
+          <div className='w-full md:rounded-2xl ss:rounded-2xl rounded-xl
+          h-[50%]'
+          style={{
+            backgroundImage: `url(${blogpic})`,
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+          >
+            <div className="absolute bottom-0 left-0 right-0 h-3/4
+              bg-gradient-to-b from-transparent to-black md:rounded-2xl 
+              ss:rounded-2xl rounded-xl"
+            />
 
+            <div className='flex justify-between gap-3 w-full absolute 
+            md:p-7 ss:p-7 p-5 bottom-0'>
+              <div className='flex flex-col gap-4'>
+                <h2 className='text-white md:text-[20px] ss:text-[20px] 
+                text-[17px] font-bold md:leading-[1.6rem] md:max-w-[10ch]
+                ss:leading-[1.6rem] leading-[1.3rem] tracking-tight'>
+                  The Ultimate Guide to Shipping Between Ireland and Nigeria
+                </h2>
+
+                <div className='flex items-center gap-3 cursor-pointer grow4'>
+                  <p className='text-white tracking-tight md:text-[14px] 
+                  ss:text-[14px] text-[13px] font-semibold'>
+                    New Blog Post
+                  </p>
+
+                  <HiOutlineArrowRight 
+                    className='text-[14px] text-white'
+                  />
+                </div>
+              </div>
+
+              <div className='md:w-[6rem] ss:w-[6rem] w-[4rem] h-auto 
+              bg-white rounded-full absolute bottom-0 right-0'>
+                <MdArrowOutward
+                  className='md:w-[6rem] ss:w-[6rem] w-[4rem] 
+                  h-auto md:p-6 ss:p-6 p-4 text-main2'
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className='w-full h-50%'>
+            <div className='my-6 w-full md:rounded-2xl ss:rounded-2xl 
+            rounded-xl md:p-7 ss:p-7 p-5 bg-mainalt flex flex-col md:gap-8 
+            ss:gap-8 gap-6'>
+
+            </div>
+          </div>
         </div>
       </div>
     </section>
