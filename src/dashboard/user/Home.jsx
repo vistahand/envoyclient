@@ -28,9 +28,9 @@ const Home = () => {
 
   return (
     <section className='w-full h-full'>
-      <div className='w-full h-full flex md:flex-row flex-col md:gap-8
+      <div className='w-full h-full flex md:flex-row flex-col md:gap-10
       ss:gap-8 gap-6'>
-        <div className='md:w-[67%] w-full flex flex-col md:gap-8 ss:gap-6 
+        <div className='md:w-[67%] w-full flex flex-col md:gap-8 ss:gap-8 
         gap-6'>
           <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
@@ -241,6 +241,11 @@ const Home = () => {
               />
             </div>
           </div>
+        </div>
+
+        <div className='md:w-[33%] ss:w-[50%] w-full h-full flex flex-col
+        md:gap-8 ss:gap-8 gap-6'>
+
         </div>
       </div>
     </section>

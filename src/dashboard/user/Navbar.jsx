@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className='bg-mainalt w-[50%] rounded-full flex p-3 gap-3 
         items-center'>
           <IoSearchOutline
-            className='w-[1.3rem] h-auto text-main2'
+            className='w-[1.3rem] h-auto text-main2 cursor-pointer'
           />
 
           <input
