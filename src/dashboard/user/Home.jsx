@@ -3,7 +3,7 @@ import { ReactComponent as LocalIcon } from '../../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../../assets/int-ship.svg';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { MdArrowOutward } from "react-icons/md";
-import { blogpic } from '../../assets';
+import { blogpic, paymentact } from '../../assets';
 
 const Home = () => {
   const [countries, setCountries] = useState([]);
@@ -263,9 +263,9 @@ const Home = () => {
             <div className='flex justify-between gap-5 w-full absolute 
             md:p-7 ss:p-7 p-5 bottom-0'>
               <div className='flex flex-col gap-4'>
-                <h2 className='text-white md:text-[19px] ss:text-[20px] 
-                text-[17px] font-bold md:leading-[1.6rem] md:max-[17ch]
-                ss:leading-[1.7rem] leading-[1.3rem] tracking-tight'>
+                <h2 className='text-white md:text-[20px] ss:text-[20px] 
+                text-[17px] font-bold md:leading-[1.7rem] ss:leading-[1.7rem] 
+                leading-[1.3rem] tracking-tight'>
                   The Ultimate Guide to Shipping Between Ireland and Nigeria
                 </h2>
 
@@ -295,7 +295,33 @@ const Home = () => {
             <div className='my-6 w-full md:rounded-2xl ss:rounded-2xl 
             rounded-xl md:p-7 ss:p-7 p-5 bg-mainalt flex flex-col md:gap-8 
             ss:gap-8 gap-6'>
+              <div className='flex items-center gap-2'>
+                <img
+                  src={paymentact}
+                  alt='paymentactivity'
+                  className='w-[1.5rem] h-auto text-primary'
+                />
 
+                <h2 className='text-primary md:text-[20px] ss:text-[20px] 
+                text-[17px] font-bold tracking-tight'>
+                  Payment Activity
+                </h2>
+              </div>
+
+              <div>
+
+              </div>
+
+              <div className='flex items-center gap-3 cursor-pointer grow8'>
+                <h3 className='text-primary md:text-[16px] ss:text-[16px] 
+                text-[14px] font-semibold tracking-tight'>
+                  See all payments
+                </h3>
+
+                <HiOutlineArrowRight className='text-[14px] text-primary'
+                  strokeWidth={2.5}
+                />
+              </div>
             </div>
           </div>
         </div>

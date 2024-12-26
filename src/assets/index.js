@@ -47,6 +47,7 @@ import settings from './settings.svg';
 import logout from './logout.svg';
 import profilepic from './profilepic.jpg';
 import blogpic from './blogpic.jpg';
+import paymentact from './paymentact.svg';
 
 export {
     logo,
@@ -98,6 +99,7 @@ export {
     logout,
     profilepic,
     blogpic,
+    paymentact,
 }
 
 export const heroImages = [
