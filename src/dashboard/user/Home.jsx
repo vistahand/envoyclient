@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ReactComponent as LocalIcon } from '../../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../../assets/int-ship.svg';
+import { HiOutlineArrowRight } from "react-icons/hi";
 
 const Home = () => {
   const [countries, setCountries] = useState([]);
@@ -222,6 +223,19 @@ const Home = () => {
                   </h3>
                 </div>
               </div>
+            </div>
+
+            <div className='flex items-center gap-3 mt-3 cursor-pointer
+            grow4'>
+              <h3 className='text-primary md:text-[16px] ss:text-[16px] 
+              text-[14px] font-semibold'>
+                See all shipments
+              </h3>
+
+              <HiOutlineArrowRight className='md:text-[15px] ss:text-[15px]
+              text-[14px] text-primary'
+                strokeWidth={2.8}
+              />
             </div>
           </div>
         </div>
