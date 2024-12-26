@@ -30,9 +30,9 @@ const Home = () => {
 
   return (
     <section className='w-full h-full'>
-      <div className='w-full h-full flex md:flex-row flex-col md:gap-10
+      <div className='w-full h-full flex md:flex-row flex-col md:gap-20
       ss:gap-8 gap-6'>
-        <div className='md:w-[67%] w-full flex flex-col md:gap-8 ss:gap-8 
+        <div className='md:w-[70%] w-full flex flex-col md:gap-8 ss:gap-8 
         gap-6'>
           <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
@@ -232,7 +232,7 @@ const Home = () => {
             </div>
 
             <div className='flex items-center gap-3 mt-2 cursor-pointer
-            grow4'>
+            grow8'>
               <h3 className='text-primary md:text-[16px] ss:text-[16px] 
               text-[14px] font-semibold tracking-tight'>
                 See all shipments
@@ -245,10 +245,10 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='md:w-[33%] ss:w-[50%] w-full h-full flex flex-col
+        <div className='md:w-[30%] ss:w-[50%] h-[90vh] w-full flex flex-col
         md:gap-8 ss:gap-8 gap-6'>
           <div className='w-full md:rounded-2xl ss:rounded-2xl rounded-xl
-          h-[50%]'
+          h-[50%] relative'
           style={{
             backgroundImage: `url(${blogpic})`,
             backgroundSize: 'cover', 
@@ -261,32 +261,33 @@ const Home = () => {
               ss:rounded-2xl rounded-xl"
             />
 
-            <div className='flex justify-between gap-3 w-full absolute 
+            <div className='flex justify-between gap-5 w-full absolute 
             md:p-7 ss:p-7 p-5 bottom-0'>
               <div className='flex flex-col gap-4'>
                 <h2 className='text-white md:text-[20px] ss:text-[20px] 
-                text-[17px] font-bold md:leading-[1.6rem] md:max-w-[10ch]
-                ss:leading-[1.6rem] leading-[1.3rem] tracking-tight'>
+                text-[17px] font-bold md:leading-[1.7rem] md:max-w-[17ch]
+                ss:leading-[1.7rem] leading-[1.3rem] tracking-tight'>
                   The Ultimate Guide to Shipping Between Ireland and Nigeria
                 </h2>
 
-                <div className='flex items-center gap-3 cursor-pointer grow4'>
-                  <p className='text-white tracking-tight md:text-[14px] 
-                  ss:text-[14px] text-[13px] font-semibold'>
+                <div className='flex items-center gap-3 cursor-pointer grow8'>
+                  <p className='text-white tracking-tight md:text-[15px] 
+                  ss:text-[14px] text-[13px] font-medium'>
                     New Blog Post
                   </p>
 
                   <HiOutlineArrowRight 
-                    className='text-[14px] text-white'
+                    className='md:text-[15px] ss:text-[15px] text-[14px] 
+                    text-white'
                   />
                 </div>
               </div>
 
               <div className='md:w-[6rem] ss:w-[6rem] w-[4rem] h-auto 
-              bg-white rounded-full absolute bottom-0 right-0'>
+              bg-white rounded-full cursor-pointer grow2'>
                 <MdArrowOutward
-                  className='md:w-[6rem] ss:w-[6rem] w-[4rem] 
-                  h-auto md:p-6 ss:p-6 p-4 text-main2'
+                  className='md:w-[5rem] ss:w-[5rem] w-[3rem] 
+                  h-auto md:p-5 ss:p-5 p-3 text-main2'
                 />
               </div>
             </div>
