@@ -225,7 +225,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className='flex items-center gap-3 mt-3 cursor-pointer
+            <div className='flex items-center gap-3 mt-2 cursor-pointer
             grow4'>
               <h3 className='text-primary md:text-[16px] ss:text-[16px] 
               text-[14px] font-semibold'>
