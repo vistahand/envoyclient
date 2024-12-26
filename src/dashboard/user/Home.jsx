@@ -232,8 +232,7 @@ const Home = () => {
                 See all shipments
               </h3>
 
-              <HiOutlineArrowRight className='md:text-[15px] ss:text-[15px]
-              text-[14px] text-primary'
+              <HiOutlineArrowRight className='text-[14px] text-primary'
                 strokeWidth={2.8}
               />
             </div>
