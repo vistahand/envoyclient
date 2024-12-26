@@ -246,7 +246,7 @@ const Home = () => {
         </div>
 
         <div className='md:w-[30%] ss:w-[50%] h-[90vh] w-full flex flex-col
-        md:gap-8 ss:gap-8 gap-6'>
+        gap-5'>
           <div className='w-full md:rounded-2xl ss:rounded-2xl rounded-xl
           h-[50%] relative'
           style={{
