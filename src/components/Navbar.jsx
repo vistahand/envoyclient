@@ -80,7 +80,7 @@ const Navbar = () => {
                 </div>
 
                 <div className='flex justify-center relative
-                    items-center hidden md:flex'>
+                items-center hidden md:flex'>
                     <div className="flex items-center w-full">
                         <ul className="list-none flex flex-row gap-8">
                             {navLinks.map((link, index) => (
@@ -155,8 +155,7 @@ const Navbar = () => {
                 
                 <div className="md:hidden flex justify-end flex-1 
                 items-center navsmooth">
-                    <div className="flex items-center z-20 ss:gap-8 
-                    gap-5">
+                    <div className="z-20">
                         {toggle ? (
                             <BsX
                                 size={40}
