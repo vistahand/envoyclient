@@ -245,7 +245,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='md:w-[34%] ss:w-[50%] h-[90vh] w-full flex flex-col'>
+        <div className='md:w-[34%] ss:w-[50%] h-[100vh] w-full flex flex-col'>
           <div className='w-full md:rounded-2xl ss:rounded-2xl rounded-xl
           h-[50%] relative'
           style={{
