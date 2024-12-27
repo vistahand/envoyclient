@@ -32,7 +32,7 @@ const Home = () => {
     <section className='w-full h-full'>
       <div className='w-full h-full flex md:flex-row flex-col md:gap-16
       ss:gap-8 gap-6'>
-        <div className='md:w-[67%] w-full flex flex-col md:gap-8 ss:gap-8 
+        <div className='md:w-[66%] w-full flex flex-col md:gap-8 ss:gap-8 
         gap-6'>
           <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
@@ -245,7 +245,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='md:w-[33%] ss:w-[50%] h-[90vh] w-full flex flex-col'>
+        <div className='md:w-[34%] ss:w-[50%] h-[90vh] w-full flex flex-col'>
           <div className='w-full md:rounded-2xl ss:rounded-2xl rounded-xl
           h-[50%] relative'
           style={{
@@ -308,23 +308,37 @@ const Home = () => {
                 </h2>
               </div>
 
-              <table className="w-full">
+              <table className="">
                 <thead className='text-[13px] font-medium text-main4
                 tracking-tight'>
                   <tr>
-                    <th className="py-1 px-2 text-left w-1/3">Amount</th>
-                    <th className="py-1 px-2 text-left w-1/3">Shipment ID</th>
-                    <th className="py-1 px-2 text-left w-1/3">Date</th>
+                    <th className="py-1 pr-4 text-left w-1/3">Amount</th>
+                    <th className="py-1 pr-4 text-left w-1/3">Shipment ID</th>
+                    <th className="py-1 pr-4 text-left w-1/3">Date</th>
                   </tr>
                 </thead>
 
                 <tbody className='md:text-[14px] ss:text-[15px] text-[13px] 
                 text-main2 font-bold'>
-                  <tr className='hover:bg-main3 border-b border-main7
+                  <tr className='hover:bg-main7 border-b border-main7
                   cursor-pointer'>
-                    <td className="px-2 py-1"><span className='line-through'>N</span>280,500</td>
-                    <td className="px-2 py-1">001F5TG8XR4U</td>
-                    <td className="px-2 py-1">29 Oct 2024</td>
+                    <td className="pr-4 py-1"><span className='line-through'>N</span>280,500</td>
+                    <td className="pr-4 py-1">001F5TG8XR4U</td>
+                    <td className="pr-4 py-1">29 Oct 2024</td>
+                  </tr>
+
+                  <tr className='hover:bg-main7 border-b border-main7
+                  cursor-pointer'>
+                    <td className="pr-4 py-1"><span className='line-through'>N</span>280,500</td>
+                    <td className="pr-4 py-1">001F5TG8XR4U</td>
+                    <td className="pr-4 py-1">29 Oct 2024</td>
+                  </tr>
+
+                  <tr className='hover:bg-main7 border-b border-main7
+                  cursor-pointer'>
+                    <td className="pr-4 py-1"><span className='line-through'>N</span>280,500</td>
+                    <td className="pr-4 py-1">001F5TG8XR4U</td>
+                    <td className="pr-4 py-1">29 Oct 2024</td>
                   </tr>
                 </tbody>
               </table>
