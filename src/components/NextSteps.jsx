@@ -27,13 +27,15 @@ const CardItem = ({ index, title, link, description, route }) => {
                     </p>
                 </div>
 
-                <a href={route} target='blank'
-                className='text-primary font-semibold md:leading-[18px]
-                ss:leading-[20px] leading-[19px] md:text-[14px] 
-                ss:text-[15px] text-[13px] underline cursor-pointer
-                hover:text-secondary'>
-                    {link}
-                </a>
+                <div>
+                    <a href={route} target='blank'
+                    className='text-primary font-semibold md:leading-[18px]
+                    ss:leading-[20px] leading-[19px] md:text-[14px] 
+                    ss:text-[15px] text-[13px] underline cursor-pointer
+                    hover:text-secondary navsmooth'>
+                        {link}
+                    </a>
+                </div>
             </div>
         </motion.div>
     )

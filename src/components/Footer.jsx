@@ -54,20 +54,23 @@ const Footer = () => {
                             <ul className='list-none mt-3 w-full 
                             justify-between flex flex-col'>
                                 {footerLink.links.map((Link, index) => (
-                                    <a target='blank' href={Link.route} key={Link.name}>
-                                        <li className={`md:text-[13px] ss:text-[16px] grow2 tracking-tight
-                                        text-[13px] md:leading-[15px] ss:leading-[20px] leading-[12px]
-                                        text-main2 hover:text-secondary cursor-pointer font-medium
-                                        ${index !== footerLink.links.length - 1 ? 'md:mb-2.5 ss:mb-2 mb-3' : 'mb-0'}`}>
-                                           <span className="flex items-center gap-2.5">
-                                                {Link.name}
-                                                {Link.name === "Careers" && (
-                                                    <FaArrowUpRightFromSquare 
-                                                    className="w-2.5 h-2.5" />
-                                                )}
-                                            </span>
-                                        </li>
-                                    </a>
+                                    <div>
+                                        <a target='blank' href={Link.route} key={Link.name}
+                                        className='inline-flex'>
+                                            <li className={`md:text-[13px] ss:text-[16px] grow2 tracking-tight
+                                            text-[13px] md:leading-[15px] ss:leading-[20px] leading-[10px]
+                                            text-main2 hover:text-secondary cursor-pointer font-medium
+                                            ${index !== footerLink.links.length - 1 ? 'md:mb-1.5 ss:mb-2 mb-2' : 'mb-0'}`}>
+                                            <span className="flex items-center gap-2.5">
+                                                    {Link.name}
+                                                    {Link.name === "Careers" && (
+                                                        <FaArrowUpRightFromSquare 
+                                                        className="w-2.5 h-2.5" />
+                                                    )}
+                                                </span>
+                                            </li>
+                                        </a>
+                                    </div>
                                 ))}
                             </ul>
                         </div>
