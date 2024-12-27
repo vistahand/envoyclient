@@ -271,14 +271,14 @@ const Home = () => {
               <div className='flex flex-col gap-4'>
                 <h2 className='text-white md:text-[20px] ss:text-[21px] 
                 text-[17px] font-bold md:leading-[1.7rem] ss:leading-[1.8rem] 
-                leading-[1.3rem] tracking-tight'>
+                leading-[1.5rem] tracking-tight'>
                   The Ultimate Guide to Shipping Between Ireland and Nigeria
                 </h2>
 
                 <div>
                   <div className='inline-flex items-center gap-3 cursor-pointer grow8'>
                     <p className='text-white tracking-tight md:text-[14px] 
-                    ss:text-[15px] text-[13px] font-medium'>
+                    ss:text-[15px] text-[14px] font-medium'>
                       New Blog Post
                     </p>
 
@@ -293,8 +293,8 @@ const Home = () => {
               <div className='cursor-pointer flex items-end
               justify-end'>
                 <MdArrowOutward
-                  className='md:w-[3.5rem] ss:w-[3.5rem] w-[2rem] rounded-full
-                  h-auto md:p-3.5 ss:p-3.5 p-2 text-main2 bg-white'
+                  className='md:w-[3.5rem] ss:w-[3.5rem] w-[3rem] rounded-full
+                  h-auto md:p-3.5 ss:p-3.5 p-3 text-main2 bg-white'
                 />
               </div>
             </div>
