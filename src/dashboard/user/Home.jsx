@@ -31,18 +31,17 @@ const Home = () => {
   return (
     <section className='w-full h-full'>
       <div className='w-full h-full flex md:flex-row flex-col md:gap-16
-      ss:gap-8 gap-6'>
-        <div className='md:w-[66%] w-full flex flex-col md:gap-8 ss:gap-8 
-        gap-6'>
+      gap-12'>
+        <div className='md:w-[66%] w-full flex flex-col gap-8'>
           <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
-            ss:text-[28px] text-[22px]'>
+            ss:text-[30px] text-[23px]'>
               User Dashboard
             </h1>
 
             <h4 className='text-main2 tracking-tight font-medium md:text-[16px] 
             ss:text-[16px] text-[14px] md:leading-[1.5rem] ss:leading-[1.5rem] 
-            leading-[1.3rem]'>
+            leading-[1.2rem]'>
               Welcome to your user dashboard! You can see your shipments,
               perform tasks and much more.
             </h4>
@@ -51,17 +50,19 @@ const Home = () => {
           <div className='flex flex-col gap-5'>
             <div className='flex items-center gap-2'>
               <h4 className='tracking-tight text-main4 md:text-[16px] 
-              ss:text-[16px] text-[14px] font-semibold'>
+              ss:text-[16px] text-[15px] font-semibold'>
                 Active Shipments
               </h4>
 
-              <div className='w-3 h-3 rounded-full bg-greenSuccess'/>
+              <div className='md:w-3 ss:w-3 w-2.5 md:h-3 ss:h-3 h-2.5 
+                rounded-full bg-greenSuccess'
+              />
             </div>
 
             <div className='w-full flex md:flex-row ss:flex-row flex-col 
             md:gap-6 ss:gap-6 gap-5'>
-              <div className='md:w-[50%] bg-primary3 rounded-lg p-5 flex 
-              flex-col gap-5'>
+              <div className='md:w-[50%] ss:w-[50%] w-full bg-primary3 
+              rounded-lg p-5 flex flex-col gap-5'>
                 <div className='flex items-center gap-2'>
                   <InternationalIcon 
                     className='w-[1.4rem] h-auto object-contain
@@ -121,7 +122,7 @@ const Home = () => {
                     Status
                   </p>
 
-                  <h4 className='md:text-[16px] ss:text-[16px] text-[14px] 
+                  <h4 className='md:text-[16px] ss:text-[16px] text-[15px] 
                   tracking-tight font-extrabold text-main2'>
                     Package Shipped
                   </h4>
@@ -129,14 +130,13 @@ const Home = () => {
                   <div className='flex items-center gap-3.5'>
                     <p className="font-medium text-[13px] text-main4
                     tracking-tight">
-                      Monday 28th October, 2024<span className='md:hidden ss:hidden'>, 11:25AM</span>
+                      Monday 28th October, 2024.
                     </p>
 
-                    <div className='h-[3px] w-[3px] bg-main4
-                    hidden md:flex ss:flex rounded-full'/>
+                    <div className='h-[3px] w-[3px] bg-main4 rounded-full'/>
 
                     <p className="font-medium text-[13px] tracking-tight 
-                    text-main4 hidden md:flex ss:flex">
+                    text-main4">
                       11:25AM
                     </p>
                   </div>
@@ -144,15 +144,15 @@ const Home = () => {
                   <div>
                     <h3 className='text-primary underline cursor-pointer
                     hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
-                    text-[13px] font-semibold mt-6 tracking-tight inline-flex'>
+                    text-[14px] font-semibold mt-6 tracking-tight inline-flex'>
                       See shipment details
                     </h3>
                   </div>
                 </div>
               </div>
 
-              <div className='md:w-[50%] bg-primary3 rounded-lg p-5 flex 
-              flex-col gap-5'>
+              <div className='md:w-[50%] ss:w-[50%] w-full bg-primary3 
+              rounded-lg p-5 flex flex-col gap-5'>
                 <div className='flex items-center gap-2'>
                   <LocalIcon 
                     className='w-[1.4rem] h-auto object-contain
@@ -200,7 +200,7 @@ const Home = () => {
                     Status
                   </p>
 
-                  <h4 className='md:text-[16px] ss:text-[16px] text-[14px] 
+                  <h4 className='md:text-[16px] ss:text-[16px] text-[15px] 
                   tracking-tight font-extrabold text-main2'>
                     Awaiting drop-off
                   </h4>
@@ -227,7 +227,7 @@ const Home = () => {
                   <div>
                     <h3 className='text-primary underline cursor-pointer
                     hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
-                    text-[13px] font-semibold mt-6 tracking-tight inline-flex'>
+                    text-[14px] font-semibold mt-6 tracking-tight inline-flex'>
                       See shipment details
                     </h3>
                   </div>
@@ -238,8 +238,8 @@ const Home = () => {
             <div>
               <div className='inline-flex items-center gap-3 mt-2 cursor-pointer
               grow8'>
-                <h3 className='text-primary md:text-[16px] ss:text-[16px] 
-                text-[14px] font-semibold tracking-tight'>
+                <h3 className='text-primary md:text-[16px] ss:text-[17px] 
+                text-[15px] font-semibold tracking-tight'>
                   See all shipments
                 </h3>
 
@@ -251,9 +251,9 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='md:w-[34%] ss:w-[50%] h-[100vh] w-full flex flex-col'>
+        <div className='md:w-[34%] ss:w-[55%] h-[100vh] w-full flex flex-col'>
           <div className='w-full md:rounded-2xl ss:rounded-2xl rounded-xl
-          h-[50%] relative'
+          md:h-[50%] ss:h-[400px] h-[400px] relative'
           style={{
             backgroundImage: `url(${blogpic})`,
             backgroundSize: 'cover', 
@@ -269,8 +269,8 @@ const Home = () => {
             <div className='flex justify-between gap-5 w-full absolute 
             md:p-7 ss:p-7 p-5 bottom-0'>
               <div className='flex flex-col gap-4'>
-                <h2 className='text-white md:text-[20px] ss:text-[20px] 
-                text-[17px] font-bold md:leading-[1.7rem] ss:leading-[1.7rem] 
+                <h2 className='text-white md:text-[20px] ss:text-[21px] 
+                text-[17px] font-bold md:leading-[1.7rem] ss:leading-[1.8rem] 
                 leading-[1.3rem] tracking-tight'>
                   The Ultimate Guide to Shipping Between Ireland and Nigeria
                 </h2>
@@ -278,12 +278,13 @@ const Home = () => {
                 <div>
                   <div className='inline-flex items-center gap-3 cursor-pointer grow8'>
                     <p className='text-white tracking-tight md:text-[14px] 
-                    ss:text-[14px] text-[13px] font-medium'>
+                    ss:text-[15px] text-[13px] font-medium'>
                       New Blog Post
                     </p>
 
                     <HiOutlineArrowRight 
-                      className='text-[14px] text-white'
+                      className='md:text-[14px] ss:text-[15px] text-[14px] 
+                      text-white'
                     />
                   </div>
                 </div>
@@ -299,8 +300,8 @@ const Home = () => {
             </div>
           </div>
 
-          <div className='w-full h-50%'>
-            <div className='my-6 w-full md:rounded-2xl ss:rounded-2xl 
+          <div className='w-full'>
+            <div className='md:my-6 my-10 w-full md:rounded-2xl ss:rounded-2xl 
             rounded-xl md:p-7 ss:p-7 p-5 bg-mainalt flex flex-col md:gap-8 
             ss:gap-8 gap-6'>
               <div className='flex items-center gap-2'>
@@ -317,12 +318,12 @@ const Home = () => {
               </div>
 
               <table className="">
-                <thead className='text-[13px] font-medium text-main4
-                tracking-tight'>
+                <thead className='md:text-[13px] ss:text-[14px] text-[13px] 
+                font-medium text-main4 tracking-tight'>
                   <tr>
-                    <th className="py-1 pr-4 text-left w-1/3">Amount</th>
-                    <th className="py-1 pr-4 text-left w-1/3">Shipment ID</th>
-                    <th className="py-1 pr-4 text-left w-1/3">Date</th>
+                    <th className="py-3 pr-4 text-left w-1/3">Amount</th>
+                    <th className="py-3 pr-4 text-left w-1/3">Shipment ID</th>
+                    <th className="py-3 pr-4 text-left w-1/3">Date</th>
                   </tr>
                 </thead>
 
@@ -330,23 +331,23 @@ const Home = () => {
                 text-main2 font-bold'>
                   <tr className='hover:bg-main7 border-b border-main7
                   cursor-pointer'>
-                    <td className="pr-4 py-1"><span className='line-through'>N</span>280,500</td>
-                    <td className="pr-4 py-1">001F5TG8XR4U</td>
-                    <td className="pr-4 py-1">29 Oct 2024</td>
+                    <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
+                    <td className="pr-4 py-3">001F5TG8XR4U</td>
+                    <td className="pr-4 py-3">29 Oct 2024</td>
                   </tr>
 
                   <tr className='hover:bg-main7 border-b border-main7
                   cursor-pointer'>
-                    <td className="pr-4 py-1"><span className='line-through'>N</span>280,500</td>
-                    <td className="pr-4 py-1">001F5TG8XR4U</td>
-                    <td className="pr-4 py-1">29 Oct 2024</td>
+                    <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
+                    <td className="pr-4 py-3">001F5TG8XR4U</td>
+                    <td className="pr-4 py-3">29 Oct 2024</td>
                   </tr>
 
                   <tr className='hover:bg-main7 border-b border-main7
                   cursor-pointer'>
-                    <td className="pr-4 py-1"><span className='line-through'>N</span>280,500</td>
-                    <td className="pr-4 py-1">001F5TG8XR4U</td>
-                    <td className="pr-4 py-1">29 Oct 2024</td>
+                    <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
+                    <td className="pr-4 py-3">001F5TG8XR4U</td>
+                    <td className="pr-4 py-3">29 Oct 2024</td>
                   </tr>
                 </tbody>
               </table>

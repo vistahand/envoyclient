@@ -28,7 +28,7 @@ const UserDashHome = () => {
           </div>
         
           <div className='flex-1 md:py-6 ss:py-6 py-5 md:px-7 overflow-y-auto 
-          md:mt-20 scrollbar-hidden'>
+          mt-20 scrollbar-hidden'>
             <Outlet />
           </div>
         </div>
