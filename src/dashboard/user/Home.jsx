@@ -251,9 +251,9 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='md:w-[34%] ss:w-[55%] h-[100vh] w-full flex flex-col'>
+        <div className='md:w-[34%] ss:w-[55%] w-full flex flex-col'>
           <div className='w-full md:rounded-2xl ss:rounded-2xl rounded-xl
-          md:h-[50%] ss:h-[400px] h-[400px] relative'
+          md:h-[400px] ss:h-[400px] h-[400px] relative'
           style={{
             backgroundImage: `url(${blogpic})`,
             backgroundSize: 'cover', 
