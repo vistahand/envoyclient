@@ -16,18 +16,20 @@ const UserDashHome = () => {
         <meta name="description" content="Content" />
       </Helmet>
 
-      <div className='flex w-full h-full relative'>
+      <div className='flex w-full h-screen'>
         <div className='w-[21%] footer hidden md:flex fixed overflow-y-auto'>
           <Sidebar />
         </div>
         
-        <div className='w-full h-full'>
-          <div className='fixed w-full md:w-[79%] top-0 left-[21%] h-full'>
+        <div className='w-full md:ml-[21%] flex flex-col h-screen'>
+          <div className='w-full fixed top-0 left-0 bg-white md:left-[21%]
+          z-50 md:w-[79%]'>
             <Navbar />
-
-            <div className='md:py-6 ss:py-6 py-5 md:px-7 overflow-y-auto h-full'>
-              <Outlet />
-            </div>
+          </div>
+        
+          <div className='flex-1 md:py-6 ss:py-6 py-5 md:px-7 overflow-y-auto 
+          md:mt-20 scrollbar-hidden'>
+            <Outlet />
           </div>
         </div>
       </div>
