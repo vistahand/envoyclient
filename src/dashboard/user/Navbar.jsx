@@ -111,8 +111,8 @@ const Navbar = () => {
           className={`ss:px-10 ss:py-5 p-5 absolute top-0 left-0 z-20 flex
           flex-col ss:w-[50%] w-full bg-white shadow-lg overflow-y-auto h-auto
           ${toggle 
-            ? 'menu-slide-enter menu-slide-enter-active' 
-            : 'menu-slide-exit menu-slide-exit-active'}`
+            ? 'menu-slide-enter2 menu-slide-enter-active2' 
+            : 'menu-slide-exit2 menu-slide-exit-active2'}`
           }
           >
             <div className='w-full flex items-center justify-between'>
