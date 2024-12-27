@@ -49,7 +49,7 @@ const Navbar = () => {
       <div className="w-full flex items-center md:py-4 ss:py-4 py-5 
       md:px-7 ss:px-10 px-5 justify-between">
         <div className='bg-mainalt w-[50%] rounded-full flex p-3 gap-3 
-        items-center hidden md:flex ss:flex'>
+        items-center hidden md:flex'>
           <IoSearchOutline
             className='w-[1.3rem] h-auto text-main2 cursor-pointer'
           />
@@ -63,7 +63,7 @@ const Navbar = () => {
           />
         </div>
 
-        <div className="md:hidden ss:hidden flex">
+        <div className="md:hidden flex">
           <div>
             {toggle ? (
               <BsX
@@ -89,8 +89,8 @@ const Navbar = () => {
           </div>
           
           <div ref={menuRef}
-          className={`p-5 absolute top-0 left-0 z-10 flex-col w-full bg-white 
-          shadow-lg overflow-y-auto h-screen
+          className={`ss:px-10 ss:py-4 p-5 absolute top-0 left-0 z-10 flex-col 
+          w-full bg-white shadow-lg overflow-y-auto ss:h-auto h-screen
           ${toggle 
             ? 'menu-slide-enter menu-slide-enter-active' 
             : 'menu-slide-exit menu-slide-exit-active'}`
@@ -102,8 +102,8 @@ const Navbar = () => {
 
         <div className="flex items-center md:gap-7 ss:gap-7 gap-4">
           <a href="/user" 
-          className="bg-mainalt rounded-full p-2.5 relative md:hidden
-          ss:hidden flex">
+          className="bg-mainalt rounded-full ss:p-3 p-2.5 relative 
+          md:hidden flex">
             <IoSearchOutline
               className='text-main2 text-[19px]'
               strokeWidth={3}
