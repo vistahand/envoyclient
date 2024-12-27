@@ -141,11 +141,13 @@ const Home = () => {
                     </p>
                   </div>
 
-                  <h3 className='text-primary underline cursor-pointer
-                  hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
-                  text-[13px] font-semibold mt-6 tracking-tight'>
-                    See shipment details
-                  </h3>
+                  <div>
+                    <h3 className='text-primary underline cursor-pointer
+                    hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
+                    text-[13px] font-semibold mt-6 tracking-tight inline-flex'>
+                      See shipment details
+                    </h3>
+                  </div>
                 </div>
               </div>
 
@@ -222,25 +224,29 @@ const Home = () => {
                     </p>
                   </div> */}
 
-                  <h3 className='text-primary underline cursor-pointer
-                  hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
-                  text-[13px] font-semibold mt-6 tracking-tight'>
-                    See shipment details
-                  </h3>
+                  <div>
+                    <h3 className='text-primary underline cursor-pointer
+                    hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
+                    text-[13px] font-semibold mt-6 tracking-tight inline-flex'>
+                      See shipment details
+                    </h3>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className='flex items-center gap-3 mt-2 cursor-pointer
-            grow8'>
-              <h3 className='text-primary md:text-[16px] ss:text-[16px] 
-              text-[14px] font-semibold tracking-tight'>
-                See all shipments
-              </h3>
+            <div>
+              <div className='inline-flex items-center gap-3 mt-2 cursor-pointer
+              grow8'>
+                <h3 className='text-primary md:text-[16px] ss:text-[16px] 
+                text-[14px] font-semibold tracking-tight'>
+                  See all shipments
+                </h3>
 
-              <HiOutlineArrowRight className='text-[14px] text-primary'
-                strokeWidth={2.5}
-              />
+                <HiOutlineArrowRight className='text-[14px] text-primary'
+                  strokeWidth={2.5}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -269,15 +275,17 @@ const Home = () => {
                   The Ultimate Guide to Shipping Between Ireland and Nigeria
                 </h2>
 
-                <div className='flex items-center gap-3 cursor-pointer grow8'>
-                  <p className='text-white tracking-tight md:text-[14px] 
-                  ss:text-[14px] text-[13px] font-medium'>
-                    New Blog Post
-                  </p>
+                <div>
+                  <div className='inline-flex items-center gap-3 cursor-pointer grow8'>
+                    <p className='text-white tracking-tight md:text-[14px] 
+                    ss:text-[14px] text-[13px] font-medium'>
+                      New Blog Post
+                    </p>
 
-                  <HiOutlineArrowRight 
-                    className='text-[14px] text-white'
-                  />
+                    <HiOutlineArrowRight 
+                      className='text-[14px] text-white'
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -343,15 +351,17 @@ const Home = () => {
                 </tbody>
               </table>
 
-              <div className='flex items-center gap-3 cursor-pointer grow8'>
-                <h3 className='text-primary md:text-[16px] ss:text-[16px] 
-                text-[14px] font-semibold tracking-tight'>
-                  See all payments
-                </h3>
+              <div>
+                <div className='inline-flex items-center gap-3 cursor-pointer grow8'>
+                  <h3 className='text-primary md:text-[16px] ss:text-[16px] 
+                  text-[14px] font-semibold tracking-tight'>
+                    See all payments
+                  </h3>
 
-                <HiOutlineArrowRight className='text-[14px] text-primary'
-                  strokeWidth={2.5}
-                />
+                  <HiOutlineArrowRight className='text-[14px] text-primary'
+                    strokeWidth={2.5}
+                  />
+                </div>
               </div>
             </div>
           </div>
