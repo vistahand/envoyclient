@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { sideLinks } from '../../constants';
 import { help, logo, logout, settings } from '../../assets';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
 //   const { data: session } = useSession();
     const navigate = useNavigate();
+    const location = useLocation();
     const [active, setActive] = useState('Home');
 
 //   useEffect(() => {
@@ -17,6 +18,20 @@ const Sidebar = () => {
 //       }
 //     }
 //   }, [pathname, session]);
+
+    useEffect(() => {
+        const currentPath = location.pathname;
+        if (currentPath === '/user' || currentPath === '/user/') {
+            setActive('Home');
+        } else if (currentPath.startsWith('/user/')) {
+            const pathSegments = currentPath.split('/');
+            const activeLink = sideLinks.find(link => link.route.includes(pathSegments[2]));
+            if (activeLink) {
+                setActive(activeLink.title);
+            }
+        }
+    }, [location]);
+  
 
     const handleSideItemClick = (link) => {
         // if (session) {
