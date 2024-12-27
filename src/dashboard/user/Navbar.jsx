@@ -64,27 +64,40 @@ const Navbar = () => {
         </div>
 
         <div className="md:hidden ss:hidden flex">
-          {toggle ? (
-            <BsX
-              size={38}
-              className="object-contain cursor-pointer"
-              style={{ color: '#1E3F76'}}
-              onClick={() => {
-                setToggle(!toggle);
-                enableScroll();
-              }}
-            />
-            ) : (
-            <IoIosMenu
-              size={38}
-              className="object-contain cursor-pointer"
-              style={{ color: '#1E3F76'}}
-              onClick={() => {
-                setToggle(!toggle);
-                disableScroll();
-              }}
-            />
-          )}
+          <div>
+            {toggle ? (
+              <BsX
+                size={38}
+                className="object-contain cursor-pointer"
+                style={{ color: '#1E3F76'}}
+                onClick={() => {
+                  setToggle(!toggle);
+                  enableScroll();
+                }}
+              />
+              ) : (
+              <IoIosMenu
+                size={38}
+                className="object-contain cursor-pointer"
+                style={{ color: '#1E3F76'}}
+                onClick={() => {
+                  setToggle(!toggle);
+                  disableScroll();
+                }}
+              />
+            )}
+          </div>
+          
+          <div ref={menuRef}
+          className={`p-5 absolute top-0 left-0 z-10 flex-col w-full bg-white 
+          shadow-lg overflow-y-auto h-screen
+          ${toggle 
+            ? 'menu-slide-enter menu-slide-enter-active' 
+            : 'menu-slide-exit menu-slide-exit-active'}`
+          }
+          >
+            
+          </div>
         </div>
 
         <div className="flex items-center md:gap-7 ss:gap-7 gap-4">
