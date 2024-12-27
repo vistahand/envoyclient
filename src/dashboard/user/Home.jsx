@@ -211,15 +211,15 @@ const Home = () => {
                   </p>
 
                   {/* <div className='flex items-center gap-3.5'>
-                    <p className="font-medium text-[13px] text-main4">
-                      Monday 28th October, 2024<span className='md:hidden ss:hidden'>, 11:25AM</span>
+                    <p className="font-medium text-[13px] text-main4
+                    tracking-tight">
+                      Monday 28th October, 2024.
                     </p>
 
-                    <div className='h-[3px] w-[3px] bg-main4
-                    hidden md:flex ss:flex rounded-full'/>
+                    <div className='h-[3px] w-[3px] bg-main4 rounded-full'/>
 
                     <p className="font-medium text-[13px] tracking-tight 
-                    text-main4 hidden md:flex ss:flex">
+                    text-main4">
                       11:25AM
                     </p>
                   </div> */}
