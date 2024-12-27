@@ -127,7 +127,7 @@ const Navbar = () => {
               )}
             </div>
 
-            <ul className="list-none flex flex-col gap-2 mt-14 w-full">
+            <ul className="list-none flex flex-col gap-2 mt-12 w-full">
               {sideLinks.map((link) => (
                 <li
                   key={link.id}
@@ -135,7 +135,7 @@ const Navbar = () => {
                   active === link.title
                     ? 'bg-primary rounded-lg text-white font-bold'
                     : 'bg-none text-main2 font-semibold'
-                  } text-[16px] tracking-tight`}
+                  } ss:text-[16px] text-[15px] tracking-tight`}
                   onClick={() => {
                     handleSideItemClick(link);
                   }}
@@ -165,10 +165,10 @@ const Navbar = () => {
               </li> */}
             </ul>
 
-            <ul className="list-none flex flex-col gap-2 mt-32 
-            w-full border-t border-t-main7 pt-12">
+            <ul className="list-none flex flex-col gap-2 mt-8 w-full 
+            border-t border-t-main7 pt-8">
               <li className='text-main2 grow4 font-semibold
-              cursor-pointer text-[16px] tracking-tight'>
+              cursor-pointer ss:text-[16px] text-[15px] tracking-tight'>
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
                   <img 
                     src={help}
@@ -180,7 +180,7 @@ const Navbar = () => {
               </li>
 
               <li className='text-main2 grow4 font-semibold
-              cursor-pointer text-[16px] tracking-tight'>
+              cursor-pointer ss:text-[16px] text-[15px] tracking-tight'>
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
                   <img 
                     src={settings}
@@ -192,7 +192,7 @@ const Navbar = () => {
               </li>
 
               <li className='text-logRed grow4 font-semibold
-              cursor-pointer text-[16px] tracking-tight'>
+              cursor-pointer ss:text-[16px] text-[15px] tracking-tight'>
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
                   <img 
                     src={logout}
@@ -204,14 +204,15 @@ const Navbar = () => {
               </li>
             </ul>
 
-            <div className="flex flex-col gap-1.5 mt-14 w-full 
-            border-t border-t-main7 pt-3">
-              <p className='text-main4 text-[13px] tracking-tight
+            <div className="flex flex-col gap-1.5 mt-12 w-full 
+            border-t border-t-main7 pt-3 pb-3">
+              <p className='text-main4 ss:text-[13px] text-[12px] tracking-tight
               font-medium'>
                 v. 1.0.1
               </p>
             
-              <p className='text-[13px] text-main4 mt-0.5 font-medium tracking-tight'>
+              <p className='ss:text-[13px] text-[12px] text-main4 mt-0.5 
+              font-medium tracking-tight'>
                 ©2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
               </p>
             </div>
