@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { IoSearchOutline } from "react-icons/io5";
+import { HiOutlineSearch } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { PiBell } from "react-icons/pi";
@@ -74,7 +74,7 @@ const Navbar = () => {
       ss:px-10 px-5 justify-between">
         <div className='bg-mainalt w-[50%] rounded-full flex p-3 gap-3 
         items-center hidden md:flex'>
-          <IoSearchOutline
+          <HiOutlineSearch
             className='w-[1.3rem] h-auto text-main2 cursor-pointer'
           />
 
@@ -230,7 +230,7 @@ const Navbar = () => {
           <a href="/user" 
           className="bg-mainalt rounded-full ss:p-3 p-2.5 relative 
           md:hidden flex">
-            <IoSearchOutline
+            <HiOutlineSearch
               className='text-main2 text-[19px]'
               strokeWidth={3}
             />
