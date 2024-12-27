@@ -232,7 +232,6 @@ const Navbar = () => {
           md:hidden flex">
             <HiOutlineSearch
               className='text-main2 text-[19px]'
-              strokeWidth={3}
             />
           </a>
 
@@ -254,7 +253,7 @@ const Navbar = () => {
           grow2">
             <PiBell
               className='text-main2 text-[19px]'
-              strokeWidth={3}
+              strokeWidth={4}
             />
 
             <span className='absolute top-0 right-0 bg-logRed 
