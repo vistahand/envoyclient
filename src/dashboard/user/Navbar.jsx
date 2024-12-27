@@ -100,9 +100,15 @@ const Navbar = () => {
               />
             )}
           </div>
+
+          {toggle && (
+            <div className="fixed top-0 left-0 w-full h-screen bg-black 
+            bg-opacity-50 z-10 navsmooth" 
+            onClick={() => setToggle(false)} />
+          )}
           
           <div ref={menuRef}
-          className={`ss:px-10 ss:py-5 p-5 absolute top-0 left-0 z-10 flex
+          className={`ss:px-10 ss:py-5 p-5 absolute top-0 left-0 z-20 flex
           flex-col ss:w-[50%] w-full bg-white shadow-lg overflow-y-auto h-auto
           ${toggle 
             ? 'menu-slide-enter menu-slide-enter-active' 
@@ -138,6 +144,7 @@ const Navbar = () => {
                   } ss:text-[16px] text-[15px] tracking-tight`}
                   onClick={() => {
                     handleSideItemClick(link);
+                    setToggle(!toggle);
                   }}
                 >
                   <div className={`p-3 flex ss:gap-4 gap-3 items-center`}>
@@ -167,8 +174,8 @@ const Navbar = () => {
 
             <ul className="list-none flex flex-col gap-2 mt-8 w-full 
             border-t border-t-main7 pt-8">
-              <li className='text-main2 grow4 font-semibold
-              cursor-pointer ss:text-[16px] text-[15px] tracking-tight'>
+              <li className='text-main2 font-semibold ss:text-[16px] 
+              text-[15px] tracking-tight'>
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
                   <img 
                     src={help}
@@ -179,8 +186,8 @@ const Navbar = () => {
                 </div>
               </li>
 
-              <li className='text-main2 grow4 font-semibold
-              cursor-pointer ss:text-[16px] text-[15px] tracking-tight'>
+              <li className='text-main2 font-semibold ss:text-[16px] 
+              text-[15px] tracking-tight'>
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
                   <img 
                     src={settings}
@@ -191,8 +198,8 @@ const Navbar = () => {
                 </div>
               </li>
 
-              <li className='text-logRed grow4 font-semibold
-              cursor-pointer ss:text-[16px] text-[15px] tracking-tight'>
+              <li className='text-logRed font-semibold ss:text-[16px] 
+              text-[15px] tracking-tight'>
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
                   <img 
                     src={logout}
