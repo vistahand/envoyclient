@@ -15,7 +15,6 @@ const ImageCard = ({ image }) => {
                 src={image}
                 alt='heroImage'
                 className='rounded-2xl w-full'
-                
             />
         </div>
     );
