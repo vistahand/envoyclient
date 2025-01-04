@@ -6,6 +6,7 @@ import { websearch, heroImages, socialproof, curve, socialproofMob } from '../as
 import { SectionWrapper2 } from '../hoc';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 import Slider from "react-slick";
 
 const ImageCard = ({ image }) => {
