@@ -18,7 +18,6 @@ const ImageCard = ({ image }) => {
             />
         </div>
     );
-    
 };
 
 
