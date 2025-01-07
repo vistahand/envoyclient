@@ -23,16 +23,16 @@ const Shipments = () => {
             </h4>
           </div>
 
-          <div className="w-full">
+          <div className="">
             <button type='button'
-            className='bg-primary text-[13px] py-3.5 px-8
-            flex text-white rounded-full grow4 cursor-pointer
+            className='bg-primary md:text-[14px] ss:text-[15px] text-[13px]
+            py-3 px-6 flex text-white rounded-xl grow4 cursor-pointer
             items-center justify-center gap-3'>
               <p>
                 Create New
               </p>
               
-              <GoPlus className='text-[14px]'/>
+              <GoPlus className='text-[20px]'/>
             </button>
           </div>
         </div>
