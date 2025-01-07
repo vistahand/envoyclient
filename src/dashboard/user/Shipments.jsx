@@ -8,7 +8,7 @@ const Shipments = () => {
     <section className='w-full'>
       <div className='w-full flex flex-col gap-8'>
         <div className="w-full flex md:flex-row flex-col md:gap-0 gap-5 
-        md:justify-between items-center">
+        md:justify-between md:items-center">
           <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
             ss:text-[30px] text-[23px]'>
