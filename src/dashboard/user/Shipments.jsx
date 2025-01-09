@@ -1,8 +1,13 @@
-// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { GoPlus } from "react-icons/go";
-
+import { HiOutlineSearch } from "react-icons/hi";
 
 const Shipments = () => {
+  const [selectedTab, setSelectedTab] = useState('active');
+
+  const handleTabChange = (tab) => {
+    setSelectedTab(tab);
+  };
 
   return (
     <section className='w-full'>
@@ -35,8 +40,73 @@ const Shipments = () => {
           </button>
         </div>
 
-        <div>
+        <div className="w-full flex flex-col gap-6">
+          <div className="flex items-center md:gap-6 ss:gap-6 gap-5 
+          tracking-tight">
+            <h2 className={`text-main4 md:text-[15px] ss:text-[15px] text-[14px]
+            ${selectedTab === 'active' 
+            ? 'text-primary font-extrabold border-b-primary border-b-[2px] px-3' : 'font-semibold'} 
+              md:pb-2 ss:pb-2 pb-1 text-center cursor-pointer
+              hover:text-primary navsmooth3`} 
+              onClick={() => handleTabChange('active')}
+            >
+              Active
+            </h2>
 
+            <h2 className={`text-main4 md:text-[15px] ss:text-[15px] text-[14px]
+            text-center hover:text-primary cursor-pointer navsmooth3
+            ${selectedTab === 'delivered' 
+            ? 'text-primary font-extrabold border-b-primary border-b-[2px] px-3' : 'font-semibold'}
+            md:pb-2 ss:pb-2 pb-1`} 
+            onClick={() => handleTabChange('delivered')}
+            >
+              Delivered
+            </h2>
+
+            <h2 className={`text-main4 md:text-[15px] ss:text-[15px] text-[14px]
+            text-center hover:text-primary cursor-pointer navsmooth3
+            ${selectedTab === 'pending' 
+            ? 'text-primary font-extrabold border-b-primary border-b-[2px] px-3' : 'font-semibold'}
+            md:pb-2 ss:pb-2 pb-1`} 
+            onClick={() => handleTabChange('pending')}
+            >
+              Pending
+            </h2>
+          </div>
+
+          <div className="w-full">
+            <div className="md:w-[40%] ss:w-[70%] w-full rounded-lg p-3 
+            gap-5 outline outline-[1px] outline-main7 bg-mainalt flex 
+            items-center justify-between">
+              <input
+                type="text"
+                placeholder="Search by origin, destination, recipient details, etc."
+                className="text-main8 focus:outline-none text-[14px] w-full
+                placeholder:text-[13px] placeholder:text-main8 font-medium 
+                tracking-tight bg-transparent"
+              />
+
+              <HiOutlineSearch
+                className='w-[1.4rem] h-auto text-main8 cursor-pointer'
+              />
+            </div>
+          </div>
+
+          <div className="w-full rounded-lg outline outline-[1px] outline-main9
+          md:p-5 ss:p-5 p-4 flex flex-col gap-5">
+            <div className="w-full rounded-lg outline outline-[1px] 
+            outline-main9 md:p-5 ss:p-5 p-4">
+              Hi
+            </div>
+
+            <div className="w-full border-t-[1px] border-main9 px-5 py-5">
+              <div className="flex items-center justify-end md:gap-7
+              ss:gap-7 gap-5 text-main8 md:text-[14px] ss:text-[15px]
+              text-[14px] tracking-tight font-medium">
+                Rows per page:
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

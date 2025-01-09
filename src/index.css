@@ -86,6 +86,10 @@ body, html {
   transition: color 0.45s ease-in-out, border 0.45s ease-in-out;
 }
 
+.navsmooth3 {
+  transition: all 0.1s ease-in-out;
+}
+
 @keyframes slide {
   0% {
     transform: translateX(100%);
