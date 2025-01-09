@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { GoPlus } from "react-icons/go";
 import { HiOutlineSearch } from "react-icons/hi";
+import { shipmentHead } from '../../constants';
+import { VscArrowSwap } from "react-icons/vsc";
 
 const Shipments = () => {
   const [selectedTab, setSelectedTab] = useState('active');
@@ -94,10 +96,26 @@ const Shipments = () => {
 
           <div className="w-full rounded-lg outline outline-[1px] outline-main9
           md:p-5 ss:p-5 p-4 flex flex-col gap-5">
-            <div className="w-full rounded-lg outline outline-[1px] 
+            <table className="w-full rounded-lg outline outline-[1px] 
             outline-main9 md:p-5 ss:p-5 p-4">
-              Hi
-            </div>
+              <thead className='md:text-[14px] ss:text-[14px] text-[13px] 
+              font-medium text-main4 tracking-tight'>
+                <tr className='w-full'>
+                  {shipmentHead.map((item, index) => (
+                    <th 
+                    key={index}
+                    index={index}
+                    className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 
+                    ss:py-5 py-4">
+                      {item.title}
+                      {/* {item.id === "shipdate" || item.id === "estDelivery" && (
+                        <VscArrowSwap className="w-2.5 h-2.5 pl-3" />
+                      )} */}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            </table>
 
             <div className="w-full border-t-[1px] border-main9 px-5 py-5">
               <div className="flex items-center justify-end md:gap-7

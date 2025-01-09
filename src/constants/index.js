@@ -393,3 +393,34 @@ export const sideLinks = [
         Icon: savedloc,
     },
 ];
+
+export const shipmentHead = [
+    {
+        id: 'trackId',
+        title: 'Tracking ID',
+    },
+    {
+        id: 'shipdate',
+        title: 'Shipping Date',
+    },
+    {
+        id: 'estDelivery',
+        title: 'Estimated Delivery Date',
+    },
+    {
+        id: 'shipType',
+        title: 'Shipping Type',
+    },
+    {
+        id: 'destination',
+        title: 'Destination',
+    },
+    {
+        id: 'recipient',
+        title: 'Recipient',
+    },
+    {
+        id: 'shipStatus',
+        title: 'Shipment Status',
+    },
+];
