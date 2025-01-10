@@ -108,9 +108,9 @@ const Shipments = () => {
                     className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 
                     ss:py-5 py-4">
                       {item.title}
-                      {/* {item.id === "shipdate" || item.id === "estDelivery" && (
+                      {item.id === "shipdate" || item.id === "estDelivery" && (
                         <VscArrowSwap className="w-2.5 h-2.5 pl-3" />
-                      )} */}
+                      )}
                     </th>
                   ))}
                 </tr>
