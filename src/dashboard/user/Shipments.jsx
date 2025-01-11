@@ -113,6 +113,7 @@ const Shipments = () => {
                       )} */}
                     </th>
                   ))}
+                  
                 </tr>
               </thead>
             </table>
