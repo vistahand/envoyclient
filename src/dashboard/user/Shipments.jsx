@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { GoPlus } from "react-icons/go";
 import { HiOutlineSearch } from "react-icons/hi";
 import { shipmentHead } from '../../constants';
-import { VscArrowSwap } from "react-icons/vsc";
+// import { VscArrowSwap } from "react-icons/vsc";
 
 const Shipments = () => {
   const [selectedTab, setSelectedTab] = useState('active');
