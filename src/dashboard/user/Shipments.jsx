@@ -10,7 +10,6 @@ const Shipments = () => {
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
   };
-  
 
   return (
     <section className='w-full'>
