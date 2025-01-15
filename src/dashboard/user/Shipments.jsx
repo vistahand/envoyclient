@@ -28,7 +28,6 @@ const Shipments = () => {
               Create, view, track and manage all your active and delivered 
               shipments in one place
             </h4>
-            
           </div>
         
           <button type='button'
