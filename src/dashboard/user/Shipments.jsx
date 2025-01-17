@@ -22,7 +22,8 @@ const Shipments = () => {
               Shipments
             </h1>
 
-            <h4 className='text-main2 tracking-tight font-medium md:text-[16px] 
+            <h4 className='text-main2 trackin
+            g-tight font-medium md:text-[16px] 
             ss:text-[16px] text-[14px] md:leading-[1.5rem] ss:leading-[1.5rem] 
             leading-[1.2rem]'>
               Create, view, track and manage all your active and delivered 
