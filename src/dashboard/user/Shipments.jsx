@@ -27,6 +27,7 @@ const Shipments = () => {
             leading-[1.2rem]'>
               Create, view, track and manage all your active and delivered 
               shipments in one place
+              
             </h4>
           </div>
         
