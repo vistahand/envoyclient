@@ -26,7 +26,7 @@ const Shipments = () => {
             ss:text-[16px] text-[14px] md:leading-[1.5rem] ss:leading-[1.5rem] 
             leading-[1.2rem]'>
               Create, view, track and manage all your active and delivered 
-              shipments in one places
+              shipments in one place
             </h4>
           </div>
         
