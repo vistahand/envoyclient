@@ -1,11 +1,40 @@
 import { useState } from 'react';
 import { GoPlus } from "react-icons/go";
 import { HiOutlineSearch } from "react-icons/hi";
-import { shipmentHead } from '../../constants';
+import { shipmentHead, shipmentRows } from '../../constants';
+import { AiOutlineDoubleLeft, AiOutlineLeft, AiOutlineRight, AiOutlineDoubleRight } from 'react-icons/ai';
+import { TiArrowSortedDown } from 'react-icons/ti';
 // import { VscArrowSwap } from "react-icons/vsc";
 
 const Shipments = () => {
   const [selectedTab, setSelectedTab] = useState('active');
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalRows = shipmentRows.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+  const displayedRows = shipmentRows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handleFirstPage = () => {
+    setCurrentPage(1);
+  };
+
+  const handleLastPage = () => {
+    setCurrentPage(totalPages);
+  };
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
@@ -105,8 +134,7 @@ const Shipments = () => {
                     <th 
                     key={index}
                     index={index}
-                    className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 
-                    ss:py-5 py-4">
+                    className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4 border-b border-main9">
                       {item.title}
                       {/* {item.id === "shipdate" || item.id === "estDelivery" && (
                         <VscArrowSwap className="w-2.5 h-2.5 pl-3" />
@@ -115,53 +143,78 @@ const Shipments = () => {
                   ))}
                 </tr>
               </thead>
+
+              <tbody className='md:text-[14px] ss:text-[14px] text-[13px] font-semibold text-main2 tracking-tight'>
+                {displayedRows.map((data, index) => (
+                  <tr key={index} 
+                  className={`hover:bg-mainalt navsmooth ${index !== displayedRows.length - 1 ? 'border-b border-main9' : ''}`}>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.trackId}</td>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.shipDate}</td>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.estDelivery}</td>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.shipType}</td>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.destination}</td>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.recipient}</td>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.shipStatus}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
 
             <div className="w-full border-t-[1px] border-main9 px-5 py-5">
               <div className="flex items-center justify-end md:gap-7
               ss:gap-7 gap-5 text-main8 md:text-[14px] ss:text-[15px]
               text-[14px] tracking-tight font-medium">
-                Rows per page:
+                <div className="flex items-center">
+                  <span className="ss:mr-2 mr-1">Rows per page:</span>
+
+                  <div className='relative flex items-center'>
+                    <select 
+                      value={rowsPerPage} 
+                      onChange={handleChangeRowsPerPage} 
+                      className="bg-transparent mr-3 py-1 custom-select
+                      cursor-pointer px-2">
+                      {[10, 11, 12, 13, 14].map(num => (
+                        <option key={num} value={num}>{num}</option>
+                      ))}
+                    </select>
+                    <div className='absolute right-0'>
+                      <TiArrowSortedDown 
+                        className='text-main text-[15px]'
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center ss:ml-8 ml-6 md:mr-5">
+                  <span>{`${(currentPage - 1) * rowsPerPage + 1}-${Math.min(currentPage * rowsPerPage, totalRows)} 
+                    of ${totalRows}`}
+                  </span>
+
+                  <button onClick={handleFirstPage} 
+                  className="ss:ml-10 ml-6">
+                    <AiOutlineDoubleLeft />
+                  </button>
+
+                  <button onClick={handlePreviousPage} 
+                  className="ml-3">
+                    <AiOutlineLeft />
+                  </button>
+
+                  <button onClick={handleNextPage} 
+                  className="ml-3">
+                    <AiOutlineRight />
+                  </button>
+
+                  <button onClick={handleLastPage} 
+                  className="ml-3">
+                    <AiOutlineDoubleRight />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* <table className="">
-        <thead className='md:text-[13px] ss:text-[14px] text-[13px] 
-        font-medium text-main4 tracking-tight'>
-          <tr>
-            <th className="py-3 pr-4 text-left w-1/3">Amount</th>
-            <th className="py-3 pr-4 text-left w-1/3">Shipment ID</th>
-            <th className="py-3 pr-4 text-left w-1/3">Date</th>
-          </tr>
-        </thead>
-
-        <tbody className='md:text-[14px] ss:text-[15px] text-[13px] 
-        text-main2 font-bold'>
-          <tr className='hover:bg-main7 border-b border-main7
-          cursor-pointer'>
-            <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
-            <td className="pr-4 py-3">001F5TG8XR4U</td>
-            <td className="pr-4 py-3">29 Oct 2024</td>
-          </tr>
-
-          <tr className='hover:bg-main7 border-b border-main7
-          cursor-pointer'>
-            <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
-            <td className="pr-4 py-3">001F5TG8XR4U</td>
-            <td className="pr-4 py-3">29 Oct 2024</td>
-          </tr>
-
-          <tr className='hover:bg-main7 border-b border-main7
-          cursor-pointer'>
-            <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
-            <td className="pr-4 py-3">001F5TG8XR4U</td>
-            <td className="pr-4 py-3">29 Oct 2024</td>
-          </tr>
-        </tbody>
-      </table> */}
     </section>
   );
 };

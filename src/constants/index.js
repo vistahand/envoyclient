@@ -424,3 +424,42 @@ export const shipmentHead = [
         title: 'Shipment Status',
     },
 ];
+
+export const shipmentRows = [
+    {
+        trackId: '001F5TG8XR4U',
+        shipDate: '28 Oct 2024',
+        estDelivery: '02 Nov 2024',
+        shipType: 'QuickWing',
+        destination: 'Lagos, Nigeria',
+        recipient: 'Annabella Isiagu Johnbosco',
+        shipStatus: 'Shipped - In Transit',
+    },
+    {
+        trackId: '001FG68YSJ92',
+        shipDate: '31 Oct 2024',
+        estDelivery: '12 Nov 2024',
+        shipType: 'Standard',
+        destination: 'Ibadan, Nigeria',
+        recipient: 'Annabella Isiagu Johnbosco',
+        shipStatus: 'Shipped - In Transit',
+    },
+    {
+        trackId: '0027GTJ9SD4U',
+        shipDate: '28 Oct 2024',
+        estDelivery: '12 Nov 2024',
+        shipType: 'QuickWing',
+        destination: 'Dublin, Ireland',
+        recipient: 'Mihael Scofield',
+        shipStatus: 'At Sorting Station',
+    },
+    {
+        trackId: '001FG68YSJ92',
+        shipDate: '31 Oct 2024',
+        estDelivery: '12 Nov 2024',
+        shipType: 'Standard',
+        destination: 'Ibadan, Nigeria',
+        recipient: 'Annabella Isiagu Johnbosco',
+        shipStatus: 'Shipped - In Transit',
+    },
+];
