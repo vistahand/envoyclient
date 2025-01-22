@@ -4,12 +4,31 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { shipmentHead, shipmentRows } from '../../constants';
 import { AiOutlineDoubleLeft, AiOutlineLeft, AiOutlineRight, AiOutlineDoubleRight } from 'react-icons/ai';
 import { TiArrowSortedDown } from 'react-icons/ti';
-// import { VscArrowSwap } from "react-icons/vsc";
+import { LuArrowLeftRight } from "react-icons/lu";
 
 const Shipments = () => {
   const [selectedTab, setSelectedTab] = useState('active');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+  const handleSelectRow = (index) => {
+    if (selectedRows.includes(index)) {
+      setSelectedRows(selectedRows.filter((i) => i !== index));
+    } else {
+      setSelectedRows([...selectedRows, index]);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows(displayedRows.map((_, index) => index));
+    }
+    setSelectAll(!selectAll);
+  };
 
   const totalRows = shipmentRows.length;
   const totalPages = Math.ceil(totalRows / rowsPerPage);
@@ -130,15 +149,26 @@ const Shipments = () => {
               <thead className='md:text-[14px] ss:text-[14px] text-[13px] 
               font-medium text-main4 tracking-tight'>
                 <tr className='w-full'>
+                  <th className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4 border-b border-main9">
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                      className="cursor-pointer custom-checkbox checkbox2"
+                    />
+                  </th>
+
                   {shipmentHead.map((item, index) => (
                     <th 
                     key={index}
                     index={index}
                     className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4 border-b border-main9">
-                      {item.title}
-                      {/* {item.id === "shipdate" || item.id === "estDelivery" && (
-                        <VscArrowSwap className="w-2.5 h-2.5 pl-3" />
-                      )} */}
+                      <div className="flex items-center">
+                        {item.title}
+                        {(item.id === "shipdate" || item.id === "estDelivery") && (
+                          <LuArrowLeftRight className="w-4 h-4 transform rotate-90 ml-3 cursor-pointer text-main2" />
+                        )}
+                      </div>
                     </th>
                   ))}
                 </tr>
@@ -147,7 +177,15 @@ const Shipments = () => {
               <tbody className='md:text-[14px] ss:text-[14px] text-[13px] font-semibold text-main2 tracking-tight'>
                 {displayedRows.map((data, index) => (
                   <tr key={index} 
-                  className={`hover:bg-mainalt navsmooth ${index !== displayedRows.length - 1 ? 'border-b border-main9' : ''}`}>
+                  className={`hover:bg-mainalt navsmooth ${index !== displayedRows.length - 1 ? 'border-b border-main9' : ''} ${selectedRows.includes(index) ? 'bg-main7' : ''}`}>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.includes(index)}
+                        onChange={() => handleSelectRow(index)}
+                        className="cursor-pointer custom-checkbox checkbox2"
+                      />
+                    </td>
                     <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.trackId}</td>
                     <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.shipDate}</td>
                     <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.estDelivery}</td>
