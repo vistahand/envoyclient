@@ -146,7 +146,7 @@ const Shipments = () => {
           md:p-5 ss:p-5 p-4 flex flex-col gap-5">
             <table className="w-full rounded-lg outline outline-[1px] 
             outline-main9 md:p-5 ss:p-5 p-4">
-              <thead className='md:text-[14px] ss:text-[14px] text-[13px] 
+              <thead className='md:text-[14px] ss:text-[14px] text-[13px]
               font-medium text-main4 tracking-tight'>
                 <tr className='w-full'>
                   <th className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4 border-b border-main9">
@@ -154,7 +154,7 @@ const Shipments = () => {
                       type="checkbox"
                       checked={selectAll}
                       onChange={handleSelectAll}
-                      className="cursor-pointer custom-checkbox checkbox2"
+                      className={`cursor-pointer custom-checkbox ${!selectAll ? 'custom-checkbox-head' : ''} checkbox2`}
                     />
                   </th>
 
