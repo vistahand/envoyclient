@@ -237,7 +237,7 @@ const Shipments = () => {
             </table>
 
             <div className="w-full border-t-[1px] border-main9 px-5 py-5">
-              <div className="flex items-center justify-end md:gap-7 ss:gap-7 gap-5 text-main8 md:text-[14px] ss:text-[15px]
+              <div className="flex items-center justify-end text-main8 md:text-[14px] ss:text-[15px]
               text-[14px] tracking-tight font-medium mr-10">
                 <div className="flex items-center">
                   <span className="ss:mr-2 mr-1">Rows per page:</span>
@@ -246,13 +246,13 @@ const Shipments = () => {
                     <select 
                       value={rowsPerPage} 
                       onChange={handleChangeRowsPerPage} 
-                      className="bg-transparent mr-3 py-1 custom-select
+                      className="bg-transparent pr-6 md:mr-2 mr-3 py-1 custom-select
                       cursor-pointer px-2">
                       {[10, 11, 12, 13, 14].map(num => (
                         <option key={num} value={num}>{num}</option>
                       ))}
                     </select>
-                    <div className='absolute right-0'>
+                    <div className='absolute right-3'>
                       <TiArrowSortedDown 
                         className='text-main text-[15px]'
                       />

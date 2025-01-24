@@ -142,11 +142,12 @@ const Home = () => {
                   </div>
 
                   <div>
-                    <h3 className='text-primary underline cursor-pointer
+                    <a href='/user/shipments/details'
+                    className='text-primary underline cursor-pointer
                     hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
                     text-[14px] font-semibold mt-6 tracking-tight inline-flex'>
                       See shipment details
-                    </h3>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -225,18 +226,19 @@ const Home = () => {
                   </div> */}
 
                   <div>
-                    <h3 className='text-primary underline cursor-pointer
+                    <a href='/user/shipments/details'
+                    className='text-primary underline cursor-pointer
                     hover:text-secondary grow2 md:text-[15px] ss:text-[15px] 
                     text-[14px] font-semibold mt-6 tracking-tight inline-flex'>
                       See shipment details
-                    </h3>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <div className='inline-flex items-center gap-3 mt-2 cursor-pointer
+              <a href='/user/shipments' className='inline-flex items-center gap-3 mt-2 cursor-pointer
               grow8'>
                 <h3 className='text-primary md:text-[16px] ss:text-[17px] 
                 text-[15px] font-semibold tracking-tight'>
@@ -246,7 +248,7 @@ const Home = () => {
                 <HiOutlineArrowRight className='text-[14px] text-primary'
                   strokeWidth={2.5}
                 />
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -353,7 +355,8 @@ const Home = () => {
               </table>
 
               <div>
-                <div className='inline-flex items-center gap-3 cursor-pointer grow8'>
+                <a href='/user/paymentsandinvoices'
+                className='inline-flex items-center gap-3 cursor-pointer grow8'>
                   <h3 className='text-primary md:text-[16px] ss:text-[16px] 
                   text-[14px] font-semibold tracking-tight'>
                     See all payments
@@ -362,7 +365,7 @@ const Home = () => {
                   <HiOutlineArrowRight className='text-[14px] text-primary'
                     strokeWidth={2.5}
                   />
-                </div>
+                </a>
               </div>
             </div>
           </div>
