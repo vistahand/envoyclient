@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { 
   CreateShipmentPage, 
   HomePage, 
-  PaymentReviewPage, 
+  PaymentReviewPage,
+  PaymentReviewPageUser, 
   TrackResultsPage, 
   RegisterPage,
   UserDashHome,
@@ -10,6 +11,7 @@ import {
 
 import { Home, Shipments, SavedLoc, PaymentsInv } from './dashboard/user';
 import ScrollToTopButton from './constants/ScrollToTop';
+import { CreateShipmentUser } from './pages';
 
 
 const App = () => {
@@ -30,6 +32,8 @@ const App = () => {
             <Route path='shipments' element={<Shipments />} />
             <Route path='paymentsandinvoices' element={<PaymentsInv />} />
             <Route path='savedlocations' element={<SavedLoc />} />
+            <Route path='shipments/createshipment' element={<CreateShipmentUser />} />
+            <Route path='shipments/createshipment-payment' element={<PaymentReviewPageUser />} />
           </Route>
         </Routes>
 

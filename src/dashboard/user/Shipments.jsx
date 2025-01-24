@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GoPlus } from "react-icons/go";
 import { HiOutlineSearch } from "react-icons/hi";
 import { shipmentHead, shipmentRows } from '../../constants';
@@ -15,6 +16,7 @@ const Shipments = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [menuOpen, setMenuOpen] = useState(null);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleSelectRow = (index) => {
     if (selectedRows.includes(index)) {
@@ -49,6 +51,13 @@ const Shipments = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleRowClick = (data) => {
+    navigate({
+      pathname: '/user/shipments/details',
+      state: { shipment: data }
+    });
+  };
 
   const totalRows = shipmentRows.length;
   const totalPages = Math.ceil(totalRows / rowsPerPage);
@@ -99,6 +108,7 @@ const Shipments = () => {
           </div>
         
           <button type='button'
+          onClick={() => navigate('/user/shipments/createshipment')}
           className='bg-primary md:text-[14px] ss:text-[15px] text-[13px]
           py-3 px-6 flex text-white rounded-xl grow4 cursor-pointer
           items-center justify-center gap-3'>
@@ -201,8 +211,9 @@ const Shipments = () => {
               <tbody className='md:text-[14px] ss:text-[14px] text-[13px] font-semibold text-main2 tracking-tight'>
                 {displayedRows.map((data, index) => (
                   <tr key={index} 
-                  className={`hover:bg-mainalt navsmooth ${index !== displayedRows.length - 1 ? 'border-b border-main9' : ''} ${selectedRows.includes(index) ? 'bg-main7' : ''}`}>
-                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">
+                  onClick={() => handleRowClick(data)}
+                  className={`hover:bg-mainalt navsmooth cursor-pointer ${index !== displayedRows.length - 1 ? 'border-b border-main9' : ''} ${selectedRows.includes(index) ? 'bg-main7' : ''}`}>
+                    <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4" onClick={(e) => e.stopPropagation()}>
                       <input
                         type="checkbox"
                         checked={selectedRows.includes(index)}
@@ -217,7 +228,7 @@ const Shipments = () => {
                     <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.destination}</td>
                     <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[15ch]">{data.recipient}</td>
                     <td className="text-left md:pl-5 ss:pl-5 pl-4 md:py-5 ss:py-5 py-4">{data.shipStatus}</td>
-                    <td className="relative text-left md:px-4 ss:px-4 px-3 md:py-5 ss:py-5 py-4">
+                    <td className="relative text-left md:px-4 ss:px-4 px-3 md:py-5 ss:py-5 py-4" onClick={(e) => e.stopPropagation()}>
                       <div className="cursor-pointer" onClick={() => toggleMenu(index)}>
                         <HiOutlineDotsHorizontal className='text-main4 text-[24px]'/>
                       </div>
