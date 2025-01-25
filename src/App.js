@@ -9,7 +9,7 @@ import {
   UserDashHome,
 } from './scenes';
 
-import { Home, Shipments, SavedLoc, PaymentsInv } from './dashboard/user';
+import { Home, Shipments, SavedLoc, PaymentsInv, ShipmentDetails } from './dashboard/user';
 import ScrollToTopButton from './constants/ScrollToTop';
 import { CreateShipmentUser } from './pages';
 import { TrackShipmentUser } from './components';
@@ -36,6 +36,7 @@ const App = () => {
             <Route path='shipments/createshipment' element={<CreateShipmentUser />} />
             <Route path='shipments/createshipment-payment' element={<PaymentReviewPageUser />} />
             <Route path='trackshipment' element={<TrackShipmentUser />} />
+            <Route path='shipments/details' element={<ShipmentDetails />} />
           </Route>
         </Routes>
 

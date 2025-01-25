@@ -8,6 +8,7 @@ import Home from './Home';
 import Shipments from './Shipments';
 import PaymentsInv from './PaymentsInv';
 import SavedLoc from './SavedLoc';
+import ShipmentDetails from './ShipmentDetails';
 
 export {
     RegisterStart,
@@ -19,4 +20,5 @@ export {
     Shipments,
     PaymentsInv,
     SavedLoc,
+    ShipmentDetails,
 }
