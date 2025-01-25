@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 // import { motion } from "framer-motion";
 // import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../../assets/int-ship.svg';
+import { useNavigate } from 'react-router-dom';
 import { BsBoxSeam } from "react-icons/bs";
-import { TbTrashX } from "react-icons/tb";
+import { TbCircleCheckFilled, TbTrashX } from "react-icons/tb";
 import { PiWarningOctagon } from "react-icons/pi";
 import { ShippingModal, RecipientModal, PickupModal } from '../../components';
 
@@ -13,6 +14,7 @@ const ShipmentDetails = () => {
   const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
   const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const navigate = useNavigate(); 
 
   const disableScroll = () => {
     setScrollPosition(window.pageYOffset);
@@ -43,10 +45,11 @@ const ShipmentDetails = () => {
   return (
     <section className='w-full flex mb-6'>
         <div className="w-full flex flex-col gap-6">
-            <div className='w-full flex justify-between items-center'>
+            <div className='w-full flex md:flex-row ss:flex-row flex-col justify-between 
+            items-center md:gap-0 ss:gap-0 gap-4 mb-3'>
                 <div className='flex flex-col w-full'>
                     <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
-                    ss:text-[30px] text-[23px]'>
+                    ss:text-[30px] text-[22px]'>
                         Shipment Details - 001F5TG8XR4U
                     </h1>
 
@@ -57,9 +60,9 @@ const ShipmentDetails = () => {
                     </h4>
                 </div>
 
-                <div className="flex items-center md:w-[43%] ss:w-[43%] gap-4">
+                <div className="flex items-center md:w-[43%] ss:w-[43%] w-full md:gap-4 ss:gap-4 gap-3">
                    <button
-                    className='bg-main7 text-[14px] py-3 w-[50%] 
+                    className='bg-main7 md:text-[14px] ss:text-[14px] text-[13px] py-3 w-[50%] 
                     flex text-main2 rounded-xl grow4 cursor-pointer
                     items-center justify-center gap-2'
                     // onClick={handlePay}
@@ -72,7 +75,7 @@ const ShipmentDetails = () => {
                     </button>
 
                     <button
-                    className='bg-logRed text-[14px] py-3 w-[50%] 
+                    className='bg-logRed md:text-[14px] ss:text-[14px] text-[13px] py-3 w-[50%] 
                     flex text-white rounded-xl grow4 cursor-pointer
                     items-center justify-center gap-2'
                     // onClick={handlePay}
@@ -85,7 +88,63 @@ const ShipmentDetails = () => {
                     </button>
                 </div>
             </div>
-            
+
+            <div className="flex flex-col gap-4 md:mb-5 ss:mb-5 mb-4">
+                <h2 className="font-bold text-[15px] tracking-tight text-main4">
+                    SHIPMENT STATUS
+                </h2>
+
+                <div className='flex gap-4 items-center'>
+                    <div className='md:w-[4.5rem] w-[4rem] 
+                    h-auto bg-primary1 rounded-full'>
+                        <TbCircleCheckFilled
+                            className='md:w-[4.5rem] w-[4rem] 
+                            h-auto text-primary md:p-4 p-3'
+                        />
+                    </div>
+
+                    <div className='flex flex-col gap-0.5'>
+                        <h3 className="md:text-[17px] ss:text-[17px] 
+                        text-[15px] tracking-tight font-extrabold 
+                        text-main2 leading-[20px]">
+                            Package Shipped
+                        </h3>
+
+                        <div className='flex items-center gap-3.5'>
+                            <p className="font-medium md:text-[14px] 
+                            ss:text-[14px] text-[13px] tracking-tight 
+                            text-main4">
+                                Monday 28th October, 2024<span className='md:hidden ss:hidden'>, 11:25AM</span>
+                            </p>
+
+                            <div className='h-[3px] w-[3px] bg-main4
+                            hidden md:flex ss:flex rounded-full'/>
+
+                            <p className="font-medium md:text-[14px] 
+                            ss:text-[14px] tracking-tight 
+                            text-main4 hidden md:flex ss:flex">
+                                11:25AM
+                            </p>
+                        </div>
+
+                        <p className="font-medium md:text-[14px] ss:text-[14px] text-[13px] tracking-tight text-main4">
+                            Shipment leaves Dublin Dispatch Station, Ireland for Lagos, Nigeria.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <p className="md:text-[14px] ss:text-[14px] text-[13px] tracking-tight font-semibold 
+                    text-primary underline hover:text-secondary cursor-pointer 
+                    inline-flex navsmooth"
+                    onClick={() => {
+                        navigate('/user/trackshipment');
+                    }}
+                    >
+                        See full tracking details
+                    </p>
+                </div>
+            </div>
 
             <div className="flex flex-col gap-4">
                 <h2 className="font-bold text-[15px] tracking-tight text-main4">
@@ -301,8 +360,7 @@ const ShipmentDetails = () => {
                     CONTACT DETAILS
                 </h2>
 
-                <div className="flex md:flex-row ss:flex-row flex-col w-full 
-                justify-between md:gap-0 ss:gap-0 gap-5">
+                <div className="flex md:flex-row ss:flex-row flex-col w-full md:gap-16 ss:gap-0 gap-5">
                     <div className="flex flex-col md:gap-6 ss:gap-6 gap-5">
                         <div className="flex flex-col gap-0.5">
                             <h3 className="md:text-[15px] ss:text-[15px] text-[14px] 

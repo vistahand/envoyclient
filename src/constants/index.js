@@ -463,3 +463,50 @@ export const shipmentRows = [
         shipStatus: 'Shipped - In Transit',
     },
 ];
+
+export const paymentHead = [
+    {
+        id: 'transId',
+        title: 'Transaction ID',
+    },
+    {
+        id: 'initDate',
+        title: 'Date Initiated',
+    },
+    {
+        id: 'payPurpose',
+        title: 'Payment Purpose',
+    },
+    {
+        id: 'billingInfo',
+        title: 'Billing Info',
+    },
+    {
+        id: 'payStat',
+        title: 'Payment Status',
+    },
+];
+
+export const paymentRows = [
+    {
+        transId: 'TRX-18084578123',
+        initDate: '28 Oct 2024',
+        payPurpose: 'Standard Shipping, Basic Insurance',
+        billingInfo: 'Rufus Benson Antagony',
+        payStat: 'Successful',
+    },
+    {
+        transId: 'TRX-18084578075',
+        initDate: '28 Oct 2024',
+        payPurpose: 'Standard Shipping, Basic Insurance',
+        billingInfo: 'Rufus Benson Antagony',
+        payStat: 'Unsuccessful',
+    },
+    {
+        transId: 'TRX-18084576532',
+        initDate: '12 Oct 2024',
+        payPurpose: 'QuickWing, Basic Insurance',
+        billingInfo: 'Rufus Benson Antagony',
+        payStat: 'Successful',
+    },
+];
