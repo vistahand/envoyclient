@@ -213,12 +213,14 @@ const InsuranceFormUser = ({ onPrev, selectedTab, senderTab, setCurrentStep }) =
                                 </p>
                             </button>
                         </div>
-
-                        <p className='text-realRed md:text-[16px] ss:text-[16px] 
-                        text-[15px] font-semibold cursor-pointer grow2'
-                        onClick={handleCancelShipment}>
-                            Cancel Shipment
-                        </p>
+                        
+                        <div>
+                            <p className='text-realRed md:text-[16px] ss:text-[16px] 
+                            text-[15px] font-semibold cursor-pointer grow2 inline-flex'
+                            onClick={handleCancelShipment}>
+                                Cancel Shipment
+                            </p>
+                        </div>
                     </div>
                 </div>
             </form>

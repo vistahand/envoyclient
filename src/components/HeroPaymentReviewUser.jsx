@@ -3,7 +3,7 @@ import { textVariant } from '../utils/motion';
 
 const HeroPaymentReviewUser = ({ currentStep, onNavigate }) => {
   return (
-    <section className='w-full md:p-0 ss:p-0 pl-6 pr-6'>
+    <section className='w-full'>
       <div className='w-full'>
         <motion.div variants={textVariant()}
         className='flex md:w-[38%] ss:w-[60%] w-[90%] md:gap-6 ss:gap-5 

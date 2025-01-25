@@ -40,6 +40,7 @@ import HeroPaymentReviewUser from './HeroPaymentReviewUser';
 import ShipmentDetailsUser from './ShipmentDetailsUser';
 import ShipmentPayUser from './ShipmentPayUser';
 import ShipmentFinishUser from './ShipmentFinishUser';
+import TrackShipmentUser from './TrackShipmentUser';
 
 export {
     Navbar,
@@ -84,4 +85,5 @@ export {
     ShipmentDetailsUser,
     ShipmentPayUser,
     ShipmentFinishUser,
+    TrackShipmentUser,
 }

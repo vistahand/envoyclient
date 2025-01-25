@@ -12,6 +12,7 @@ import {
 import { Home, Shipments, SavedLoc, PaymentsInv } from './dashboard/user';
 import ScrollToTopButton from './constants/ScrollToTop';
 import { CreateShipmentUser } from './pages';
+import { TrackShipmentUser } from './components';
 
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
             <Route path='savedlocations' element={<SavedLoc />} />
             <Route path='shipments/createshipment' element={<CreateShipmentUser />} />
             <Route path='shipments/createshipment-payment' element={<PaymentReviewPageUser />} />
+            <Route path='trackshipment' element={<TrackShipmentUser />} />
           </Route>
         </Routes>
 

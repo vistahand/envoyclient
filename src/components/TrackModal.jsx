@@ -4,9 +4,20 @@ import { BsX } from 'react-icons/bs';
 // import * as Yup from 'yup';
 import { tracking, websearch } from '../assets';
 import { GrLocation } from "react-icons/gr";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const TrackModal = ({ onClose }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleTrackClick = (e) => {
+    e.preventDefault();
+    if (location.pathname.includes('/user')) {
+      navigate('/user/trackshipment');
+    } else {
+      navigate('/trackshipment');
+    }
+  };
 
   const enableScroll = () => {
     document.body.style.overflow = 'auto';
@@ -97,7 +108,7 @@ const TrackModal = ({ onClose }) => {
                         pr-20"
                       />
                         
-                      <a href='/trackshipment'
+                      <div onClick={handleTrackClick}
                       className='bg-secondary cursor-pointer p-2 
                       pr-3 rounded-full flex gap-1.5 items-center 
                       absolute right-1.5'
@@ -110,7 +121,7 @@ const TrackModal = ({ onClose }) => {
                         <p className='text-white text-[12.5px]'>
                           Track
                         </p>
-                      </a>
+                      </div>
                     </div>
                   </div>
 
