@@ -110,7 +110,7 @@ const PaymentsInv = () => {
           // onClick={() => navigate('/user/shipments/createshipment')}
           className='bg-main7 md:text-[14px] ss:text-[15px] text-[13px]
           py-3 px-6 flex text-main2 rounded-xl grow4 cursor-pointer
-          items-center justify-center gap-3 font-semibold'>
+          items-center justify-center gap-3 font-semibold md:w-auto ss:w-[29%] w-[53%]'>
             <p>
               Report a problem
             </p>
@@ -213,7 +213,7 @@ const PaymentsInv = () => {
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.initDate}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.payPurpose}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.billingInfo}</td>
-                      <td className="text-left pl-5 md:py-5 ss:py-5 py-4">
+                      <td className="text-left pl-5 md:py-5 ss:py-5 py-4 whitespace-nowrap">
                         <span className={`inline-block w-2.5 h-2.5 rounded-full mr-3 ${data.payStat === 'Successful' ? 'bg-greenSuccess' : 'bg-logRed'}`}></span>
                         {data.payStat}
                       </td>

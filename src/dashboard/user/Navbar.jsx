@@ -227,7 +227,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center md:gap-7 ss:gap-7 gap-4">
-          <a href="/user" 
+          <a href="" 
           className="bg-mainalt rounded-full ss:p-3 p-2.5 relative 
           md:hidden flex">
             <HiOutlineSearch
@@ -235,7 +235,7 @@ const Navbar = () => {
             />
           </a>
 
-          <a href="/user" 
+          <a href="" 
           className="bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative 
           grow2">
             <FiMail
@@ -248,7 +248,7 @@ const Navbar = () => {
             />
           </a>
 
-          <a href="/user" 
+          <a href="" 
           className="bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative 
           grow2">
             <PiBell

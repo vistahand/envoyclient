@@ -111,7 +111,7 @@ const Shipments = () => {
           onClick={() => navigate('/user/shipments/createshipment')}
           className='bg-primary md:text-[14px] ss:text-[15px] text-[13px]
           py-3 px-6 flex text-white rounded-xl grow4 cursor-pointer
-          items-center justify-center gap-3'>
+          items-center justify-center gap-3 md:w-auto ss:w-[25%] w-[50%]'>
             <p>
               Create New
             </p>
