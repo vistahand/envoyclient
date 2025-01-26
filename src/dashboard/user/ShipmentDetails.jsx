@@ -45,8 +45,8 @@ const ShipmentDetails = () => {
   return (
     <section className='w-full flex mb-6'>
         <div className="w-full flex flex-col gap-6">
-            <div className='w-full flex md:flex-row ss:flex-row flex-col justify-between 
-            items-center md:gap-0 ss:gap-0 gap-4 mb-3'>
+            <div className='w-full flex md:flex-row flex-col justify-between 
+            md:items-center md:gap-0 ss:gap-5 gap-4 mb-3'>
                 <div className='flex flex-col w-full'>
                     <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
                     ss:text-[30px] text-[22px]'>
@@ -60,7 +60,7 @@ const ShipmentDetails = () => {
                     </h4>
                 </div>
 
-                <div className="flex items-center md:w-[43%] ss:w-[43%] w-full md:gap-4 ss:gap-4 gap-3">
+                <div className="flex items-center md:w-[43%] ss:w-[52%] w-full md:gap-4 ss:gap-4 gap-3">
                    <button
                     className='bg-main7 md:text-[14px] ss:text-[14px] text-[13px] py-3 w-[50%] 
                     flex text-main2 rounded-xl grow4 cursor-pointer
