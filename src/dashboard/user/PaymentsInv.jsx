@@ -161,9 +161,9 @@ const PaymentsInv = () => {
             </div>
           </div>
 
-          <div className="w-full rounded-lg outline outline-[1px] outline-main9
+          <div className="w-full rounded-lg outline outline-[1px] outline-main9 overflow-hidden
           md:p-5 ss:p-5 p-4 flex flex-col gap-5">
-            <table className="w-full rounded-lg outline outline-[1px] 
+            <table className="w-full rounded-lg outline outline-[1px] overflow-x-scroll
             outline-main9 md:p-5 ss:p-5 p-4">
               <thead className='md:text-[14px] ss:text-[14px] text-[13px] font-medium text-main4 tracking-tight'>
                 <tr className='w-full'>
@@ -237,9 +237,9 @@ const PaymentsInv = () => {
               </tbody>
             </table>
 
-            <div className="w-full border-t-[1px] border-main9 px-5 py-5">
-              <div className="flex items-center justify-end text-main8 md:text-[14px] ss:text-[15px]
-              text-[14px] tracking-tight font-medium mr-10">
+            <div className="w-full border-t-[1px] border-main9 md:px-5 md:py-5 py-5 md:px-5 ss:px-5">
+              <div className="flex items-center md:justify-end ss:justify-end justify-between text-main8 md:text-[14px] ss:text-[15px]
+              text-[14px] tracking-tight font-medium md:mr-10 ss:mr-10">
                 <div className="flex items-center">
                   <span className="ss:mr-2 mr-1">Rows per page:</span>
 
@@ -247,7 +247,7 @@ const PaymentsInv = () => {
                     <select 
                       value={rowsPerPage} 
                       onChange={handleChangeRowsPerPage} 
-                      className="bg-transparent pr-6 md:mr-2 mr-3 py-1 custom-select
+                      className="bg-transparent md:pr-6 ss:pr-6 pr-4 md:mr-2 mr-3 py-1 custom-select
                       cursor-pointer px-2">
                       {[10, 11, 12, 13, 14].map(num => (
                         <option key={num} value={num}>{num}</option>
@@ -261,13 +261,13 @@ const PaymentsInv = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center ss:ml-8 ml-6 md:mr-5">
-                  <span>{`${(currentPage - 1) * rowsPerPage + 1}-${Math.min(currentPage * rowsPerPage, totalRows)} 
+                <div className="flex items-center md:ml-6 ss:ml-8 md:mr-5">
+                  <span className='md:mr-0 ss:mr-0 mr-5'>{`${(currentPage - 1) * rowsPerPage + 1}-${Math.min(currentPage * rowsPerPage, totalRows)} 
                     of ${totalRows}`}
                   </span>
 
                   <button onClick={handleFirstPage} 
-                  className="ss:ml-10 ml-6">
+                  className="md:ml-6 ss:ml-10 ml-2">
                     <AiOutlineDoubleLeft />
                   </button>
 
