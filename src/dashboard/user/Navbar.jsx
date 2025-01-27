@@ -16,6 +16,11 @@ const Navbar = () => {
   const location = useLocation();
   const [active, setActive] = useState('Home');
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const handleSearchClick = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -227,13 +232,28 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center md:gap-7 ss:gap-7 gap-4">
-          <a href="" 
-          className="bg-mainalt rounded-full ss:p-3 p-2.5 relative 
-          md:hidden flex">
-            <HiOutlineSearch
-              className='text-main2 text-[19px]'
-            />
-          </a>
+          <div className="bg-mainalt rounded-full ss:p-3 p-2.5 relative md:hidden flex">
+            {isSearchOpen ? (
+              <div className='flex items-center justify-between w-full'>
+                <input
+                  type="text"
+                  placeholder="Search for anything"
+                  className="text-main4 focus:outline-none ss:text-[15px] text-[13px] w-full
+                  ss:placeholder:text-[14px] placeholder:text-[13px] placeholder:text-main4 font-medium 
+                  tracking-tight bg-transparent"
+                />
+
+                <HiOutlineSearch
+                  className='text-[19px] h-auto text-main2'
+                />
+              </div>
+            ) : (
+              <HiOutlineSearch
+                className="text-main2 text-[19px]"
+                onClick={handleSearchClick}
+              />
+            )}
+          </div>
 
           <a href="" 
           className="bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative 
