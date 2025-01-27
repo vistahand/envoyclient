@@ -12,6 +12,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const menuRef = useRef(null);
+  const searchRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState('Home');
@@ -70,6 +71,19 @@ const Navbar = () => {
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleSearchClickOutside = (event) => {
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setIsSearchOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleSearchClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleSearchClickOutside);
     };
   }, []);
 
@@ -232,13 +246,13 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center md:gap-7 ss:gap-7 gap-4">
-          <div className="bg-mainalt rounded-full ss:p-3 p-2.5 relative md:hidden flex">
+          <div ref={searchRef} className="bg-mainalt rounded-full ss:p-3 p-2.5 relative md:hidden flex navsmooth">
             {isSearchOpen ? (
               <div className='flex items-center justify-between w-full'>
                 <input
                   type="text"
                   placeholder="Search for anything"
-                  className="text-main4 focus:outline-none ss:text-[15px] text-[13px] w-full
+                  className="text-main4 focus:outline-none ss:text-[15px] text-[13px] ss:w-[14rem] w-[14rem]
                   ss:placeholder:text-[14px] placeholder:text-[13px] placeholder:text-main4 font-medium 
                   tracking-tight bg-transparent"
                 />
@@ -256,8 +270,7 @@ const Navbar = () => {
           </div>
 
           <a href="" 
-          className="bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative 
-          grow2">
+          className={`bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative grow2 ${isSearchOpen ? 'md:flex hidden' : 'flex'}`}>
             <FiMail
               className='text-main2 text-[19px]'
             />
@@ -269,8 +282,7 @@ const Navbar = () => {
           </a>
 
           <a href="" 
-          className="bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative 
-          grow2">
+          className={`bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative grow2 ${isSearchOpen ? 'md:flex hidden' : 'flex'}`}>
             <PiBell
               className='text-main2 text-[19px]'
               strokeWidth={4}
@@ -282,8 +294,7 @@ const Navbar = () => {
             />
           </a>
 
-          <div className="flex items-center md:gap-4 ss:gap-4 gap-2 
-          cursor-pointer">
+          <div className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${isSearchOpen ? 'md:flex hidden' : 'flex'}`}>
             <div className="rounded-full overflow-hidden">
               <img
                 src={profilepic}
