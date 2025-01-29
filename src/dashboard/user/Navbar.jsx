@@ -78,7 +78,6 @@ const Navbar = () => {
     if (searchRef.current && !searchRef.current.contains(event.target)) {
       setIsSearchOpen(false);
     }
-    
   };
 
   useEffect(() => {
