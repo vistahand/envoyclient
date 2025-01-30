@@ -117,14 +117,7 @@ const ShipmentPayUser = ({ onPrev, onNext }) => {
                     <div className='w-full mt-2 flex flex-col gap-5'>
                         <p className="text-main4 text-[12px] font-medium 
                         leading-[18px]">
-                            By clicking on the Pay Now button, you agree to 
-                            Envoy Angel's Terms of Service and Privacy Policy 
-                            and acknowledge that payment processing is securely 
-                            handled by Paystack. You consent to Paystack's 
-                            Terms of Service and Privacy Policy, which govern 
-                            the handling of your payment information. Please 
-                            review both policies carefully to understand your 
-                            rights and obligations.
+                            By clicking on the Pay Now button, you agree to Envoy Angel's Terms of Service and Privacy Policy. Please review the policy and terms carefully to understand your rights and obligations.
                         </p>
                         
                         <div className='w-full'>
@@ -156,11 +149,11 @@ const ShipmentPayUser = ({ onPrev, onNext }) => {
                             </div>
                         </div>
 
-                        <img
+                        {/* <img
                             src={paystack}
                             alt='paystack'
                             className='md:w-[10rem] ss:w-[10rem] w-[9rem] h-auto'
-                        />
+                        /> */}
                     </div>
                 </div>
 
