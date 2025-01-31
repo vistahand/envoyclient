@@ -6,7 +6,10 @@ import { shipmentHead, shipmentRows } from '../../constants';
 import { AiOutlineDoubleLeft, AiOutlineLeft, AiOutlineRight, AiOutlineDoubleRight } from 'react-icons/ai';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import { LuArrowLeftRight } from "react-icons/lu";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { HiOutlineDotsHorizontal, HiOutlineDocumentDownload } from "react-icons/hi";
+import { GrLocation } from "react-icons/gr";
+import { TbTrashX } from "react-icons/tb";
+import { IoInformationCircleOutline } from "react-icons/io5";
 
 const Shipments = () => {
   const [selectedTab, setSelectedTab] = useState('active');
@@ -16,6 +19,7 @@ const Shipments = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [menuOpen, setMenuOpen] = useState(null);
   const menuRef = useRef(null);
+  // const [menuPosition, setMenuPosition] = useState('bottom');
   const navigate = useNavigate();
 
   const handleSelectRow = (index) => {
@@ -36,7 +40,11 @@ const Shipments = () => {
   };
 
   const toggleMenu = (index) => {
-    setMenuOpen(menuOpen === index ? null : index);
+    if (menuOpen === index) {
+      setMenuOpen(null);
+      return;
+    }
+    setMenuOpen(index);
   };
 
   const handleClickOutside = (event) => {
@@ -227,11 +235,26 @@ const Shipments = () => {
                           <HiOutlineDotsHorizontal className='text-main4 text-[24px]'/>
                         </div>
                         {menuOpen === index && (
-                          <div ref={menuRef} className="absolute right-2 bg-white border border-main7 rounded-md shadow-md z-10 w-[10vw] navsmooth">
-                            <ul className="list-none">
-                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 1</li>
-                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 2</li>
-                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 3</li>
+                          <div ref={menuRef} 
+                            className="absolute top-5 left-[110%] bg-white 
+                            rounded-lg shadow-[0px_5px_15px_rgba(0,0,0,0.20)] z-50 w-[200px] navsmooth">
+                            <ul className="list-none divide-y divide-main7">
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2">
+                                <GrLocation className="text-[16px]" />
+                                Track shipment
+                              </li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2">
+                                <IoInformationCircleOutline className="text-[16px]" />
+                                See full details
+                              </li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2">
+                                <HiOutlineDocumentDownload className="text-[16px]" />
+                                Download receipt
+                              </li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-mainRed flex items-center gap-2">
+                                <TbTrashX className="text-[16px]" />
+                                Cancel Shipment
+                              </li>
                             </ul>
                           </div>
                         )}
@@ -250,11 +273,26 @@ const Shipments = () => {
                           <HiOutlineDotsHorizontal className='text-main4 text-[24px]'/>
                         </div>
                         {menuOpen === index && (
-                          <div ref={menuRef} className="absolute right-2 bg-white border border-main7 rounded-md shadow-md z-10 w-[10vw] navsmooth">
-                            <ul className="list-none">
-                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 1</li>
-                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 2</li>
-                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 3</li>
+                          <div ref={menuRef} 
+                            className="absolute top-5 right-[100%] bg-white
+                            rounded-lg shadow-[0px_5px_15px_rgba(0,0,0,0.20)] z-50 w-[200px] navsmooth">
+                            <ul className="list-none divide-y divide-main7">
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2">
+                                <GrLocation className="text-[17px]" />
+                                Track shipment
+                              </li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2">
+                                <IoInformationCircleOutline className="text-[17px]" />
+                                See full details
+                              </li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2">
+                                <HiOutlineDocumentDownload className="text-[17px]" />
+                                Download receipt
+                              </li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer text-mainRed flex items-center gap-2">
+                                <TbTrashX className="text-[17px]" />
+                                Cancel Shipment
+                              </li>
                             </ul>
                           </div>
                         )}
