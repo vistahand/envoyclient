@@ -10,6 +10,8 @@ const Hands = () => {
     const inputRef = useRef(null);
     const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
     const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+    const [desktopTrackingNumber, setDesktopTrackingNumber] = useState('');
+    const [mobileTrackingNumber, setMobileTrackingNumber] = useState('');
 
 
     useEffect(() => {
@@ -96,6 +98,13 @@ const Hands = () => {
                                 ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
+                                value={desktopTrackingNumber}
+                                onChange={(e) => setDesktopTrackingNumber(e.target.value)}
+                                onBlur={(e) => {
+                                    if (!e.relatedTarget?.closest('.track-button-desktop')) {
+                                        setIsDesktopExpanded(false);
+                                    }
+                                }}
                                 className="flex-grow text-main flex 
                                 pr-16 focus:outline-none text-[13px]"
                             />
@@ -104,9 +113,17 @@ const Hands = () => {
                                 Track Shipment
                             </p>
                         )}
-                        <a href='/trackshipment' className={`${isDesktopExpanded
-                            ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
-                            : ''}`}
+                        <a href='/trackshipment'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (desktopTrackingNumber.trim()) {
+                                    window.location.href = '/trackshipment';
+                                }
+                            }}
+                            className={`track-button-desktop ${isDesktopExpanded
+                                ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
+                                : ''}`}
                         >
                             <img src={websearch} alt='trackshipment'
                                 className='wht w-5 h-5'
@@ -137,17 +154,32 @@ const Hands = () => {
                                 ref={inputRef}
                                 type="text"
                                 placeholder="Enter Tracking Number"
+                                value={mobileTrackingNumber}
+                                onChange={(e) => setMobileTrackingNumber(e.target.value)}
+                                onBlur={(e) => {
+                                    if (!e.relatedTarget?.closest('.track-button-mobile')) {
+                                        setIsMobileExpanded(false);
+                                    }
+                                }}
                                 className="flex-grow text-main flex
-                                focus:outline-none text-[13px] pr-16" 
+                                focus:outline-none text-[13px] pr-16"
                             />
                         ) : (
                             <p>
                                 Track Shipment
                             </p>
                         )}
-                        <a href='/trackshipment' className={`${isMobileExpanded
-                            ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
-                            : ''}`}
+                        <a href='/trackshipment'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (mobileTrackingNumber.trim()) {
+                                    window.location.href = '/trackshipment';
+                                }
+                            }}
+                            className={`track-button-mobile ${isMobileExpanded
+                                ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
+                                : ''}`}
                         >
                             <img src={websearch} alt='trackshipment'
                                 className='wht w-5 h-5'

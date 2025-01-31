@@ -5,9 +5,22 @@ import { BiCopyright } from 'react-icons/bi';
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { footerLinks, socialMedia } from '../constants';
 import { logo } from '../assets';
-import React from 'react';
+import React, { useState } from 'react';
+import { TrackModal } from '../components';
 
 const Footer = () => {
+    const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
+    
+    const disableScroll = () => {
+        const scrollPosition = window.pageYOffset;
+        document.body.style.overflow = 'hidden';
+        document.body.style.top = `-${scrollPosition}px`;
+    };
+
+    const enableScroll = () => {
+        document.body.style.overflow = 'auto';
+        document.body.style.top = '0';
+    };
   return (
     <section className='relative w-full md:min-h-[300px] ss:min-h-[600px] 
     min-h-[700px] flex items-center flex-col md:pt-0 ss:pt-0 pt-6'>
@@ -20,7 +33,7 @@ const Footer = () => {
                     ss:w-[40%] w-[60%] h-auto' />
 
                     <p className='text-main2 md:text-[14px] ss:text-[16px]
-                    text-[14px] md:leading-[20px] ss:leading-[23px] leading-[20px]
+                    text-[14px] md:leading-[21px] ss:leading-[23px] leading-[20px]
                     font-medium tracking-tight md:max-w-[45ch]'>
                         Envoy Angel Shipping and Logistics is a trusted provider 
                         of seamless, secure shipping solutions between Ireland 
@@ -54,22 +67,40 @@ const Footer = () => {
                             <ul className='list-none mt-3 w-full 
                             justify-between flex flex-col'>
                                 {footerLink.links.map((Link, index) => (
-                                    <div>
-                                        <a target='blank' href={Link.route} key={Link.name}
-                                        className='inline-flex'>
-                                            <li className={`md:text-[13px] ss:text-[16px] grow2 tracking-tight
-                                            text-[13px] md:leading-[15px] ss:leading-[20px] leading-[10px]
-                                            text-main2 hover:text-secondary cursor-pointer font-medium
-                                            ${index !== footerLink.links.length - 1 ? 'md:mb-1.5 ss:mb-2 mb-2' : 'mb-0'}`}>
-                                            <span className="flex items-center gap-2.5">
-                                                    {Link.name}
-                                                    {Link.name === "Careers" && (
-                                                        <FaArrowUpRightFromSquare 
-                                                        className="w-2.5 h-2.5" />
-                                                    )}
-                                                </span>
-                                            </li>
-                                        </a>
+                                    <div key={Link.name}>
+                                        {Link.name === "Track Shipment" ? (
+                                            <button
+                                                onClick={() => {
+                                                    setIsTrackModalOpen(true);
+                                                    disableScroll();
+                                                }}
+                                                className='inline-flex'
+                                            >
+                                                <li className={`md:text-[14px] ss:text-[16px] grow2 tracking-tight
+                                                text-[13px] md:leading-[20px] ss:leading-[20px] leading-[10px]
+                                                text-main2 hover:text-secondary cursor-pointer font-medium text-left
+                                                ${index !== footerLink.links.length - 1 ? 'md:mb-1.5 ss:mb-2 mb-2' : 'mb-0'}`}>
+                                                    <span className="flex items-center gap-2.5">
+                                                        {Link.name}
+                                                    </span>
+                                                </li>
+                                            </button>
+                                        ) : (
+                                            <a target='blank' href={Link.route} className='inline-flex'>
+                                                <li className={`md:text-[14px] ss:text-[16px] grow2 tracking-tight
+                                                text-[13px] md:leading-[20px] ss:leading-[20px] leading-[10px]
+                                                text-main2 hover:text-secondary cursor-pointer font-medium
+                                                ${index !== footerLink.links.length - 1 ? 'md:mb-1.5 ss:mb-2 mb-2' : 'mb-0'}`}>
+                                                    <span className="flex items-center gap-2.5">
+                                                        {Link.name}
+                                                        {Link.name === "Careers" && (
+                                                            <FaArrowUpRightFromSquare 
+                                                            className="w-2.5 h-2.5" />
+                                                        )}
+                                                    </span>
+                                                </li>
+                                            </a>
+                                        )}
                                     </div>
                                 ))}
                             </ul>
@@ -103,6 +134,14 @@ const Footer = () => {
                 </span>
             </p>
         </motion.div>
+        {isTrackModalOpen && (
+            <TrackModal 
+                onClose={() => {
+                    setIsTrackModalOpen(false);
+                    enableScroll();
+                }}
+            />
+        )}
     </section>
   )
 };

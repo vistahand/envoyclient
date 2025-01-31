@@ -1,10 +1,10 @@
 import { TbCurrentLocation, TbHeadset } from "react-icons/tb";
 import { LuPackage } from "react-icons/lu";
-
-import { RiTwitterXLine } from "react-icons/ri";
+// import { RiTwitterXLine } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
-import { BiLogoLinkedin } from "react-icons/bi";
+// import { BiLogoLinkedin } from "react-icons/bi";
+import { PiTiktokLogo } from "react-icons/pi";
 
 import { blog1, blog2, blog3, cash, fileinvoice, invoice, mapsearch, 
     message, movecard1, movecard2, movecard3, packagex, savedloc, shome, test1, 
@@ -20,12 +20,16 @@ export const navLinks = [
         title: "Services",
         links: [
             {
-                name: "Lorem Ipsum",
+                name: "Book a Shipment",
+                route: "/createshipment",
+            },
+            {
+                name: "Track Shipment",
                 route: "",
             },
             {
-                name: "Lorem Ipsum",
-                route: "",
+                name: "Get a Quote",
+                route: "/getaquote",
             },
         ],
     },
@@ -56,12 +60,16 @@ export const navLinks = [
         title: "Resources",
         links: [
             {
-                name: "Lorem Ipsum",
-                route: "",
+                name: "Blog",
+                route: "/blog",
             },
             {
-                name: "Lorem Ipsum",
-                route: "",
+                name: "Shipping Guides",
+                route: "/shippingguides",
+            },
+            {
+                name: "How to",
+                route: "/howto",
             },
         ],
     },
@@ -70,12 +78,16 @@ export const navLinks = [
         title: "Support",
         links: [
             {
-                name: "Lorem Ipsum",
-                route: "",
+                name: "Contact Us",
+                route: "/contact",
             },
             {
-                name: "Lorem Ipsum",
-                route: "",
+                name: "FAQs",
+                route: "/faqs",
+            },
+            {
+                name: "Live Chat",
+                route: "/livechat",
             },
         ],
     },
@@ -213,22 +225,22 @@ export const socialMedia = [
     {
         id: "facebook",
         image: FaFacebook,
-        link: ""
+        link: "https://www.facebook.com/share/1AigMkPJEm/?mibextid=LQQJ4d"
     },
     {
         id: "instagram",
         image: SiInstagram,
-        link: ""
+        link: "https://www.instagram.com/envoyangelireland?igsh=MWFicmMzNDVwYjR0eg=="
     },
+    // {
+    //     id: "linkedin",
+    //     image: BiLogoLinkedin,
+    //     link: ""
+    // },
     {
-        id: "linkedin",
-        image: BiLogoLinkedin,
-        link: ""
-    },
-    {
-        id: "twitter",
-        image: RiTwitterXLine,
-        link: ""
+        id: "tiktok",
+        image: PiTiktokLogo,
+        link: "https://www.tiktok.com/@envoyangelireland?_t=8rtCbf5LZqr&_r=1"
     },
 ];
 
@@ -255,30 +267,57 @@ export const shipmentSteps = [
     }
 ];
   
+// export const nextSteps = [
+//     {
+//         title: "Prepare for pickup",
+//         description: "Ensure your shipment is sent to the designated pickup location at the scheduled time. Once it arrives, we'll take care of the rest, and you'll be able to track its journey.",
+//         link: "Change pickup location",
+//         route: '/createshipment-payment'
+//     },
+//     {
+//         title: "Track your shipment",
+//         description: "Once your shipment is in transit, use the Track My Shipment page with your tracking ID to follow its progress. You'll also receive notifications to keep you updated.",
+//         link: "Track my shipment",
+//         route: '/createshipment-payment'
+//     },
+//     {
+//         title: "Account dashboard",
+//         description: "For an overview of this and future bookings, log into your Account Dashboard. Here, you can review past shipments, manage details, and make updates.",
+//         link: "Login to my account",
+//         route: '/createshipment-payment'
+//     },
+//     {
+//         title: "Still need help?",
+//         description: "If you have questions, our support team is ready to assist. Connect via Live Chat or email us at support@envoyangel.com.",
+//         link: "Contact Us",
+//         route: '/createshipment-payment'
+//     },
+// ];
+
 export const nextSteps = [
     {
-        title: "Prepare for pickup",
-        description: "Ensure your shipment is sent to the designated pickup location at the scheduled time. Once it arrives, we'll take care of the rest, and you'll be able to track its journey.",
-        link: "Change pickup location",
-        route: '/createshipment-payment'
+        title: "We're Verifying Your Payment",
+        description: "Our team is currently cross-checking your payment details with our bank records. This may take a short while.",
+        // link: "Change pickup location",
+        // route: '/createshipment-payment'
     },
     {
-        title: "Track your shipment",
-        description: "Once your shipment is in transit, use the Track My Shipment page with your tracking ID to follow its progress. You'll also receive notifications to keep you updated.",
-        link: "Track my shipment",
-        route: '/createshipment-payment'
+        title: "Check Your Email for Updates",
+        description: "Once your payment is verified, you'll receive a confirmation email with your shipment details and tracking ID.",
+        // link: "Track my shipment",
+        // route: '/createshipment-payment'
     },
     {
-        title: "Account dashboard",
-        description: "For an overview of this and future bookings, log into your Account Dashboard. Here, you can review past shipments, manage details, and make updates.",
-        link: "Login to my account",
-        route: '/createshipment-payment'
+        title: "Create an Account for Easy Tracking",
+        description: "Get a better experience by creating an account. View past shipments, track deliveries, and manage future bookings seamlessly.",
+        link: "Create my account",
+        route: '/register'
     },
     {
         title: "Still need help?",
         description: "If you have questions, our support team is ready to assist. Connect via Live Chat or email us at support@envoyangel.com.",
         link: "Contact Us",
-        route: '/createshipment-payment'
+        route: '/contact'
     },
 ];
 
@@ -288,11 +327,11 @@ export const footerLinks = [
         links: [
             {
                 name: "About Us",
-                route: "",
+                route: "/about",
             },
             {
                 name: "Careers",
-                route: "",
+                route: "/careers",
             },
         ],
     },
@@ -309,7 +348,7 @@ export const footerLinks = [
             },
             {
                 name: "Get a Quote",
-                route: "",
+                route: "/getaquote",
             },
         ],
     },
@@ -318,15 +357,15 @@ export const footerLinks = [
             links: [
                 {
                     name: "Blog",
-                    route: "",
+                    route: "/blog",
                 },
                 {
                     name: "Shipping Guides",
-                    route: "",
+                    route: "/shippingguides",
                 },
                 {
                     name: "How to",
-                    route: "",
+                    route: "/howto",
                 },
             ],
     },
@@ -335,15 +374,15 @@ export const footerLinks = [
             links: [
                 {
                     name: "Contact Us",
-                    route: "",
+                    route: "/contact",
                 },
                 {
                     name: "FAQs",
-                    route: "",
+                    route: "/faqs",
                 },
                 {
                     name: "Live Chat",
-                    route: "",
+                    route: "/livechat",
                 },
             ],
         },
@@ -353,15 +392,15 @@ export const footerLinks = [
         links: [
             {
                 name: "Cookies",
-                route: "",
+                route: "/cookies",
             },
             {
                 name: "Privacy Policy",
-                route: "",
+                route: "/privacypolicy",
             },
             {
                 name: "Terms of Usage",
-                route: "",
+                route: "/terms",
             },
         ],
     },

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { SectionWrapper } from "../hoc";
+import { useNavigate } from 'react-router-dom';
 // import { motion } from "framer-motion";
 import { TbCircleCheckFilled } from "react-icons/tb";
 import { copy, track } from '../assets';
 
 const TrackShipment = () => {
-    const [copyButtonText, setCopyButtonText] = useState('Copy'); 
+    const [copyButtonText, setCopyButtonText] = useState('Copy');
+    const navigate = useNavigate();
 
     const handleCopyClick = () => {
         navigator.clipboard.writeText('001F5TG8XR4U')
@@ -33,12 +35,12 @@ const TrackShipment = () => {
 
                     <div className="flex flex-col gap-5 w-full">
                         <div className='flex items-center justify-between rounded-xl 
-                        bg-primary1 px-5 py-3.5 md:w-full ss:w-[70%]
+                        bg-primary1 md:px-5 ss:px-5 px-3 py-3.5 md:w-full ss:w-[70%]
                         w-full'>
                             <p className='text-primary md:text-[21px] ss:text-[21px] 
                             text-[17px] tracking-tight font-medium'>
-                                Tracking ID: <span className='font-bold'>
-                                001F5TG8XR4U
+                                Transaction ID: <span className='font-bold'>
+                                TRX-18084578123
                                 </span>
                             </p>
 
@@ -66,6 +68,18 @@ const TrackShipment = () => {
                                 Wednesday 30th October, 2024 </span>
                                 and is currently on its way to <span className='font-extrabold'>
                                 Lagos Sorting Hub.</span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <p className="md:text-[14px] ss:text-[14px] text-[13px] tracking-tight font-semibold 
+                            text-primary underline hover:text-secondary cursor-pointer 
+                            inline-flex navsmooth"
+                            onClick={() => {
+                                navigate('/user/shipments/details');
+                            }}
+                            > 
+                                See full package details
                             </p>
                         </div>
                     </div>

@@ -6,15 +6,15 @@ import { logo } from '../assets';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoIosMenu } from "react-icons/io";
 import { HiOutlineArrowRight } from "react-icons/hi";
-// import { useNavigate  } from 'react-router-dom';
+import { TrackModal } from '../components';
 
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
     const menuRef = useRef(null);
     const [openMenuId, setOpenMenuId] = useState(null);
-    // const navigate = useNavigate();
     const [scrollPosition, setScrollPosition] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -104,23 +104,37 @@ const Navbar = () => {
                                     {openMenuId === link.id && (
                                         <div className={`absolute top-full left-1/2 transform -translate-x-1/2 
                                         fade-in border-[1px] border-mainalt z-10`}>
-                                            <div className="bg-white shadow-xl p-6
-                                            flex flex-col gap-1.5 z-20"
+                                            <div className="bg-mainalt shadow-xl p-6
+                                            flex flex-col gap-2 z-20"
                                             style={{whiteSpace: 'nowrap'}}
                                             >
                                                 {link.links.map((subLink, index) => (
-                                                    <a
-                                                        key={index}
-                                                        href={subLink.route}
-                                                        className="flex text-[13px] text-main
-                                                        hover:font-medium"
-                                                    >
-                                                        {subLink.name}
-                                                    </a>
+                                                    subLink.name === "Track Shipment" ? (
+                                                        <button
+                                                            key={index}
+                                                            onClick={() => {
+                                                                setIsTrackModalOpen(true);
+                                                                disableScroll();
+                                                            }}
+                                                            className="flex text-[14px] text-main
+                                                            hover:font-medium"
+                                                        >
+                                                            {subLink.name}
+                                                        </button>
+                                                    ) : (
+                                                        <a
+                                                            key={index}
+                                                            href={subLink.route}
+                                                            className="flex text-[14px] text-main
+                                                            hover:font-medium"
+                                                        >
+                                                            {subLink.name}
+                                                        </a>
+                                                    )
                                                 ))}
                                             </div>
                                             <div className='absolute top-0 left-1/2 z-[-10]
-                                            transform -translate-x-1/2 w-10 h-10 bg-white
+                                            transform -translate-x-1/2 w-10 h-10 bg-mainalt
                                             rotate-45 border-[1px] border-mainalt'>
                                             </div>
                                         </div>
@@ -224,14 +238,28 @@ const Navbar = () => {
                                         <div className='flex flex-col ss:gap-3 
                                         gap-2.5'>
                                             {link.links.map((subLink, index) => (
-                                            <a
-                                                key={index}
-                                                href={subLink.route}
-                                                className="ss:text-[17px] 
-                                                text-[15px] text-main"
-                                            >
-                                                {subLink.name}
-                                            </a>
+                                                subLink.name === "Track Shipment" ? (
+                                                    <button
+                                                        key={index}
+                                                        onClick={() => {
+                                                            setIsTrackModalOpen(true);
+                                                            disableScroll();
+                                                        }}
+                                                        className="ss:text-[17px] 
+                                                        text-[15px] text-main text-left"
+                                                    >
+                                                        {subLink.name}
+                                                    </button>
+                                                ) : (
+                                                    <a
+                                                        key={index}
+                                                        href={subLink.route}
+                                                        className="ss:text-[17px] 
+                                                        text-[15px] text-main"
+                                                    >
+                                                        {subLink.name}
+                                                    </a>
+                                                )
                                             ))}
                                         </div>
                                     </div>
@@ -263,6 +291,14 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
+        {isTrackModalOpen && (
+            <TrackModal 
+                onClose={() => {
+                    setIsTrackModalOpen(false);
+                    enableScroll();
+                }}
+            />
+        )}
     </nav>
   );
 };

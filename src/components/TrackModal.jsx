@@ -17,6 +17,7 @@ const TrackModal = ({ onClose }) => {
     } else {
       navigate('/trackshipment');
     }
+    onClose();
   };
 
   const enableScroll = () => {

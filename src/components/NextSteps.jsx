@@ -14,9 +14,9 @@ const CardItem = ({ index, title, link, description, route }) => {
             gap-5 md:p-3 ss:p-5 p-2'>
                 <div className='flex flex-col md:gap-3 ss:gap-3 gap-2.5
                 tracking-tight'>
-                    <h1 className='text-main2 md:text-[18px] ss:text-[22px] 
-                    text-[17px] font-bold md:leading-[2rem] tracking-tight
-                    ss:leading-[1.9rem] leading-[1.6rem]'>
+                    <h1 className='text-main2 md:text-[18px] ss:text-[20px] 
+                    text-[17px] font-bold md:leading-[1.4rem] tracking-tight
+                    ss:leading-[1.4rem] leading-[1.6rem]'>
                         {title}
                     </h1>
 

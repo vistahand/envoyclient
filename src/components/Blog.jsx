@@ -33,7 +33,7 @@ const BlogCard = ({ index, title, image, description }) => {
         </p>
 
         <div>
-          <a href='/'
+          <a href='/blog'
           className='inline-flex items-center gap-2 cursor-pointer grow5'>
             <p className='text-primary font-semibold md:text-[13px] 
             ss:text-[14px] text-[13px]'>
@@ -85,7 +85,7 @@ const Blog = () => {
         </div>
 
         <div className='flex items-center justify-center w-full md:pt-3'>
-          <a href='/'
+          <a href='/blog'
           className='bg-primary text-[13px] py-3.5 px-6 flex
           text-white rounded-full grow4 cursor-pointer w-1/8
           items-center gap-3 font-semibold'

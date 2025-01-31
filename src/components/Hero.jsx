@@ -25,6 +25,7 @@ const Hero = () => {
     const trackContainerRef = useRef(null);
     const inputRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [trackingNumber, setTrackingNumber] = useState('');
     const [imagesToShow, setImagesToShow] = useState(5);
     const [collapsedWidth, setCollapsedWidth] = useState('175px');
     const [expandedWidth, setExpandedWidth] = useState('340px')
@@ -243,7 +244,14 @@ const Hero = () => {
                                     className="flex-grow text-main
                                     focus:outline-none text-[13px] flex
                                     pr-16"
-                                    onBlur={() => setIsExpanded(false)}
+                                    value={trackingNumber}
+                                    onChange={(e) => setTrackingNumber(e.target.value)}
+                                    onBlur={(e) => {
+                                        // Don't collapse if clicking the track button
+                                        if (!e.relatedTarget?.closest('.track-button')) {
+                                            setIsExpanded(false);
+                                        }
+                                    }}
                                 />
                             ) : (
                                 <p>
@@ -251,7 +259,14 @@ const Hero = () => {
                                 </p>
                             )}
                             <a href='/trackshipment'
-                            className={`${isExpanded 
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (trackingNumber.trim()) {
+                                    window.location.href = '/trackshipment';
+                                }
+                            }}
+                            className={`track-button ${isExpanded 
                                 ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
                                 : ''}`}
                             >
