@@ -7,16 +7,30 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 
 const BankTransferModal = ({ onClose, handleNext }) => {
-    const [copyButtonText, setCopyButtonText] = useState('Copy');
+    const [nigerianCopyText, setNigerianCopyText] = useState('Copy');
+    const [irishCopyText, setIrishCopyText] = useState('Copy');
     const [countries, setCountries] = useState([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
   
-    const handleCopyClick = () => {
-        navigator.clipboard.writeText('001F5TG8XR4U')
+    const handleNigerianCopy = () => {
+        navigator.clipboard.writeText('5401893281')
         .then(() => {
-            setCopyButtonText('Copied!');
+            setNigerianCopyText('Copied!');
             setTimeout(() => {
-                setCopyButtonText('Copy');
+                setNigerianCopyText('Copy');
+            }, 3000);
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    }
+
+    const handleIrishCopy = () => {
+        navigator.clipboard.writeText('0017685892')
+        .then(() => {
+            setIrishCopyText('Copied!');
+            setTimeout(() => {
+                setIrishCopyText('Copy');
             }, 3000);
         })
         .catch(err => {
@@ -123,7 +137,7 @@ const BankTransferModal = ({ onClose, handleNext }) => {
                                                     </h1>
 
                                                     <div className='flex items-center gap-1 cursor-pointer'
-                                                    onClick={handleCopyClick}
+                                                    onClick={handleNigerianCopy}
                                                     >
                                                         <img
                                                             src={copy}
@@ -132,7 +146,7 @@ const BankTransferModal = ({ onClose, handleNext }) => {
                                                         />
 
                                                         <p className='text-primary text-[12px] tracking-tight font-bold'>
-                                                            {copyButtonText}
+                                                            {nigerianCopyText}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -188,7 +202,7 @@ const BankTransferModal = ({ onClose, handleNext }) => {
                                                     </h1>
 
                                                     <div className='flex items-center gap-1 cursor-pointer'
-                                                    onClick={handleCopyClick}
+                                                    onClick={handleIrishCopy}
                                                     >
                                                         <img
                                                             src={copy}
@@ -197,7 +211,7 @@ const BankTransferModal = ({ onClose, handleNext }) => {
                                                         />
 
                                                         <p className='text-primary text-[12px] tracking-tight font-bold'>
-                                                            {copyButtonText}
+                                                            {irishCopyText}
                                                         </p>
                                                     </div>
                                                 </div>

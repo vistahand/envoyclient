@@ -129,7 +129,7 @@ const ShipmentDetails = ({ onNext }) => {
               <p className="text-main4 text-[12px] font-medium 
               md:leading-[16px] leading-[17px] tracking-tight">
                 Shipments may not always be shipped on the date of
-                payment. <a target='blank' href='/terms' className="text-primary font-semibold">Read our terms for more details.</a>
+                payment. <a target='blank' href='/termsofusage' className="text-primary font-semibold">Read our terms for more details.</a>
               </p>
             </div>
 
@@ -533,7 +533,7 @@ const ShipmentDetails = ({ onNext }) => {
             leading-[17px]">
               This figure does not include any other extra fees that may 
               be incurred via delayed orders, payment gateway fees, etc. 
-              For more details, <a href='/terms' className="text-primary font-semibold">read our terms of usage here.</a>
+              For more details, <a href='/termsofusage' className="text-primary font-semibold">read our terms of usage here.</a>
             </p>
 
             <div className='bg-primary py-3 w-full flex text-white rounded-full 

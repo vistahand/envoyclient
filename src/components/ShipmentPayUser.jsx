@@ -231,7 +231,7 @@ const ShipmentPayUser = ({ onPrev, onNext }) => {
                         leading-[17px]">
                             This figure does not include any other extra fees that may 
                             be incurred via delayed orders, payment gateway fees, etc. 
-                            For more details, <a href='/terms' className="text-primary font-semibold">read our terms of usage here.</a>
+                            For more details, <a href='/termsofusage' className="text-primary font-semibold">read our terms of usage here.</a>
                         </p>
                     </div>
                 </div>
