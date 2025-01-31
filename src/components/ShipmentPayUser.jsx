@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { ShippingModal, PaystackModal } from '../components';
-import { paystack } from '../assets';
+import { ShippingModal, BankTransferModal } from '../components';
+// import { paystack } from '../assets';
 
 const ShipmentPayUser = ({ onPrev, onNext }) => {
     const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
-    const [isPayStackModalOpen, setIsPaystackModalOpen] = useState(false);
+    // const [isPayStackModalOpen, setIsPaystackModalOpen] = useState(false);
+    const [isBankTransferModalOpen, setIsBankTransferModalOpen] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(0);
 
     const disableScroll = () => {
@@ -15,7 +16,7 @@ const ShipmentPayUser = ({ onPrev, onNext }) => {
     };
 
     const handlePay = () => {
-        setIsPaystackModalOpen(true);
+        setIsBankTransferModalOpen(true);
         disableScroll();
     };
 
@@ -242,9 +243,9 @@ const ShipmentPayUser = ({ onPrev, onNext }) => {
                 />
             )}
 
-            {isPayStackModalOpen && (
-                <PaystackModal 
-                    onClose={() => setIsPaystackModalOpen(false)}
+            {isBankTransferModalOpen && (
+                <BankTransferModal 
+                    onClose={() => setIsBankTransferModalOpen(false)}
                     handleNext={onNext}
                 />
             )}

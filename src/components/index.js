@@ -41,6 +41,7 @@ import ShipmentDetailsUser from './ShipmentDetailsUser';
 import ShipmentPayUser from './ShipmentPayUser';
 import ShipmentFinishUser from './ShipmentFinishUser';
 import TrackShipmentUser from './TrackShipmentUser';
+import BankTransferModal from './BankTransferModal';
 
 export {
     Navbar,
@@ -86,4 +87,5 @@ export {
     ShipmentPayUser,
     ShipmentFinishUser,
     TrackShipmentUser,
+    BankTransferModal,
 }

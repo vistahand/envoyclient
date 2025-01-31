@@ -56,7 +56,6 @@ const TrackShipment = () => {
                                     {copyButtonText}
                                 </p>
                             </div>
-                            
                         </div>
 
                         <div className="w-full">
