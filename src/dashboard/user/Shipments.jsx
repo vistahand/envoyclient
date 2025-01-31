@@ -173,7 +173,7 @@ const Shipments = () => {
 
           <div className="w-full rounded-lg outline outline-[1px] outline-main9 md:p-5 ss:p-5 p-4 flex flex-col gap-5">
             <div className='w-full rounded-lg outline outline-[1px] outline-main9 overflow-x-auto'>
-              <table className="w-full p-5 overflow-x-auto">
+              <table className="w-full p-5 overflow-x-auto md:mr-0 mr-3">
                 <thead className='md:text-[14px] ss:text-[14px] text-[13px] font-medium text-main4 tracking-tight'>
                   <tr className='w-full'>
                     <th className="text-left pl-5 py-5 border-b border-main9">
@@ -184,6 +184,8 @@ const Shipments = () => {
                         className={`cursor-pointer custom-checkbox ${!selectAll ? 'custom-checkbox-head' : ''} checkbox2`}
                       />
                     </th>
+
+                    <th className="md:hidden text-left ss:pl-5 pl-4 ss:py-5 py-4 border-b border-main9"></th>
 
                     {shipmentHead.map((item, index) => (
                       <th 
@@ -202,7 +204,7 @@ const Shipments = () => {
                       </th>
                     ))}
 
-                    <th className="pl-5 py-5 border-b border-main9"></th>
+                    <th className="hidden md:table-cell pl-5 py-5 border-b border-main9"></th>
                   </tr>
                 </thead>
 
@@ -211,7 +213,7 @@ const Shipments = () => {
                     <tr key={index} 
                     onClick={() => handleRowClick(data)}
                     className={`hover:bg-mainalt navsmooth cursor-pointer ${index !== displayedRows.length - 1 ? 'border-b border-main9' : ''} ${selectedRows.includes(index) ? 'bg-main7' : ''}`}>
-                      <td className="text-left pl-5 py-5" onClick={(e) => e.stopPropagation()}>
+                      <td className="text-left pl-5 py-5 md:pr-0 pr-4" onClick={(e) => e.stopPropagation()}>
                         <input
                           type="checkbox"
                           checked={selectedRows.includes(index)}
@@ -219,6 +221,22 @@ const Shipments = () => {
                           className="cursor-pointer custom-checkbox checkbox2"
                         />
                       </td>
+
+                      <td className="md:hidden relative ss:px-4 px-3 ss:py-5 py-4" onClick={(e) => e.stopPropagation()}>
+                        <div className="cursor-pointer" onClick={() => toggleMenu(index)}>
+                          <HiOutlineDotsHorizontal className='text-main4 text-[24px]'/>
+                        </div>
+                        {menuOpen === index && (
+                          <div ref={menuRef} className="absolute right-2 bg-white border border-main7 rounded-md shadow-md z-10 w-[10vw] navsmooth">
+                            <ul className="list-none">
+                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 1</li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 2</li>
+                              <li className="p-3 hover:bg-mainalt cursor-pointer">Option 3</li>
+                            </ul>
+                          </div>
+                        )}
+                      </td>
+
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.trackId}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.shipDate}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.estDelivery}</td>
@@ -226,7 +244,8 @@ const Shipments = () => {
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.destination}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[15ch]">{data.recipient}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.shipStatus}</td>
-                      <td className="relative text-left md:px-4 ss:px-4 px-3 md:py-5 ss:py-5 py-4" onClick={(e) => e.stopPropagation()}>
+                      
+                      <td className="hidden md:table-cell relative text-left md:px-4 ss:px-4 px-3 md:py-5 ss:py-5 py-4" onClick={(e) => e.stopPropagation()}>
                         <div className="cursor-pointer" onClick={() => toggleMenu(index)}>
                           <HiOutlineDotsHorizontal className='text-main4 text-[24px]'/>
                         </div>
