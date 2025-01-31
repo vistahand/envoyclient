@@ -47,7 +47,7 @@ export const navLinks = [
             },
             {
                 name: "Terms of Usage",
-                route: "/terms",
+                route: "/termsofusage",
             },
             {
                 name: "Privacy Policy",
@@ -400,7 +400,7 @@ export const footerLinks = [
             },
             {
                 name: "Terms of Usage",
-                route: "/terms",
+                route: "/termsofusage",
             },
         ],
     },

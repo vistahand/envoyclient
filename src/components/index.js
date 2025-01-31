@@ -43,6 +43,13 @@ import ShipmentFinishUser from './ShipmentFinishUser';
 import TrackShipmentUser from './TrackShipmentUser';
 import BankTransferModal from './BankTransferModal';
 
+import HeroAbout from './HeroAbout';
+import AboutUs from './AboutUs';
+import HeroTerms from './HeroTerms';
+import Terms from './Terms';
+import HeroPrivacy from './HeroPrivacy';
+import Privacy from './Privacy';
+
 export {
     Navbar,
     Hero,
@@ -88,4 +95,11 @@ export {
     ShipmentFinishUser,
     TrackShipmentUser,
     BankTransferModal,
+
+    HeroAbout,
+    AboutUs,
+    HeroTerms,
+    Terms,
+    HeroPrivacy,
+    Privacy,
 }

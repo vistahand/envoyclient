@@ -7,6 +7,9 @@ import {
   TrackResultsPage, 
   RegisterPage,
   UserDashHome,
+  AboutPage,
+  TermsPage,
+  PrivacyPage,
 } from './scenes';
 
 import { Home, Shipments, SavedLoc, PaymentsInv, ShipmentDetails } from './dashboard/user';
@@ -22,6 +25,9 @@ const App = () => {
       <div>
         <Routes>
           <Route path='/' element={<HomePage />} />
+          <Route path='/about' element={<AboutPage />} />
+          <Route path='/termsofusage' element={<TermsPage />} />
+          <Route path='/privacypolicy' element={<PrivacyPage />} />
           <Route path='/createshipment' element={<CreateShipmentPage />} />
           <Route path='/createshipment-payment' element={<PaymentReviewPage />} />
           <Route path='/trackshipment' element={<TrackResultsPage />} />
