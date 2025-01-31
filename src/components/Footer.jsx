@@ -119,7 +119,7 @@ const Footer = () => {
 
                 <p className='md:text-[13px] ss:text-[15px] text-[12px] 
                 text-main4 md:mt-1 ss:mt-1 mt-0.5'>
-                    2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
+                    2025 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
                 </p>
             </div>
 
