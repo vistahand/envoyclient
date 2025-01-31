@@ -334,28 +334,28 @@ const Home = () => {
                   <tr className='hover:bg-main7 border-b border-main7
                   cursor-pointer'>
                     <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
-                    <td className="pr-4 py-3">001F5TG8XR4U</td>
+                    <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">TRX-18084578123</td>
                     <td className="pr-4 py-3">29 Oct 2024</td>
                   </tr>
 
                   <tr className='hover:bg-main7 border-b border-main7
                   cursor-pointer'>
                     <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
-                    <td className="pr-4 py-3">001F5TG8XR4U</td>
+                    <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">TRX-18084578123</td>
                     <td className="pr-4 py-3">29 Oct 2024</td>
                   </tr>
 
                   <tr className='hover:bg-main7 border-b border-main7
                   cursor-pointer'>
                     <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
-                    <td className="pr-4 py-3">001F5TG8XR4U</td>
+                    <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">TRX-18084578123</td>
                     <td className="pr-4 py-3">29 Oct 2024</td>
                   </tr>
                 </tbody>
               </table>
 
               <div>
-                <a href='/user/paymentsandinvoices'
+                <a href='/user/payments'
                 className='inline-flex items-center gap-3 cursor-pointer grow8'>
                   <h3 className='text-primary md:text-[16px] ss:text-[16px] 
                   text-[14px] font-semibold tracking-tight'>

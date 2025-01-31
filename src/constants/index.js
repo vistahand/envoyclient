@@ -420,9 +420,9 @@ export const sideLinks = [
         Icon: packagex,
     },
     {
-        id: 'paymentsandinvoices',
-        title: 'Payments and Invoices',
-        route: '/user/paymentsandinvoices',
+        id: 'payments',
+        title: 'Payments',
+        route: '/user/payments',
         Icon: invoice,
     },
     {
@@ -521,6 +521,10 @@ export const paymentHead = [
         title: 'Billing Info',
     },
     {
+        id: 'payMethod',
+        title: 'Payment Method',
+    },
+    {
         id: 'payStat',
         title: 'Payment Status',
     },
@@ -532,6 +536,7 @@ export const paymentRows = [
         initDate: '28 Oct 2024',
         payPurpose: 'Standard Shipping, Basic Insurance',
         billingInfo: 'Rufus Benson Antagony',
+        payMethod: 'Online (Paystack)',
         payStat: 'Successful',
     },
     {
@@ -539,6 +544,7 @@ export const paymentRows = [
         initDate: '28 Oct 2024',
         payPurpose: 'Standard Shipping, Basic Insurance',
         billingInfo: 'Rufus Benson Antagony',
+        payMethod: 'Online (Paystack)',
         payStat: 'Unsuccessful',
     },
     {
@@ -546,6 +552,7 @@ export const paymentRows = [
         initDate: '12 Oct 2024',
         payPurpose: 'QuickWing, Basic Insurance',
         billingInfo: 'Rufus Benson Antagony',
+        payMethod: 'Online (Paystack)',
         payStat: 'Successful',
     },
 ];

@@ -8,8 +8,7 @@ import { LuArrowLeftRight } from "react-icons/lu";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { PiWarningOctagon } from 'react-icons/pi';
 
-const PaymentsInv = () => {
-  const [selectedTab, setSelectedTab] = useState('receipts');
+const Payments = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -54,7 +53,7 @@ const PaymentsInv = () => {
 
   const handleRowClick = (data) => {
     navigate({
-      pathname: '/user/paymentsandinvoices/details',
+      pathname: '/user/payments/details',
       state: { shipment: data }
     });
   };
@@ -84,65 +83,38 @@ const PaymentsInv = () => {
     setCurrentPage(totalPages);
   };
 
-  const handleTabChange = (tab) => {
-    setSelectedTab(tab);
-  };
-
   return (
     <section className='w-full'>
       <div className='w-full flex flex-col gap-8'>
-        <div className="w-full flex md:flex-row flex-col md:gap-0 gap-5 
-        md:justify-between md:items-center">
+        <div className='w-full flex items-center justify-between md:gap-0 ss:gap-5 gap-4 mb-3'>
           <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
             ss:text-[30px] text-[23px]'>
-              Payments and Invoices
+              Payments
             </h1>
 
             <h4 className='text-main2 tracking-tight font-medium md:text-[16px] 
             ss:text-[16px] text-[14px] md:leading-[1.5rem] ss:leading-[1.5rem] 
             leading-[1.2rem]'>
-              Track all your payment receipts and unpaid invoices in one place
+              Track all your payment receipts in one place
             </h4>
           </div>
         
-          <button type='button'
-          // onClick={() => navigate('/user/shipments/createshipment')}
-          className='bg-main7 md:text-[14px] ss:text-[15px] text-[13px]
-          py-3 px-6 flex text-main2 rounded-xl grow4 cursor-pointer
-          items-center justify-center gap-3 font-semibold md:w-auto ss:w-[29%] w-[53%]'>
-            <p>
+          <button
+          className='bg-main7 md:text-[14px] ss:text-[14px] text-[13px]
+          flex text-main2 md:rounded-xl rounded-lg grow4 cursor-pointer whitespace-nowrap
+          items-center justify-center gap-2 md:py-3 ss:py-3 py-2.5 md:px-6 ss:px-6 px-2.5'
+          // onClick={handlePay}
+          >
+            <p className='font-semibold hidden md:flex ss:flex'>
               Report a problem
             </p>
-            
-            <PiWarningOctagon className='text-[16px]'/>
+
+            <PiWarningOctagon className='md:text-[16px] ss:text-[18px] text-[17px]'/> 
           </button>
         </div>
 
         <div className="w-full flex flex-col gap-6">
-          <div className="flex items-center md:gap-6 ss:gap-6 gap-5 
-          tracking-tight">
-            <h2 className={`text-main4 md:text-[15px] ss:text-[15px] text-[14px]
-            ${selectedTab === 'receipts' 
-            ? 'text-primary font-extrabold border-b-primary border-b-[2px] px-3' : 'font-semibold'} 
-              md:pb-2 ss:pb-2 pb-1 text-center cursor-pointer
-              hover:text-primary navsmooth3`} 
-              onClick={() => handleTabChange('receipts')}
-            >
-              Receipts
-            </h2>
-
-            <h2 className={`text-main4 md:text-[15px] ss:text-[15px] text-[14px]
-            text-center hover:text-primary cursor-pointer navsmooth3
-            ${selectedTab === 'invoices' 
-            ? 'text-primary font-extrabold border-b-primary border-b-[2px] px-3' : 'font-semibold'}
-            md:pb-2 ss:pb-2 pb-1`} 
-            onClick={() => handleTabChange('invoices')}
-            >
-              Invoices
-            </h2>
-          </div>
-
           <div className="w-full">
             <div className="md:w-[40%] ss:w-[70%] w-full rounded-lg p-3 
             gap-5 outline outline-[1px] outline-main7 bg-mainalt flex 
@@ -211,8 +183,9 @@ const PaymentsInv = () => {
                       </td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.transId}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.initDate}</td>
-                      <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.payPurpose}</td>
+                      <td className="text-left pl-5 md:py-5 ss:py-5 py-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[20ch]">{data.payPurpose}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.billingInfo}</td>
+                      <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.payMethod}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4 whitespace-nowrap">
                         <span className={`inline-block w-2.5 h-2.5 rounded-full mr-3 ${data.payStat === 'Successful' ? 'bg-greenSuccess' : 'bg-logRed'}`}></span>
                         {data.payStat}
@@ -295,4 +268,4 @@ const PaymentsInv = () => {
   );
 };
 
-export default PaymentsInv;
+export default Payments;

@@ -18,10 +18,12 @@ const Hands = () => {
         function handleClickOutside(event) {
             if (desktopTrackContainerRef.current && !desktopTrackContainerRef.current.contains(event.target)) {
                 setIsDesktopExpanded(false);
+                setDesktopTrackingNumber(''); // Clear desktop tracking number when clicking outside
             }
         
             if (trackContainerRef.current && !trackContainerRef.current.contains(event.target)) {
                 setIsMobileExpanded(false);
+                setMobileTrackingNumber(''); // Clear mobile tracking number when clicking outside
             }
         }
 
@@ -118,6 +120,7 @@ const Hands = () => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 if (desktopTrackingNumber.trim()) {
+                                    setDesktopTrackingNumber(''); // Clear desktop tracking number after clicking track
                                     window.location.href = '/trackshipment';
                                 }
                             }}
@@ -174,6 +177,7 @@ const Hands = () => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 if (mobileTrackingNumber.trim()) {
+                                    setMobileTrackingNumber(''); // Clear mobile tracking number after clicking track
                                     window.location.href = '/trackshipment';
                                 }
                             }}

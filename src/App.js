@@ -12,7 +12,7 @@ import {
   PrivacyPage,
 } from './scenes';
 
-import { Home, Shipments, SavedLoc, PaymentsInv, ShipmentDetails } from './dashboard/user';
+import { Home, Shipments, SavedLoc, Payments, ShipmentDetails } from './dashboard/user';
 import ScrollToTopButton from './constants/ScrollToTop';
 import { CreateShipmentUser } from './pages';
 import { TrackShipmentUser } from './components';
@@ -37,7 +37,7 @@ const App = () => {
           <Route path='/user' element={<UserDashHome />}>
             <Route index element={<Home />} />
             <Route path='shipments' element={<Shipments />} />
-            <Route path='paymentsandinvoices' element={<PaymentsInv />} />
+            <Route path='payments' element={<Payments />} />
             <Route path='savedlocations' element={<SavedLoc />} />
             <Route path='shipments/createshipment' element={<CreateShipmentUser />} />
             <Route path='shipments/createshipment-payment' element={<PaymentReviewPageUser />} />

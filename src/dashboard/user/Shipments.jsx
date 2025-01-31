@@ -91,8 +91,7 @@ const Shipments = () => {
   return (
     <section className='w-full'>
       <div className='w-full flex flex-col gap-8'>
-        <div className="w-full flex md:flex-row flex-col md:gap-0 gap-5 
-        md:justify-between md:items-center">
+        <div className="w-full flex justify-between items-center md:gap-0 ss:gap-0 gap-8">
           <div className='flex flex-col'>
             <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
             ss:text-[30px] text-[23px]'>
@@ -101,7 +100,7 @@ const Shipments = () => {
 
             <h4 className='text-main2 tracking-tight font-medium md:text-[16px] 
             ss:text-[16px] text-[14px] md:leading-[1.5rem] ss:leading-[1.5rem] 
-            leading-[1.2rem]'>
+            leading-[1.2rem] md:max-w-full ss:max-w-[80%] max-w-full'>
               Create, view, track and manage all your active and delivered 
               shipments in one place
             </h4>
@@ -110,9 +109,9 @@ const Shipments = () => {
           <button type='button'
           onClick={() => navigate('/user/shipments/createshipment')}
           className='bg-primary md:text-[14px] ss:text-[15px] text-[13px]
-          py-3 px-6 flex text-white rounded-xl grow4 cursor-pointer
-          items-center justify-center gap-3 md:w-auto ss:w-[25%] w-[50%]'>
-            <p>
+          md:py-3 ss:py-3 py-2.5 md:px-6 ss:px-6 px-2.5 flex text-white md:rounded-xl ss:rounded-xl
+          rounded-lg grow4 cursor-pointer items-center justify-center gap-3 md:w-auto ss:w-[27%]'>
+            <p className='hidden md:flex ss:flex'>
               Create New
             </p>
             

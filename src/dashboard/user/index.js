@@ -6,7 +6,7 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Home from './Home';
 import Shipments from './Shipments';
-import PaymentsInv from './PaymentsInv';
+import Payments from './Payments';
 import SavedLoc from './SavedLoc';
 import ShipmentDetails from './ShipmentDetails';
 
@@ -18,7 +18,7 @@ export {
     Navbar,
     Home,
     Shipments,
-    PaymentsInv,
+    Payments,
     SavedLoc,
     ShipmentDetails,
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { ReactComponent as InternationalIcon } from '../../assets/int-ship.svg';
 import { useNavigate } from 'react-router-dom';
 import { BsBoxSeam } from "react-icons/bs";
+import { HiArrowLeft } from "react-icons/hi";
 import { TbCircleCheckFilled, TbTrashX } from "react-icons/tb";
 import { PiWarningOctagon } from "react-icons/pi";
 import { ShippingModal, RecipientModal, PickupModal } from '../../components';
@@ -45,46 +46,57 @@ const ShipmentDetails = () => {
   return (
     <section className='w-full flex mb-6'>
         <div className="w-full flex flex-col gap-6">
-            <div className='w-full flex md:flex-row flex-col justify-between 
-            md:items-center md:gap-0 ss:gap-5 gap-4 mb-3'>
+            <div className='w-full flex items-center md:gap-0 ss:gap-5 gap-4 mb-3'>
                 <div className='flex flex-col w-full'>
                     <h1 className='text-primary tracking-tight font-bold md:text-[30px] 
-                    ss:text-[30px] text-[22px]'>
+                    ss:text-[30px] text-[23px]'>
                         Shipment Details - 001F5TG8XR4U
                     </h1>
 
                     <h4 className='text-main2 tracking-tight font-medium md:text-[16px] 
-                    ss:text-[16px] text-[14px] md:leading-[1.5rem] ss:leading-[1.5rem] 
+                    ss:text-[16px] text-[14px] md:leading-[1.5rem] ss:leading-[1.5rem]
                     leading-[1.2rem]'>
                         Full details of your shipment. 
                     </h4>
                 </div>
 
-                <div className="flex items-center md:w-[43%] ss:w-[52%] w-full md:gap-4 ss:gap-4 gap-3">
+                <div className="flex items-center md:gap-3 ss:gap-3 gap-2 justify-end">
+                    <button type='button'
+                    onClick={() => navigate(-1)}
+                    className='bg-mainalt md:text-[14px] ss:text-[15px] text-[13px] font-semibold outline outline-[1px] outline-main7
+                    md:py-3 ss:py-3 py-2.5 md:px-8 ss:px-3 px-2.5 flex text-main2 md:rounded-xl rounded-lg whitespace-nowrap
+                    grow4 cursor-pointer items-center justify-center gap-3 md:w-auto'>
+                        <HiArrowLeft className='md:text-[20px] ss:text-[18px] text-[17px]'/>
+
+                        <p className='hidden md:flex'>
+                            Go back
+                        </p>
+                    </button>
+                   
                    <button
-                    className='bg-main7 md:text-[14px] ss:text-[14px] text-[13px] py-3 w-[50%] 
-                    flex text-main2 rounded-xl grow4 cursor-pointer
-                    items-center justify-center gap-2'
+                    className='bg-main7 md:text-[14px] ss:text-[14px] text-[13px] 
+                    flex text-main2 md:rounded-xl rounded-lg grow4 cursor-pointer whitespace-nowrap
+                    items-center justify-center gap-2 md:py-3 ss:py-3 py-2.5 md:px-6 ss:px-3 px-2.5'
                     // onClick={handlePay}
                     >
-                        <p className='font-semibold'>
+                        <p className='font-semibold hidden md:flex'>
                            Report a problem
                         </p>
 
-                        <PiWarningOctagon className='text-[16px]'/> 
+                        <PiWarningOctagon className='md:text-[16px] ss:text-[18px] text-[17px]'/> 
                     </button>
 
                     <button
-                    className='bg-logRed md:text-[14px] ss:text-[14px] text-[13px] py-3 w-[50%] 
-                    flex text-white rounded-xl grow4 cursor-pointer
-                    items-center justify-center gap-2'
+                    className='bg-logRed md:text-[14px] ss:text-[14px] text-[13px]
+                    flex text-white md:rounded-xl rounded-lg grow4 cursor-pointer whitespace-nowrap
+                    items-center justify-center gap-2 md:py-3 ss:py-3 py-2.5 md:px-6 ss:px-3 px-2.5'
                     // onClick={handlePay}
                     >
-                        <p className='font-semibold'>
+                        <p className='font-semibold hidden md:flex'>
                             Cancel Shipment
                         </p>
                         
-                        <TbTrashX className='text-[16px]'/>
+                        <TbTrashX className='md:text-[16px] ss:text-[18px] text-[17px]'/>
                     </button>
                 </div>
             </div>

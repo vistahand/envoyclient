@@ -137,6 +137,7 @@ const Hero = () => {
         function handleClickOutside(event) {
             if (trackContainerRef.current && !trackContainerRef.current.contains(event.target)) {
                 setIsExpanded(false);
+                setTrackingNumber(''); // Clear tracking number when clicking outside
             }
         }
 
@@ -263,6 +264,7 @@ const Hero = () => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 if (trackingNumber.trim()) {
+                                    setTrackingNumber(''); // Clear tracking number after clicking track
                                     window.location.href = '/trackshipment';
                                 }
                             }}
