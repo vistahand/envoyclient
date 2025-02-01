@@ -505,6 +505,10 @@ export const shipmentRows = [
 
 export const paymentHead = [
     {
+        id: 'amount',
+        title: 'Amount',
+    },
+    {
         id: 'transId',
         title: 'Transaction ID',
     },
@@ -515,10 +519,6 @@ export const paymentHead = [
     {
         id: 'payPurpose',
         title: 'Payment Purpose',
-    },
-    {
-        id: 'billingInfo',
-        title: 'Billing Info',
     },
     {
         id: 'payMethod',
@@ -532,26 +532,26 @@ export const paymentHead = [
 
 export const paymentRows = [
     {
+        amount: '₦250,000.00',
         transId: 'TRX-18084578123',
         initDate: '28 Oct 2024',
         payPurpose: 'Standard Shipping, Basic Insurance',
-        billingInfo: 'Rufus Benson Antagony',
         payMethod: 'Online (Paystack)',
         payStat: 'Successful',
     },
     {
+        amount: '₦250,000.00',
         transId: 'TRX-18084578075',
         initDate: '28 Oct 2024',
         payPurpose: 'Standard Shipping, Basic Insurance',
-        billingInfo: 'Rufus Benson Antagony',
         payMethod: 'Online (Paystack)',
         payStat: 'Unsuccessful',
     },
     {
+        amount: '₦250,000.00',
         transId: 'TRX-18084576532',
         initDate: '12 Oct 2024',
         payPurpose: 'QuickWing, Basic Insurance',
-        billingInfo: 'Rufus Benson Antagony',
         payMethod: 'Online (Paystack)',
         payStat: 'Successful',
     },

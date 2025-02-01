@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { BsX } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles';
 import { navLinks } from '../constants';
 import { logo } from '../assets';
@@ -15,6 +16,7 @@ const Navbar = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -148,7 +150,12 @@ const Navbar = () => {
                 <div className="hidden md:flex justify-end items-center
                 gap-5">
                     <h1 className='text-primary text-[15px] font-[600]
-                    cursor-pointer grow2'>
+                    cursor-pointer grow2'
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigate('/login');
+                    }}
+                    >
                         Log In
                     </h1>
 
@@ -270,7 +277,12 @@ const Navbar = () => {
 
                         <div className="flex items-center gap-6">
                             <h1 className='text-primary ss:text-[20px] 
-                            text-[16px] font-[600]'>
+                            text-[16px] font-[600]'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate('/login');
+                            }}
+                            >
                                 Log In
                             </h1>
 

@@ -198,11 +198,11 @@ const Payments = () => {
                           </div>
                         )}
                       </td>
-
+                      
+                      <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.amount}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.transId}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.initDate}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[20ch]">{data.payPurpose}</td>
-                      <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.billingInfo}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4">{data.payMethod}</td>
                       <td className="text-left pl-5 md:py-5 ss:py-5 py-4 whitespace-nowrap">
                         <span className={`inline-block w-2.5 h-2.5 rounded-full mr-3 ${data.payStat === 'Successful' ? 'bg-greenSuccess' : 'bg-logRed'}`}></span>
