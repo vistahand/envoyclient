@@ -304,7 +304,7 @@ const Home = () => {
 
           <div className='w-full'>
             <div className='md:my-6 my-10 w-full md:rounded-2xl ss:rounded-2xl 
-            rounded-xl md:p-7 ss:p-7 p-5 bg-mainalt flex flex-col md:gap-8 
+            rounded-xl md:p-6 ss:p-6 p-5 bg-mainalt flex flex-col md:gap-8 
             ss:gap-8 gap-6'>
               <div className='flex items-center gap-2'>
                 <img
@@ -335,7 +335,7 @@ const Home = () => {
                   cursor-pointer'>
                     <td className="pr-4 py-3"><span className='line-through'>N</span>280,500</td>
                     <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">TRX-18084578123</td>
-                    <td className="pr-4 py-3">29 Oct 2024</td>
+                    <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">29 Oct 2024</td>
                   </tr>
 
                   <tr className='hover:bg-main7 border-b border-main7
@@ -357,7 +357,7 @@ const Home = () => {
               <div>
                 <a href='/user/payments'
                 className='inline-flex items-center gap-3 cursor-pointer grow8'>
-                  <h3 className='text-primary md:text-[16px] ss:text-[16px] 
+                  <h3 className='text-primary md:text-[15px] ss:text-[15px] 
                   text-[14px] font-semibold tracking-tight'>
                     See all payments
                   </h3>
