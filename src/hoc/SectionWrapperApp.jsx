@@ -9,7 +9,7 @@ const SectionWrapperApp = (Component, idName) => function HOC(props) {
             initial='hidden'
             whileInView='show'
             viewport={{ once: true, amount: 0.10 }}
-            className={`${styles.padding} max-w-[78rem] mx-auto`}
+            className={`${styles.paddingZ} max-w-[78rem] mx-auto`}
         >
             <span className='hash-span' id={idName}>
                 &nbsp;

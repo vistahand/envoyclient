@@ -9,6 +9,7 @@ import RegisterPage from './RegisterPage';
 import PaymentReviewPageUser from './PaymentReviewPageUser';
 
 import UserDashHome from './UserDashHome';
+import AdminDashHome from './AdminDashHome';
 
 export {
     HomePage,
@@ -20,5 +21,6 @@ export {
     TrackResultsPage,
     RegisterPage,
     UserDashHome,
+    AdminDashHome,
     PaymentReviewPageUser,
 }

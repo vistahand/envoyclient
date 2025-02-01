@@ -7,12 +7,15 @@ import {
   TrackResultsPage, 
   RegisterPage,
   UserDashHome,
+  AdminDashHome,
   AboutPage,
   TermsPage,
   PrivacyPage,
 } from './scenes';
 
-import { Home, Shipments, SavedLoc, Payments, ShipmentDetails, Login, PaymentDetails } from './dashboard/user';
+import { Login } from './dashboard';
+import { Home, Shipments, SavedLoc, Payments, ShipmentDetails, PaymentDetails } from './dashboard/user';
+import { AdminHome, ShipmentMgt, PaymentsAdmin, PickupLoc, QuoteMgt, Analytics, Users } from './dashboard/admin';
 import ScrollToTopButton from './constants/ScrollToTop';
 import { CreateShipmentUser } from './pages';
 import { TrackShipmentUser } from './components';
@@ -45,6 +48,19 @@ const App = () => {
             <Route path='trackshipment' element={<TrackShipmentUser />} />
             <Route path='shipments/details' element={<ShipmentDetails />} />
             <Route path='payments/details' element={<PaymentDetails />} />
+          </Route>
+
+          <Route path='/admin' element={<AdminDashHome />}>
+            <Route index element={<AdminHome />} />
+            <Route path='shipmentmanagement' element={<ShipmentMgt />} />
+            <Route path='payments' element={<PaymentsAdmin />} />
+            <Route path='pickuplocations' element={<PickupLoc />} />
+            <Route path='quotemanagement' element={<QuoteMgt />} />
+            <Route path='analytics' element={<Analytics />} />
+            <Route path='users' element={<Users />} />
+            {/* <Route path='trackshipment' element={<TrackShipmentUser />} />
+            <Route path='shipments/details' element={<ShipmentDetails />} />
+            <Route path='payments/details' element={<PaymentDetails />} /> */}
           </Route>
         </Routes>
 

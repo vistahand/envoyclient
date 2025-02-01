@@ -6,8 +6,9 @@ import { SiInstagram } from "react-icons/si";
 // import { BiLogoLinkedin } from "react-icons/bi";
 import { PiTiktokLogo } from "react-icons/pi";
 
-import { blog1, blog2, blog3, cash, fileinvoice, invoice, mapsearch, 
-    message, movecard1, movecard2, movecard3, packagex, savedloc, shome, test1, 
+import { analytics, blog1, blog2, blog3, cash, fileinvoice, invoice, mapsearch, 
+    message, movecard1, movecard2, movecard3, packagex, quote, savedloc, shome, test1,
+    users, 
 } from "../assets";
 
 import { ReactComponent as book } from '../assets/book.svg';
@@ -430,6 +431,51 @@ export const sideLinks = [
         title: 'Saved Locations',
         route: '/user/savedlocations',
         Icon: savedloc,
+    },
+];
+
+export const adminSideLinks = [
+    {
+        id: 'home',
+        title: 'Home',
+        route: '/admin',
+        Icon: shome,
+    },
+    {
+        id: 'shipmentMgt',
+        title: 'Shipment Management',
+        route: '/admin/shipmentmanagement',
+        Icon: packagex,
+    },
+    {
+        id: 'payments',
+        title: 'Payments',
+        route: '/admin/payments',
+        Icon: invoice,
+    },
+    {
+        id: 'picklocations',
+        title: 'Pickup Locations',
+        route: '/admin/pickuplocations',
+        Icon: savedloc,
+    },
+    {
+        id: 'quoteMgt',
+        title: 'Quote Management',
+        route: '/admin/quotemanagement',
+        Icon: quote,
+    },
+    {
+        id: 'analytics',
+        title: 'Analytics',
+        route: '/admin/analytics',
+        Icon: analytics,
+    },
+    {
+        id: 'users',
+        title: 'Users',
+        route: '/admin/users',
+        Icon: users,
     },
 ];
 

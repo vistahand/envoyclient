@@ -4,10 +4,10 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { PiBell } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
-import { profilepic, help, logo, logout, settings } from "../../assets";
+import { profilepic, logo, logout, settings } from "../../assets";
 import { IoIosMenu } from "react-icons/io";
 import { BsX } from 'react-icons/bs';
-import { sideLinks } from '../../constants';
+import { adminSideLinks } from '../../constants';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
@@ -28,11 +28,11 @@ const Navbar = () => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    if (currentPath === '/user' || currentPath === '/user/') {
+    if (currentPath === '/admin' || currentPath === '/admin/') {
       setActive('Home');
-    } else if (currentPath.startsWith('/user/')) {
+    } else if (currentPath.startsWith('/admin/')) {
       const pathSegments = currentPath.split('/');
-      const activeLink = sideLinks.find(link => link.route.includes(pathSegments[2]));
+      const activeLink = adminSideLinks.find(link => link.route.includes(pathSegments[2]));
       if (activeLink) {
         setActive(activeLink.title);
       }
@@ -159,7 +159,7 @@ const Navbar = () => {
             </div>
 
             <ul className="list-none flex flex-col gap-2 mt-12 w-full">
-              {sideLinks.map((link) => (
+              {adminSideLinks.map((link) => (
                 <li
                   key={link.id}
                   className={`${
@@ -199,18 +199,6 @@ const Navbar = () => {
 
             <ul className="list-none flex flex-col gap-2 mt-8 w-full 
             border-t border-t-main7 pt-8">
-              <li className='text-main2 font-semibold ss:text-[16px] 
-              text-[15px] tracking-tight'>
-                <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
-                  <img 
-                    src={help}
-                    alt='helpcentre'
-                    className='ss:w-[1.5rem] w-[1.4rem] h-auto'
-                  />
-                  Help Centre
-                </div>
-              </li>
-
               <li className='text-main2 font-semibold ss:text-[16px] 
               text-[15px] tracking-tight'>
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
@@ -385,7 +373,7 @@ const Navbar = () => {
 
             <p className="text-[16px] tracking-tight text-main2
             font-semibold hidden md:flex ss:flex">
-              Peter Alaks
+              Envoy Admin
             </p>
 
             <MdKeyboardArrowDown
