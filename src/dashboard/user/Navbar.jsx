@@ -3,6 +3,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { PiBell } from "react-icons/pi";
+import { IoClose } from "react-icons/io5";
 import { profilepic, help, logo, logout, settings } from "../../assets";
 import { IoIosMenu } from "react-icons/io";
 import { BsX } from 'react-icons/bs';
@@ -11,8 +12,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [notificationMenu, setNotificationMenu] = useState(false);
   const menuRef = useRef(null);
   const searchRef = useRef(null);
+  const notificationRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState('Home');
@@ -64,6 +67,9 @@ const Navbar = () => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setToggle(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setNotificationMenu(false);
       }
     };
 
@@ -219,7 +225,12 @@ const Navbar = () => {
 
               <li className='text-logRed font-semibold ss:text-[16px] 
               text-[15px] tracking-tight'>
-                <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
+                <div className={`flex p-3 ss:gap-4 gap-3 items-center`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/login');
+                }}
+                >
                   <img 
                     src={logout}
                     alt='logout'
@@ -281,18 +292,86 @@ const Navbar = () => {
             />
           </a>
 
-          <a href="" 
-          className={`bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative grow2 ${isSearchOpen ? 'md:flex hidden' : 'flex'}`}>
-            <PiBell
-              className='text-main2 text-[19px]'
-              strokeWidth={4}
-            />
+          <div 
+          className={`rounded-full relative ${isSearchOpen ? 'md:flex hidden' : 'flex'}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setNotificationMenu(!notificationMenu);
+          }}>
+            <div className="bg-mainalt grow2 rounded-full md:p-3 ss:p-3 p-2.5 text-main2 cursor-pointer">
+              <PiBell
+                className='text-[19px]'
+                strokeWidth={4}
+              />
+            </div>
 
             <span className='absolute top-0 right-0 bg-logRed 
               rounded-full md:w-[12px] ss:w-[12px] w-[10px] md:h-[12px]
               ss:h-[12px] h-[10px]'
             />
-          </a>
+
+            {notificationMenu && (
+              <div ref={notificationRef}
+              className="absolute top-[130%] md:right-[-150%] ss:right-[-400%] right-[-210%] bg-white md:rounded-xl 
+              ss:rounded-xl rounded-lg shadow-[0px_5px_15px_rgba(0,0,0,0.20)] z-50 md:w-[450px] 
+              ss:w-[350px] w-[300px] navsmooth md:max-h-auto ss:max-h-auto max-h-screen">
+                <div className="flex flex-col md:p-5 ss:p-5 p-4 tracking-tight">
+                  <h2 className="pb-4 font-bold md:text-[16px] ss:text-[15px] text-[14px] text-main2 border-b border-main7">
+                    Notifications
+                  </h2>
+
+                  <div className="flex flex-col divide-y divide-main7">
+                    <div className="flex items-center gap-3 py-4">
+                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-secondary flex-shrink-0" />
+
+                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main2 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-semibold">
+                        Your shipment with tracking number 001F5TG8XR4U  has been confirmed and shipped!
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-4">
+                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-secondary flex-shrink-0" />
+
+                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main2 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-semibold">
+                        Your payment was successful! We have sent a receipt to your email; if you didn't receive any mail, contact us by clicking here
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-4">
+                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-main4 flex-shrink-0" />
+
+                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main4 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-medium">
+                        Welcome to Envoy Angel Shipping and Logistics! We're super delighted you chose us to be your premier logistics partner.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-4">
+                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-main4 flex-shrink-0" />
+
+                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main4 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-medium">
+                        Endeavour to confirm your email address to unlock all the features of Envoy Angel
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-main7 pt-3 mt-14">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setNotificationMenu(false);
+                      }}
+                      className="flex items-center gap-2 md:text-[14px] text-[13px] text-logRed font-medium"
+                    >
+                      <div className="md:w-6 w-5 md:h-6 h-5 rounded-full bg-redCircle flex items-center justify-center">
+                        <IoClose className="text-logRed md:text-[14px] text-[13px]" />
+                      </div>
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${isSearchOpen ? 'md:flex hidden' : 'flex'}`}>
             <div className="rounded-full overflow-hidden">

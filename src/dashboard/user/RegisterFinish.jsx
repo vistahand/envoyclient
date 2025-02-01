@@ -281,7 +281,7 @@ const RegisterFinish = () => {
 
                 <p className='md:text-[13px] ss:text-[13px] text-[11px] 
                 text-main4 mt-0.5 font-medium'>
-                  2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
+                  2025 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
                 </p>
               </div>
             </div>

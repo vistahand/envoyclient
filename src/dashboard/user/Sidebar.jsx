@@ -123,7 +123,12 @@ const Sidebar = () => {
 
                         <li className='text-logRed grow4 font-semibold
                         cursor-pointer text-[16px] tracking-tight'>
-                            <div className={`flex p-3 gap-4 items-center`}>
+                            <div className={`flex p-3 gap-4 items-center`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate('/login');
+                            }}
+                            >
                                 <img 
                                     src={logout}
                                     alt='logout'
@@ -142,7 +147,7 @@ const Sidebar = () => {
                         </p>
                       
                         <p className='text-[13px] text-main4 mt-0.5 font-medium tracking-tight'>
-                            ©2024 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
+                            ©2025 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
                         </p>
                     </div>
                 </div>
