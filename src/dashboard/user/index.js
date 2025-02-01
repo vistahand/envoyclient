@@ -11,6 +11,7 @@ import Shipments from './Shipments';
 import Payments from './Payments';
 import SavedLoc from './SavedLoc';
 import ShipmentDetails from './ShipmentDetails';
+import PaymentDetails from './PaymentDetails'
 
 export {
     RegisterStart,
@@ -24,4 +25,5 @@ export {
     Payments,
     SavedLoc,
     ShipmentDetails,
+    PaymentDetails,
 }

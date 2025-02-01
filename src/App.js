@@ -12,7 +12,7 @@ import {
   PrivacyPage,
 } from './scenes';
 
-import { Home, Shipments, SavedLoc, Payments, ShipmentDetails, Login } from './dashboard/user';
+import { Home, Shipments, SavedLoc, Payments, ShipmentDetails, Login, PaymentDetails } from './dashboard/user';
 import ScrollToTopButton from './constants/ScrollToTop';
 import { CreateShipmentUser } from './pages';
 import { TrackShipmentUser } from './components';
@@ -44,6 +44,7 @@ const App = () => {
             <Route path='shipments/createshipment-payment' element={<PaymentReviewPageUser />} />
             <Route path='trackshipment' element={<TrackShipmentUser />} />
             <Route path='shipments/details' element={<ShipmentDetails />} />
+            <Route path='payments/details' element={<PaymentDetails />} />
           </Route>
         </Routes>
 
