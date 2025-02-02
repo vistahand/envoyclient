@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx}"],
+  content: ["./src/**/*.{js,jsx}"],  
   mode: "jit",
   theme: {
     extend: {
@@ -13,6 +13,7 @@ module.exports = {
         primary3: '#F7F8FC',
         mainalt: "#F7F7F7",
         mainRed: "#E30613",
+        
         main: "#4D4D4D",
         main2: "#3C3C3C",
         main3: "#8B8B8B",
