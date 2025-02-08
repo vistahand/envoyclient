@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
+import { useGuestShipment } from '../context/GuestShipmentContext';
+import { useNotifications } from '../context/NotificationContext';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { PiWarningCircle } from "react-icons/pi";
 import * as Yup from 'yup';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc';
 
 
@@ -12,7 +14,9 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
     const formRef = useRef();
     const currentTab = selectedTab;
     const [countries, setCountries] = useState([]);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { shipmentData, updateSenderInfo, loading } = useGuestShipment();
+    const { addNotification } = useNotifications();
 
     useEffect(() => {
         const fetchCountries = async () => {
@@ -99,9 +103,74 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
         },
         validationSchema: senderTab === 'individual' ? individualSchema : businessSchema,
         validateOnMount: true,
-        onSubmit: (values) => {
-           onNext(currentTab, senderTab);
-           console.log(senderTab);
+        onSubmit: async (values) => {
+            try {
+                if (!shipmentData?.id) {
+                    addNotification({
+                        type: 'error',
+                        title: 'Error',
+                        message: 'No shipment ID found. Please try again from step 1.'
+                    });
+                    return;
+                }
+
+                const senderData = senderTab === 'individual' ? {
+                    type: 'individual',
+                    fullName: values.fullNameInd,
+                    phone: values.phoneInd,
+                    email: values.mailInd,
+                    alternatePhone: values.altPhoneInd || null,
+                    address: {
+                        line1: values.address1Ind,
+                        line2: values.address2Ind || null,
+                        area: values.areaInd,
+                        city: values.townInd,
+                        state: values.stateInd,
+                        country: values.countryInd,
+                        postalCode: values.postalInd,
+                    },
+                    vatId: values.vatInd || null
+                } : {
+                    type: 'business',
+                    businessName: values.businessName,
+                    businessPhone: values.businessPhone,
+                    businessEmail: values.businessMail,
+                    businessAlternatePhone: values.businessPhoneAlt || null,
+                    registrationId: values.registrationID || null,
+                    vatId: values.vatBus || null,
+                    address: {
+                        line1: values.address1Bus,
+                        line2: values.address2Bus || null,
+                        area: values.areaBus,
+                        city: values.townBus,
+                        state: values.stateBus,
+                        country: values.countryBus
+                    },
+                    contactPerson: {
+                        fullName: values.fullNameBus,
+                        phone: values.phoneBus,
+                        email: values.mailBus
+                    }
+                };
+
+                const response = await updateSenderInfo(senderData);
+                if (response?.success && response?.data?.shipment?._id) {
+                    addNotification({
+                        type: 'success',
+                        title: 'Success',
+                        message: 'Sender information updated successfully'
+                    });
+                    onNext(currentTab, senderTab);
+                } else {
+                    throw new Error('Invalid response from server');
+                }
+            } catch (err) {
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: err.message || 'Failed to update sender information'
+                });
+            }
         },
     });
 
@@ -254,7 +323,11 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
                 </h1>
 
                 <div className='flex items-center gap-2 rounded-full 
-                bg-primary1 px-6 py-3 cursor-pointer grow3'>
+                bg-primary1 px-6 py-3 cursor-pointer grow3'
+                onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/login');
+                }}>
                     <PiWarningCircle className='md:text-[24px] ss:text-[24px] 
                     text-[32px] text-primary'/>
 
@@ -833,17 +906,18 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
                                 </p>
                             </button>
 
-                            <button type='submit'
-                            className='bg-primary text-[13px] py-3.5 px-14 flex
-                            text-white rounded-full grow4 cursor-pointer
-                            items-center justify-center gap-3 mobbut'
-                            >
-                                <p>
-                                    Next
-                                </p>
-                                
-                                <HiOutlineArrowRight className='text-[14px]'/>
-                            </button>
+            <button type='submit'
+            className='bg-primary text-[13px] py-3.5 px-14 flex
+            text-white rounded-full grow4 cursor-pointer
+            items-center justify-center gap-3 mobbut'
+            disabled={loading}
+            >
+                <p>
+                    {loading ? 'Updating...' : 'Next'}
+                </p>
+                
+                {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
+            </button>
 
                             <button
                             className='bg-none text-[13px] py-3.5 px-14

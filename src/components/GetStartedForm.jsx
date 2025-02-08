@@ -3,17 +3,19 @@ import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
-// import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
 import { ReactComponent as InternationalIcon } from '../assets/int-ship.svg';
+import { useGuestShipment } from '../context/GuestShipmentContext';
+import { useNotifications } from '../context/NotificationContext';
 
 
 const GetStartedForm = ({ onNext, selectedTab }) => {
     const formRef = useRef();
     const [currentTab, setCurrentTab] = useState(selectedTab);
     const [countries, setCountries] = useState([]);
-    // const navigate = useNavigate();
+    const { initializeShipment, loading, error } = useGuestShipment();
+    const { addNotification } = useNotifications();
 
     useEffect(() => {
         const fetchCountries = async () => {
@@ -28,11 +30,16 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                 setCountries(sortedCountries);
             } catch (error) {
                 console.error("Error fetching countries:", error);
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: 'Failed to fetch countries. Please refresh the page.'
+                });
             }
         };
 
         fetchCountries();
-    }, []);
+    }, [addNotification]);
 
 
     const internationalSchema = Yup.object().shape({
@@ -60,8 +67,30 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
         },
         validationSchema: currentTab === 'international' ? internationalSchema : localSchema,
         validateOnMount: true,
-        onSubmit: (values) => {
-           onNext(currentTab);
+        onSubmit: async (values) => {
+            const initialData = {
+                shipmentType: currentTab,
+                origin: {
+                    country: currentTab === 'international' ? values.countryFromInt : values.countryFromLoc,
+                    city: currentTab === 'international' ? values.cityFromInt : values.cityFromLoc
+                },
+                destination: {
+                    country: currentTab === 'international' ? values.countryTo : values.countryFromLoc,
+                    city: currentTab === 'international' ? values.cityToInt : values.cityToLoc
+                }
+            };
+
+            try {
+                await initializeShipment(initialData);
+                onNext(currentTab);
+            } catch (err) {
+                console.error('Error initializing shipment:', err);
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: err.message
+                });
+            }
         },
     });
 
@@ -374,12 +403,13 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                             className='bg-primary text-[13px] py-3.5 px-14 flex
                             text-white rounded-full grow4 cursor-pointer
                             items-center justify-center gap-3 mobbut'
+                            disabled={loading}
                             >
                                 <p>
-                                    Next
+                                    {loading ? 'Processing...' : 'Next'}
                                 </p>
                                 
-                                <HiOutlineArrowRight className='text-[14px]'/>
+                                {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                             </button>
                         </div>
                     </div>
@@ -545,12 +575,13 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
                             className='bg-primary text-[13px] py-3.5 px-14 flex
                             text-white rounded-full grow4 cursor-pointer 
                             items-center justify-center gap-3 mobbut'
+                            disabled={loading}
                             >
                                 <p>
-                                    Next
+                                    {loading ? 'Processing...' : 'Next'}
                                 </p>
                                 
-                                <HiOutlineArrowRight className='text-[14px]'/>
+                                {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                             </button>
                         </div>
                     </div>

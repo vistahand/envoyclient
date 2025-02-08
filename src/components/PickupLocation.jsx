@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import { useGuestShipment } from '../context/GuestShipmentContext';
+import { useNotifications } from '../context/NotificationContext';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
@@ -11,6 +13,8 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
     const [countries, setCountries] = useState([]);
+    const { shipmentData, updatePickupLocation, loading } = useGuestShipment();
+    const { addNotification } = useNotifications();
     // const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,8 +48,41 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
             townPick: Yup.string().required("Town/City is required"),
         }),
         
-        onSubmit: (values) => {
-           onNext(currentTab, senderTab );
+        onSubmit: async (values) => {
+            try {
+                if (!shipmentData?.id) {
+                    addNotification({
+                        type: 'error',
+                        title: 'Error',
+                        message: 'No shipment ID found. Please try again from step 1.'
+                    });
+                    return;
+                }
+
+                const pickupData = {
+                    country: values.countryPick,
+                    state: values.statePick,
+                    city: values.townPick
+                };
+
+                const response = await updatePickupLocation(pickupData);
+                if (response?.success && response?.data?.shipment?._id) {
+                    addNotification({
+                        type: 'success',
+                        title: 'Success',
+                        message: 'Pickup location updated successfully'
+                    });
+                    onNext(currentTab, senderTab);
+                } else {
+                    throw new Error('Invalid response from server');
+                }
+            } catch (err) {
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: err.message || 'Failed to update pickup location'
+                });
+            }
         },
     });
 
@@ -355,12 +392,13 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
                         className='bg-primary text-[13px] py-3.5 px-14 flex
                         text-white rounded-full grow4 cursor-pointer
                         items-center justify-center gap-3 mobbut'
+                        disabled={loading}
                         >
                             <p>
-                                Next
+                                {loading ? 'Updating...' : 'Next'}
                             </p>
                             
-                            <HiOutlineArrowRight className='text-[14px]'/>
+                            {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                         </button>
 
                         <button

@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { useRegister } from '../../context/RegisterContext';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { SectionWrapperApp } from '../../hoc';
@@ -6,8 +7,30 @@ import { incmail, register } from '../../assets';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 
 const RegisterConfirm = ({ onNext }) => {
-  // const navigate = useNavigate();
   const formRef = useRef();
+  const { verifyEmail, resendVerificationCode, loading, error: verifyError } = useRegister();
+  const [countdown, setCountdown] = useState(30);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (countdown > 0 && !canResend) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    } else if (countdown === 0 && !canResend) {
+      setCanResend(true);
+    }
+    return () => clearTimeout(timer);
+  }, [countdown, canResend]);
+
+  const handleResendCode = async () => {
+    try {
+      await resendVerificationCode();
+      setCountdown(30);
+      setCanResend(false);
+    } catch (err) {
+      console.error('Failed to resend code:', err);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -21,8 +44,13 @@ const RegisterConfirm = ({ onNext }) => {
       .required("Code is required."),  
     }),
     
-    onSubmit: (values) => {
-      onNext();
+    onSubmit: async (values) => {
+      try {
+        await verifyEmail(values.code);
+        onNext();
+      } catch (err) {
+        console.error('Verification error:', err);
+      }
     },
   });
 
@@ -104,16 +132,27 @@ const RegisterConfirm = ({ onNext }) => {
                   </div>
 
                   <div className='w-full'>
-                    <button type='submit'
-                    className='bg-primary text-[13px] py-3.5 px-14
-                    flex text-white rounded-full grow4 cursor-pointer
-                    items-center justify-center gap-3 mobbut'>
+                    <button 
+                      type='submit'
+                      disabled={loading}
+                      className={`bg-primary text-[13px] py-3.5 px-14
+                      flex text-white rounded-full grow4 cursor-pointer
+                      items-center justify-center gap-3 mobbut
+                      ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
                       <p>
-                        Confirm
+                        {loading ? 'Verifying...' : 'Confirm'}
                       </p>
                       
-                      <HiOutlineArrowRight className='text-[14px]'/>
+                      {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                     </button>
+
+                    {verifyError && (
+                      <p className="text-mainRed text-center md:text-[13px] 
+                      ss:text-[13px] text-[12px] mt-4">
+                        {verifyError}
+                      </p>
+                    )}
                   </div>
 
                   <p className="md:text-[15px] ss:text-[16px] text-[14px]  
@@ -121,8 +160,20 @@ const RegisterConfirm = ({ onNext }) => {
                   ss:leading-[22px] leading-[20px] md:mt-2 ss:mt-0 mt-1">
                     Make sure to check your spam folder if you do not find 
                     our mail in your inbox. 
-                    <br className="flex"/>Didn't get a code? <span href='/login' className='text-primary font-bold'> 
-                    Send the code again in 27s</span>
+                    <br className="flex"/>Didn't get a code? 
+                    {canResend ? (
+                      <button 
+                        onClick={handleResendCode}
+                        disabled={loading}
+                        className='text-primary font-bold hover:text-secondary'
+                      >
+                        Send the code again
+                      </button>
+                    ) : (
+                      <span className='text-primary font-bold'>
+                        Send the code again in {countdown}s
+                      </span>
+                    )}
                   </p>
                 </form>
               </div>

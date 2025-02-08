@@ -2,10 +2,11 @@ import React, { useRef } from 'react';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { HiOutlineArrowRight } from "react-icons/hi";
-// import { useNavigate } from 'react-router-dom';
 import { delOptions } from '../constants';
 import { SectionWrapper } from '../hoc';
 import { wing } from '../assets';
+import { useGuestShipment } from '../context/GuestShipmentContext';
+import { useNotifications } from '../context/NotificationContext';
 
 const DeliveryCard = ({option, onNext, index, totalOptions}) => {
 
@@ -118,7 +119,8 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
 const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    // const navigate = useNavigate();
+    const { updateDeliveryOptions, loading, error, shipmentData } = useGuestShipment();
+    const { addNotification } = useNotifications();
 
     const today = new Date().toISOString().split("T")[0];
 
@@ -131,8 +133,32 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
             date: Yup.string().required('Date is required.')
         }),
 
-        onSubmit: (values) => {
-            onNext(currentTab)
+        onSubmit: async (values, { setSubmitting }) => {
+            try {
+                if (!shipmentData?.id) {
+                    throw new Error('No shipment ID found. Please try again from step 1.');
+                }
+                
+                const option = delOptions[0]; // First option is QuickWing
+                const deliveryData = {
+                    date: values.date,
+                    service: 'QuickWing',
+                    estimatedDeliveryDate: option.date,
+                    estimatedDeliveryTime: '14:00', // 2PM
+                    price: parseFloat(option.price.replace(',', '')),
+                };
+
+                await updateDeliveryOptions(deliveryData);
+                onNext(currentTab);
+            } catch (err) {
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: err.message
+                });
+            } finally {
+                setSubmitting(false);
+            }
         },
     });
 
@@ -209,7 +235,17 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab}) => {
                                 key={index}
                                 index={index}
                                 option={option}
-                                onNext={() => onNext(currentTab)}
+                                onNext={async () => {
+                                    if (formik.isValid) {
+                                        await formik.submitForm();
+                                    } else {
+                                        addNotification({
+                                            type: 'error',
+                                            title: 'Error',
+                                            message: 'Please select a valid shipment date'
+                                        });
+                                    }
+                                }}
                                 totalOptions={delOptions.length}
                             />
                         ))}

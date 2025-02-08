@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRegister } from '../../context/RegisterContext';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { SectionWrapperApp } from '../../hoc';
@@ -11,6 +12,7 @@ const RegisterFinish = () => {
     const [countries, setCountries] = useState([]);
     const formRef = useRef();
     const navigate = useNavigate();
+    const { completeRegistration, loading, error: registerError } = useRegister();
   
     useEffect(() => {
         const fetchCountries = async () => {
@@ -45,8 +47,15 @@ const RegisterFinish = () => {
             country: Yup.string().required("Country is required"),
         }),
 
-        onSubmit: (values) => {
-            navigate('/user');
+        onSubmit: async (values) => {
+            try {
+                const response = await completeRegistration(values);
+                if (response.success) {
+                    navigate('/user');
+                }
+            } catch (err) {
+                console.error('Registration completion error:', err);
+            }
         },
     });
 
@@ -259,16 +268,27 @@ const RegisterFinish = () => {
                             </div>
 
                             <div className='w-full'>
-                            <button type='submit'
-                            className='bg-primary text-[13px] py-3.5 px-14
-                            flex text-white rounded-full grow4 cursor-pointer
-                            items-center justify-center gap-3 mobbut'>
+                            <button 
+                                type='submit'
+                                disabled={loading}
+                                className={`bg-primary text-[13px] py-3.5 px-14
+                                flex text-white rounded-full grow4 cursor-pointer
+                                items-center justify-center gap-3 mobbut
+                                ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            >
                                 <p>
-                                    Finish
+                                    {loading ? 'Completing...' : 'Finish'}
                                 </p>
                                 
-                                <HiOutlineArrowRight className='text-[14px]'/>
+                                {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                             </button>
+
+                            {registerError && (
+                                <p className="text-mainRed text-center md:text-[13px] 
+                                ss:text-[13px] text-[12px] mt-4">
+                                    {registerError}
+                                </p>
+                            )}
                             </div>
                         </form>
                     </div>

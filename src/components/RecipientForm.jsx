@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import { useGuestShipment } from '../context/GuestShipmentContext';
+import { useNotifications } from '../context/NotificationContext';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
@@ -11,6 +13,8 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
     const [countries, setCountries] = useState([]);
+    const { shipmentData, updateRecipientInfo, loading } = useGuestShipment();
+    const { addNotification } = useNotifications();
     // const navigate = useNavigate();
 
     useEffect(() => {
@@ -62,8 +66,52 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
             vatRec: Yup.string(), // Optional field
         }),
         
-        onSubmit: (values) => {
-           onNext(currentTab, senderTab );
+        onSubmit: async (values) => {
+            try {
+                if (!shipmentData?.id) {
+                    addNotification({
+                        type: 'error',
+                        title: 'Error',
+                        message: 'No shipment ID found. Please try again from step 1.'
+                    });
+                    return;
+                }
+
+                const recipientData = {
+                    fullName: values.fullNameRec,
+                    phone: values.phoneRec,
+                    email: values.mailRec,
+                    alternatePhone: values.altPhoneRec || null,
+                    address: {
+                        line1: values.address1Rec,
+                        line2: values.address2Rec || null,
+                        area: values.areaRec,
+                        city: values.townRec,
+                        state: values.stateRec,
+                        country: values.countryRec,
+                        postalCode: values.postalRec,
+                    },
+                    vatId: values.vatRec || null
+                };
+
+                const response = await updateRecipientInfo(recipientData);
+                if (response?.success && response?.data?.shipment?._id) {
+                    addNotification({
+                        type: 'success',
+                        title: 'Success',
+                        message: 'Recipient information updated successfully'
+                    });
+                    onNext(currentTab, senderTab);
+                } else {
+                    throw new Error('Invalid response from server');
+                }
+            } catch (err) {
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: err.message || 'Failed to update recipient information'
+                });
+            }
         },
     });
 
@@ -724,12 +772,13 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                         className='bg-primary text-[13px] py-3.5 px-14 flex
                         text-white rounded-full grow4 cursor-pointer
                         items-center justify-center gap-3 mobbut'
+                        disabled={loading}
                         >
                             <p>
-                                Next
+                                {loading ? 'Updating...' : 'Next'}
                             </p>
                             
-                            <HiOutlineArrowRight className='text-[14px]'/>
+                            {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                         </button>
 
                         <button

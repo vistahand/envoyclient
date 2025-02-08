@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useRegister } from '../../context/RegisterContext';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { SectionWrapperApp } from '../../hoc';
@@ -7,8 +8,8 @@ import { HiOutlineArrowRight } from 'react-icons/hi';
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const RegisterStart = ({ onNext }) => {
-  // const navigate = useNavigate();
   const formRef = useRef();
+  const { startRegistration, loading, error: registerError } = useRegister();
   const [showChoosePass, setShowChoosePass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
@@ -38,8 +39,14 @@ const RegisterStart = ({ onNext }) => {
       .required('Confirm password is required'),
     }),
     
-    onSubmit: (values) => {
-      onNext();
+    onSubmit: async (values) => {
+      try {
+        await startRegistration(values.email, values.choosePass);
+        onNext();
+      } catch (err) {
+        // Error is handled by the context and displayed below
+        console.error('Registration error:', err);
+      }
     },
   });
 
@@ -296,16 +303,27 @@ const RegisterStart = ({ onNext }) => {
                   </p>
 
                   <div className='w-full'>
-                    <button type="submit"
-                    className='bg-primary text-[13px] py-3.5 px-14
-                    flex text-white rounded-full grow4 cursor-pointer
-                    items-center justify-center gap-3 mobbut'>
+                    <button 
+                      type="submit"
+                      disabled={loading}
+                      className={`bg-primary text-[13px] py-3.5 px-14
+                      flex text-white rounded-full grow4 cursor-pointer
+                      items-center justify-center gap-3 mobbut
+                      ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
                       <p>
-                        Register
+                        {loading ? 'Registering...' : 'Register'}
                       </p>
                       
-                      <HiOutlineArrowRight className='text-[14px]'/>
+                      {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                     </button>
+
+                    {registerError && (
+                      <p className="text-mainRed text-center md:text-[13px] 
+                      ss:text-[13px] text-[12px] mt-4">
+                        {registerError}
+                      </p>
+                    )}
                   </div>
                 </form>
               </div>

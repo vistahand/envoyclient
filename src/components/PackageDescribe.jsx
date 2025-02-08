@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from 'yup';
-// import { useNavigate } from 'react-router-dom';
 import { SectionWrapper } from '../hoc';
 import { packageOptions } from '../constants';
 import { ReactComponent as LocalIcon } from '../assets/loc-ship.svg';
@@ -13,8 +12,9 @@ import { BsBoxSeam } from "react-icons/bs";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { TbSquareForbid, TbTrashX } from "react-icons/tb";
 import { GrAppsRounded } from "react-icons/gr";
-
 import { FaPallet } from 'react-icons/fa';
+import { useGuestShipment } from '../context/GuestShipmentContext';
+import { useNotifications } from '../context/NotificationContext';
 
 const PackageCard = ({ index, option, selected, onSelect}) => {
     const handleClick = () => {
@@ -62,8 +62,9 @@ const PackageCard = ({ index, option, selected, onSelect}) => {
 const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    const [selectedOption, setSelectedOption] = useState({})
-    // const navigate = useNavigate();
+    const [selectedOption, setSelectedOption] = useState({});
+    const { updatePackageDetails, loading, error, shipmentData } = useGuestShipment();
+    const { addNotification } = useNotifications();
 
     const handleSelectOption = (pkgIndex, optionIndex) => {
         setSelectedOption((prevSelected) => {
@@ -136,8 +137,20 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
             }),
         ),
         validateOnMount: true,
-        onSubmit: (values) => {
-            onNext(currentTab);
+        onSubmit: async (values) => {
+            try {
+                if (!shipmentData?.id) {
+                    throw new Error('No shipment ID found. Please try again from step 1.');
+                }
+                await updatePackageDetails(values.packages);
+                onNext(currentTab);
+            } catch (err) {
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: err.message
+                });
+            }
         },
     });
 
@@ -754,12 +767,13 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab}) => {
                         className='bg-primary text-[13px] py-3.5 px-14 flex
                         text-white rounded-full grow4 cursor-pointer
                         items-center justify-center gap-3 mobbut'
+                        disabled={loading}
                         >
                             <p>
-                                Next
+                                {loading ? 'Processing...' : 'Next'}
                             </p>
                             
-                            <HiOutlineArrowRight className='text-[14px]'/>
+                            {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
                         </button>
 
                         <button

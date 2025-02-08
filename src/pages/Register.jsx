@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { RegisterProvider } from '../context/RegisterContext';
 import {
     RegisterStart,
     RegisterConfirm,
@@ -25,11 +26,13 @@ const Register = () => {
 
 
     return (
-        <div ref={sectionRef} className='font-manrope'>
-            {currentStep === 1 && <RegisterStart onNext={handleNext} />}
-            {currentStep === 2 && <RegisterConfirm onNext={handleNext} />}
-            {currentStep === 3 && <RegisterFinish />}
-        </div>
+        <RegisterProvider>
+            <div ref={sectionRef} className='font-manrope'>
+                {currentStep === 1 && <RegisterStart onNext={handleNext} />}
+                {currentStep === 2 && <RegisterConfirm onNext={handleNext} />}
+                {currentStep === 3 && <RegisterFinish />}
+            </div>
+        </RegisterProvider>
     )
 };
 

@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
+import { useGuestShipment } from '../context/GuestShipmentContext';
+import { useNotifications } from '../context/NotificationContext';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
@@ -10,7 +13,9 @@ import { SectionWrapper } from '../hoc';
 const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
     const formRef = useRef();
     const currentTab = selectedTab;
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { shipmentData, updateInsurance, loading } = useGuestShipment();
+    const { addNotification } = useNotifications();
 
     const formik = useFormik({
         initialValues: {
@@ -22,8 +27,40 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
             assistance: Yup.bool().optional(),
         }),
         
-        onSubmit: (values) => {
-           
+        onSubmit: async (values) => {
+            try {
+                if (!shipmentData?.id) {
+                    addNotification({
+                        type: 'error',
+                        title: 'Error',
+                        message: 'No shipment ID found. Please try again from step 1.'
+                    });
+                    return;
+                }
+
+                const insuranceData = {
+                    insuranceCoverage: values.insurance || null,
+                    customsAssistance: values.assistance
+                };
+
+                const response = await updateInsurance(insuranceData);
+                if (response?.success && response?.data?.shipment?._id) {
+                    addNotification({
+                        type: 'success',
+                        title: 'Success',
+                        message: 'Insurance information updated successfully'
+                    });
+                    navigate('/createshipment-payment');
+                } else {
+                    throw new Error('Invalid response from server');
+                }
+            } catch (err) {
+                addNotification({
+                    type: 'error',
+                    title: 'Error',
+                    message: err.message || 'Failed to update insurance information'
+                });
+            }
         },
     });
 
@@ -205,17 +242,18 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                             </p>
                         </button>
 
-                        <a href='/createshipment-payment'
+                        <button type='submit'
                         className='bg-primary text-[13px] py-3.5 px-14 flex
                         text-white rounded-full grow4 cursor-pointer
                         items-center justify-center gap-3 mobbut'
+                        disabled={loading}
                         >
                             <p>
-                                Pay now
+                                {loading ? 'Updating...' : 'Pay now'}
                             </p>
                             
-                            <HiOutlineArrowRight className='text-[14px]'/>
-                        </a>
+                            {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
+                        </button>
 
                         <button
                         className='bg-none text-[13px] py-3.5 px-14

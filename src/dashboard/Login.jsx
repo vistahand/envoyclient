@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
 import { useFormik } from "formik";
+import { useAuth } from '../context/AuthContext';
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { SectionWrapperApp } from '../hoc';
-import { apple, facebook, google, login } from '../assets';
+import { apple, facebook, google, login as loginImage } from '../assets';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
@@ -15,6 +16,10 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -30,8 +35,22 @@ const Login = () => {
       .required("Password is required"),  
     }),
     
-    onSubmit: (values) => {
-      navigate('/user');
+    onSubmit: async (values) => {
+      try {
+        setIsLoading(true);
+        setLoginError('');
+        const response = await login(values);
+        if (response.success) {
+          // Navigate based on user role
+          navigate(response.data.user.role === 'admin' ? '/admin' : '/user');
+        } else {
+          setLoginError(response.error || 'Login failed');
+        }
+      } catch (err) {
+        setLoginError(err.response?.data?.error || 'Login failed. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     },
   });
 
@@ -222,16 +241,27 @@ const Login = () => {
                   </div>
 
                   <div className='w-full'>
-                    <button type="submit"
-                    className='bg-primary text-[13px] py-3.5 px-14
-                    flex text-white rounded-full grow4 cursor-pointer
-                    items-center justify-center gap-3 mobbut'>
+                    <button 
+                      type="submit"
+                      disabled={isLoading}
+                      className={`bg-primary text-[13px] py-3.5 px-14
+                      flex text-white rounded-full grow4 cursor-pointer
+                      items-center justify-center gap-3 mobbut
+                      ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
                       <p>
-                        Login
+                        {isLoading ? 'Logging in...' : 'Login'}
                       </p>
                       
-                      <HiOutlineArrowRight className='text-[14px]'/>
+                      {!isLoading && <HiOutlineArrowRight className='text-[14px]'/>}
                     </button>
+
+                    {loginError && (
+                      <p className="text-mainRed text-center md:text-[13px] 
+                      ss:text-[13px] text-[12px] mt-4">
+                        {loginError}
+                      </p>
+                    )}
                   </div>
                 </form>
               </div>
@@ -251,7 +281,7 @@ const Login = () => {
         <div className='w-[50%] md:flex hidden'>
           <div className='w-full relative rounded-2xl'>
             <img
-              src={login}
+              src={loginImage}
               alt='login'
               className='h-full w-auto object-cover rounded-2xl'
             />
