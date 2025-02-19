@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react";
 import { auth } from "../services/api";
 import LoadingScreen from "../components/LoadingScreen";
 import { handleApiError } from "../utils/errorHandler";
-import Cookies from "js-cookie";
 
 const RegisterContext = createContext(null);
 
@@ -52,7 +51,7 @@ export const RegisterProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const response = await auth.verifyEmail(code);
-      if (response.success) {    
+      if (response.success) {
         return response;
       } else {
         setError(response.error || "Verification failed");
@@ -77,9 +76,6 @@ export const RegisterProvider = ({ children }) => {
       const response = await auth.completeRegistration(userData);
 
       if (response.success) {
-        // Store token and user data
-        Cookies.set("token", response.data.token);
-        Cookies.set("user", JSON.stringify(response.data.user));
         return response;
       } else {
         setError(response.error || "Registration completion failed");

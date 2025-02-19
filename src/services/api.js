@@ -75,17 +75,13 @@ export const auth = {
       //   throw new Error("Network error. Please check your connection.");
       // }
       // throw new Error(err.response?.data?.error || "Email verification failed");
-      alert("error occured!!")
+      alert("error occured!!");
     }
   },
 
   completeRegistration: async (userData) => {
     try {
       const response = await api.post("/auth/complete-registration", userData);
-      if (response.data.token) {
-        Cookies.set("token", response.data.token);
-        Cookies.set("user", JSON.stringify(response.data.user));
-      }
       return response.data;
     } catch (err) {
       if (!err.response) {
