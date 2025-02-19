@@ -71,11 +71,10 @@ export const auth = {
       const response = await api.get(`/auth/verify-email/${code}`);
       return response.data;
     } catch (err) {
-      // if (!err.response) {
-      //   throw new Error("Network error. Please check your connection.");
-      // }
-      // throw new Error(err.response?.data?.error || "Email verification failed");
-      alert("error occured!!");
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(err.response?.data?.error || "Email verification failed");
     }
   },
 
