@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from '../services/api';
-import LoadingScreen from '../components/LoadingScreen';
-import { handleApiError } from '../utils/errorHandler';
+import { createContext, useContext, useState, useEffect } from "react";
+import { auth } from "../services/api";
+import LoadingScreen from "../components/LoadingScreen";
+import { handleApiError } from "../utils/errorHandler";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext(null);
 
@@ -11,9 +12,9 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check if user is stored in localStorage
-    const storedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    // Check if user is stored in Cookies
+    const storedUser = Cookies.get("user");
+    const token = Cookies.get("token");
 
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -30,21 +31,21 @@ export const AuthProvider = ({ children }) => {
         const response = await auth.getMe();
         if (response.success) {
           setUser(response.data.user);
-          localStorage.setItem('user', JSON.stringify(response.data.user));
+          Cookies.set("user", JSON.stringify(response.data.user));
         } else {
           // Clear invalid data but don't redirect
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          Cookies.remove("token");
+          Cookies.remove("user");
           setUser(null);
         }
       } catch (err) {
         // Log error but don't redirect
-        handleApiError(err, { 
-          context: { action: 'verify_auth' },
-          defaultMessage: 'Authentication verification failed'
+        handleApiError(err, {
+          context: { action: "verify_auth" },
+          defaultMessage: "Authentication verification failed",
         });
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        Cookies.remove("token");
+        Cookies.remove("user");
         setUser(null);
       } finally {
         setLoading(false);
@@ -67,8 +68,8 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { action: 'login' },
-        defaultMessage: 'Login failed'
+        context: { action: "login" },
+        defaultMessage: "Login failed",
       });
       setError(errorMessage);
       throw err;
@@ -82,8 +83,8 @@ export const AuthProvider = ({ children }) => {
       return response;
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { action: 'register' },
-        defaultMessage: 'Registration failed'
+        context: { action: "register" },
+        defaultMessage: "Registration failed",
       });
       setError(errorMessage);
       throw err;
@@ -94,23 +95,23 @@ export const AuthProvider = ({ children }) => {
     try {
       await auth.logout();
       setUser(null);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      Cookies.remove("token");
+      Cookies.remove("user");
     } catch (err) {
-      handleApiError(err, { 
-        context: { action: 'logout' },
-        defaultMessage: 'Logout failed'
+      handleApiError(err, {
+        context: { action: "logout" },
+        defaultMessage: "Logout failed",
       });
       // Still clear local data even if API call fails
       setUser(null);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      Cookies.remove("token");
+      Cookies.remove("user");
     }
   };
 
   const updateUser = (userData) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    Cookies.set("user", JSON.stringify(userData));
   };
 
   const forgotPassword = async (email) => {
@@ -120,8 +121,8 @@ export const AuthProvider = ({ children }) => {
       return response;
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { action: 'forgot_password' },
-        defaultMessage: 'Password reset request failed'
+        context: { action: "forgot_password" },
+        defaultMessage: "Password reset request failed",
       });
       setError(errorMessage);
       throw err;
@@ -135,8 +136,8 @@ export const AuthProvider = ({ children }) => {
       return response;
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { action: 'reset_password' },
-        defaultMessage: 'Password reset failed'
+        context: { action: "reset_password" },
+        defaultMessage: "Password reset failed",
       });
       setError(errorMessage);
       throw err;
@@ -147,18 +148,11 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const response = await auth.verifyEmail(token);
-      if (response.success) {
-        // Update user verification status if they're logged in
-        if (user) {
-          setUser({ ...user, isVerified: true });
-          localStorage.setItem('user', JSON.stringify({ ...user, isVerified: true }));
-        }
-      }
       return response;
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { action: 'verify_email' },
-        defaultMessage: 'Email verification failed'
+        context: { action: "verify_email" },
+        defaultMessage: "Email verification failed",
       });
       setError(errorMessage);
       throw err;
@@ -177,24 +171,20 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     verifyEmail,
     isAuthenticated: !!user,
-    isAdmin: user?.role === 'admin'
+    isAdmin: user?.role === "admin",
   };
 
   if (loading) {
     return <LoadingScreen />;
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

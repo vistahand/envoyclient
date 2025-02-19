@@ -5,9 +5,9 @@
  * @returns {string} Error message to display to user
  */
 export const getErrorMessage = (error, defaultMessage = 'An error occurred. Please try again.') => {
-  if (error.response?.data?.error) {
+  if (error.message) {
     // Error from our API with specific message
-    return error.response.data.error;
+    return error.message;
   } else if (error.response?.status === 401) {
     // Unauthorized
     return 'Please login to continue';

@@ -1,19 +1,20 @@
-import { createContext, useContext, useState } from 'react';
-import { auth } from '../services/api';
-import LoadingScreen from '../components/LoadingScreen';
-import { handleApiError } from '../utils/errorHandler';
+import { createContext, useContext, useState } from "react";
+import { auth } from "../services/api";
+import LoadingScreen from "../components/LoadingScreen";
+import { handleApiError } from "../utils/errorHandler";
+import Cookies from "js-cookie";
 
 const RegisterContext = createContext(null);
 
 export const RegisterProvider = ({ children }) => {
   const [registrationData, setRegistrationData] = useState({
-    email: '',
-    password: '',
-    verificationToken: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
-    country: ''
+    email: "",
+    password: "",
+    verificationToken: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    country: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,20 +25,20 @@ export const RegisterProvider = ({ children }) => {
       setError(null);
       const response = await auth.register({ email, password });
       if (response.success) {
-        setRegistrationData(prev => ({
+        setRegistrationData((prev) => ({
           ...prev,
           email,
-          password
+          password,
         }));
         return response;
       } else {
-        setError(response.error || 'Registration failed');
-        throw new Error(response.error || 'Registration failed');
+        setError(response.error || "Registration failed");
+        throw new Error(response.error || "Registration failed");
       }
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { action: 'start_registration', email },
-        defaultMessage: 'Registration failed'
+        context: { action: "start_registration", email },
+        defaultMessage: "Registration failed",
       });
       setError(errorMessage);
       throw err;
@@ -51,20 +52,16 @@ export const RegisterProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const response = await auth.verifyEmail(code);
-      if (response.success) {
-        setRegistrationData(prev => ({
-          ...prev,
-          verificationToken: response.data.token
-        }));
+      if (response.success) {    
         return response;
       } else {
-        setError(response.error || 'Verification failed');
-        throw new Error(response.error || 'Verification failed');
+        setError(response.error || "Verification failed");
+        throw new Error(response.error || "Verification failed");
       }
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { action: 'verify_email', code },
-        defaultMessage: 'Verification failed'
+        context: { action: "verify_email", code },
+        defaultMessage: "Verification failed",
       });
       setError(errorMessage);
       throw err;
@@ -77,27 +74,24 @@ export const RegisterProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await auth.completeRegistration({
-        ...registrationData,
-        ...userData
-      });
+      const response = await auth.completeRegistration(userData);
 
       if (response.success) {
         // Store token and user data
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        Cookies.set("token", response.data.token);
+        Cookies.set("user", JSON.stringify(response.data.user));
         return response;
       } else {
-        setError(response.error || 'Registration completion failed');
-        throw new Error(response.error || 'Registration completion failed');
+        setError(response.error || "Registration completion failed");
+        throw new Error(response.error || "Registration completion failed");
       }
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { 
-          action: 'complete_registration',
-          userData
+        context: {
+          action: "complete_registration",
+          userData,
         },
-        defaultMessage: 'Registration completion failed'
+        defaultMessage: "Registration completion failed",
       });
       setError(errorMessage);
       throw err;
@@ -110,15 +104,17 @@ export const RegisterProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await auth.resendVerificationCode(registrationData.email);
+      const response = await auth.resendVerificationCode(
+        registrationData.email
+      );
       return response;
     } catch (err) {
       const errorMessage = handleApiError(err, {
-        context: { 
-          action: 'resend_verification_code',
-          email: registrationData.email 
+        context: {
+          action: "resend_verification_code",
+          email: registrationData.email,
         },
-        defaultMessage: 'Failed to resend verification code'
+        defaultMessage: "Failed to resend verification code",
       });
       setError(errorMessage);
       throw err;
@@ -134,7 +130,7 @@ export const RegisterProvider = ({ children }) => {
     startRegistration,
     verifyEmail,
     completeRegistration,
-    resendVerificationCode
+    resendVerificationCode,
   };
 
   if (loading) {
@@ -151,7 +147,7 @@ export const RegisterProvider = ({ children }) => {
 export const useRegister = () => {
   const context = useContext(RegisterContext);
   if (!context) {
-    throw new Error('useRegister must be used within a RegisterProvider');
+    throw new Error("useRegister must be used within a RegisterProvider");
   }
   return context;
 };
