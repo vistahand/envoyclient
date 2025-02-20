@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 
 // Create axios instance with default config
 const api = axios.create({
@@ -8,15 +7,6 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-});
-
-// Add token to requests if available
-api.interceptors.request.use((config) => {
-  const token = Cookies.get("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
 });
 
 // Handle token expiration
@@ -28,8 +18,8 @@ api.interceptors.response.use(
       error.response?.status === 401 &&
       !error.config.url.endsWith("/auth/me")
     ) {
-      Cookies.remove("token");
-      Cookies.remove("user");
+      // Clear any local state
+      localStorage.clear();
       window.location.href = "/login";
     }
     return Promise.reject(error);
@@ -41,10 +31,7 @@ export const auth = {
   login: async (credentials) => {
     try {
       const response = await api.post("/auth/login", credentials);
-      if (response.data.token) {
-        Cookies.set("token", response.data.token);
-        Cookies.set("user", JSON.stringify(response.data.user));
-      }
+      localStorage.setItem("user", JSON.stringify(response.data.data.user));
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -109,8 +96,7 @@ export const auth = {
   logout: async () => {
     try {
       await api.post("/auth/logout");
-      Cookies.remove("token");
-      Cookies.remove("user");
+      localStorage.clear();
       return { success: true };
     } catch (err) {
       if (!err.response) {
