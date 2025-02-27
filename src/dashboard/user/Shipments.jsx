@@ -304,7 +304,7 @@ const Shipments = () => {
             </div>
             
 
-            <div className="w-full border-t-[1px] border-main9 md:px-5 md:py-5 py-5 md:px-5 ss:px-5">
+            <div className="w-full border-t-[1px] border-main9 md:px-5 md:py-5 py-5 ss:px-5">
               <div className="flex items-center md:justify-end ss:justify-end justify-between text-main8 md:text-[14px] ss:text-[15px]
               text-[14px] tracking-tight font-medium md:mr-10 ss:mr-10">
                 <div className="flex items-center">

@@ -63,7 +63,7 @@ const AboutUs = () => {
 
                     <div className="md:w-[50%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
                         <motion.div variants={fadeIn('left', 'spring', 0.3)} 
-                        className='w-full relative md:rounded-2xl md:h-[350px] h-[250px]
+                        className='w-full md:rounded-2xl md:h-[350px] h-[250px]
                         ss:rounded-2xl rounded-xl relative overflow-hidden'>
                             <img
                                 src={about}

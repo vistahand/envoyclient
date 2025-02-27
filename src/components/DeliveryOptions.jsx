@@ -35,7 +35,7 @@ const DeliveryCard = ({option, onNext, index, totalOptions}) => {
                         </span>
                     </h1>
 
-                    <div className='flex flex-col tracking-tight block 
+                    <div className='flex flex-col tracking-tight 
                     ss:hidden md:hidden gap-1'>
                         <h1 className='text-[20px] font-bold'>
                             {option.date}

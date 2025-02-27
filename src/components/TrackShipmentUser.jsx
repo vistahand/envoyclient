@@ -258,7 +258,7 @@ const TrackShipmentUser = () => {
 
                 <div className="md:w-[45%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
                     <div className='w-full relative md:rounded-2xl
-                    ss:rounded-2xl rounded-xl relative overflow-hidden'>
+                    ss:rounded-2xl rounded-xl overflow-hidden'>
                         <img
                             src={track}
                             alt='shipmentconfirmed'

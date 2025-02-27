@@ -97,7 +97,7 @@ const Navbar = () => {
     <section className='w-full flex items-center border-b border-b-main7'>
       <div className="w-full flex items-center md:py-4 py-5 md:px-7 
       ss:px-10 px-5 justify-between">
-        <div className='bg-mainalt w-[50%] rounded-full flex p-3 gap-3 
+        <div className='bg-mainalt w-[50%] rounded-full p-3 gap-3 
         items-center hidden md:flex'>
           <HiOutlineSearch
             className='w-[1.3rem] h-auto text-main2 cursor-pointer'

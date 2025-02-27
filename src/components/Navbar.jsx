@@ -81,7 +81,7 @@ const Navbar = () => {
                     </a>
                 </div>
 
-                <div className='flex justify-center relative
+                <div className='justify-center relative
                 items-center hidden md:flex'>
                     <div className="flex items-center w-full">
                         <ul className="list-none flex flex-row gap-8">
