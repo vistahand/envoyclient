@@ -1,4 +1,4 @@
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
 class SocketService {
   constructor() {
@@ -8,23 +8,23 @@ class SocketService {
 
   connect() {
     if (!this.socket) {
-      this.socket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000', {
+      this.socket = io(import.meta.env.VITE_API_URL || "http://localhost:5000", {
         withCredentials: true,
-        transports: ['websocket']
+        transports: ["websocket"],
       });
 
-      this.socket.on('connect', () => {
+      this.socket.on("connect", () => {
         this.connected = true;
-        console.log('Socket connected');
+        console.log("Socket connected");
       });
 
-      this.socket.on('disconnect', () => {
+      this.socket.on("disconnect", () => {
         this.connected = false;
-        console.log('Socket disconnected');
+        console.log("Socket disconnected");
       });
 
-      this.socket.on('error', (error) => {
-        console.error('Socket error:', error);
+      this.socket.on("error", (error) => {
+        console.error("Socket error:", error);
       });
     }
     return this.socket;
@@ -41,42 +41,42 @@ class SocketService {
   // Join user's room for private notifications
   joinUserRoom(userId) {
     if (this.socket && userId) {
-      this.socket.emit('join', userId);
+      this.socket.emit("join", userId);
     }
   }
 
   // Listen for notifications
   onNotification(callback) {
     if (this.socket) {
-      this.socket.on('notification', callback);
+      this.socket.on("notification", callback);
     }
   }
 
   // Listen for email verification status
   onEmailVerificationStatus(callback) {
     if (this.socket) {
-      this.socket.on('email_verification_status', callback);
+      this.socket.on("email_verification_status", callback);
     }
   }
 
   // Listen for registration status
   onRegistrationStatus(callback) {
     if (this.socket) {
-      this.socket.on('registration_status', callback);
+      this.socket.on("registration_status", callback);
     }
   }
 
   // Listen for payment status
   onPaymentStatus(callback) {
     if (this.socket) {
-      this.socket.on('payment_status', callback);
+      this.socket.on("payment_status", callback);
     }
   }
 
   // Listen for shipment status
   onShipmentStatus(callback) {
     if (this.socket) {
-      this.socket.on('shipment_status', callback);
+      this.socket.on("shipment_status", callback);
     }
   }
 

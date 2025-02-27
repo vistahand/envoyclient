@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{js,jsx}"],  
+export default {
+  content: ["./src/**/*.{js,jsx}"],
   mode: "jit",
   theme: {
     extend: {
@@ -10,7 +10,7 @@ module.exports = {
         primaryalt: "#122A53",
         primary1: "#F1F5FD",
         primary2: "#1E3F76",
-        primary3: '#F7F8FC',
+        primary3: "#F7F8FC",
         mainalt: "#F7F7F7",
         mainRed: "#E30613",
         main: "#4D4D4D",
@@ -18,7 +18,7 @@ module.exports = {
         main3: "#8B8B8B",
         main4: "#898989",
         main5: "#C8C8C8",
-        main6: '#A7A7A7',
+        main6: "#A7A7A7",
         main7: "#E7E7E7",
         main8: "#7D7D7D",
         main9: "#DEDEDE",
@@ -30,11 +30,11 @@ module.exports = {
         redClose: "#EB1E1E",
         redCircle: "#FDE9E9",
         realRed: "#FF0000",
-        logRed: '#DF1818',
-        greenSuccess: '#1BBE3E',
+        logRed: "#DF1818",
+        greenSuccess: "#1BBE3E",
       },
       fontFamily: {
-        'manrope': ["Manrope", "sans-serif"],
+        manrope: ["Manrope", "sans-serif"],
       },
     },
     screens: {

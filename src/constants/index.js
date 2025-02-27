@@ -11,8 +11,8 @@ import { analytics, blog1, blog2, blog3, cash, fileinvoice, invoice, mapsearch,
     users, 
 } from "../assets";
 
-import { ReactComponent as book } from '../assets/book.svg';
-import { ReactComponent as box } from '../assets/box.svg';
+import book from '../assets/book.svg';
+import box from '../assets/box.svg';
 
 
 export const navLinks = [
