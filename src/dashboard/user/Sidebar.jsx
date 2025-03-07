@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { sideLinks } from "../../constants";
 import { help, logo, logout, settings } from "../../assets";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import LogoutComponent from "../../components/Logout";
 
 const Sidebar = () => {
@@ -116,19 +116,13 @@ const Sidebar = () => {
               </div>
             </li>
 
-            <li
-              className="text-main2 grow4 font-semibold
-                        cursor-pointer text-[16px] tracking-tight"
-            >
-              <div className={`flex p-3 gap-4 items-center`}>
-                <img
-                  src={settings}
-                  alt="settings"
-                  className="w-[1.5rem] h-auto"
-                />
-                Settings
-              </div>
-            </li>
+      
+<li className="text-main2 grow4 font-semibold cursor-pointer text-[16px] tracking-tight">
+  <Link to="/user/settings" className="flex p-3 gap-4 items-center">
+    <img src={settings} alt="settings" className="w-[1.5rem] h-auto" />
+    Settings
+  </Link>
+</li>
 
             <LogoutComponent
               component="li"

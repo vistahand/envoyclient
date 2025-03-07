@@ -24,6 +24,8 @@ import { AdminHome, ShipmentMgt, PaymentsAdmin, PickupLoc, QuoteMgt, Analytics, 
 import ScrollToTopButton from './constants/ScrollToTop';
 import { CreateShipmentUser } from './pages';
 import { TrackShipmentUser } from './components';
+import SettingsPage from './pages/SettingPage';
+
 
 
 const App = () => {
@@ -55,6 +57,7 @@ const App = () => {
                 <Route path='trackshipment' element={<TrackShipmentUser />} />
                 <Route path='shipments/details' element={<ShipmentDetails />} />
                 <Route path='payments/details' element={<PaymentDetails />} />
+                <Route path='settings' element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
               </Route>
 
               <Route path='/admin' element={<ProtectedRoute requireAdmin><AdminDashHome /></ProtectedRoute>}>
