@@ -30,11 +30,16 @@ const PackageCard = ({ index, option, selected, onSelect }) => {
         onClick={handleClick}
       >
         <div>
-          {React.createElement(option.icon, {
-            className: `w-[1.6rem] h-auto object-contain ${
-              selected ? "text-white" : "text-primary"
-            } group-hover:text-white`,
-          })}
+          {typeof option.icon === "function" ? (
+            React.createElement(option.icon, {
+              className: `w-[1.6rem] h-auto object-contain ${
+                selected ? "text-white" : "text-primary"
+              } group-hover:text-white`,
+            })
+          ) : (
+            /* Fallback if icon is not a valid component */
+            <div className="w-[1.6rem] h-[1.6rem] bg-gray-200 rounded"></div>
+          )}
         </div>
 
         <div className="flex flex-col w-full">
