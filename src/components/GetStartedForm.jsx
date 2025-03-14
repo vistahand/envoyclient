@@ -4,8 +4,8 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from "yup";
 import { SectionWrapper } from "../hoc";
-import LocalIcon from "../assets/loc-ship.svg";
-import InternationalIcon from "../assets/int-ship.svg";
+import { localIcon } from "../assets";
+import { internationalIcon } from "../assets";
 import { useGuestShipment } from "../context/GuestShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 
@@ -152,7 +152,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
             onClick={() => handleTabChange("international")}
           >
             <img
-              src={InternationalIcon}
+              src={internationalIcon}
               className={`w-[2.3rem] h-auto object-contain
                             ${
                               currentTab === "international"
@@ -193,7 +193,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
             onClick={() => handleTabChange("local")}
           >
             <img
-              src={LocalIcon}
+              src={localIcon}
               className={`w-[2.3rem] h-auto object-contain
                             ${
                               currentTab === "local"

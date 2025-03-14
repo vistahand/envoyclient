@@ -9,6 +9,20 @@ const api = axios.create({
   },
 });
 
+// Add a request interceptor to include the token in the headers
+api.interceptors.request.use(
+  (config) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // Handle token expiration
 api.interceptors.response.use(
   (response) => response,
@@ -32,6 +46,7 @@ export const auth = {
     try {
       const response = await api.post("/auth/login", credentials);
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
+      localStorage.setItem("token", JSON.stringify(response.data.data.token));
       return response.data;
     } catch (err) {
       if (!err.response) {
