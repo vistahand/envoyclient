@@ -11,16 +11,15 @@ const api = axios.create({
 // Add a request interceptor to include the token in the headers
 api.interceptors.request.use(
   (config) => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = localStorage.getItem("authToken");  // ✅ Ensure token is fetched properly
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
+
 
 // Handle token expiration
 api.interceptors.response.use(
@@ -407,5 +406,88 @@ export const payments = {
     }
   },
 };
+//Update user Password
+export const updatePassword = async (currentPassword, newPassword) => {
+  try {
+    const token = localStorage.getItem("authToken"); // Ensure token is stored
+
+    if (!token) {
+      throw new Error("Authentication token is missing. Please log in.");
+    }
+
+    const response = await axios.put(
+      `${import.meta.env.VITE_API_URL}/api/auth/update-password`, // 🔥 Fix here
+      { currentPassword, newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Password update error:", error.response?.data || error);
+    throw error.response?.data?.message || "Password update failed.";
+  }
+};
+
+// Update profile (phone, address, country, optionally profile image)
+export const updateProfile = async ({ phone, address, country, profileImage }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL; // ✅ Ensure API base URL is properly loaded
+  const token = localStorage.getItem("authToken");
+
+  if (!token) throw new Error("Authentication token is missing. Please log in.");
+
+  const formData = new FormData();
+  if (phone) formData.append("phone", phone);
+  if (address) formData.append("address", address);
+  if (country) formData.append("country", country);
+  if (profileImage instanceof File) {
+    formData.append("profileImage", profileImage);
+  }
+
+  try {
+    const response = await axios.put(`${API_BASE_URL}/api/user/profile`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Profile update error:", error.response?.data || error);
+    throw error.response?.data?.message || "Profile update failed.";
+  }
+};
+
+// Update only profile image
+export const updateProfileImage = async (file) => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL; // ✅ Fix API_BASE_URL reference
+  const token = localStorage.getItem("authToken");
+
+  if (!token) throw new Error("Authentication token is missing. Please log in.");
+
+  const formData = new FormData();
+  formData.append("profileImage", file);
+
+  try {
+    const response = await axios.put(`${API_BASE_URL}/api/users/update-profile-image`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Profile image update error:", error.response?.data || error);
+    throw error.response?.data?.message || "Profile image update failed.";
+  }
+};
+
 
 export default api;

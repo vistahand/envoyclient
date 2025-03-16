@@ -4,14 +4,16 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { PiBell } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
-import { profilepic, help, logo, logout, settings } from "../../assets";
+import { help, logo, logout, settings } from "../../assets";
 import { IoIosMenu } from "react-icons/io";
+import { useAuth } from "../../context/AuthContext";
 import { BsX } from "react-icons/bs";
 import { sideLinks } from "../../constants";
 import { useNavigate, useLocation } from "react-router-dom";
 import LogoutComponent from "../../components/Logout";
 
 const Navbar = () => {
+  const { user } = useAuth(); // Get user data from AuthContext
   const [toggle, setToggle] = useState(false);
   const [notificationMenu, setNotificationMenu] = useState(false);
   const menuRef = useRef(null);
@@ -26,6 +28,7 @@ const Navbar = () => {
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
   };
+  
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -407,29 +410,30 @@ const Navbar = () => {
             )}
           </div>
 
-          <div
-            className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${
-              isSearchOpen ? "md:flex hidden" : "flex"
-            }`}
-          >
-            <div className="rounded-full overflow-hidden">
-              <img
-                src={profilepic}
-                alt="profilepic"
-                className="md:w-10 ss:w-10 w-9 md:h-10 ss:h-10 h-9 
-                object-cover"
-              />
-            </div>
+          <a href="/user/settings">
+      <div
+        className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${
+          isSearchOpen ? "md:flex hidden" : "flex"
+        }`}
+      >
+        <div className="rounded-full overflow-hidden">
+        <img
+  src={user?.profileImage || "/default-avatar.png"} // Fallback in case of missing image
+  alt="User Profile"
+  className="w-[40px] h-[40px] rounded-full object-cover"
+/>
+        </div>
 
-            <p
-              className="text-[16px] tracking-tight text-main2
-            font-semibold hidden md:flex ss:flex"
-            >
-              Peter Alaks
-            </p>
+        <p
+          className="text-[16px] tracking-tight text-main2 font-semibold hidden md:flex ss:flex"
+        >
+          {user?.name || "Guest"}
+        </p>
 
-            <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
-          </div>
+        <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
+      </div>
+    </a>
+
         </div>
       </div>
     </section>
