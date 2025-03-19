@@ -44,72 +44,17 @@ const ShipmentDetails = ({ onNext }) => {
   };
 
   return (
-    <section
-      className="w-full flex md:min-h-[1320px] ss:min-h-[1500px]
-    min-h-[1800px]"
-    >
-      <div
-        className="w-full flex md:flex-row flex-col md:gap-14 gap-10 
-      justify-between"
-      >
+    <section className="w-full flex md:min-h-[1320px] ss:min-h-[1500px] min-h-[1800px]">
+      <div className="w-full flex md:flex-row flex-col md:gap-14 gap-10 justify-between" >
         <div className="w-full flex flex-col gap-6">
-          <h1
-            className="text-primary font-bold md:text-[30px] 
-          ss:text-[28px] text-[22px] tracking-tight"
-          >
-            Your Shipment Details
-          </h1>
-
-          <div className="flex flex-col gap-4">
-            <h2 className="font-bold text-[15px] tracking-tight text-main4">
-              SHIPPING DETAILS
-            </h2>
-
-            <div className="flex items-center text-primary gap-2">
-              <img
-                src={InternationalIcon}
-                className="w-[1.8rem] h-auto object-contain
-                stroke-primary"
-              />
-
-              <h2 className="text-[15px] font-bold tracking-tight">
-                International Shipping
-              </h2>
-            </div>
-
+          <h1 className="text-primary font-bold md:text-[30px]  ss:text-[28px] text-[22px] tracking-tight">  Your Shipment Details</h1>
+          <div className="flex flex-col gap-4"> <h2 className="font-bold text-[15px] tracking-tight text-main4"> SHIPPING DETAILS </h2>
+           <div className="flex items-center text-primary gap-2"> <imb src={InternationalIcon} className="w-[1.8rem] h-auto object-contain stroke-primary"/> <h2 className="text-[15px] font-bold tracking-tight"> International Shipping</h2> </div>
             <div className="w-full flex gap-6 items-center">
-              <div
-                className="rounded-lg md:px-8 ss:px-8 px-6 md:py-5 
-              ss:py-5 py-4 bg-mainalt flex gap-2"
-              >
-                <img
-                  src={
-                    countries.find((country) => country.cca2 === "IE")?.flags
-                      ?.png
-                  }
-                  alt="flag"
-                  className="w-10 h-[1.4rem] rounded-[0.2rem]"
-                />
-
-                <p
-                  className="md:text-[15px] ss:text-[15px] 
-                text-[14px] tracking-tight font-bold text-main2"
-                >
-                  Ireland
-                </p>
-              </div>
-
-              <p
-                className="md:text-[15px] ss:text-[15px] 
-              text-[14px] tracking-tight font-semibold text-main4"
-              >
-                to
-              </p>
-
-              <div
-                className="rounded-lg  md:px-8 ss:px-8 px-6 md:py-5 
-              ss:py-5 py-4 bg-mainalt flex gap-2"
-              >
+              <div className="rounded-lg md:px-8 ss:px-8 px-6 md:py-5  ss:py-5 py-4 bg-mainalt flex gap-2"  >
+                <img src={countries.find((country) => country.cca2 === "IE")?.flags ?.png} alt="flag"className="w-10 h-[1.4rem] rounded-[0.2rem]" />
+               <p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-bold text-main2"> Ireland </p></div><p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-semibold text-main4"> to </p>
+               <div className="rounded-lg  md:px-8 ss:px-8 px-6 md:py-5  ss:py-5 py-4 bg-mainalt flex gap-2" >
                 <img
                   src={
                     countries.find((country) => country.cca2 === "NG")?.flags

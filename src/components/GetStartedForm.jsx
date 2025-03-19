@@ -109,6 +109,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
     setCurrentTab(tab);
     formik.resetForm();
   };
+  
 
   return (
     <section
