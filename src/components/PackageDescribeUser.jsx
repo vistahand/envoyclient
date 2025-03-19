@@ -5,8 +5,8 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from "yup";
 // import { useNavigate } from 'react-router-dom';
 import { packageOptions } from "../constants";
-import LocalIcon from "../assets/loc-ship.svg";
-import InternationalIcon from "../assets/int-ship.svg";
+import { localIcon } from "../assets";
+import { internationalIcon } from "../assets";
 import { addicon } from "../assets";
 import { BsBoxSeam } from "react-icons/bs";
 import { IoNewspaperOutline } from "react-icons/io5";
@@ -30,11 +30,16 @@ const PackageCard = ({ index, option, selected, onSelect }) => {
         onClick={handleClick}
       >
         <div>
-          {React.createElement(option.icon, {
-            className: `w-[1.6rem] h-auto object-contain ${
-              selected ? "text-white" : "text-primary"
-            } group-hover:text-white`,
-          })}
+          {typeof option.icon === "function" ? (
+            React.createElement(option.icon, {
+              className: `w-[1.6rem] h-auto object-contain ${
+                selected ? "text-white" : "text-primary"
+              } group-hover:text-white`,
+            })
+          ) : (
+            /* Fallback if icon is not a valid component */
+            <div className="w-[1.6rem] h-[1.6rem] bg-gray-200 rounded"></div>
+          )}
         </div>
 
         <div className="flex flex-col w-full">
@@ -299,7 +304,7 @@ const PackageDescribeUser = ({ onPrev, onNext, selectedTab }) => {
                 gap-2 transition-all duration-300 ease-in-out`}
           >
             <img
-              src={InternationalIcon}
+              src={internationalIcon}
               className={`w-[2.3rem] h-auto object-contain
                             ${
                               currentTab === "international"
@@ -338,7 +343,7 @@ const PackageDescribeUser = ({ onPrev, onNext, selectedTab }) => {
                 gap-2 transition-all duration-300 ease-in-out`}
           >
             <img
-              src={LocalIcon}
+              src={localIcon}
               className={`w-[2.3rem] h-auto object-contain
                             ${
                               currentTab === "local"
