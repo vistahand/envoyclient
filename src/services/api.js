@@ -8,17 +8,6 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-// Add a request interceptor to include the token in the headers
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("authToken");  // ✅ Ensure token is fetched properly
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
 
 
 // Add a request interceptor to include the token in the headers
@@ -324,6 +313,21 @@ export const shipments = {
     }
   },
 
+    // Update insurance
+    updateInsurance: async (shipmentId,insuranceData) => {
+      try {
+        const response = await api.put(`/shipments/${shipmentId}/insurance`,insuranceData);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to updatye insurance"
+        );
+      }
+    },
+
   // Finalize shipment
   finalizeShipment: async (shipmentId) => {
     try {
@@ -385,7 +389,7 @@ export const shipments = {
 export const payments = {
   create: async (paymentData) => {
     try {
-      const response = await api.post("/payments", paymentData);
+      const response = await api.post("/payments/bank-transfer/initialize", paymentData);
       return response.data;
     } catch (err) {
       if (!err.response) {

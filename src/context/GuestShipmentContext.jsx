@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
+import { shipments } from "../services/api";
+import { handleApiError } from "../utils/errorHandler";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const GuestShipmentContext = createContext(null);
@@ -24,19 +26,17 @@ export const GuestShipmentProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
+  
+      const response = await shipments.initializeShipment(initialData);
 
-      const response = await axios.post(
-        `${API_URL}/api/shipments/initialize`,
-        initialData
-      );
 
-      if (!response.data?.success) {
+      if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
         );
       }
 
-      const shipment = response.data.data?.shipment;
+      const shipment = response.data?.shipment;
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
@@ -65,18 +65,24 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.put(
-        `${API_URL}/api/shipments/${shipmentData.id}/package`,
-        packageData
-      );
+      // const response = await axios.put(
+      //   `${API_URL}/api/shipments/${shipmentData.id}/package`,
+      //   packageData
+      // );
+      // const response = await shipments.updatePackageDetails(shipmentData.id, packageData);
 
-      if (!response.data?.success) {
+      
+        const response = await shipments.updatePackageDetails(shipmentData.id, packageData);
+      
+     
+      
+      if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
         );
       }
 
-      const shipment = response.data.data?.shipment;
+      const shipment = response.data?.shipment;
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
@@ -88,10 +94,16 @@ export const GuestShipmentProvider = ({ children }) => {
 
       return response.data;
     } catch (err) {
-      const message =
-        err.response?.data?.error || "Failed to update package details";
-      setError(message);
-      throw new Error(message);
+      // const message =
+      //   err.response?.data?.error || "Failed to update package details";
+      // setError(message);
+      // throw new Error(message);
+      const errorMessage = handleApiError(err, {
+        context: { action: 'update_package_details' },
+        defaultMessage: 'Failed to update package details'
+      });
+      setError(errorMessage);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -129,18 +141,16 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.put(
-        `${API_URL}/api/shipments/${shipmentData.id}/delivery`,
-        deliveryData
-      );
+      const response = await shipments.updateDeliveryOptions(shipmentData.id, deliveryData);
+    
 
-      if (!response.data?.success) {
+      if (!response?.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
         );
       }
 
-      const shipment = response.data.data?.shipment;
+      const shipment = response.data?.shipment;
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
@@ -150,7 +160,7 @@ export const GuestShipmentProvider = ({ children }) => {
         delivery: deliveryData,
       }));
 
-      return response.data;
+      return response;
     } catch (err) {
       const message =
         err.response?.data?.error || "Failed to update delivery options";
@@ -166,18 +176,16 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.put(
-        `${API_URL}/api/shipments/${shipmentData.id}/sender`,
-        senderData
-      );
+      const response = await shipments.updateSenderInfo(shipmentData.id, senderData);
+      
 
-      if (!response.data?.success) {
+      if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
         );
       }
 
-      const shipment = response.data.data?.shipment;
+      const shipment = response.data?.shipment;
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
@@ -187,7 +195,7 @@ export const GuestShipmentProvider = ({ children }) => {
         sender: senderData,
       }));
 
-      return response.data;
+      return response;
     } catch (err) {
       const message =
         err.response?.data?.error || "Failed to update sender information";
@@ -203,18 +211,16 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.put(
-        `${API_URL}/api/shipments/${shipmentData.id}/recipient`,
-        recipientData
-      );
+      const response = await shipments.updateRecipientInfo(shipmentData.id, recipientData);
 
-      if (!response.data?.success) {
+
+      if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
         );
       }
 
-      const shipment = response.data.data?.shipment;
+      const shipment = response.data?.shipment;
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
@@ -224,7 +230,7 @@ export const GuestShipmentProvider = ({ children }) => {
         recipient: recipientData,
       }));
 
-      return response.data;
+      return response;
     } catch (err) {
       const message =
         err.response?.data?.error || "Failed to update recipient information";
@@ -240,18 +246,16 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.put(
-        `${API_URL}/api/shipments/${shipmentData.id}/pickup`,
-        pickupData
-      );
+      const response = await shipments.updatePickupLocation(shipmentData.id, pickupData);
 
-      if (!response.data?.success) {
+
+      if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
         );
       }
 
-      const shipment = response.data.data?.shipment;
+      const shipment = response.data?.shipment;
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
@@ -261,7 +265,7 @@ export const GuestShipmentProvider = ({ children }) => {
         pickup: pickupData,
       }));
 
-      return response.data;
+      return response;
     } catch (err) {
       const message =
         err.response?.data?.error || "Failed to update pickup location";
@@ -277,18 +281,16 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.put(
-        `${API_URL}/api/shipments/${shipmentData.id}/insurance`,
-        insuranceData
-      );
+      const response = await shipments.updateInsurance(shipmentData.id, insuranceData);
 
-      if (!response.data?.success) {
+
+      if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
         );
       }
 
-      const shipment = response.data.data?.shipment;
+      const shipment = response.data?.shipment;
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
@@ -298,9 +300,10 @@ export const GuestShipmentProvider = ({ children }) => {
         insurance: insuranceData,
       }));
 
-      return response.data;
+      return response;
     } catch (err) {
-      const message = err.response?.data?.error || "Failed to update insurance";
+      console.log(err);
+      const message = err.response?.data?.error || "Failed happily to update insurance";
       setError(message);
       throw new Error(message);
     } finally {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { ShippingModal, BankTransferModal } from '../components';
 // import { paystack } from '../assets';
@@ -15,15 +16,32 @@ const ShipmentPayUser = ({ onPrev, onNext }) => {
         document.body.style.top = `-${scrollPosition}px`;
     };
 
-    const handlePay = () => {
-        setIsBankTransferModalOpen(true);
-        disableScroll();
-    };
+    
 
     const handlePrevious = () => {
         onPrev();
     };
-
+    const handlePay = async () => {
+        try {
+            const response = await axios.post('https://envoyserver-pyxd.onrender.com/api/payments/bank-transfer/initialize', {
+                shipmentId: "123456",  // Replace with actual shipment ID
+                accountName: "Rufus Benson Antagony",  // Replace with user's name
+                bankName: "First Bank"  // Replace with the actual bank name
+            });
+    
+            if (response.status === 200) {
+                setIsBankTransferModalOpen(true);
+                disableScroll();
+            } else {
+                console.error("Payment initialization failed:", response.data);
+                alert(`Payment failed: ${response.data.message || "Unknown error occurred"}`);
+            }
+        } catch (error) {
+            console.error("Network or server error:", error);
+            alert(error.response?.data?.message || "Network error. Please check your connection and try again.");
+        }
+    };
+    
 
   return (
         <section className='w-full flex md:mt-10 mt-8 md:mb-10 mb-8'>

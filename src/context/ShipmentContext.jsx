@@ -194,6 +194,7 @@ const calculateShippingCost = async (shipmentDetails) => {
       setLoading(false);
     }
   };
+  
 
   // Reset current shipment
   const resetShipment = () => {

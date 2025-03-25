@@ -4,6 +4,7 @@ import { SectionWrapper } from "../hoc";
 // import { HiOutlineArrowRight } from "react-icons/hi";
 // import { TrackModal } from '../components';
 import { copy, shipconfirm } from '../assets';
+import NextSteps from './NextSteps';
 
 const ShipmentFinish = () => {
     // const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
@@ -36,6 +37,7 @@ const ShipmentFinish = () => {
     }
 
     return (
+        <>
         <section className='w-full flex min-h-[400px]'>
             <div className="w-full flex md:flex-row flex-col gap-14 
             md:justify-between">
@@ -133,6 +135,16 @@ const ShipmentFinish = () => {
                 />
             )} */}
         </section>
+
+        <div>
+            <NextSteps />
+
+            <div className='cta'>
+                <ShipCTA />
+            </div>
+        </div>
+
+</>
     );
 };
 
