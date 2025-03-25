@@ -116,7 +116,7 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
 
                 const senderData = senderTab === 'individual' ? {
                     type: 'individual',
-                    fullName: values.fullNameInd,
+                    name: values.fullNameInd,
                     phone: values.phoneInd,
                     email: values.mailInd,
                     alternatePhone: values.altPhoneInd || null,
