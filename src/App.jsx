@@ -27,6 +27,8 @@ import { ShipmentFinish, TrackShipmentUser } from './components';
 import SettingsPage from './pages/SettingPage';
 import { ShipmentProvider } from './context/ShipmentContext';
 import PaymentSuccessPage from './components/PaymentSuccessPage';
+import PaymentFailedPage from './components/PaymentFailedPage';
+
 
 
 
@@ -50,6 +52,8 @@ const App = () => {
 
                 <Route path='/createshipment-payment/finish' element={<ShipmentFinish />} />
                 <Route path='/createshipment-payment/success' element={<PaymentSuccessPage />} />
+                <Route path='/createshipment-payment/failure' element={<PaymentFailedPage />} />
+
                 
                 
                 <Route path='/register' element={<GuestRoute><RegisterPage /></GuestRoute>} />
