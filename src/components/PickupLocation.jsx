@@ -36,16 +36,25 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
         fetchCountries();
     }, []);
 
+
     const formik = useFormik({
         initialValues: {
             countryPick: 'IE',
             statePick: '',
             townPick: '',
+            streetPick: '',
+            zipCodePick: '',
+            specialInstructions: '',
+            pickupDate: ''
         },
         validationSchema: Yup.object().shape({
             countryPick: Yup.string(),
             statePick: Yup.string().required("State is required"),
             townPick: Yup.string().required("Town/City is required"),
+            streetPick: Yup.string().required("Street address is required"),
+            zipCodePick: Yup.string().required("Zip/Postal code is required"),
+            specialInstructions: Yup.string(),
+            pickupDate: Yup.string().required("Pickup date is required")
         }),
         
         onSubmit: async (values) => {
@@ -59,10 +68,18 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
                     return;
                 }
 
+                // Structure data to match server schema
                 const pickupData = {
-                    country: values.countryPick,
-                    state: values.statePick,
-                    city: values.townPick
+                    pickup: {
+                        location: {
+                            street: values.streetPick,
+                            city: values.townPick,
+                            country: values.countryPick,
+                            postalCode: values.zipCodePick
+                        },
+                        instructions: values.specialInstructions,
+                        date: values.pickupDate
+                    }
                 };
 
                 const response = await updatePickupLocation(pickupData);
@@ -84,7 +101,7 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 });
             }
         },
-    });
+    })
 
     const handlePrevious = () => {
         onPrev(currentTab, senderTab);
@@ -370,6 +387,135 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
                                     {formik.touched.townPick && formik.errors.townPick}
                                 </p>
                             </div>
+                        </div>
+
+                          {/* After the existing form fields for town/city */}
+                        <div className='grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4'>
+                            <div className="relative flex flex-col">
+                                <input
+                                    type="text"
+                                    name="streetPick"
+                                    placeholder=' '
+                                    value={formik.values.streetPick}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                    peer outline text-black md:rounded-lg rounded-md 
+                                    md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                    bg-transparent w-full focus:outline-primary
+                                    ${formik.touched.streetPick && formik.errors.streetPick ? 'outline-mainRed' : 'outline-main6'}
+                                    `}
+                                />
+                                <label htmlFor="streetPick" className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    duration-300 peer-placeholder-shown:translate-y-0 
+                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.values.streetPick ? 'z-10 px-2' : ''}
+                                    `}>
+                                    Street Address
+                                </label>
+                                <p className="text-mainRed md:text-[12px] flex justify-end
+                                ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                    {formik.touched.streetPick && formik.errors.streetPick}
+                                </p>
+                            </div>
+
+                            <div className="relative flex flex-col">
+                                <input
+                                    type="text"
+                                    name="zipCodePick"
+                                    placeholder=' '
+                                    value={formik.values.zipCodePick}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                    peer outline text-black md:rounded-lg rounded-md 
+                                    md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                    bg-transparent w-full focus:outline-primary
+                                    ${formik.touched.zipCodePick && formik.errors.zipCodePick ? 'outline-mainRed' : 'outline-main6'}
+                                    `}
+                                />
+                                <label htmlFor="zipCodePick" className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    duration-300 peer-placeholder-shown:translate-y-0 
+                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.values.zipCodePick ? 'z-10 px-2' : ''}
+                                    `}>
+                                    Postal Code
+                                </label>
+                                <p className="text-mainRed md:text-[12px] flex justify-end
+                                ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                    {formik.touched.zipCodePick && formik.errors.zipCodePick}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="relative flex flex-col w-full mt-4">
+                            <input
+                                type="datetime-local"
+                                name="pickupDate"
+                                value={formik.values.pickupDate}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                peer outline text-black md:rounded-lg rounded-md 
+                                md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                bg-transparent w-full focus:outline-primary
+                                ${formik.touched.pickupDate && formik.errors.pickupDate ? 'outline-mainRed' : 'outline-main6'}
+                                `}
+                            />
+                            <label htmlFor="pickupDate" className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                duration-300 peer-placeholder-shown:translate-y-0 
+                                peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                peer-focus:scale-75 peer-focus:text-main6 pointer-events-none z-10 px-2
+                                `}>
+                                Pickup Date
+                            </label>
+                            <p className="text-mainRed md:text-[12px] flex justify-end
+                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                {formik.touched.pickupDate && formik.errors.pickupDate}
+                            </p>
+                        </div>
+
+                        <div className="relative flex flex-col w-full mt-4">
+                            <textarea
+                                name="specialInstructions"
+                                placeholder=' '
+                                value={formik.values.specialInstructions}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                rows={3}
+                                className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                peer outline text-black md:rounded-lg rounded-md 
+                                md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                bg-transparent w-full focus:outline-primary
+                                ${formik.touched.specialInstructions && formik.errors.specialInstructions ? 'outline-mainRed' : 'outline-main6'}
+                                `}
+                            />
+                            <label htmlFor="specialInstructions" className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                duration-300 peer-placeholder-shown:translate-y-0 
+                                peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                ${formik.values.specialInstructions ? 'z-10 px-2' : ''}
+                                `}>
+                                Special Instructions (Optional)
+                            </label>
+                            <p className="text-mainRed md:text-[12px] flex justify-end
+                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                {formik.touched.specialInstructions && formik.errors.specialInstructions}
+                            </p>
                         </div>
                     </div>
 

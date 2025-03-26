@@ -26,9 +26,8 @@ export const GuestShipmentProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-  
-      const response = await shipments.initializeShipment(initialData);
 
+      const response = await shipments.initializeShipment(initialData);
 
       if (!response.success) {
         throw new Error(
@@ -65,17 +64,11 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      // const response = await axios.put(
-      //   `${API_URL}/api/shipments/${shipmentData.id}/package`,
-      //   packageData
-      // );
-      // const response = await shipments.updatePackageDetails(shipmentData.id, packageData);
+      const response = await shipments.updatePackageDetails(
+        shipmentData.id,
+        packageData
+      );
 
-      
-        const response = await shipments.updatePackageDetails(shipmentData.id, packageData);
-      
-     
-      
       if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
@@ -94,13 +87,9 @@ export const GuestShipmentProvider = ({ children }) => {
 
       return response.data;
     } catch (err) {
-      // const message =
-      //   err.response?.data?.error || "Failed to update package details";
-      // setError(message);
-      // throw new Error(message);
       const errorMessage = handleApiError(err, {
-        context: { action: 'update_package_details' },
-        defaultMessage: 'Failed to update package details'
+        context: { action: "update_package_details" },
+        defaultMessage: "Failed to update package details",
       });
       setError(errorMessage);
       throw err;
@@ -141,8 +130,10 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await shipments.updateDeliveryOptions(shipmentData.id, deliveryData);
-    
+      const response = await shipments.updateDeliveryOptions(
+        shipmentData.id,
+        deliveryData
+      );
 
       if (!response?.success) {
         throw new Error(
@@ -176,8 +167,10 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await shipments.updateSenderInfo(shipmentData.id, senderData);
-      
+      const response = await shipments.updateSenderInfo(
+        shipmentData.id,
+        senderData
+      );
 
       if (!response.success) {
         throw new Error(
@@ -211,8 +204,10 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await shipments.updateRecipientInfo(shipmentData.id, recipientData);
-
+      const response = await shipments.updateRecipientInfo(
+        shipmentData.id,
+        recipientData
+      );
 
       if (!response.success) {
         throw new Error(
@@ -246,8 +241,10 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await shipments.updatePickupLocation(shipmentData.id, pickupData);
-
+      const response = await shipments.updatePickupLocation(
+        shipmentData.id,
+        pickupData
+      );
 
       if (!response.success) {
         throw new Error(
@@ -281,8 +278,10 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await shipments.updateInsurance(shipmentData.id, insuranceData);
-
+      const response = await shipments.updateInsurance(
+        shipmentData.id,
+        insuranceData
+      );
 
       if (!response.success) {
         throw new Error(
@@ -303,7 +302,8 @@ export const GuestShipmentProvider = ({ children }) => {
       return response;
     } catch (err) {
       console.log(err);
-      const message = err.response?.data?.error || "Failed happily to update insurance";
+      const message =
+        err.response?.data?.error || "Failed happily to update insurance";
       setError(message);
       throw new Error(message);
     } finally {

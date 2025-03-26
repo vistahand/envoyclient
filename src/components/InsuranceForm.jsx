@@ -16,15 +16,28 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
     const navigate = useNavigate();
     const { shipmentData, updateInsurance, loading } = useGuestShipment();
     const { addNotification } = useNotifications();
+    const [showCoverageInput, setShowCoverageInput] = useState(false);
+
 
     const formik = useFormik({
         initialValues: {
-            insurance: '',
-            assistance: false,
+            insuranceType: 'none',
+            coverage: 0,
+            customsAssistance: false,
         },
         validationSchema: Yup.object().shape({
-            insurance: Yup.string(),
-            assistance: Yup.bool().optional(),
+            insuranceType: Yup.string()
+                .required("Insurance type is required")
+                .oneOf(['none', 'basic', 'premium'], "Invalid insurance type"),
+            coverage: Yup.number()
+                .when('insuranceType', {
+                    is: (type) => type !== 'none',
+                    then: () => Yup.number()
+                        .required("Coverage amount is required")
+                        .min(1, "Coverage must be greater than 0"),
+                    otherwise: () => Yup.number().nullable()
+                }),
+            customsAssistance: Yup.boolean().optional(),
         }),
         
         onSubmit: async (values) => {
@@ -39,8 +52,11 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                 }
 
                 const insuranceData = {
-                    insuranceCoverage: values.insurance || null,
-                    customsAssistance: values.assistance
+                   insurance: {
+                        type: values.insuranceType,
+                        coverage: values.insuranceType !== 'none' ? values.coverage : 0
+                    },
+                    customsAssistance: values.customsAssistance
                 };
 
                 const response = await updateInsurance(insuranceData);
@@ -64,6 +80,11 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
         },
     });
 
+    useEffect(() => {
+        setShowCoverageInput(formik.values.insuranceType !== 'none');
+    }, [formik.values.insuranceType]);
+
+
     const handlePrevious = () => {
         onPrev(currentTab, senderTab);
     };
@@ -73,14 +94,9 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
     };
 
     const insuranceOptions = [
-        { 
-            value: "lorem", 
-            label: "Lorem Ipsum" ,
-        },
-        { 
-            value: "lorem", 
-            label: "Lorem Ipsum",
-        },
+        { value: "none", label: "No Insurance" },
+        { value: "basic", label: "Basic Insurance" },
+        { value: "premium", label: "Premium Insurance" },
     ];
 
     const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
@@ -205,11 +221,47 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                                 </div>
 
                                 <p className="text-mainRed md:text-[12px] flex justify-end
-                                ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                    {formik.touched.insurance && formik.errors.insurance}
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                        {formik.touched.insuranceType && formik.errors.insuranceType}
                                 </p>
                             </div>
 
+                            {showCoverageInput && (
+                                <div className="relative flex flex-col">
+                                    <input
+                                        type="number"
+                                        name="coverage"
+                                        placeholder=' '
+                                        value={formik.values.coverage}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                                        peer outline text-black md:rounded-lg rounded-md 
+                                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                                        bg-transparent w-full focus:outline-primary
+                                        ${formik.touched.coverage && formik.errors.coverage ? 'outline-mainRed' : 'outline-main6'}
+                                        `}
+                                    />
+                                    <label
+                                    htmlFor="coverage"
+                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                                    md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                                    md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                                    duration-300 peer-placeholder-shown:translate-y-0 
+                                    peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                                    ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                                    peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                                    ${formik.values.coverage ? 'z-10 px-2' : ''}
+                                    `}
+                                    >
+                                        Coverage Amount
+                                    </label>
+                                    <p className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                                        {formik.touched.coverage && formik.errors.coverage}
+                                    </p>
+                                </div>
+                            )}
                             <div className='flex gap-3 md:w-[80%] ss:w-[80%] items-center'>
                                 <input
                                     type='checkbox'
@@ -231,6 +283,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                     justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
                     ss:flex-row flex-col">
                         <button
+                        type="button"
                         className='bg-none text-[13px] py-3.5 px-14
                         text-primary rounded-full grow2 cursor-pointer
                         items-center justify-center border border-primary
@@ -256,6 +309,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                         </button>
 
                         <button
+                        type="button"
                         className='bg-none text-[13px] py-3.5 px-14
                         text-primary rounded-full grow2 cursor-pointer
                         items-center justify-center border border-primary

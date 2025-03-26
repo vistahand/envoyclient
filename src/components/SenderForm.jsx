@@ -132,49 +132,45 @@ const SenderForm = ({
         const senderData =
           senderTab === "individual"
             ? {
-                sender: {
-                  type: "individual",
-                  name: values.fullNameInd,
-                  phone: values.phoneInd,
-                  email: values.mailInd,
-                  alternatePhone: values.altPhoneInd || null,
-                  address: {
-                    line1: values.address1Ind,
-                    line2: values.address2Ind || null,
-                    area: values.areaInd,
-                    city: values.townInd,
-                    state: values.stateInd,
-                    country: values.countryInd,
-                    postalCode: values.postalInd,
-                  },
-                  vatId: values.vatInd || null,
+                type: "individual",
+                name: values.fullNameInd,
+                phone: String(values.phoneInd),
+                email: values.mailInd,
+                alternatePhone: String(values.altPhoneInd) || null,
+                address: {
+                  line1: values.address1Ind,
+                  line2: values.address2Ind || null,
+                  area: values.areaInd,
+                  city: values.townInd,
+                  state: values.stateInd,
+                  country: values.countryInd,
+                  postalCode: values.postalInd,
                 },
+                vatId: values.vatInd || null,
               }
             : {
-                sender: {
-                  type: "business",
-                  businessName: values.businessName,
-                  businessPhone: values.businessPhone,
-                  businessEmail: values.businessMail,
-                  businessAlternatePhone: values.businessPhoneAlt || null,
-                  registrationId: values.registrationID || null,
-                  vatId: values.vatBus || null,
-                  address: {
-                    line1: values.address1Bus,
-                    line2: values.address2Bus || null,
-                    area: values.areaBus,
-                    city: values.townBus,
-                    state: values.stateBus,
-                    country: values.countryBus,
-                  },
-                  contactPerson: {
-                    fullName: values.fullNameBus,
-                    phone: values.phoneBus,
-                    email: values.mailBus,
-                  },
+                type: "business",
+                businessName: values.businessName,
+                businessPhone: String(values.businessPhone),
+                businessEmail: values.businessMail,
+                businessAlternatePhone: String(values.businessPhoneAlt) || null,
+                registrationId: values.registrationID || null,
+                vatId: values.vatBus || null,
+                address: {
+                  line1: values.address1Bus,
+                  line2: values.address2Bus || null,
+                  area: values.areaBus,
+                  city: values.townBus,
+                  state: values.stateBus,
+                  country: values.countryBus,
+                },
+                contactPerson: {
+                  fullName: values.fullNameBus,
+                  phone: String(values.phoneBus),
+                  email: values.mailBus,
                 },
               };
-
+        console.log("senderData: ", senderData);
         const response = await updateSenderInfo(senderData);
         if (response?.success && response?.data?.shipment?._id) {
           addNotification({

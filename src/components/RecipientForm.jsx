@@ -78,7 +78,7 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 }
 
                 const recipientData = {
-                    fullName: values.fullNameRec,
+                    name: values.fullNameRec,
                     phone: values.phoneRec,
                     email: values.mailRec,
                     alternatePhone: values.altPhoneRec || null,
@@ -93,6 +93,8 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                     },
                     vatId: values.vatRec || null
                 };
+
+                // console.log('recipientData: ', recipientData);
 
                 const response = await updateRecipientInfo(recipientData);
                 if (response?.success && response?.data?.shipment?._id) {
