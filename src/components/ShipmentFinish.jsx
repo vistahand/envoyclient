@@ -5,6 +5,7 @@ import { SectionWrapper } from "../hoc";
 // import { TrackModal } from '../components';
 import { copy, shipconfirm } from '../assets';
 import NextSteps from './NextSteps';
+import ShipCTA from './ShipCTA';
 
 const ShipmentFinish = () => {
     // const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
