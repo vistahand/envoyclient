@@ -26,7 +26,6 @@ const ShipmentPay = ({ onPrev, onNext }) => {
         onPrev();
     };
 
-
   return (
         <section className='w-full flex md:min-h-[600px] ss:min-h-[800px]
         min-h-[800px]'>

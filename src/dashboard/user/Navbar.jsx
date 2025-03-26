@@ -28,7 +28,6 @@ const Navbar = () => {
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
   };
-  
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -202,7 +201,7 @@ const Navbar = () => {
               ))}
               <LogoutComponent
                 component="li"
-                className={`text-[19px] list-item            hover:text-secondary cursor-pointer grow3 text-textalt mt-20`}
+                className={`text-[19px] list-item hover:text-secondary cursor-pointer grow3 text-textalt mt-20`}
               >
                 <div className="flex gap-6 px-5 items-center">
                   <HiLogout className="transform scale-x-[-1]" />
@@ -411,29 +410,26 @@ const Navbar = () => {
           </div>
 
           <a href="/user/settings">
-      <div
-        className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${
-          isSearchOpen ? "md:flex hidden" : "flex"
-        }`}
-      >
-        <div className="rounded-full overflow-hidden">
-        <img
-  src={user?.profileImage || "/default-avatar.png"} // Fallback in case of missing image
-  alt="User Profile"
-  className="w-[40px] h-[40px] rounded-full object-cover"
-/>
-        </div>
+            <div
+              className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${
+                isSearchOpen ? "md:flex hidden" : "flex"
+              }`}
+            >
+              <div className="rounded-full overflow-hidden">
+                <img
+                  src={user?.profileImage || "/default-avatar.png"} // Fallback in case of missing image
+                  alt="User Profile"
+                  className="w-[40px] h-[40px] rounded-full object-cover"
+                />
+              </div>
 
-        <p
-          className="text-[16px] tracking-tight text-main2 font-semibold hidden md:flex ss:flex"
-        >
-          {user?.name || "Guest"}
-        </p>
+              <p className="text-[16px] tracking-tight text-main2 font-semibold hidden md:flex ss:flex">
+                {user?.name || "Guest"}
+              </p>
 
-        <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
-      </div>
-    </a>
-
+              <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
+            </div>
+          </a>
         </div>
       </div>
     </section>

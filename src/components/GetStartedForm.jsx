@@ -92,7 +92,11 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
       };
 
       try {
-        await initializeShipment(initialData);
+        const response = await initializeShipment(initialData);
+        const shipmentId = response.shipment._id;
+        localStorage.setItem("shipmentId", shipmentId); // Store in local storage
+        const newUrl = `${window.location.pathname}?shipmentId=${shipmentId}`;
+        window.history.pushState({ path: newUrl }, "", newUrl);
         onNext(currentTab);
       } catch (err) {
         console.error("Error initializing shipment:", err);
