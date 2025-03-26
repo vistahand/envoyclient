@@ -2,18 +2,22 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsX } from "react-icons/bs";
 import { PiBank } from "react-icons/pi";
-// import { copy } from '../assets';
 import { payments } from "../services/api";
+import StripePaymentForm from "./StripePaymentForm";
 
 const BankTransferModal = ({ onClose, handleNext }) => {
   const formRef = useRef();
   const [shipment, setShipment] = useState("");
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [paymentStep, setPaymentStep] = useState("summary");
+  const [paymentDetails, setPaymentDetails] = useState({
+    clientSecret: null,
+    publishableKey: null,
+    shipment: null,
+  });
 
   useEffect(() => {
-    // Get shipment from URL parameters
     const shipmentParams = new URLSearchParams(window.location.search);
     const shipmentParam = shipmentParams.get("shipmentId");
     if (shipmentParam) {
@@ -21,15 +25,13 @@ const BankTransferModal = ({ onClose, handleNext }) => {
     }
   }, []);
 
-  const makePayment = async () => {
+  const initializePayment = async () => {
     setLoading(true);
-    const storedShipmentId = localStorage.getItem("shipmentId"); // Retrieve from local storage
-    // Combine the form values with the shipmentId
+    const storedShipmentId = localStorage.getItem("shipmentId");
     const paymentData = {
       shipmentId: String(storedShipmentId),
     };
-    console.log(shipment);
-    console.log("Submitting payment data:", paymentData);
+    console.log("Initializing payment for shipment:", paymentData);
 
     try {
       const response = await payments.create(paymentData);
@@ -40,19 +42,35 @@ const BankTransferModal = ({ onClose, handleNext }) => {
         );
       }
 
-      //   const shipment = response.data?.shipment;
-      //   if (!shipment?._id) {
-      //     throw new Error("Invalid shipment data in server response");
-      //   }
-      handleNext(paymentData);
+      setPaymentDetails({
+        clientSecret: response.data.clientSecret,
+        publishableKey: response.data.publishableKey,
+        shipment: response.data.shipment,
+      });
 
-      localStorage.removeItem("shipmentId");
+      setPaymentStep("payment");
       setLoading(false);
     } catch (error) {
-      console.error("Error processing payment:", error);
-    } finally {
+      console.error("Error initializing payment:", error);
       setLoading(false);
     }
+  };
+
+  const handlePaymentSuccess = (paymentIntent) => {
+    console.log("Payment successful:", paymentIntent);
+    localStorage.removeItem("shipmentId");
+
+    handleNext({
+      paymentId: paymentIntent.id,
+      shipmentId: paymentDetails.shipment?._id,
+      status: "completed",
+    });
+
+    onClose();
+  };
+
+  const handlePaymentError = (error) => {
+    console.error("Payment error:", error);
   };
 
   const enableScroll = () => {
@@ -64,7 +82,6 @@ const BankTransferModal = ({ onClose, handleNext }) => {
     const fetchCountries = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
-
         const data = await response.json();
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
@@ -89,32 +106,30 @@ const BankTransferModal = ({ onClose, handleNext }) => {
             bg-black bg-opacity-40 z-50"
       >
         <div
-          className="max-w-[68rem] w-full flex md:justify-center 
-                ss:justify-center md:mx-0 ss:mx-16 mx-0 h-auto"
+          className={` ${
+            paymentStep === "payment" ? "w-[68rem] " : "max-w-[68rem]"
+          } flex md:justify-center mx-5 lg:mx-0 ss:justify-center md:mx-0 ss:mx-16 h-auto`}
         >
           <motion.div
             initial={{ y: 0, opacity: 0.7 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 10, opacity: 0 }}
             transition={{ duration: 0.1 }}
-            className={`bg-white md:rounded-2xl ss:rounded-2xl rounded-xl relative
-                    shadow-xl flex flex-col ${
-                      showConfirmation
-                        ? "md:w-[65%] ss:w-[80%] w-full"
-                        : "md:w-auto ss:w-auto w-full"
-                    } 
-                    items-center`}
+            className={`bg-white md:rounded-2xl rounded-xl relative
+                    shadow-xl flex flex-col w-full items-center max-h-[90vh]`}
           >
+            {/* Header */}
             <div
               className="flex justify-between items-center w-full
+              md:rounded-2xl rounded-xl 
                         border-b border-b-main7 md:py-6 md:px-10 ss:py-6 
-                        ss:px-10 py-5 px-5 top-0 sticky z-10"
+                        ss:px-10 py-5 px-5 top-0 sticky z-10 bg-white"
             >
               <h1
                 className="md:text-[30px] ss:text-[25px] text-[20px] 
                             tracking-tight font-bold text-main2"
               >
-                Bank Transfer
+                {paymentStep === "summary" ? "Bank Transfer" : "Payment"}
               </h1>
 
               <BsX
@@ -128,133 +143,151 @@ const BankTransferModal = ({ onClose, handleNext }) => {
               />
             </div>
 
-            <>
-              <div
-                className="w-full flex md:flex-row ss:flex-row flex-col 
-                                md:gap-8 ss:gap-7 gap-6 items-center justify-center md:px-10 ss:px-10 px-5
-                                md:py-12 ss:py-10 py-6 md:justify-between ss:justify-between"
-              >
-                <div className="w-full flex items-start gap-3">
-                  <div className="flex md:gap-3 gap-5 w-full items-center">
-                    <div
-                      className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
-                                            bg-primary1 rounded-full"
-                    >
-                      <PiBank
-                        className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
-                                                text-primary md:p-4 ss:p-3 p-4"
-                      />
+            {/* Scrollable Content Area */}
+            <div className="w-full overflow-y-auto flex-grow">
+              {paymentStep === "summary" && (
+                <>
+                  <div
+                    className="w-full flex md:flex-row ss:flex-row flex-col 
+                                  md:gap-8 ss:gap-7 gap-6 items-center justify-center md:px-10 ss:px-10 px-5
+                                  md:py-12 ss:py-10 py-6 md:justify-between ss:justify-between"
+                  >
+                    {/* Nigeria Currency Section */}
+                    <div className="w-full flex items-start gap-3">
+                      <div className="flex md:gap-3 gap-5 w-full items-center">
+                        <div
+                          className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
+                                              bg-primary1 rounded-full"
+                        >
+                          <PiBank
+                            className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
+                                                  text-primary md:p-4 ss:p-3 p-4"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-y-3">
+                        <div className="flex gap-2 items-center">
+                          <img
+                            src={
+                              countries.find((country) => country.cca2 === "NG")
+                                ?.flags?.png
+                            }
+                            alt="flag"
+                            className="w-8 h-[1.2rem] rounded-[0.2rem]"
+                          />
+
+                          <p
+                            className="md:text-[14px] ss:text-[14px] 
+                                                  text-[13px] tracking-tight font-bold text-main2"
+                          >
+                            Nigeria
+                          </p>
+                        </div>
+
+                        <h1
+                          className="md:text-[25px] ss:text-[23px] text-[20px] 
+                                              tracking-tight font-bold text-primary"
+                        >
+                          ₦412,375.00
+                        </h1>
+                      </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="w-[1px] h-full bg-main7 md:flex ss:flex hidden" />
+                    <div className="w-full h-[1px] bg-main7 md:hidden ss:hidden flex" />
+
+                    {/* Ireland Currency Section */}
+                    <div className="w-full flex items-start gap-3">
+                      <div className="flex md:gap-3 gap-5 w-full items-center">
+                        <div
+                          className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
+                                              bg-primary1 rounded-full"
+                        >
+                          <PiBank
+                            className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
+                                                  text-primary md:p-4 ss:p-3 p-4"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-y-3">
+                        <div className="flex gap-2 items-center">
+                          <img
+                            src={
+                              countries.find((country) => country.cca2 === "IE")
+                                ?.flags?.png
+                            }
+                            alt="flag"
+                            className="w-8 h-[1.2rem] rounded-[0.2rem]"
+                          />
+
+                          <p
+                            className="md:text-[14px] ss:text-[14px] 
+                                              text-[13px] tracking-tight font-bold text-main2"
+                          >
+                            Ireland
+                          </p>
+                        </div>
+
+                        <h1
+                          className="md:text-[25px] ss:text-[23px] text-[20px] 
+                                          tracking-tight font-bold text-primary"
+                        >
+                          €262.44
+                        </h1>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-y-3">
-                    <div className="flex gap-2 items-center">
-                      <img
-                        src={
-                          countries.find((country) => country.cca2 === "NG")
-                            ?.flags?.png
-                        }
-                        alt="flag"
-                        className="w-8 h-[1.2rem] rounded-[0.2rem]"
-                      />
-
-                      <p
-                        className="md:text-[14px] ss:text-[14px] 
-                                                text-[13px] tracking-tight font-bold text-main2"
-                      >
-                        Nigeria
-                      </p>
-                    </div>
-
-                    <h1
-                      className="md:text-[25px] ss:text-[23px] text-[20px] 
-                                            tracking-tight font-bold text-primary"
+                  <div
+                    className="flex items-center justify-center w-full md:max-w-[40rem]
+                                    ss:max-w-[35rem] md:pb-8 ss:pb-8 pb-5 md:px-10 ss:px-10 px-5"
+                  >
+                    <p
+                      className="text-main4 md:text-[13px] ss:text-[13px] text-[12px] trackng-tight
+                                      md:leading-[1.2rem] ss:leading-[1.1rem] leading-[1.1rem] md:text-center ss:text-center"
                     >
-                      ₦412,375.00
-                    </h1>
+                      Proceed to make payment using Stripe's secure payment
+                      system. Multiple payment methods available.
+                    </p>
                   </div>
+                </>
+              )}
+
+              {paymentStep === "payment" && (
+                <div className="w-full p-6 md:p-10">
+                  <StripePaymentForm
+                    clientSecret={paymentDetails.clientSecret}
+                    publishableKey={paymentDetails.publishableKey}
+                    onPaymentSuccess={handlePaymentSuccess}
+                    onPaymentError={handlePaymentError}
+                  />
                 </div>
-
-                <div className="w-[1px] h-full bg-main7 md:flex ss:flex hidden" />
-                <div className="w-full h-[1px] bg-main7 md:hidden ss:hidden flex" />
-
-                <div className="w-full flex items-start gap-3">
-                  <div className="flex md:gap-3 gap-5 w-full items-center">
-                    <div
-                      className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
-                                            bg-primary1 rounded-full"
-                    >
-                      <PiBank
-                        className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
-                                                text-primary md:p-4 ss:p-3 p-4"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-y-3">
-                    <div className="flex gap-2 items-center">
-                      <img
-                        src={
-                          countries.find((country) => country.cca2 === "IE")
-                            ?.flags?.png
-                        }
-                        alt="flag"
-                        className="w-8 h-[1.2rem] rounded-[0.2rem]"
-                      />
-
-                      <p
-                        className="md:text-[14px] ss:text-[14px] 
-                                            text-[13px] tracking-tight font-bold text-main2"
-                      >
-                        Ireland
-                      </p>
-                    </div>
-
-                    <h1
-                      className="md:text-[25px] ss:text-[23px] text-[20px] 
-                                        tracking-tight font-bold text-primary"
-                    >
-                      €262.44
-                    </h1>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className="flex items-center justify-center w-full md:max-w-[40rem]
-                                ss:max-w-[35rem] md:pb-8 ss:pb-8 pb-5 md:px-10 ss:px-10 px-5"
-              >
-                <p
-                  className="text-main4 md:text-[13px] ss:text-[13px] text-[12px] trackng-tight
-                                    md:leading-[1.2rem] ss:leading-[1.1rem] leading-[1.1rem] md:text-center ss:text-center"
-                >
-                  Transfer the amount seen above to the bank account details
-                  related to your country.
-                  <br></br>Ensure you transfer the exact amount shown.
-                </p>
-              </div>
-            </>
-
-            <div
-              className="flex justify-center w-full border-t border-t-main7 md:py-6 md:px-10 
-                                        ss:py-6 ss:px-10 py-5 px-5 bottom-0 sticky"
-            >
-              <button
-                type="submit"
-                form={formRef.current?.id || ""}
-                disabled={loading}
-                className={`bg-primary text-[13px] py-3.5 px-14
-                                    text-white rounded-full grow4 cursor-pointer
-                                    items-center justify-center mobbut ${
-                                      loading ? "opacity-70" : ""
-                                    }`}
-                onClick={() => makePayment()}
-              >
-                <p>
-                  {loading ? "Submitting..." : "Proceed to Pay using Stripe"}
-                </p>
-              </button>
+              )}
             </div>
+
+            {/* Footer */}
+            {paymentStep === "summary" && (
+              <div
+                className="flex justify-center w-full border-t md:rounded-2xl rounded-xl border-t-main7 md:py-6 md:px-10 
+                ss:py-6 ss:px-10 py-5 px-5 bottom-0 sticky bg-white"
+              >
+                <button
+                  type="button"
+                  disabled={loading}
+                  className={`bg-primary text-[13px] py-3.5 px-14
+                                      text-white rounded-full grow4 cursor-pointer
+                                      items-center justify-center mobbut ${
+                                        loading ? "opacity-70" : ""
+                                      }`}
+                  onClick={initializePayment}
+                >
+                  <p>{loading ? "Initializing..." : "Proceed to Payment"}</p>
+                </button>
+              </div>
+            )}
           </motion.div>
         </div>
       </motion.div>
