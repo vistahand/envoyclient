@@ -22,10 +22,12 @@ import { Login } from './dashboard';
 import { Home, Shipments, SavedLoc, Payments, ShipmentDetails, PaymentDetails } from './dashboard/user';
 import { AdminHome, ShipmentMgt, PaymentsAdmin, PickupLoc, QuoteMgt, Analytics, Users } from './dashboard/admin';
 import ScrollToTopButton from './constants/ScrollToTop';
-import { CreateShipmentUser } from './pages';
-import { TrackShipmentUser } from './components';
+import { GetStarted } from './pages';
+import { ShipmentFinish, TrackShipmentUser } from './components';
 import SettingsPage from './pages/SettingPage';
 import { ShipmentProvider } from './context/ShipmentContext';
+import PaymentSuccessPage from './components/PaymentSuccessPage';
+import PaymentFailedPage from './components/PaymentFailedPage';
 
 
 
@@ -45,6 +47,13 @@ const App = () => {
                 <Route path='/createshipment' element={<CreateShipmentPage />} />
                 <Route path='/createshipment-payment' element={<PaymentReviewPage />} />
                 <Route path='/trackshipment' element={<TrackResultsPage />} />
+
+
+                <Route path='/createshipment-payment/finish' element={<ShipmentFinish />} />
+                <Route path='/createshipment-payment/success' element={<PaymentSuccessPage />} />
+                <Route path='/createshipment-payment/failure' element={<PaymentFailedPage />} />
+
+                
                 
                 <Route path='/register' element={<GuestRoute><RegisterPage /></GuestRoute>} />
                 <Route path='/login' element={<GuestRoute><Login /></GuestRoute>} />
@@ -54,7 +63,7 @@ const App = () => {
                   <Route path='shipments' element={<Shipments />} />
                   <Route path='payments' element={<Payments />} />
                   <Route path='savedlocations' element={<SavedLoc />} />
-                  <Route path='shipments/createshipment' element={<CreateShipmentUser />} />
+                  <Route path='shipments/createshipment' element={<GetStarted />} />
                   <Route path='shipments/createshipment-payment' element={<PaymentReviewPageUser />} />
                   <Route path='trackshipment' element={<TrackShipmentUser />} />
                   <Route path='shipments/details' element={<ShipmentDetails />} />
