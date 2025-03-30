@@ -40,7 +40,7 @@ import ScrollToTopButton from "./constants/ScrollToTop";
 import { GetStarted } from "./pages";
 import { ShipmentFinish, TrackShipmentUser } from "./components";
 import SettingsPage from "./pages/SettingPage";
-import { ShipmentProvider } from "./context/ShipmentContext";
+import { GuestShipmentProvider } from "./context/GuestShipmentContext";
 import PaymentSuccessPage from "./components/PaymentSuccessPage";
 import PaymentFailedPage from "./components/PaymentFailedPage";
 
@@ -48,7 +48,7 @@ const App = () => {
   return (
     <AuthProvider>
       <NotificationProvider>
-        <ShipmentProvider>
+        <GuestShipmentProvider>
           <BrowserRouter>
             <div>
               <Routes>
@@ -159,7 +159,7 @@ const App = () => {
               <ScrollToTopButton />
             </div>
           </BrowserRouter>
-        </ShipmentProvider>
+        </GuestShipmentProvider>
       </NotificationProvider>
     </AuthProvider>
   );
