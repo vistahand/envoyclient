@@ -79,7 +79,7 @@ const Footer = () => {
           </div>
 
           <div
-            className="w-full flex md:flex-row md:mt-0 ss:mt-10
+            className="w-full flex flex-col md:flex-row md:mt-0 ss:mt-10
                 mt-8 md:grid-cols-5 ss:grid-cols-3 grid-cols-2 md:gap-5"
           >
             {footerLinks.map((footerLink, index) => (

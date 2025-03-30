@@ -3,17 +3,20 @@ import { BsX } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../styles";
 import { navLinks } from "../constants";
-import { logo } from "../assets";
+import { logo, logout } from "../assets";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoIosMenu } from "react-icons/io";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TrackModal } from "../components";
 import { useAuth } from "../context/AuthContext";
+import { GoPerson } from "react-icons/go";
+import LogoutComponent from "./Logout";
 
 const Navbar = () => {
   const { user, isAuthenticated } = useAuth();
   const [userData, setUserData] = useState(null);
   const location = useLocation();
+  const currentPath = location.pathname;
   const [toggle, setToggle] = useState(false);
   const menuRef = useRef(null);
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -21,7 +24,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
   const navigate = useNavigate();
-  const currentPath = location.pathname;
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   if (isAuthenticated) {
     console.log("User is authenticated:", user);
@@ -176,9 +179,10 @@ const Navbar = () => {
           </div>
 
           {isAuthenticated ? (
-            <div className="hidden md:block ">
+            <div className="hidden md:block relative">
               <div
                 className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer`}
+                onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               >
                 {user?.profileImage ? (
                   <div className="rounded-full overflow-hidden">
@@ -198,8 +202,38 @@ const Navbar = () => {
                   {`${userData?.firstName} ${userData?.lastName}` || "Guest"}
                 </p>
 
-                <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
+                <MdKeyboardArrowDown
+                  className={`text-main2 md:text-[20px] text-[22px] transition-transform duration-300 ${
+                    isProfileDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
               </div>
+
+              {/* Profile Dropdown Menu */}
+              {isProfileDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                  <a
+                    href={`${
+                      userData?.role === "admin"
+                        ? "/admin/settings"
+                        : "/user/settings"
+                    }`}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary font-medium"
+                  >
+                    Settings
+                  </a>
+
+                  <LogoutComponent
+                    component="div"
+                    className="text-logRed font-semibold text-sm cursor-pointer tracking-tight hover:bg-gray-100"
+                  >
+                    <div className="flex p-3 ss:gap-4 gap-3 items-center">
+                      <img src={logout} alt="logout" className="w-6 h-6" />
+                      Logout
+                    </div>
+                  </LogoutComponent>
+                </div>
+              )}
             </div>
           ) : (
             <div className="hidden md:flex items-center gap-6">
@@ -352,9 +386,12 @@ const Navbar = () => {
               </ul>
 
               {isAuthenticated ? (
-                <div>
+                <div className="relative">
                   <div
                     className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer`}
+                    onClick={() =>
+                      setIsProfileDropdownOpen(!isProfileDropdownOpen)
+                    }
                   >
                     {user?.profileImage ? (
                       <div className="rounded-full overflow-hidden">
@@ -375,8 +412,38 @@ const Navbar = () => {
                         "Guest"}
                     </p>
 
-                    <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
+                    <MdKeyboardArrowDown
+                      className={`text-main2 md:text-[20px] text-[22px] transition-transform duration-300 ${
+                        isProfileDropdownOpen ? "rotate-180" : ""
+                      }`}
+                    />
                   </div>
+
+                  {/* Mobile Profile Dropdown Menu */}
+                  {isProfileDropdownOpen && (
+                    <div className="mt-3 bg-gray-50 rounded-md py-2 shadow-sm">
+                      <a
+                        href={`${
+                          userData?.role === "admin"
+                            ? "/admin/settings"
+                            : "/user/settings"
+                        }`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ss:text-[17px] text-[15px]"
+                      >
+                        Settings
+                      </a>
+
+                      <LogoutComponent
+                        component="div"
+                        className="text-logRed font-semibold text-sm cursor-pointer tracking-tight hover:bg-gray-100"
+                      >
+                        <div className="flex p-3 ss:gap-4 gap-3 items-center">
+                          <img src={logout} alt="logout" className="w-6 h-6" />
+                          Logout
+                        </div>
+                      </LogoutComponent>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="flex items-center gap-6">

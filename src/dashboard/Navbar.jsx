@@ -3,7 +3,7 @@ import { HiLogout } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { PiBell } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
-import { help, logo, logout, settings } from "../assets";
+import { logo, logout, settings } from "../assets";
 import { IoIosMenu } from "react-icons/io";
 import { useAuth } from "../context/AuthContext";
 import { BsX } from "react-icons/bs";
@@ -20,11 +20,13 @@ const Navbar = () => {
   const [userData, setUserData] = useState(null);
   const searchRef = useRef(null);
   const notificationRef = useRef(null);
+  const profileDropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState("Home");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -83,6 +85,12 @@ const Navbar = () => {
         !notificationRef.current.contains(event.target)
       ) {
         setNotificationMenu(false);
+      }
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
+        setIsProfileDropdownOpen(false);
       }
     };
 
@@ -149,7 +157,12 @@ const Navbar = () => {
                 : "menu-slide-exit2 menu-slide-exit-active2"
             }`}
           >
-            <div className="w-full flex items-center justify-between">
+            <div
+              className="w-full flex items-center justify-between"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
               <img
                 src={logo}
                 alt="logo"
@@ -233,15 +246,11 @@ const Navbar = () => {
               </li>
 
               <LogoutComponent
-                component="li"
-                className="text-logRed font-semibold ss:text-[16px] text-[15px] cursor-pointer tracking-tight"
+                component="div"
+                className="text-logRed font-semibold text-sm cursor-pointer tracking-tight hover:bg-gray-100"
               >
                 <div className="flex p-3 ss:gap-4 gap-3 items-center">
-                  <img
-                    src={logout}
-                    alt="logout"
-                    className="ss:w-[1.5rem] w-[1.4rem] h-auto"
-                  />
+                  <img src={logout} alt="logout" className="w-6 h-6" />
                   Logout
                 </div>
               </LogoutComponent>
@@ -354,18 +363,12 @@ const Navbar = () => {
           </div>
 
           {/* settings profile image */}
-          <a
-            href={`${
-              currentPath.startsWith("/admin") ||
-              currentPath.startsWith("/admin/")
-                ? "/admin/settings"
-                : "/user/settings"
-            }`}
-          >
+          <div className="relative">
             <div
               className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${
                 isSearchOpen ? "md:flex hidden" : "flex"
               }`}
+              onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
             >
               {user?.profileImage ? (
                 <div className="rounded-full overflow-hidden">
@@ -385,9 +388,42 @@ const Navbar = () => {
                 {`${userData?.firstName} ${userData?.lastName}` || "Guest"}
               </p>
 
-              <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
+              <MdKeyboardArrowDown
+                className={`text-main2 md:text-[20px] text-[22px] transition-transform duration-300 ${
+                  isProfileDropdownOpen ? "rotate-180" : ""
+                }`}
+              />
             </div>
-          </a>
+
+            {/* Profile Dropdown Menu */}
+            {isProfileDropdownOpen && (
+              <div
+                ref={profileDropdownRef}
+                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+              >
+                <a
+                  href={`${
+                    currentPath.startsWith("/admin") ||
+                    currentPath.startsWith("/admin/")
+                      ? "/admin/settings"
+                      : "/user/settings"
+                  }`}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary font-medium"
+                >
+                  Settings
+                </a>
+                <LogoutComponent
+                  component="div"
+                  className="text-logRed font-semibold text-sm cursor-pointer tracking-tight hover:bg-gray-100"
+                >
+                  <div className="flex p-3 ss:gap-4 gap-3 items-center">
+                    <img src={logout} alt="logout" className="w-6 h-6" />
+                    Logout
+                  </div>
+                </LogoutComponent>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>
