@@ -3,7 +3,6 @@ import {
   CreateShipmentPage,
   HomePage,
   PaymentReviewPage,
-  PaymentReviewPageUser,
   TrackResultsPage,
   RegisterPage,
   UserDashHome,
@@ -38,7 +37,7 @@ import {
 } from "./dashboard/admin";
 import ScrollToTopButton from "./constants/ScrollToTop";
 import { GetStarted } from "./pages";
-import { ShipmentFinish, TrackShipmentUser } from "./components";
+import { ShipmentFinish, TrackShipment } from "./components";
 import SettingsPage from "./pages/SettingPage";
 import { GuestShipmentProvider } from "./context/GuestShipmentContext";
 import PaymentSuccessPage from "./components/PaymentSuccessPage";
@@ -114,9 +113,9 @@ const App = () => {
                   />
                   <Route
                     path="shipments/createshipment-payment"
-                    element={<PaymentReviewPageUser />}
+                    element={<PaymentReviewPage />}
                   />
-                  <Route path="trackshipment" element={<TrackShipmentUser />} />
+                  <Route path="trackshipment" element={<TrackShipment />} />
                   <Route
                     path="shipments/details"
                     element={<ShipmentDetails />}
@@ -149,7 +148,7 @@ const App = () => {
                       </ProtectedRoute>
                     }
                   />
-                  {/* <Route path='trackshipment' element={<TrackShipmentUser />} />
+                  {/* <Route path='trackshipment' element={<TrackShipment />} />
                   <Route path='shipments/details' element={<ShipmentDetails />} />
                   <Route path='payments/details' element={<PaymentDetails />} /> */}
                 </Route>

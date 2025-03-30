@@ -29,19 +29,7 @@ import TrackModal from "./TrackModal";
 import NextSteps from "./NextSteps";
 import ShipCTA from "./ShipCTA";
 import TrackShipment from "./TrackShipment";
-import PackageDescribeUser from "./PackageDescribeUser";
-import DeliveryOptionsUser from "./DeliveryOptionsUser";
-import SenderFormUser from "./SenderFormUser";
-import RecipientFormUser from "./RecipientFormUser";
-import PickupLocationUser from "./PickupLocationUser";
-import InsuranceFormUser from "./InsuranceFormUser";
-import HeroPaymentReviewUser from "./HeroPaymentReviewUser";
-import ShipmentDetailsUser from "./ShipmentDetailsUser";
-import ShipmentPayUser from "./ShipmentPayUser";
-import ShipmentFinishUser from "./ShipmentFinishUser";
-import TrackShipmentUser from "./TrackShipmentUser";
 import BankTransferModal from "./BankTransferModal";
-
 import HeroAbout from "./HeroAbout";
 import AboutUs from "./AboutUs";
 import HeroTerms from "./HeroTerms";
@@ -81,17 +69,6 @@ export {
   NextSteps,
   ShipCTA,
   TrackShipment,
-  PackageDescribeUser,
-  DeliveryOptionsUser,
-  SenderFormUser,
-  RecipientFormUser,
-  PickupLocationUser,
-  InsuranceFormUser,
-  HeroPaymentReviewUser,
-  ShipmentDetailsUser,
-  ShipmentPayUser,
-  ShipmentFinishUser,
-  TrackShipmentUser,
   BankTransferModal,
   HeroAbout,
   AboutUs,
