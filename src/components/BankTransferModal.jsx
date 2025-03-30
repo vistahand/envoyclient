@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsX } from "react-icons/bs";
 import { PiBank } from "react-icons/pi";
@@ -7,8 +7,6 @@ import StripePaymentForm from "./StripePaymentForm";
 import { useNavigate } from "react-router-dom";
 
 const BankTransferModal = ({ onClose, handleNext }) => {
-  const formRef = useRef();
-  const [shipment, setShipment] = useState("");
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [paymentStep, setPaymentStep] = useState("summary");
@@ -18,14 +16,6 @@ const BankTransferModal = ({ onClose, handleNext }) => {
     shipment: null,
   });
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const shipmentParams = new URLSearchParams(window.location.search);
-    const shipmentParam = shipmentParams.get("shipmentId");
-    if (shipmentParam) {
-      setShipment(shipmentParam);
-    }
-  }, []);
 
   const initializePayment = async () => {
     setLoading(true);
@@ -59,13 +49,6 @@ const BankTransferModal = ({ onClose, handleNext }) => {
   };
 
   const handlePaymentSuccess = async (paymentIntent) => {
-    // handleNext({
-    //   paymentId: paymentIntent.id,
-    //   shipmentId: paymentDetails.shipment?._id,
-    //   status: "completed",
-    // });
-
-    // onClose();
     try {
       // First finalize the shipment
       const storedShipmentId = localStorage.getItem("shipmentId");
@@ -78,18 +61,17 @@ const BankTransferModal = ({ onClose, handleNext }) => {
       }
 
       // Then clean up and proceed
-      localStorage.removeItem("shipmentId");
 
       handleNext({
         paymentId: paymentIntent.id,
-        shipmentId: paymentDetails.shipment?._id,
+        shipmentId: storedShipmentId,
         status: "completed",
-        trackingNumber: finalizeResponse.data.trackingNumber,
+        trackingNumber: finalizeResponse.data.shipment.trackingNumber,
       });
-
+      const trackingNumber = finalizeResponse.data.shipment.trackingNumber;
       onClose();
-      // Redirect to success page
-      navigate("/createshipment-payment/success");
+      // localStorage.removeItem("shipmentId");
+      navigate(`/createshipment-payment/success?tracking=${trackingNumber}`);
     } catch (error) {
       console.error("Error finalizing shipment:", error);
       // Redirect to failure page with specific error for shipment finalization

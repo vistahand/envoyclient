@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SectionWrapper } from "../hoc";
-import { copy } from "../assets";
-import { FaDiagramSuccessor } from "react-icons/fa6";
+import { copy, success } from "../assets";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -14,7 +13,9 @@ const PaymentSuccess = () => {
   // Get tracking number from URL params or state
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const tracking = params.get("tracking");
+    const tracking =
+      params.get("tracking") ||
+      "TRX-" + Math.floor(Math.random() * 10000000000);
     setTrackingNumber(tracking);
 
     // Auto-redirect after countdown
@@ -89,12 +90,11 @@ const PaymentSuccess = () => {
 
         <div className="md:w-[45%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
           <div className="w-full relative md:rounded-2xl ss:rounded-2xl rounded-xl overflow-hidden">
-            {/* <img
+            <img
               src={success}
               alt="payment successful"
               className="object-cover md:rounded-2xl ss:rounded-2xl rounded-xl"
-            /> */}
-            <FaDiagramSuccessor className="w-[4rem] h-[4rem] text-white" />
+            />
           </div>
         </div>
       </div>
