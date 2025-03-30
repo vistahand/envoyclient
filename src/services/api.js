@@ -9,7 +9,6 @@ const api = axios.create({
   },
 });
 
-
 // Add a request interceptor to include the token in the headers
 api.interceptors.request.use(
   (config) => {
@@ -229,7 +228,10 @@ export const shipments = {
   // Calculate shipping cost
   calculateCost: async (shipmentDetails) => {
     try {
-      const response = await api.post("/shipments/calculate-cost", shipmentDetails);
+      const response = await api.post(
+        "/shipments/calculate-cost",
+        shipmentDetails
+      );
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -313,25 +315,31 @@ export const shipments = {
     }
   },
 
-    // Update insurance
-    updateInsurance: async (shipmentId,insuranceData) => {
-      try {
-        const response = await api.put(`/shipments/${shipmentId}/insurance`,insuranceData);
-        return response.data;
-      } catch (err) {
-        if (!err.response) {
-          throw new Error("Network error. Please check your connection.");
-        }
-        throw new Error(
-          err.response?.data?.error || "Failed to updatye insurance"
-        );
+  // Update insurance
+  updateInsurance: async (shipmentId, insuranceData) => {
+    try {
+      const response = await api.put(
+        `/shipments/${shipmentId}/insurance`,
+        insuranceData
+      );
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
       }
-    },
+      throw new Error(
+        err.response?.data?.error || "Failed to updatye insurance"
+      );
+    }
+  },
 
   // Finalize shipment
-  finalizeShipment: async (shipmentId) => {
+  finalizeShipment: async (shipment_Id) => {
+    const shipmentId = {
+      shipmentId: shipment_Id,
+    };
     try {
-      const response = await api.post(`/shipments/${shipmentId}/finalize`);
+      const response = await api.post(`/shipments/finalize`, shipmentId);
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -389,7 +397,10 @@ export const shipments = {
 export const payments = {
   create: async (paymentData) => {
     try {
-      const response = await api.post("/payments/bank-transfer/initialize", paymentData);
+      const response = await api.post(
+        "/payments/bank-transfer/initialize",
+        paymentData
+      );
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -454,11 +465,17 @@ export const updatePassword = async (currentPassword, newPassword) => {
 };
 
 // Update profile (phone, address, country, optionally profile image)
-export const updateProfile = async ({ phone, address, country, profileImage }) => {
+export const updateProfile = async ({
+  phone,
+  address,
+  country,
+  profileImage,
+}) => {
   const API_BASE_URL = import.meta.env.VITE_API_URL; // ✅ Ensure API base URL is properly loaded
   const token = localStorage.getItem("authToken");
 
-  if (!token) throw new Error("Authentication token is missing. Please log in.");
+  if (!token)
+    throw new Error("Authentication token is missing. Please log in.");
 
   const formData = new FormData();
   if (phone) formData.append("phone", phone);
@@ -469,12 +486,16 @@ export const updateProfile = async ({ phone, address, country, profileImage }) =
   }
 
   try {
-    const response = await axios.put(`${API_BASE_URL}/api/user/profile`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.put(
+      `${API_BASE_URL}/api/user/profile`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -488,18 +509,23 @@ export const updateProfileImage = async (file) => {
   const API_BASE_URL = import.meta.env.VITE_API_URL; // ✅ Fix API_BASE_URL reference
   const token = localStorage.getItem("authToken");
 
-  if (!token) throw new Error("Authentication token is missing. Please log in.");
+  if (!token)
+    throw new Error("Authentication token is missing. Please log in.");
 
   const formData = new FormData();
   formData.append("profileImage", file);
 
   try {
-    const response = await axios.put(`${API_BASE_URL}/api/users/update-profile-image`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.put(
+      `${API_BASE_URL}/api/users/update-profile-image`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -507,6 +533,5 @@ export const updateProfileImage = async (file) => {
     throw error.response?.data?.message || "Profile image update failed.";
   }
 };
-
 
 export default api;

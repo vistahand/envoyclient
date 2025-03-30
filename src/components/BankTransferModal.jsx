@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsX } from "react-icons/bs";
 import { PiBank } from "react-icons/pi";
-import { payments } from "../services/api";
+import { payments, shipments } from "../services/api";
 import StripePaymentForm from "./StripePaymentForm";
+import { useNavigate } from "react-router-dom";
 
 const BankTransferModal = ({ onClose, handleNext }) => {
   const formRef = useRef();
@@ -16,6 +17,7 @@ const BankTransferModal = ({ onClose, handleNext }) => {
     publishableKey: null,
     shipment: null,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const shipmentParams = new URLSearchParams(window.location.search);
@@ -56,17 +58,45 @@ const BankTransferModal = ({ onClose, handleNext }) => {
     }
   };
 
-  const handlePaymentSuccess = (paymentIntent) => {
-    console.log("Payment successful:", paymentIntent);
-    localStorage.removeItem("shipmentId");
+  const handlePaymentSuccess = async (paymentIntent) => {
+    // handleNext({
+    //   paymentId: paymentIntent.id,
+    //   shipmentId: paymentDetails.shipment?._id,
+    //   status: "completed",
+    // });
 
-    handleNext({
-      paymentId: paymentIntent.id,
-      shipmentId: paymentDetails.shipment?._id,
-      status: "completed",
-    });
+    // onClose();
+    try {
+      // First finalize the shipment
+      const storedShipmentId = localStorage.getItem("shipmentId");
+      const finalizeResponse = await shipments.finalizeShipment(
+        storedShipmentId
+      );
+      console.log("finalizeResponse: ", finalizeResponse);
+      if (!finalizeResponse.success) {
+        throw new Error("Failed to finalize shipment after payment");
+      }
 
-    onClose();
+      // Then clean up and proceed
+      localStorage.removeItem("shipmentId");
+
+      handleNext({
+        paymentId: paymentIntent.id,
+        shipmentId: paymentDetails.shipment?._id,
+        status: "completed",
+        trackingNumber: finalizeResponse.data.trackingNumber,
+      });
+
+      onClose();
+      // Redirect to success page
+      navigate("/createshipment-payment/success");
+    } catch (error) {
+      console.error("Error finalizing shipment:", error);
+      // Redirect to failure page with specific error for shipment finalization
+      navigate("/createshipment-payment/failure?error=finalization");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePaymentError = (error) => {
