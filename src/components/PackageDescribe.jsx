@@ -70,9 +70,95 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
   const formRef = useRef();
   const currentTab = selectedTab;
   const [selectedOption, setSelectedOption] = useState({});
-  const { updatePackageDetails, loading, error, shipmentData } =
-    useGuestShipment();
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [calculatedCost, setCalculatedCost] = useState(null);
+  const [meetsMinimumPayment, setMeetsMinimumPayment] = useState(false);
+  const {
+    updatePackageDetails,
+    loading,
+    error,
+    calculateShippingCost,
+    shipmentData,
+  } = useGuestShipment();
   const { addNotification } = useNotifications();
+
+  const handleCalculateCost = async () => {
+    try {
+      // Validate form before calculation
+      const isValid = await formik.validateForm();
+      if (Object.keys(isValid).length > 0) {
+        formik.setTouched(
+          Object.keys(isValid).reduce((acc, key) => {
+            acc[key] = true;
+            return acc;
+          }, {})
+        );
+        addNotification({
+          type: "error",
+          title: "Validation Error",
+          message: "Please correct the errors before calculating cost.",
+        });
+        return;
+      }
+
+      setIsCalculating(true);
+      setCalculatedCost(null);
+
+      // Prepare data for calculation
+      const calculationData = {
+        type: currentTab,
+        packages: formik.values.packages.map((packageItem) => {
+          return {
+            packageType: packageItem.packageType,
+            weight: packageItem.weight,
+            dimensions: {
+              length: packageItem.length,
+              width: packageItem.width,
+              height: packageItem.height,
+            },
+            isFragile: packageItem.isFragile,
+            isPerishable: packageItem.isPerishable,
+            isHazardous: packageItem.isHazardous,
+          };
+        }), // Array of package items
+        insurance: {
+          type: "none",
+        },
+      };
+
+      // Call the calculate cost endpoint
+      const response = await calculateShippingCost(calculationData);
+
+      // Set the calculated cost
+      setCalculatedCost(response.cost.total);
+
+      // Check if it meets minimum payment threshold (0.50 USD in Naira)
+      // Assuming exchange rate is defined elsewhere or fetched from an API
+      const minimumNairaAmount = 0.5 * getExchangeRate(); // Implement getExchangeRate() or use a fixed value
+      setMeetsMinimumPayment(response.cost.total >= minimumNairaAmount);
+
+      addNotification({
+        type: "success",
+        title: "Cost Calculated",
+        message: "Shipping cost has been calculated successfully.",
+      });
+    } catch (error) {
+      addNotification({
+        type: "error",
+        title: "Calculation Error",
+        message: error.message || "Failed to calculate shipping cost.",
+      });
+      setMeetsMinimumPayment(false);
+    } finally {
+      setIsCalculating(false);
+    }
+  };
+  // .....................................................................
+  // Helper function to get current exchange rate - implement as needed
+  const getExchangeRate = () => {
+    // For now using a fixed value - you can replace with API call or config value
+    return currentTab == "local" ? 1500 : 1; // Example rate: 1 USD = 1500 Naira
+  };
 
   const handleSelectOption = (pkgIndex, optionIndex) => {
     setSelectedOption((prevSelected) => {
@@ -864,8 +950,8 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
 
             <div
               className="mt-2 flex w-full items-center 
-                    justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
-                    ss:flex-row flex-col"
+                    justify-center md:gap-5 ss:gap-5 gap-3 
+                    flex-col"
             >
               <button
                 className="bg-none text-[13px] py-3.5 px-14
@@ -877,7 +963,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                 <p className="font-semibold">Go back</p>
               </button>
 
-              <button
+              {/* <button
                 type="submit"
                 className="bg-primary text-[13px] py-3.5 px-14 flex
                         text-white rounded-full grow4 cursor-pointer
@@ -887,7 +973,64 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                 <p>{loading ? "Processing..." : "Next"}</p>
 
                 {!loading && <HiOutlineArrowRight className="text-[14px]" />}
-              </button>
+              </button> */}
+
+              {/* Add this section for cost calculation before your submit button */}
+              <div className="w-full flex flex-col gap-4 items-center mt-6">
+                <button
+                  type="button"
+                  onClick={handleCalculateCost}
+                  disabled={isCalculating}
+                  className="bg-primary text-[13px] py-3.5 px-8
+                    text-white rounded-full grow4 cursor-pointer
+                    flex items-center justify-center"
+                >
+                  {isCalculating ? "Calculating..." : "Calculate Shipping Cost"}
+                </button>
+
+                {calculatedCost !== null && (
+                  <div className="w-full md:w-[70%] flex flex-col items-center bg-primary1 p-5 rounded-xl">
+                    <h3 className="font-bold text-[18px] text-main2 mb-2">
+                      Estimated Shipping Cost
+                    </h3>
+                    <p className="text-primary md:text-[25px] ss:text-[25px] text-[22px] font-bold">
+                      {currentTab === "international" ? "€" : "₦"}{" "}
+                      {calculatedCost.toLocaleString()}.00
+                    </p>
+
+                    {!meetsMinimumPayment && (
+                      <p className="text-mainRed mt-2 text-center md:text-[14px] ss:text-[14px] text-[13px]">
+                        This amount is below the minimum payment threshold.
+                        Please add more items or adjust your package.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Conditionally render the submit button */}
+              <div className="w-full flex justify-center mt-6">
+                {!calculatedCost || !meetsMinimumPayment ? (
+                  <p className="text-main4 text-center md:text-[14px] ss:text-[14px] text-[13px]">
+                    Please calculate shipping cost before proceeding
+                  </p>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-primary text-[13px] py-3.5 px-14
+                    text-white rounded-full grow4 cursor-pointer
+                    flex items-center justify-center gap-3"
+                    onClick={formik.handleSubmit}
+                  >
+                    <p>{loading ? "Processing..." : "Continue"}</p>
+
+                    {!loading && (
+                      <HiOutlineArrowRight className="text-[14px]" />
+                    )}
+                  </button>
+                )}
+              </div>
 
               <button
                 className="bg-none text-[13px] py-3.5 px-14
