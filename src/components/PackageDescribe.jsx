@@ -101,6 +101,58 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
         return;
       }
 
+      // Validate international shipments are between different countries
+      if (currentTab === "international") {
+        if (
+          !shipmentData?.origin?.country ||
+          !shipmentData?.destination?.country
+        ) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "Origin and destination countries must be specified for international shipments.",
+          });
+          return;
+        }
+
+        if (shipmentData.origin.country === shipmentData.destination.country) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "International shipments must be between different countries. For shipments within the same country, please use the local shipping option.",
+          });
+          return;
+        }
+      }
+
+      // For local shipments, ensure the countries are the same
+      if (currentTab === "local") {
+        if (
+          !shipmentData?.origin?.country ||
+          !shipmentData?.destination?.country
+        ) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "Origin and destination countries must be specified for local shipments.",
+          });
+          return;
+        }
+
+        if (shipmentData.origin.country !== shipmentData.destination.country) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "Local shipments must be within the same country. For shipments between different countries, please use the international shipping option.",
+          });
+          return;
+        }
+      }
+
       setIsCalculating(true);
       setCalculatedCost(null);
 
@@ -120,7 +172,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
             isPerishable: packageItem.isPerishable,
             isHazardous: packageItem.isHazardous,
           };
-        }), // Array of package items
+        }),
         insurance: {
           type: "none",
         },
@@ -136,12 +188,6 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       // Assuming exchange rate is defined elsewhere or fetched from an API
       const minimumNairaAmount = 0.5 * getExchangeRate(); // Implement getExchangeRate() or use a fixed value
       setMeetsMinimumPayment(response.cost.total >= minimumNairaAmount);
-
-      addNotification({
-        type: "success",
-        title: "Cost Calculated",
-        message: "Shipping cost has been calculated successfully.",
-      });
     } catch (error) {
       addNotification({
         type: "error",
@@ -153,7 +199,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       setIsCalculating(false);
     }
   };
-  // .....................................................................
+
   // Helper function to get current exchange rate - implement as needed
   const getExchangeRate = () => {
     // For now using a fixed value - you can replace with API call or config value

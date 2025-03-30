@@ -27,6 +27,35 @@ export const GuestShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
+      // Validate international/local shipment type against countries
+      if (initialData.shipmentType === "international") {
+        if (!initialData.origin?.country || !initialData.destination?.country) {
+          throw new Error(
+            "Origin and destination countries must be specified for international shipments."
+          );
+        }
+
+        if (initialData.origin.country === initialData.destination.country) {
+          throw new Error(
+            "International shipments must be between different countries. For shipments within the same country, please use local shipping."
+          );
+        }
+      }
+
+      if (initialData.shipmentType === "local") {
+        if (!initialData.origin?.country || !initialData.destination?.country) {
+          throw new Error(
+            "Origin and destination countries must be specified for local shipments."
+          );
+        }
+
+        if (initialData.origin.country !== initialData.destination.country) {
+          throw new Error(
+            "Local shipments must be within the same country. For shipments between different countries, please use international shipping."
+          );
+        }
+      }
+
       const response = await shipments.initializeShipment(initialData);
 
       if (!response.success) {

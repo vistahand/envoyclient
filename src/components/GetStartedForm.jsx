@@ -67,35 +67,61 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
       currentTab === "international" ? internationalSchema : localSchema,
     validateOnMount: true,
     onSubmit: async (values) => {
-      const initialData = {
-        shipmentType: currentTab,
-        origin: {
-          country:
-            currentTab === "international"
-              ? values.countryFromInt
-              : values.countryFromLoc,
-          city:
-            currentTab === "international"
-              ? values.cityFromInt
-              : values.cityFromLoc,
-        },
-        destination: {
-          country:
-            currentTab === "international"
-              ? values.countryTo
-              : values.countryFromLoc,
-          city:
-            currentTab === "international"
-              ? values.cityToInt
-              : values.cityToLoc,
-        },
-      };
-
       try {
+        // Validate international/local shipment type against countries
+        if (currentTab === "international") {
+          if (values.countryFromInt === values.countryTo) {
+            addNotification({
+              type: "error",
+              title: "Validation Error",
+              message:
+                "International shipments must be between different countries. Please select different countries for sender and recipient.",
+            });
+            return;
+          }
+        }
+
+        if (currentTab === "local") {
+          // For local shipments, ensure origin and destination are in the same country
+          if (values.countryFromLoc !== values.countryFromLoc) {
+            addNotification({
+              type: "error",
+              title: "Validation Error",
+              message:
+                "Local shipments must be within the same country. Please select local shipping options.",
+            });
+            return;
+          }
+        }
+
+        const initialData = {
+          shipmentType: currentTab,
+          origin: {
+            country:
+              currentTab === "international"
+                ? values.countryFromInt
+                : values.countryFromLoc,
+            city:
+              currentTab === "international"
+                ? values.cityFromInt
+                : values.cityFromLoc,
+          },
+          destination: {
+            country:
+              currentTab === "international"
+                ? values.countryTo
+                : values.countryFromLoc,
+            city:
+              currentTab === "international"
+                ? values.cityToInt
+                : values.cityToLoc,
+          },
+        };
+
         const response = await initializeShipment(initialData);
         const shipmentId = response.shipment._id;
         localStorage.setItem("shipmentId", shipmentId); // Store in local storage
-        const newUrl = `${window.location.pathname}?shipmentId=${shipmentId}`;
+        const newUrl = `${window.location.pathname}?shipmentId=${shipmentId}?type=${currentTab}`;
         window.history.pushState({ path: newUrl }, "", newUrl);
         onNext(currentTab);
       } catch (err) {
@@ -113,7 +139,6 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
     setCurrentTab(tab);
     formik.resetForm();
   };
-  
 
   return (
     <section

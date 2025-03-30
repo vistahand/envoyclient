@@ -42,6 +42,16 @@ const SenderForm = ({
     fetchCountries();
   }, []);
 
+  useEffect(() => {
+    if (shipmentData?.origin?.country) {
+      if (senderTab === "individual") {
+        formik.setFieldValue("countryInd", shipmentData.origin.country);
+      } else {
+        formik.setFieldValue("countryBus", shipmentData.origin.country);
+      }
+    }
+  }, [shipmentData, senderTab]);
+
   const individualSchema = Yup.object().shape({
     fullNameInd: Yup.string().required("Full name is required"),
     phoneInd: Yup.number().required("Phone number is required"),
@@ -91,7 +101,7 @@ const SenderForm = ({
       phoneInd: "",
       mailInd: "",
       altPhoneInd: "",
-      countryInd: "IE",
+      countryInd: shipmentData?.origin?.country || "", // Pre-fill from origin country
       address1Ind: "",
       address2Ind: "",
       areaInd: "",
@@ -105,7 +115,7 @@ const SenderForm = ({
       businessPhoneAlt: "",
       registrationID: "",
       vatBus: "",
-      countryBus: "IE",
+      countryBus: shipmentData?.origin?.country || "", // Pre-fill from origin country
       address1Bus: "",
       address2Bus: "",
       areaBus: "",
@@ -361,10 +371,6 @@ const SenderForm = ({
           <div
             className="flex items-center gap-2 rounded-full 
                 bg-primary1 px-6 py-3 cursor-pointer grow3"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/login");
-            }}
           >
             <PiWarningCircle
               className="md:text-[24px] ss:text-[24px] 
@@ -376,8 +382,7 @@ const SenderForm = ({
                     text-[13px] md:leading-[1.4rem] ss:leading-[1.4rem] 
                     leading-[1.2rem] tracking-tight font-medium"
             >
-              If you have an account with Envoy Angel, you can login by clicking
-              here
+              Country is fixed to the one set during initialization. If you need to change it, please start a new shipment.
             </p>
           </div>
         </div>
@@ -694,11 +699,12 @@ const SenderForm = ({
                         value={formik.values.countryInd}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        disabled={true}
                         className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
                                             px-3 outline text-main2 md:rounded-lg rounded-md
-                                            cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
+                                            cursor-not-allowed md:text-[14px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-primary
-                                            bg-transparent w-full custom-select outline-[1px]
+                                            bg-gray-100 w-full custom-select outline-[1px]
                                             ${
                                               formik.touched.countryInd &&
                                               formik.errors.countryInd
@@ -731,11 +737,10 @@ const SenderForm = ({
                       {formik.touched.countryInd && formik.errors.countryInd}
                     </p>
 
-                    <p
-                      className="text-main2 font-medium md:text-[12px]
-                                    ss:text-[12px] text-[11px] tracking-tight"
-                    >
-                      This is your billing country/region
+                    <p className="text-main2 font-medium md:text-[12px] ss:text-[12px] text-[11px] tracking-tight">
+                      {currentTab === "international"
+                        ? "For international shipments, sender's country is fixed based on your initial selection."
+                        : "For local shipments, sender's country is fixed based on your initial selection."}
                     </p>
                   </div>
                 </div>
@@ -1460,11 +1465,12 @@ const SenderForm = ({
                         value={formik.values.countryBus}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        disabled={true}
                         className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
                                             px-3 outline text-main2 md:rounded-lg rounded-md
-                                            cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
+                                            cursor-not-allowed md:text-[14px] font-bold pl-[3.6rem]
                                             ss:text-[14px] text-[12px] focus:outline-primary
-                                            bg-transparent w-full custom-select outline-[1px]
+                                            bg-gray-100 w-full custom-select outline-[1px]
                                             ${
                                               formik.touched.countryBus &&
                                               formik.errors.countryBus
@@ -1497,11 +1503,10 @@ const SenderForm = ({
                       {formik.touched.countryBus && formik.errors.countryBus}
                     </p>
 
-                    <p
-                      className="text-main2 font-medium md:text-[12px]
-                                    ss:text-[12px] text-[11px] tracking-tight"
-                    >
-                      This is your billing country/region
+                    <p className="text-main2 font-medium md:text-[12px] ss:text-[12px] text-[11px] tracking-tight">
+                      {currentTab === "international"
+                        ? "For international shipments, sender's country is fixed based on your initial selection."
+                        : "For local shipments, sender's country is fixed based on your initial selection."}
                     </p>
                   </div>
                 </div>
