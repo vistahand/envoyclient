@@ -354,7 +354,7 @@ export const shipments = {
   // Get all shipments
   getAll: async (params) => {
     try {
-      const response = await api.get("/shipments", { params });
+      const response = await api.get(`/shipments`);
       return response.data;
     } catch (err) {
       if (!err.response) {

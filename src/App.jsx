@@ -37,11 +37,9 @@ import {
 } from "./dashboard/admin";
 import ScrollToTopButton from "./constants/ScrollToTop";
 import { GetStarted } from "./pages";
-import ShipmentFinish from "./components/ShipmentFinish";
 import TrackShipment from "./components/TrackShipment";
 import SettingsPage from "./pages/SettingPage";
 import { GuestShipmentProvider } from "./context/GuestShipmentContext";
-import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import PaymentFailedPage from "./pages/PaymentFailedPage";
 import FinishShipmentPage from "./scenes/FinishShipmentPage";
 import PaymentSuccessScene from "./scenes/PaymentSuccess";

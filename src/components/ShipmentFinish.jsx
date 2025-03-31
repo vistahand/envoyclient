@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { SectionWrapper } from "../hoc";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { TrackModal } from "../components";
 import { copy, shipconfirm } from "../assets";
 import { useNavigate } from "react-router-dom";
 import { MdCheck } from "react-icons/md";
@@ -9,8 +8,6 @@ import { shipments } from "../services/api";
 import { getCurrentShipment } from "../utils/shipmentStorage";
 
 const ShipmentFinish = () => {
-  const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const [copyButtonText, setCopyButtonText] = useState("Copy");
   const navigate = useNavigate();
   const [trackingDetails, setTrackingDetails] = useState(null);
@@ -61,17 +58,12 @@ const ShipmentFinish = () => {
     fetchTrackingDetails();
   }, []);
 
+  // Keep document body style clean when component unmounts
   useEffect(() => {
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
-
-  const disableScroll = () => {
-    setScrollPosition(window.pageYOffset);
-    document.body.style.overflow = "hidden";
-    document.body.style.top = `-${scrollPosition}px`;
-  };
 
   const handleCopyClick = () => {
     navigator.clipboard
@@ -89,6 +81,15 @@ const ShipmentFinish = () => {
 
   const navigateToShipments = () => {
     navigate("/user/shipments");
+  };
+
+  // Function to navigate to tracking page
+  const navigateToTracking = () => {
+    if (trackingDetails?.id) {
+      navigate(`/trackshipment?tracking=${trackingDetails.id}`);
+    } else {
+      navigate("/trackshipment");
+    }
   };
 
   return (
@@ -160,10 +161,7 @@ const ShipmentFinish = () => {
           <div className="w-full md:mt-5 ss:mt-5 mt-3 flex gap-4 flex-wrap">
             <button
               className="bg-primary text-[13px] py-3.5 px-8 flex text-white rounded-full grow4 cursor-pointer items-center justify-center gap-3"
-              onClick={() => {
-                setIsTrackModalOpen(true);
-                disableScroll();
-              }}
+              onClick={navigateToTracking}
             >
               <p>Track Shipment</p>
               <HiOutlineArrowRight className="text-[14px]" />
@@ -198,13 +196,6 @@ const ShipmentFinish = () => {
           </div>
         </div>
       </div>
-
-      {isTrackModalOpen && (
-        <TrackModal
-          onClose={() => setIsTrackModalOpen(false)}
-          initialTrackingId={trackingDetails?.id}
-        />
-      )}
     </section>
   );
 };

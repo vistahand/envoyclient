@@ -229,7 +229,13 @@ const Navbar = () => {
 
               <li
                 onClick={() => {
-                  navigate("settings");
+                  navigate(
+                    `${
+                      userData?.role === "admin"
+                        ? "/admin/settings"
+                        : "/user/settings"
+                    }`
+                  );
                   setToggle(!toggle);
                 }}
                 className="text-main2 font-semibold cursor-pointer ss:text-[16px] 
@@ -401,6 +407,12 @@ const Navbar = () => {
                 ref={profileDropdownRef}
                 className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
               >
+                <a
+                  href={`${userData?.role === "admin" ? "/admin" : "/user"}`}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary font-medium"
+                >
+                  Account
+                </a>
                 <a
                   href={`${
                     currentPath.startsWith("/admin") ||
