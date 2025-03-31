@@ -239,9 +239,22 @@ export const GuestShipmentProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
+<<<<<<< Updated upstream
 
       const response = await axios.put(
         `${API_URL}/api/shipments/${shipmentData.id}/pickup`,
+=======
+  const shipmentId = localStorage.getItem('shipmentId');
+      if (!shipmentId) throw new Error('No shipment found for shipmentId');
+      let SI 
+      if (!shipmentData.id) {
+        SI = shipmentId
+      } else {
+        SI = shipmentData.id
+      }
+      const response = await shipments.updatePickupLocation(
+       SI.toString(),
+>>>>>>> Stashed changes
         pickupData
       );
 

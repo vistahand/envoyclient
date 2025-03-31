@@ -318,9 +318,16 @@ const SenderForm = ({ onNext, onPrev, selectedTab, senderTab, setSenderTab }) =>
             <div className='w-full flex flex-col gap-3 items-center'>
                 <h1 className='text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
+<<<<<<< Updated upstream
                 ss:leading-[3.5rem] leading-[2.5rem] text-center'>
                     Let's get to know a little about you
                 </h1>
+=======
+                ss:leading-[3.5rem] leading-[2.5rem] text-center"
+          >
+            Let's get to know a little about you 
+          </h1>
+>>>>>>> Stashed changes
 
                 <div className='flex items-center gap-2 rounded-full 
                 bg-primary1 px-6 py-3 cursor-pointer grow3'

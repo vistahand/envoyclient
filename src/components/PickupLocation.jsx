@@ -16,7 +16,7 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
     const { shipmentData, updatePickupLocation, loading } = useGuestShipment();
     const { addNotification } = useNotifications();
     // const navigate = useNavigate();
-
+  console.log('PickupLocation -> shipmentData', shipmentData);
     useEffect(() => {
         const fetchCountries = async () => {
             try {
@@ -28,7 +28,7 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 );
 
                 setCountries(sortedCountries);
-            } catch (error) {
+            } catch (error) { 
                 console.error("Error fetching countries:", error);
             }
         };
