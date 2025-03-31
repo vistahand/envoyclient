@@ -1,29 +1,32 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SectionWrapper } from "../hoc";
-import { copy, success } from "../assets";
+import { copy } from "../assets";
+import { FaDiagramSuccessor } from "react-icons/fa6";
+import { getCurrentShipment } from "../utils/shipmentStorage";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [trackingNumber, setTrackingNumber] = useState("");
   const [copyButtonText, setCopyButtonText] = useState("Copy");
   const [countdown, setCountdown] = useState(5);
 
-  // Get tracking number from URL params or state
+  // Get tracking number from localStorage
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const tracking =
-      params.get("tracking") ||
-      "TRX-" + Math.floor(Math.random() * 10000000000);
-    setTrackingNumber(tracking);
+    const currentShipment = getCurrentShipment();
+    if (currentShipment?.trackingNumber) {
+      console.log("Retrieved tracking number:", currentShipment.trackingNumber);
+      setTrackingNumber(currentShipment.trackingNumber);
+    } else {
+      console.warn("No tracking number found in storage");
+    }
 
     // Auto-redirect after countdown
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate("/createshipment-payment/finish");
+          navigate(`/createshipment-payment/finish`);
           return 0;
         }
         return prev - 1;
@@ -31,7 +34,7 @@ const PaymentSuccess = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [navigate, location]);
+  }, [navigate]);
 
   const handleCopyClick = () => {
     navigator.clipboard
@@ -81,7 +84,20 @@ const PaymentSuccess = () => {
             <button
               className="bg-primary text-[13px] py-3.5 px-8 mt-4 w-fit
               text-white rounded-full cursor-pointer"
-              onClick={() => navigate("/createshipment-payment/finish")}
+              onClick={() => {
+                console.log("Navigating with tracking:", trackingNumber);
+                if (trackingNumber) {
+                  navigate(
+                    `/createshipment-payment/finish?tracking=${trackingNumber}`
+                  );
+                } else {
+                  // Fallback in case tracking number is missing
+                  navigate(`/createshipment-payment/finish`);
+                  console.error(
+                    "Warning: No tracking number available for navigation"
+                  );
+                }
+              }}
             >
               Continue to Shipment Details
             </button>
@@ -90,11 +106,12 @@ const PaymentSuccess = () => {
 
         <div className="md:w-[45%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
           <div className="w-full relative md:rounded-2xl ss:rounded-2xl rounded-xl overflow-hidden">
-            <img
+            {/* <img
               src={success}
               alt="payment successful"
               className="object-cover md:rounded-2xl ss:rounded-2xl rounded-xl"
-            />
+            /> */}
+            <FaDiagramSuccessor className="w-[4rem] h-[4rem] text-white" />
           </div>
         </div>
       </div>

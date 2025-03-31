@@ -35,7 +35,7 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
   const formik = useFormik({
     initialValues: {
-      countryPick: "IE",
+      countryPick: "NG",
       statePick: "",
       townPick: "",
       streetPick: "",
@@ -208,7 +208,9 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
           tabIndex={0}
         >
           {selectedValue ? (
-            <>{options.find((option) => option.value === value).label}</>
+            <>
+              {options.find((option) => option.value === value)?.label || value}
+            </>
           ) : (
             <span className="text-main6">{inputValue || placeholder}</span>
           )}

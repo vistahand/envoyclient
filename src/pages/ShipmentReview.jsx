@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ShipmentDetails, ShipmentFinish, ShipmentPay } from "../components";
+import { ShipmentDetails, ShipmentPay } from "../components";
 
 const ShipmentReview = ({ currentStep, onStepChange }) => {
   const [initialLoad, setInitialLoad] = useState(true);
@@ -36,9 +36,8 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
     <div ref={sectionRef} className="font-manrope">
       {currentStep === 1 && <ShipmentDetails onNext={handleNextStep} />}
       {currentStep === 2 && (
-        <ShipmentPay onPrev={handlePreviousStep} onNext={handleNextStep} />
+        <ShipmentPay onPrev={handlePreviousStep} />
       )}
-      {currentStep === 3 && <ShipmentFinish />}
     </div>
   );
 };

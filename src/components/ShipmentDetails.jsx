@@ -6,6 +6,7 @@ import InternationalIcon from "../assets/int-ship.svg";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { BsBoxSeam } from "react-icons/bs";
 import { ShippingModal, RecipientModal, PickupModal } from "../components";
+import { getCurrentShipment } from "../utils/shipmentStorage";
 
 const ShipmentDetails = ({ onNext }) => {
   const [countries, setCountries] = useState([]);
@@ -21,6 +22,18 @@ const ShipmentDetails = ({ onNext }) => {
   };
 
   useEffect(() => {
+    // Get shipment details from localStorage for display
+    const currentShipment = getCurrentShipment();
+    if (currentShipment) {
+      // You can use the data to populate the display
+      console.log("Current shipment from localStorage:", currentShipment);
+
+      // Here you would set state variables to display the data
+      // For example, if you have recipient info:
+      // setRecipientName(currentShipment.recipient?.name);
+      // etc.
+    }
+
     const fetchCountries = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
@@ -45,16 +58,49 @@ const ShipmentDetails = ({ onNext }) => {
 
   return (
     <section className="w-full flex md:min-h-[1320px] ss:min-h-[1500px] min-h-[1800px]">
-      <div className="w-full flex md:flex-row flex-col md:gap-14 gap-10 justify-between" >
+      <div className="w-full flex md:flex-row flex-col md:gap-14 gap-10 justify-between">
         <div className="w-full flex flex-col gap-6">
-          <h1 className="text-primary font-bold md:text-[30px]  ss:text-[28px] text-[22px] tracking-tight">  Your Shipment Details</h1>
-          <div className="flex flex-col gap-4"> <h2 className="font-bold text-[15px] tracking-tight text-main4"> SHIPPING DETAILS </h2>
-           <div className="flex items-center text-primary gap-2"> <imb src={InternationalIcon} className="w-[1.8rem] h-auto object-contain stroke-primary"/> <h2 className="text-[15px] font-bold tracking-tight"> International Shipping</h2> </div>
+          <h1 className="text-primary font-bold md:text-[30px]  ss:text-[28px] text-[22px] tracking-tight">
+            {" "}
+            Your Shipment Details
+          </h1>
+          <div className="flex flex-col gap-4">
+            {" "}
+            <h2 className="font-bold text-[15px] tracking-tight text-main4">
+              {" "}
+              SHIPPING DETAILS{" "}
+            </h2>
+            <div className="flex items-center text-primary gap-2">
+              {" "}
+              <imb
+                src={InternationalIcon}
+                className="w-[1.8rem] h-auto object-contain stroke-primary"
+              />{" "}
+              <h2 className="text-[15px] font-bold tracking-tight">
+                {" "}
+                International Shipping
+              </h2>{" "}
+            </div>
             <div className="w-full flex gap-6 items-center">
-              <div className="rounded-lg md:px-8 ss:px-8 px-6 md:py-5  ss:py-5 py-4 bg-mainalt flex gap-2"  >
-                <img src={countries.find((country) => country.cca2 === "IE")?.flags ?.png} alt="flag"className="w-10 h-[1.4rem] rounded-[0.2rem]" />
-               <p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-bold text-main2"> Ireland </p></div><p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-semibold text-main4"> to </p>
-               <div className="rounded-lg  md:px-8 ss:px-8 px-6 md:py-5  ss:py-5 py-4 bg-mainalt flex gap-2" >
+              <div className="rounded-lg md:px-8 ss:px-8 px-6 md:py-5  ss:py-5 py-4 bg-mainalt flex gap-2">
+                <img
+                  src={
+                    countries.find((country) => country.cca2 === "IE")?.flags
+                      ?.png
+                  }
+                  alt="flag"
+                  className="w-10 h-[1.4rem] rounded-[0.2rem]"
+                />
+                <p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-bold text-main2">
+                  {" "}
+                  Ireland{" "}
+                </p>
+              </div>
+              <p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-semibold text-main4">
+                {" "}
+                to{" "}
+              </p>
+              <div className="rounded-lg  md:px-8 ss:px-8 px-6 md:py-5  ss:py-5 py-4 bg-mainalt flex gap-2">
                 <img
                   src={
                     countries.find((country) => country.cca2 === "NG")?.flags
@@ -72,7 +118,6 @@ const ShipmentDetails = ({ onNext }) => {
                 </p>
               </div>
             </div>
-
             <div className="flex flex-col w-full gap-1">
               <p
                 className="text-[14px] tracking-tight font-medium 
@@ -102,7 +147,6 @@ const ShipmentDetails = ({ onNext }) => {
                 </a>
               </p>
             </div>
-
             <div className="flex flex-col w-full gap-1 mt-3">
               <p
                 className="text-[14px] tracking-tight font-medium 

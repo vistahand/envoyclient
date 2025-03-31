@@ -83,6 +83,38 @@ const Payments = () => {
     setCurrentPage(totalPages);
   };
 
+  const PendingFinalization = () => {
+    const [pendingShipment, setPendingShipment] = useState(null);
+    
+    useEffect(() => {
+      const lastPayment = localStorage.getItem("lastSuccessfulPayment");
+      if (lastPayment) {
+        setPendingShipment(JSON.parse(lastPayment));
+      }
+    }, []);
+    
+    if (!pendingShipment) return null;
+    
+    return (
+      <div className="w-full rounded-lg outline outline-[1px] outline-main9 md:p-5 ss:p-5 p-4 flex flex-col gap-5 mb-6 bg-yellow-50">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-primary font-bold text-[18px]">Incomplete Shipment</h3>
+            <p className="text-main4 text-[14px]">
+              You have a payment that was successful but the shipment wasn't finalized.
+            </p>
+          </div>
+          <button 
+            className="bg-primary text-white px-4 py-2 rounded-lg text-[14px] font-medium"
+            onClick={() => navigate(`/createshipment-payment/failure?error=finalization&payment=${pendingShipment.paymentId}`)}
+          >
+            Complete Shipment
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section className='w-full'>
       <div className='w-full flex flex-col gap-8'>
@@ -113,6 +145,8 @@ const Payments = () => {
             <PiWarningOctagon className='md:text-[16px] ss:text-[18px] text-[17px]'/> 
           </button>
         </div>
+
+        <PendingFinalization />
 
         <div className="w-full flex flex-col gap-6">
           <div className="w-full">

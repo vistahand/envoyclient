@@ -2,6 +2,11 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { shipments } from "../services/api";
 import { handleApiError } from "../utils/errorHandler";
+import {
+  saveShipment,
+  updateShipment,
+  clearCurrentShipment,
+} from "../utils/shipmentStorage";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const GuestShipmentContext = createContext(null);
@@ -77,6 +82,10 @@ export const GuestShipmentProvider = ({ children }) => {
       };
 
       setShipmentData(updatedData);
+
+      // Save to localStorage
+      saveShipment(updatedData);
+
       return response.data;
     } catch (err) {
       const message =
@@ -113,6 +122,9 @@ export const GuestShipmentProvider = ({ children }) => {
         ...prev,
         package: packageData,
       }));
+
+      // Update in localStorage
+      updateShipment(shipmentData.id, { package: packageData });
 
       return response.data;
     } catch (err) {
@@ -177,6 +189,9 @@ export const GuestShipmentProvider = ({ children }) => {
         delivery: deliveryData,
       }));
 
+      // Update in localStorage
+      updateShipment(shipmentData.id, { delivery: deliveryData });
+
       return response;
     } catch (err) {
       const message =
@@ -213,6 +228,9 @@ export const GuestShipmentProvider = ({ children }) => {
         ...prev,
         sender: senderData,
       }));
+
+      // Update in localStorage
+      updateShipment(shipmentData.id, { sender: senderData });
 
       return response;
     } catch (err) {
@@ -251,6 +269,9 @@ export const GuestShipmentProvider = ({ children }) => {
         recipient: recipientData,
       }));
 
+      // Update in localStorage
+      updateShipment(shipmentData.id, { recipient: recipientData });
+
       return response;
     } catch (err) {
       const message =
@@ -288,6 +309,9 @@ export const GuestShipmentProvider = ({ children }) => {
         pickup: pickupData,
       }));
 
+      // Update in localStorage
+      updateShipment(shipmentData.id, { pickup: pickupData });
+
       return response;
     } catch (err) {
       const message =
@@ -324,6 +348,9 @@ export const GuestShipmentProvider = ({ children }) => {
         ...prev,
         insurance: insuranceData,
       }));
+
+      // Update in localStorage
+      updateShipment(shipmentData.id, { insurance: insuranceData });
 
       return response;
     } catch (err) {
@@ -364,6 +391,13 @@ export const GuestShipmentProvider = ({ children }) => {
         insurance: null,
       });
 
+      // Update localStorage but don't clear current shipment
+      // We want to keep it for the success screens
+      updateShipment(shipmentId, {
+        finalizationStatus: "completed",
+        finalizationDate: new Date().toISOString(),
+      });
+
       return response;
     } catch (err) {
       const message =
@@ -388,6 +422,9 @@ export const GuestShipmentProvider = ({ children }) => {
       pickup: null,
       insurance: null,
     });
+
+    // Clear current shipment in localStorage
+    clearCurrentShipment();
     setError(null);
   };
 

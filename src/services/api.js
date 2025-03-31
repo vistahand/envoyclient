@@ -379,6 +379,21 @@ export const shipments = {
     }
   },
 
+  // Get shipment by Tracking Id
+  getByTrackingId: async (id) => {
+    try {
+      const response = await api.get(`/shipments/get-by-trackingId/${id}`);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to fetch shipment details"
+      );
+    }
+  },
+
   // Track shipment
   track: async (trackingNumber) => {
     try {

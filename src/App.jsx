@@ -37,11 +37,14 @@ import {
 } from "./dashboard/admin";
 import ScrollToTopButton from "./constants/ScrollToTop";
 import { GetStarted } from "./pages";
-import { ShipmentFinish, TrackShipment } from "./components";
+import ShipmentFinish from "./components/ShipmentFinish";
+import TrackShipment from "./components/TrackShipment";
 import SettingsPage from "./pages/SettingPage";
 import { GuestShipmentProvider } from "./context/GuestShipmentContext";
-import PaymentSuccessPage from "./components/PaymentSuccessPage";
-import PaymentFailedPage from "./components/PaymentFailedPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import PaymentFailedPage from "./pages/PaymentFailedPage";
+import FinishShipmentPage from "./scenes/FinishShipmentPage";
+import PaymentSuccessScene from "./scenes/PaymentSuccess";
 
 const App = () => {
   return (
@@ -67,16 +70,18 @@ const App = () => {
 
                 <Route
                   path="/createshipment-payment/finish"
-                  element={<ShipmentFinish />}
+                  element={<FinishShipmentPage />}
                 />
                 <Route
                   path="/createshipment-payment/success"
-                  element={<PaymentSuccessPage />}
+                  element={<PaymentSuccessScene />}
                 />
                 <Route
                   path="/createshipment-payment/failure"
                   element={<PaymentFailedPage />}
                 />
+
+                <Route path="trackshipment" element={<TrackShipment />} />
 
                 <Route
                   path="/register"
@@ -115,7 +120,6 @@ const App = () => {
                     path="shipments/createshipment-payment"
                     element={<PaymentReviewPage />}
                   />
-                  <Route path="trackshipment" element={<TrackShipment />} />
                   <Route
                     path="shipments/details"
                     element={<ShipmentDetails />}

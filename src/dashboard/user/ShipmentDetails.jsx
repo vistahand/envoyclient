@@ -8,6 +8,10 @@ import { HiArrowLeft } from "react-icons/hi";
 import { TbCircleCheckFilled, TbTrashX } from "react-icons/tb";
 import { PiWarningOctagon } from "react-icons/pi";
 import { ShippingModal, RecipientModal, PickupModal } from "../../components";
+import {
+  getCurrentShipment,
+  getShipmentById,
+} from "../../utils/shipmentStorage";
 
 const ShipmentDetails = () => {
   const [countries, setCountries] = useState([]);
@@ -24,6 +28,38 @@ const ShipmentDetails = () => {
   };
 
   useEffect(() => {
+    // Check if we have the shipment in localStorage first
+    const { state } = location;
+
+    if (state?.shipment?._id) {
+      // If we have shipment data from navigation state, use it
+      // and also save to localStorage if not already there
+      const shipmentId = state.shipment._id;
+      const storedShipment = getShipmentById(shipmentId);
+
+      if (!storedShipment) {
+        saveShipment({
+          id: shipmentId,
+          ...state.shipment,
+        });
+      }
+
+      // Set data for display
+      // setShipmentData(state.shipment);
+    } else {
+      // Try to get from localStorage by ID if available
+      // This would require having the ID in the URL or another source
+
+      // Alternatively, use the current shipment
+      const currentShipment = getCurrentShipment();
+      if (currentShipment) {
+        // setShipmentData(currentShipment);
+      } else {
+        // Handle the case where no shipment data is available
+        console.warn("No shipment data available");
+      }
+    }
+
     const fetchCountries = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");

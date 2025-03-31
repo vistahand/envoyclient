@@ -5,6 +5,7 @@ import { PiBank } from "react-icons/pi";
 import { payments, shipments } from "../services/api";
 import StripePaymentForm from "./StripePaymentForm";
 import { useNavigate } from "react-router-dom";
+import { saveShipment } from "../utils/shipmentStorage";
 
 const BankTransferModal = ({ onClose, handleNext }) => {
   const [countries, setCountries] = useState([]);
@@ -55,27 +56,57 @@ const BankTransferModal = ({ onClose, handleNext }) => {
       const finalizeResponse = await shipments.finalizeShipment(
         storedShipmentId
       );
-      console.log("finalizeResponse: ", finalizeResponse);
+      console.log("Finalize response:", finalizeResponse);
+
       if (!finalizeResponse.success) {
         throw new Error("Failed to finalize shipment after payment");
       }
 
-      // Then clean up and proceed
+      const trackingNumber = finalizeResponse.data.shipment.trackingNumber;
+      console.log("Tracking number after finalization:", trackingNumber);
 
+      // Save complete shipment information to localStorage
+      const shipmentData = {
+        id: storedShipmentId,
+        trackingNumber: trackingNumber,
+        paymentId: paymentIntent.id,
+        paymentStatus: "successful",
+        paymentDate: new Date().toISOString(),
+        finalizationStatus: "completed",
+        ...finalizeResponse.data.shipment,
+      };
+
+      saveShipment(shipmentData);
+
+      // Then proceed with navigation
       handleNext({
         paymentId: paymentIntent.id,
         shipmentId: storedShipmentId,
         status: "completed",
-        trackingNumber: finalizeResponse.data.shipment.trackingNumber,
+        trackingNumber: trackingNumber,
       });
-      const trackingNumber = finalizeResponse.data.shipment.trackingNumber;
+
       onClose();
-      // localStorage.removeItem("shipmentId");
-      navigate(`/createshipment-payment/success?tracking=${trackingNumber}`);
+      navigate(`/createshipment-payment/success`);
     } catch (error) {
       console.error("Error finalizing shipment:", error);
-      // Redirect to failure page with specific error for shipment finalization
-      navigate("/createshipment-payment/failure?error=finalization");
+
+      // Even if finalization failed, save what we know about the payment
+      if (paymentIntent?.id) {
+        const shipmentData = {
+          id: localStorage.getItem("shipmentId"),
+          paymentId: paymentIntent.id,
+          paymentStatus: "successful",
+          paymentDate: new Date().toISOString(),
+          finalizationStatus: "failed",
+        };
+        saveShipment(shipmentData);
+      }
+
+      // Add payment ID to the URL so we know this payment already succeeded
+      navigate(
+        `/createshipment-payment/failure?error=finalization&payment=${paymentIntent.id}`
+      );
     } finally {
       setLoading(false);
     }
