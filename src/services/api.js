@@ -425,9 +425,9 @@ export const payments = {
     }
   },
 
-  getAll: async (params) => {
+  getAll: async (params = { page: 1, limit: 10 }) => {
     try {
-      const response = await api.get("/payments", { params });
+      const response = await api.get("/payments/history", { params });
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -451,6 +451,7 @@ export const payments = {
     }
   },
 };
+
 //Update user Password
 export const updatePassword = async (currentPassword, newPassword) => {
   try {
