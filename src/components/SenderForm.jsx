@@ -64,7 +64,7 @@ const SenderForm = ({
     address2Ind: Yup.string(), // Optional field
     areaInd: Yup.string().required("Area is required"), // Optional field
     townInd: Yup.string().required("Town/City is required"),
-    stateInd: Yup.string().required("State is required"), // Optional field (depending on country)
+    stateInd: Yup.string().required("State/Province/Region is required"), // Updated message
     postalInd: Yup.string().required("Postal code is required"),
     vatInd: Yup.string(), // Optional field
   });
@@ -83,7 +83,7 @@ const SenderForm = ({
     address2Bus: Yup.string(), // Optional field
     areaBus: Yup.string().required("Area is required"), // Optional field
     townBus: Yup.string().required("Town/City is required"),
-    stateBus: Yup.string().required("State is required"),
+    stateBus: Yup.string().required("State/Province/Region is required"), // Updated message
     fullNameBus: Yup.string().required(
       "Contact person's full name is required"
     ),
@@ -101,7 +101,7 @@ const SenderForm = ({
       phoneInd: "",
       mailInd: "",
       altPhoneInd: "",
-      countryInd: shipmentData?.origin?.country || "", // Pre-fill from origin country
+      countryInd: shipmentData?.origin?.country || "",
       address1Ind: "",
       address2Ind: "",
       areaInd: "",
@@ -115,7 +115,7 @@ const SenderForm = ({
       businessPhoneAlt: "",
       registrationID: "",
       vatBus: "",
-      countryBus: shipmentData?.origin?.country || "", // Pre-fill from origin country
+      countryBus: shipmentData?.origin?.country || "",
       address1Bus: "",
       address2Bus: "",
       areaBus: "",
@@ -353,6 +353,86 @@ const SenderForm = ({
     );
   };
 
+  const getStateFieldByCountry = (country) => {
+    // Only show dropdown for Nigeria
+    if (country === "NG") {
+      return (
+        <div className="w-full flex flex-col gap-1.5">
+          <CustomSelect
+            name={senderTab === "individual" ? "stateInd" : "stateBus"}
+            value={
+              senderTab === "individual"
+                ? formik.values.stateInd
+                : formik.values.stateBus
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            options={stateOptions}
+            placeholder="Select your state"
+            error={
+              senderTab === "individual"
+                ? formik.touched.stateInd && formik.errors.stateInd
+                : formik.touched.stateBus && formik.errors.stateBus
+            }
+          />
+          {senderTab === "individual" ? (
+            formik.touched.stateInd && formik.errors.stateInd ? (
+              <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+                {formik.errors.stateInd}
+              </p>
+            ) : null
+          ) : formik.touched.stateBus && formik.errors.stateBus ? (
+            <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+              {formik.errors.stateBus}
+            </p>
+          ) : null}
+        </div>
+      );
+    } else {
+      // For other countries, use a text input
+      return (
+        <div className="w-full flex flex-col gap-1.5">
+          <input
+            type="text"
+            name={senderTab === "individual" ? "stateInd" : "stateBus"}
+            value={
+              senderTab === "individual"
+                ? formik.values.stateInd
+                : formik.values.stateBus
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            placeholder="Enter your state/province/region"
+            className={`md:py-3.5 py-3 md:px-3.5 px-3 outline text-main2
+                      md:rounded-lg rounded-md outline-[1px]
+                      md:text-[14px] ss:text-[14px] text-[12px]
+                      focus:outline-primary w-full
+                      ${
+                        senderTab === "individual"
+                          ? formik.touched.stateInd && formik.errors.stateInd
+                            ? "outline-mainRed"
+                            : "outline-main6"
+                          : formik.touched.stateBus && formik.errors.stateBus
+                          ? "outline-mainRed"
+                          : "outline-main6"
+                      }`}
+          />
+          {senderTab === "individual" ? (
+            formik.touched.stateInd && formik.errors.stateInd ? (
+              <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+                {formik.errors.stateInd}
+              </p>
+            ) : null
+          ) : formik.touched.stateBus && formik.errors.stateBus ? (
+            <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+              {formik.errors.stateBus}
+            </p>
+          ) : null}
+        </div>
+      );
+    }
+  };
+
   return (
     <section
       className="w-full flex md:min-h-[1100px] ss:min-h-[1400px]
@@ -382,7 +462,8 @@ const SenderForm = ({
                     text-[13px] md:leading-[1.4rem] ss:leading-[1.4rem] 
                     leading-[1.2rem] tracking-tight font-medium"
             >
-              Country is fixed to the one set during initialization. If you need to change it, please start a new shipment.
+              Country is fixed to the one set during initialization. If you need
+              to change it, please start a new shipment.
             </p>
           </div>
         </div>
@@ -934,35 +1015,7 @@ const SenderForm = ({
                   </div>
 
                   <div className="relative flex flex-col col-span-2">
-                    <div className="relative flex items-center">
-                      <div className="w-full">
-                        <CustomSelect
-                          name="stateInd"
-                          value={formik.values.stateInd}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          options={stateOptions}
-                          placeholder="State of residence"
-                          error={
-                            formik.touched.stateInd && formik.errors.stateInd
-                          }
-                        />
-                      </div>
-
-                      <div className="absolute md:right-3.5 right-3">
-                        <TiArrowSortedDown
-                          className="text-main md:text-[16px]
-                                                ss:text-[18px] text-[16px]"
-                        />
-                      </div>
-                    </div>
-
-                    <p
-                      className="text-mainRed md:text-[12px] flex justify-end
-                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
-                    >
-                      {formik.touched.stateInd && formik.errors.stateInd}
-                    </p>
+                    {getStateFieldByCountry(formik.values.countryInd)}
                   </div>
 
                   <div className="relative flex flex-col">
@@ -1054,30 +1107,6 @@ const SenderForm = ({
                       {formik.touched.vatInd && formik.errors.vatInd}
                     </p>
                   </div>
-                </div>
-
-                <div className="w-full mt-2">
-                  <h2
-                    className="text-main4 font-semibold md:text-[15px]
-                                ss:text-[15px] text-[13px] tracking-tight"
-                  >
-                    NB: This information will be set as both your billing and
-                    shipping address. To change this, you can{" "}
-                    <a
-                      href="/create-account"
-                      className="font-bold text-primary hover:text-secondary"
-                    >
-                      create an account
-                    </a>{" "}
-                    or
-                    <a
-                      href="/login"
-                      className="font-bold text-primary hover:text-secondary"
-                    >
-                      {" "}
-                      login here
-                    </a>
-                  </h2>
                 </div>
               </div>
 
@@ -1700,35 +1729,7 @@ const SenderForm = ({
                   </div>
 
                   <div className="relative flex flex-col col-span-2">
-                    <div className="relative flex items-center">
-                      <div className="w-full">
-                        <CustomSelect
-                          name="stateBus"
-                          value={formik.values.stateBus}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          options={stateOptions}
-                          placeholder="State of residence"
-                          error={
-                            formik.touched.stateBus && formik.errors.stateBus
-                          }
-                        />
-                      </div>
-
-                      <div className="absolute md:right-3.5 right-3">
-                        <TiArrowSortedDown
-                          className="text-main md:text-[16px]
-                                                ss:text-[18px] text-[16px]"
-                        />
-                      </div>
-                    </div>
-
-                    <p
-                      className="text-mainRed md:text-[12px] flex justify-end
-                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
-                    >
-                      {formik.touched.stateBus && formik.errors.stateBus}
-                    </p>
+                    {getStateFieldByCountry(formik.values.countryBus)}
                   </div>
                 </div>
 
@@ -1880,30 +1881,6 @@ const SenderForm = ({
                       {formik.touched.mailBus && formik.errors.mailBus}
                     </p>
                   </div>
-                </div>
-
-                <div className="w-full mt-2">
-                  <h2
-                    className="text-main4 font-semibold md:text-[15px]
-                                ss:text-[15px] text-[13px] tracking-tight"
-                  >
-                    NB: This information will be set as both your billing and
-                    shipping address. To change this, you can{" "}
-                    <a
-                      href="/create-account"
-                      className="font-bold text-primary hover:text-secondary"
-                    >
-                      create an account
-                    </a>{" "}
-                    or
-                    <a
-                      href="/login"
-                      className="font-bold text-primary hover:text-secondary"
-                    >
-                      {" "}
-                      login here
-                    </a>
-                  </h2>
                 </div>
               </div>
 

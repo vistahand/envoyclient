@@ -270,6 +270,58 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
     );
   };
 
+  const getStateFieldByCountry = (country) => {
+    // Only show dropdown for Nigeria
+    if (country === "NG") {
+      return (
+        <div className="w-full flex flex-col gap-1.5">
+          <CustomSelect
+            name="stateRec"
+            value={formik.values.stateRec}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            options={stateOptions}
+            placeholder="Select your state"
+            error={formik.touched.stateRec && formik.errors.stateRec}
+          />
+          {formik.touched.stateRec && formik.errors.stateRec ? (
+            <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+              {formik.errors.stateRec}
+            </p>
+          ) : null}
+        </div>
+      );
+    } else {
+      // For other countries, use a text input
+      return (
+        <div className="w-full flex flex-col gap-1.5">
+          <input
+            type="text"
+            name="stateRec"
+            value={formik.values.stateRec}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            placeholder="Enter your state/province/region"
+            className={`md:py-3.5 py-3 md:px-3.5 px-3 outline text-main2
+                      md:rounded-lg rounded-md outline-[1px]
+                      md:text-[14px] ss:text-[14px] text-[12px]
+                      focus:outline-primary w-full
+                      ${
+                        formik.touched.stateRec && formik.errors.stateRec
+                          ? "outline-mainRed"
+                          : "outline-main6"
+                      }`}
+          />
+          {formik.touched.stateRec && formik.errors.stateRec ? (
+            <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+              {formik.errors.stateRec}
+            </p>
+          ) : null}
+        </div>
+      );
+    }
+  };
+
   return (
     <section
       className="w-full flex md:min-h-[900px] ss:min-h-[1150px]
@@ -758,35 +810,7 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
                 </div>
 
                 <div className="relative flex flex-col col-span-2">
-                  <div className="relative flex items-center">
-                    <div className="w-full">
-                      <CustomSelect
-                        name="stateRec"
-                        value={formik.values.stateRec}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        options={stateOptions}
-                        placeholder="State of residence"
-                        error={
-                          formik.touched.stateRec && formik.errors.stateRec
-                        }
-                      />
-                    </div>
-
-                    <div className="absolute md:right-3.5 right-3">
-                      <TiArrowSortedDown
-                        className="text-main md:text-[16px]
-                                            ss:text-[18px] text-[16px]"
-                      />
-                    </div>
-                  </div>
-
-                  <p
-                    className="text-mainRed md:text-[12px] flex justify-end
-                                ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
-                  >
-                    {formik.touched.stateRec && formik.errors.stateRec}
-                  </p>
+                  {getStateFieldByCountry(formik.values.countryRec)}
                 </div>
 
                 <div className="relative flex flex-col">
