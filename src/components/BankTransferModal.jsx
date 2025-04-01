@@ -241,11 +241,11 @@ const BankTransferModal = ({ onClose, shipment }) => {
 
                     {/* Show Euro section if shipment is international or for both types */}
                     {shipment?.type === "international" && (
-                      <div className="w-full flex items-start gap-3">
+                      <div className="flex items-center gap-x-5">
                         <div className="flex md:gap-3 gap-5 w-full items-center">
                           <div
                             className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
-                        bg-primary1 rounded-full"
+                          bg-primary1 rounded-full"
                           >
                             <PiBank
                               className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
@@ -269,7 +269,7 @@ const BankTransferModal = ({ onClose, shipment }) => {
 
                             {/* <p
                               className="md:text-[14px] ss:text-[14px] 
-                          text-[13px] tracking-tight font-bold text-main2"
+                            text-[13px] tracking-tight font-bold text-main2"
                             >
                               {shipment?.destinationCountry || "Ireland"}
                             </p> */}
@@ -277,7 +277,7 @@ const BankTransferModal = ({ onClose, shipment }) => {
 
                           <h1
                             className="md:text-[25px] ss:text-[23px] text-[20px] 
-                        tracking-tight font-bold text-primary"
+                            tracking-tight font-bold text-primary"
                           >
                             €{shipment?.cost?.total.toLocaleString() || "0.00"}
                           </h1>
