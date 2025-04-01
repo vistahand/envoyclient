@@ -183,41 +183,23 @@ const TrackShipment = () => {
 
   // Initial data load
   useEffect(() => {
-    const fetchShipmentDetails = async () => {
-      try {
-        setLoading(true);
+    const query = new URLSearchParams(location.search);
+    const trackingParam = query.get("tracking");
 
-        // First check URL params for backward compatibility
-        const params = new URLSearchParams(location.search);
-        const trackingFromUrl = params.get("tracking");
-
-        // Determine which tracking number to use
-        let trackingToUse = trackingFromUrl;
-
-        if (!trackingToUse) {
-          // If not in URL, try to get from localStorage
-          const currentShipment = getCurrentShipment();
-          if (currentShipment?.trackingNumber) {
-            trackingToUse = currentShipment.trackingNumber;
-          }
-        }
-
-        if (trackingToUse) {
-          setTrackingNumber(trackingToUse);
-          await fetchTrackingData(trackingToUse);
-        } else {
-          throw new Error("No tracking number found");
-        }
-      } catch (err) {
-        console.error("Error fetching shipment:", err);
-        setError("Error loading shipment details");
-      } finally {
-        setLoading(false);
+    if (trackingParam) {
+      setTrackingNumber(trackingParam);
+      fetchTrackingData(trackingParam);
+    } else {
+      // Get from local storage if no URL parameter
+      const currentShipment = getCurrentShipment();
+      if (currentShipment?.trackingNumber) {
+        setTrackingNumber(currentShipment.trackingNumber);
+        fetchTrackingData(currentShipment.trackingNumber);
       }
-    };
+    }
 
-    fetchShipmentDetails();
-  }, [location, fetchTrackingData]);
+    setLastRefresh(Date.now());
+  }, [location.search]);
 
   // Set up polling for updates
   useEffect(() => {
@@ -251,6 +233,14 @@ const TrackShipment = () => {
       setLoading(true);
       await fetchTrackingData(trackingNumber);
       setLoading(false);
+
+      // Update URL if needed without page reload
+      const query = new URLSearchParams(location.search);
+      if (!query.get("tracking")) {
+        navigate(`/trackshipment?tracking=${trackingNumber}`, {
+          replace: true,
+        });
+      }
     }
   };
 

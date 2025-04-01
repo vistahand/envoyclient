@@ -1,20 +1,23 @@
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsX } from "react-icons/bs";
-// import { useFormik } from "formik";
-// import * as Yup from 'yup';
 import { tracking, websearch } from "../assets";
 import { GrLocation } from "react-icons/gr";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const TrackModal = ({ onClose }) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const [trackingNumber, setTrackingNumber] = useState("");
 
   const handleTrackClick = (e) => {
     e.preventDefault();
-    navigate("/trackshipment");
-
-    onClose();
+    if (trackingNumber.trim()) {
+      navigate(`/trackshipment?tracking=${trackingNumber.trim()}`);
+      onClose();
+    } else {
+      navigate("/trackshipment");
+      onClose();
+    }
   };
 
   const enableScroll = () => {
@@ -122,6 +125,8 @@ const TrackModal = ({ onClose }) => {
                       <input
                         type="text"
                         placeholder="Enter Tracking Number"
+                        value={trackingNumber}
+                        onChange={(e) => setTrackingNumber(e.target.value)}
                         className="flex-grow text-main2 focus:outline-none 
                         md:text-[17px] text-[14px] placeholder:text-main4 
                         pr-20"
