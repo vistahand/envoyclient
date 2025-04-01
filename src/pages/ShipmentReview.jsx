@@ -4,6 +4,7 @@ import { ShipmentDetails, ShipmentPay } from "../components";
 const ShipmentReview = ({ currentStep, onStepChange }) => {
   const [initialLoad, setInitialLoad] = useState(true);
   const sectionRef = useRef(null);
+  const [shipment, setShipment] = useState(null); // Initialize shipment state
 
   useEffect(() => {
     if (!initialLoad && sectionRef.current) {
@@ -16,11 +17,11 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
     }
   }, [currentStep, initialLoad]);
 
-  const handleNextStep = (paymentDetails) => {
+  const handleNextStep = (shipmentDetails) => {
     // Store payment details if needed
-    if (paymentDetails) {
-      console.log("Payment completed:", paymentDetails);
-      // Save to state or context if needed
+    if (shipmentDetails) {
+      console.log("Shipment Details:", shipmentDetails);
+      setShipment(shipmentDetails);
     }
 
     onStepChange(currentStep + 1);
@@ -36,7 +37,7 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
     <div ref={sectionRef} className="font-manrope">
       {currentStep === 1 && <ShipmentDetails onNext={handleNextStep} />}
       {currentStep === 2 && (
-        <ShipmentPay onPrev={handlePreviousStep} />
+        <ShipmentPay onPrev={handlePreviousStep} shipment={shipment} />
       )}
     </div>
   );

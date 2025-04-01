@@ -331,7 +331,6 @@ const PickupModal = ({ onClose, values, onUpdate }) => {
 
         // Improved error handling
         if (error.response) {
-          // Axios-style error with response property
           console.error("Error response data:", error.response.data);
           console.error("Error response status:", error.response.status);
 

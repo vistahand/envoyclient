@@ -120,7 +120,7 @@ const ShipmentDetails = ({ onNext }) => {
   }, []);
 
   const handleNext = () => {
-    onNext();
+    onNext(shipmentData);
   };
 
   // Extract details from shipment data

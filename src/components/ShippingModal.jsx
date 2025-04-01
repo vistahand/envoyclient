@@ -11,8 +11,8 @@ import { useGuestShipment } from "../context/GuestShipmentContext";
 const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
   const formRef = useRef();
   const [countries, setCountries] = useState([]);
-  const { updateSenderInfo, loading } = useGuestShipment();
-  // const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { updateSenderInfo } = useGuestShipment();
   const [senderTab, setSenderTab] = useState(
     shipmentData?.sender?.type === "business" ? "business" : "individual"
   );
@@ -165,6 +165,7 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
       senderTab === "individual" ? individualSchema : businessSchema,
     validateOnMount: true,
     onSubmit: async (values) => {
+      setIsLoading(true);
       try {
         if (!shipmentData?._id) {
           addNotification({
@@ -241,6 +242,8 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
           title: "Error",
           message: err.message || "Failed to update sender information",
         });
+      } finally {
+        setIsLoading(false);
       }
     },
   });
@@ -823,11 +826,12 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
                               value={formik.values.countryInd}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
+                              disabled={true}
                               className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
-                              px-3 outline text-main2 md:rounded-lg rounded-md
-                              cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
-                              ss:text-[14px] text-[12px] focus:outline-primary
-                              bg-transparent w-full custom-select outline-[1px]
+                                        px-3 outline text-main2 md:rounded-lg rounded-md
+                                        cursor-not-allowed md:text-[14px] font-bold pl-[3.6rem]
+                                        ss:text-[14px] text-[12px] focus:outline-primary
+                                        bg-gray-100 w-full custom-select outline-[1px]
                               ${
                                 formik.touched.countryInd &&
                                 formik.errors.countryInd
@@ -1470,11 +1474,12 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
                               value={formik.values.countryBus}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
+                              disabled={true}
                               className={`md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem]
-                              px-3 outline text-main2 md:rounded-lg rounded-md
-                              cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
-                              ss:text-[14px] text-[12px] focus:outline-primary
-                              bg-transparent w-full custom-select outline-[1px]
+                                        px-3 outline text-main2 md:rounded-lg rounded-md
+                                        cursor-not-allowed md:text-[14px] font-bold pl-[3.6rem]
+                                        ss:text-[14px] text-[12px] focus:outline-primary
+                                        bg-gray-100 w-full custom-select outline-[1px]
                               ${
                                 formik.touched.countryBus &&
                                 formik.errors.countryBus
@@ -1911,10 +1916,16 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
                     formik.handleSubmit();
                     enableScroll();
                   }}
+                  disabled={isLoading}
                 >
-                  <p>Confirm</p>
-
-                  <HiOutlineArrowRight className="text-[14px]" />
+                  {isLoading ? (
+                    <p>Confirming...</p>
+                  ) : (
+                    <>
+                      <p>Confirm</p>
+                      <HiOutlineArrowRight className="text-[14px]" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>
