@@ -130,8 +130,7 @@ const Hands = () => {
             ) : (
               <p>Track Shipment</p>
             )}
-            <a
-              href="/trackshipment"
+            <div
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -157,7 +156,7 @@ const Hands = () => {
               {isDesktopExpanded && (
                 <p className="text-white text-[12.5px]">Track</p>
               )}
-            </a>
+            </div>
           </motion.div>
 
           {/* Mobile Track Shipment */}
@@ -193,8 +192,7 @@ const Hands = () => {
             ) : (
               <p>Track Shipment</p>
             )}
-            <a
-              href="/trackshipment"
+            <div
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -220,7 +218,7 @@ const Hands = () => {
               {isMobileExpanded && (
                 <p className="text-white text-[12.5px]">Track</p>
               )}
-            </a>
+            </div>
           </motion.div>
         </motion.div>
       </motion.div>

@@ -258,7 +258,7 @@ const Hero = () => {
                                     Track Shipment
                                 </p>
                             )}
-                            <a href='/trackshipment'
+                            <div
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -282,7 +282,7 @@ const Hero = () => {
                                         Track
                                     </p>
                                 }
-                            </a>
+                            </div>
                         </motion.div>
                     </div>  
                 </motion.div> 
