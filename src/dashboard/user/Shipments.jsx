@@ -64,22 +64,31 @@ const Shipments = () => {
         const transformedShipments = apiShipments.map((shipment) => {
           // Filter by status based on the selected tab
           let includeShipment = true;
-          if (
-            selectedTab === "active" &&
-            shipment.status !== "awaiting_pickup" &&
-            shipment.status !== "in_transit"
-          ) {
-            includeShipment = false;
-          } else if (
-            selectedTab === "delivered" &&
-            shipment.status !== "delivered"
-          ) {
-            includeShipment = false;
-          } else if (
-            selectedTab === "pending" &&
-            shipment.status !== "pending"
-          ) {
-            includeShipment = false;
+
+          if (selectedTab === "active") {
+            // Active shipments: those in the active shipping process
+            if (
+              ![
+                "awaiting_processing",
+                "processed",
+                "awaiting_pickup",
+                "picked_up",
+                "in_transit",
+                "out_for_delivery",
+              ].includes(shipment.status)
+            ) {
+              includeShipment = false;
+            }
+          } else if (selectedTab === "delivered") {
+            // Delivered shipments: those that have been delivered
+            if (shipment.status !== "delivered") {
+              includeShipment = false;
+            }
+          } else if (selectedTab === "pending") {
+            // Pending shipments: drafts or pending payment/processing
+            if (!["draft", "pending"].includes(shipment.status)) {
+              includeShipment = false;
+            }
           }
 
           // Format dates
@@ -89,6 +98,15 @@ const Shipments = () => {
           const estimatedDelivery = shipment.delivery?.estimatedDate
             ? format(new Date(shipment.delivery.estimatedDate), "dd MMM yyyy")
             : "";
+
+          // Format currency based on the shipment type
+          const currency = shipment.cost?.currency || "eur";
+          const formattedCost = shipment.cost?.total
+            ? (currency === "eur" ? "€" : "₦") +
+              shipment.cost.total.toLocaleString()
+            : currency === "eur"
+            ? "€0.00"
+            : "₦0.00";
 
           return {
             _id: shipment._id,
@@ -106,6 +124,7 @@ const Shipments = () => {
             rawStatus: shipment.status,
             cost: shipment.cost?.total || 0,
             currency: shipment.cost?.currency || "eur",
+            formattedCost: formattedCost,
           };
         });
 
@@ -125,17 +144,29 @@ const Shipments = () => {
   // Map API status to display text
   const mapStatusToDisplay = (status) => {
     switch (status) {
-      case "awaiting_pickup":
-        return "Awaiting Pickup";
-      case "in_transit":
-        return "In Transit";
-      case "delivered":
-        return "Delivered";
+      case "draft":
+        return "Draft";
       case "pending":
         return "Pending";
+      case "awaiting_processing":
+        return "Processing";
+      case "processed":
+        return "Processed";
+      case "awaiting_pickup":
+        return "Awaiting Pickup";
+      case "picked_up":
+        return "Picked Up";
+      case "in_transit":
+        return "In Transit";
+      case "out_for_delivery":
+        return "Out for Delivery";
+      case "delivered":
+        return "Delivered";
+      case "cancelled":
+        return "Cancelled";
       default:
         return (
-          status.charAt(0).toUpperCase() + status.slice(1).replace("_", " ")
+          status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, " ")
         );
     }
   };
@@ -506,6 +537,9 @@ const Shipments = () => {
                         </td>
                         <td className="text-left pl-5 md:py-5 ss:py-5 py-4">
                           {data.shipStatus}
+                        </td>
+                        <td className="text-left pl-5 md:py-5 ss:py-5 py-4">
+                          {data.formattedCost}
                         </td>
 
                         <td
