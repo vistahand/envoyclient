@@ -67,6 +67,7 @@ const Navbar = () => {
 
 
   return (
+<<<<<<< Updated upstream
     <nav className={`w-full flex items-center fixed top-0 z-50 navsmooth
     ${ isScrolled ? 'shadow-lg' : '' }`}>    
         <div className={`w-full flex bg-white ${styles.paddingX}`}>
@@ -79,6 +80,152 @@ const Navbar = () => {
                             className='w-auto h-auto cursor-pointer'
                         />
                     </a>
+=======
+    <nav
+      className={`w-full flex items-center fixed top-0 z-50 navsmooth
+    ${isScrolled ? "shadow-lg" : ""}`}
+    >
+      <div className={`w-full flex bg-white ${styles.paddingX}`}>
+        <div
+          className="w-full flex justify-between items-center 
+            max-w-[68rem] mx-auto py-5"
+        >
+          <div className="md:w-1/6 ss:w-1/3 w-1/2">
+            <a href="/">
+              <img
+                src={logo}
+                alt="logo"
+                className="w-auto h-auto cursor-pointer"
+              />
+            </a>
+          </div>
+
+          <div
+            className="justify-center relative
+                items-center hidden md:flex"
+          >
+            <div className="flex items-center w-full">
+              <ul className="list-none flex flex-row gap-8">
+                {navLinks.map((link, index) => (
+                  <li
+                    key={link.id}
+                    className="text-decoration-none cursor-pointer 
+                                    py-2 flex flex-row gap-1.5 items-center relative"
+                    onMouseEnter={() => toggleMenu(link.id)}
+                    onMouseLeave={() => toggleMenu(null)}
+                  >
+                    <h3 className="text-primary text-[15px] font-[600]">
+                      {link.title}
+                    </h3>
+
+                    <MdKeyboardArrowDown
+                      className={`text-primary text-[16px] font-medium transition-transform duration-300 ${
+                        openMenuId === link.id ? "rotate-180" : ""
+                      }`}
+                    />
+
+                    {openMenuId === link.id && (
+                      <div
+                        className={`absolute top-full left-1/2 transform -translate-x-1/2 
+                                        fade-in border-[1px] border-mainalt z-10`}
+                      >
+                        <div
+                          className="bg-mainalt shadow-xl p-6
+                                            flex flex-col gap-2 z-20"
+                          style={{ whiteSpace: "nowrap" }}
+                        >
+                          {link.links.map((subLink, index) =>
+                            subLink.name === "Track Shipment" ? (
+                              <button
+                                key={index}
+                                onClick={() => {
+                                  setIsTrackModalOpen(true);
+                                  disableScroll();
+                                }}
+                                className="flex text-[14px] text-main
+                                                            hover:font-medium"
+                              >
+                                {subLink.name}
+                              </button>
+                            ) : (
+                              <a
+                                key={index}
+                                href={subLink.route}
+                                className="flex text-[14px] text-main
+                                                            hover:font-medium"
+                              >
+                                {subLink.name}
+                              </a>
+                            )
+                          )}
+                        </div>
+                        <div
+                          className="absolute top-0 left-1/2 z-[-10]
+                                            transform -translate-x-1/2 w-10 h-10 bg-mainalt
+                                            rotate-45 border-[1px] border-mainalt"
+                        ></div>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {isAuthenticated ? (
+            <div className="hidden md:block relative">
+              <div
+                className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer`}
+                onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+              >
+                {user?.profileImage ? (
+                  <div className="rounded-full overflow-hidden">
+                    <img
+                      src={user.profileImage}
+                      alt="User Profile"
+                      className="w-[40px] h-[40px] rounded-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-[40px] h-[40px] rounded-full bg-gray-200 flex items-center justify-center">
+                    <GoPerson className="w-5 h-5 text-gray-500" />
+                  </div>
+                )}
+
+                <p className="text-[16px] tracking-tight text-main2 font-semibold hidden md:flex ss:flex capitalize">
+                  {`${userData?.firstName} ${userData?.lastName}` || "Guest"}
+                </p>
+
+                <MdKeyboardArrowDown
+                  className={`text-main2 md:text-[20px] text-[22px] transition-transform duration-300 ${
+                    isProfileDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
+
+              {/* Profile Dropdown Menu */}
+              {isProfileDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                 {userData?.role !== "admin" && (
+  <a
+    href="/user/settings"
+    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary font-medium"
+  >
+    Settings
+  </a>
+)}
+
+
+                  <LogoutComponent
+                    component="div"
+                    className="text-logRed font-semibold text-sm cursor-pointer tracking-tight hover:bg-gray-100"
+                  >
+                    <div className="flex p-3 ss:gap-4 gap-3 items-center">
+                      <img src={logout} alt="logout" className="w-6 h-6" />
+                      Logout
+                    </div>
+                  </LogoutComponent>
+>>>>>>> Stashed changes
                 </div>
 
                 <div className='justify-center relative
