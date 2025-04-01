@@ -244,7 +244,7 @@ const Navbar = () => {
           ) : (
             <div className="hidden md:flex items-center gap-6">
               <h1
-                className="text-primary ss:text-[20px] 
+                className="text-primary cursor-pointer ss:text-[20px] 
                             text-[16px] font-[600]"
                 onClick={(e) => {
                   e.preventDefault();
@@ -454,7 +454,7 @@ const Navbar = () => {
               ) : (
                 <div className="flex items-center gap-6">
                   <h1
-                    className="text-primary ss:text-[20px] 
+                    className="text-primary cursor-pointer ss:text-[20px] 
                             text-[16px] font-[600]"
                     onClick={(e) => {
                       e.preventDefault();

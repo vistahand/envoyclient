@@ -378,6 +378,21 @@ export const shipments = {
       );
     }
   },
+  
+  // Get shipment by ID
+  getDraftById: async (id) => {
+    try {
+      const response = await api.get(`/shipments/draft/${id}`);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to fetch shipment details"
+      );
+    }
+  },
 
   // Get shipment by Tracking Id
   getByTrackingId: async (id) => {
