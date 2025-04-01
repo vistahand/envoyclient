@@ -7,7 +7,7 @@ import StripePaymentForm from "./StripePaymentForm";
 import { useNavigate } from "react-router-dom";
 import { saveShipment } from "../utils/shipmentStorage";
 
-const BankTransferModal = ({ onClose, handleNext }) => {
+const BankTransferModal = ({ onClose, shipment }) => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [paymentStep, setPaymentStep] = useState("summary");
@@ -77,16 +77,6 @@ const BankTransferModal = ({ onClose, handleNext }) => {
       };
 
       saveShipment(shipmentData);
-
-      // Then proceed with navigation
-      handleNext({
-        paymentId: paymentIntent.id,
-        shipmentId: storedShipmentId,
-        status: "completed",
-        trackingNumber: trackingNumber,
-      });
-
-      onClose();
       navigate(`/createshipment-payment/success`);
     } catch (error) {
       console.error("Error finalizing shipment:", error);
@@ -195,93 +185,105 @@ const BankTransferModal = ({ onClose, handleNext }) => {
                                   md:gap-8 ss:gap-7 gap-6 items-center justify-center md:px-10 ss:px-10 px-5
                                   md:py-12 ss:py-10 py-6 md:justify-between ss:justify-between"
                   >
-                    {/* Nigeria Currency Section */}
-                    <div className="w-full flex items-start gap-3">
-                      <div className="flex md:gap-3 gap-5 w-full items-center">
-                        <div
-                          className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
-                                              bg-primary1 rounded-full"
-                        >
-                          <PiBank
-                            className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
-                                                  text-primary md:p-4 ss:p-3 p-4"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col gap-y-3">
-                        <div className="flex gap-2 items-center">
-                          <img
-                            src={
-                              countries.find((country) => country.cca2 === "NG")
-                                ?.flags?.png
-                            }
-                            alt="flag"
-                            className="w-8 h-[1.2rem] rounded-[0.2rem]"
-                          />
-
-                          <p
-                            className="md:text-[14px] ss:text-[14px] 
-                                                  text-[13px] tracking-tight font-bold text-main2"
+                    {shipment?.type === "local" && (
+                      <div className="w-full flex items-start gap-3">
+                        <div className="flex md:gap-3 gap-5 w-full items-center">
+                          <div
+                            className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
+                        bg-primary1 rounded-full"
                           >
-                            Nigeria
-                          </p>
+                            <PiBank
+                              className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
+                          text-primary md:p-4 ss:p-3 p-4"
+                            />
+                          </div>
                         </div>
 
-                        <h1
-                          className="md:text-[25px] ss:text-[23px] text-[20px] 
-                                              tracking-tight font-bold text-primary"
-                        >
-                          ₦412,375.00
-                        </h1>
-                      </div>
-                    </div>
+                        <div className="flex flex-col gap-y-3">
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={
+                                countries.find(
+                                  (country) =>
+                                    country.cca2 === shipment.origin.country
+                                )?.flags?.png
+                              }
+                              alt="flag"
+                              className="w-8 h-[1.2rem] rounded-[0.2rem]"
+                            />
 
-                    {/* Divider */}
-                    <div className="w-[1px] h-full bg-main7 md:flex ss:flex hidden" />
-                    <div className="w-full h-[1px] bg-main7 md:hidden ss:hidden flex" />
+                            <p
+                              className="md:text-[14px] ss:text-[14px] 
+                          text-[13px] tracking-tight font-bold text-main2"
+                            >
+                              Nigeria
+                            </p>
+                          </div>
 
-                    {/* Ireland Currency Section */}
-                    <div className="w-full flex items-start gap-3">
-                      <div className="flex md:gap-3 gap-5 w-full items-center">
-                        <div
-                          className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
-                                              bg-primary1 rounded-full"
-                        >
-                          <PiBank
-                            className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
-                                                  text-primary md:p-4 ss:p-3 p-4"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col gap-y-3">
-                        <div className="flex gap-2 items-center">
-                          <img
-                            src={
-                              countries.find((country) => country.cca2 === "IE")
-                                ?.flags?.png
-                            }
-                            alt="flag"
-                            className="w-8 h-[1.2rem] rounded-[0.2rem]"
-                          />
-
-                          <p
-                            className="md:text-[14px] ss:text-[14px] 
-                                              text-[13px] tracking-tight font-bold text-main2"
+                          <h1
+                            className="md:text-[25px] ss:text-[23px] text-[20px] 
+                        tracking-tight font-bold text-primary"
                           >
-                            Ireland
-                          </p>
+                            ₦{shipment?.cost?.total.toLocaleString() || "0.00"}
+                          </h1>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Divider - only show if both currencies are displayed */}
+                    {/* {shipment?.isInternational &&
+                      shipment?.showBothCurrencies && (
+                        <>
+                          <div className="w-[1px] h-full bg-main7 md:flex ss:flex hidden" />
+                          <div className="w-full h-[1px] bg-main7 md:hidden ss:hidden flex" />
+                        </>
+                      )} */}
+
+                    {/* Show Euro section if shipment is international or for both types */}
+                    {shipment?.type === "international" && (
+                      <div className="w-full flex items-start gap-3">
+                        <div className="flex md:gap-3 gap-5 w-full items-center">
+                          <div
+                            className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto 
+                        bg-primary1 rounded-full"
+                          >
+                            <PiBank
+                              className="md:w-[5rem] ss:w-[4rem] w-[4.5rem] h-auto
+                          text-primary md:p-4 ss:p-3 p-4"
+                            />
+                          </div>
                         </div>
 
-                        <h1
-                          className="md:text-[25px] ss:text-[23px] text-[20px] 
-                                          tracking-tight font-bold text-primary"
-                        >
-                          €262.44
-                        </h1>
+                        <div className="flex flex-col gap-y-3">
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={
+                                countries.find(
+                                  (country) =>
+                                    country.cca2 === shipment.origin.country
+                                )?.flags?.png
+                              }
+                              alt="flag"
+                              className="w-8 h-[1.2rem] rounded-[0.2rem]"
+                            />
+
+                            {/* <p
+                              className="md:text-[14px] ss:text-[14px] 
+                          text-[13px] tracking-tight font-bold text-main2"
+                            >
+                              {shipment?.destinationCountry || "Ireland"}
+                            </p> */}
+                          </div>
+
+                          <h1
+                            className="md:text-[25px] ss:text-[23px] text-[20px] 
+                        tracking-tight font-bold text-primary"
+                          >
+                            €{shipment?.cost?.total.toLocaleString() || "0.00"}
+                          </h1>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   <div

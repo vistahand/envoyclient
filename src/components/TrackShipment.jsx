@@ -356,18 +356,20 @@ const TrackShipment = () => {
               </p>
             </div>
 
-            <div>
+            {/* <div>
               <p
                 className="md:text-[14px] ss:text-[14px] text-[13px] tracking-tight font-semibold 
                             text-primary underline hover:text-secondary cursor-pointer 
                             inline-flex navsmooth"
                 onClick={() => {
-                  navigate("/user/shipments/details");
+                  navigate(
+                    `/user/shipments/details?shipmentId=${shipmentData._id}`
+                  );
                 }}
               >
                 See full package details
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* Shipment trail section */}

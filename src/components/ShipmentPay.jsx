@@ -5,7 +5,7 @@ import { PiWarningCircle } from "react-icons/pi";
 import { ShippingModal, BankTransferModal } from "../components";
 // import { paystack } from '../assets';
 
-const ShipmentPay = ({ onPrev, onNext, shipment }) => {
+const ShipmentPay = ({ onPrev, shipment }) => {
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [isBankTransferModalOpen, setIsBankTransferModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -343,7 +343,6 @@ const ShipmentPay = ({ onPrev, onNext, shipment }) => {
             setIsBankTransferModalOpen(false);
             enableScroll();
           }}
-          handleNext={onNext}
           shipment={shipment}
         />
       )}
