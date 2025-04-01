@@ -376,7 +376,7 @@ const Navbar = () => {
               }`}
               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
             >
-              {user?.profileImage ? (
+              {user?.profileImage !== "default.jpg" ? (
                 <div className="rounded-full overflow-hidden">
                   <img
                     src={user.profileImage}
