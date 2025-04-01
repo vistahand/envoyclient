@@ -18,7 +18,8 @@ const DeliveryCard = ({ option, onNext, index, totalOptions }) => {
             : "md:w-[85%] ss:w-[85%] w-full md:rounded-l-2xl ss:rounded-l-2xl mobdel bg-primary text-white"
         }
           flex md:flex-row ss:flex-row flex-col justify-between md:px-7 px-7 md:py-10 py-8 md:items-center ss:items-center
-          md:gap-0 ss:gap-0 gap-4`}
+          md:gap-0 ss:gap-0 gap-4 cursor-pointer hover:opacity-95 transition-opacity`}
+        onClick={onNext}
       >
         <div className="flex flex-col gap-1">
           <p
@@ -83,23 +84,13 @@ const DeliveryCard = ({ option, onNext, index, totalOptions }) => {
             <span className="line-through">N</span> {option.price}.00
           </h1>
 
+          {/* Arrow indicator instead of "Book Now" button */}
           <div className="flex justify-end">
-            <div
-              className={`inline-flex items-center gap-2.5
-              cursor-pointer ${
-                index === totalOptions - 1 ? "text-primary grow7" : "grow6"
+            <HiOutlineArrowRight
+              className={`text-[18px] ${
+                index === totalOptions - 1 ? "text-primary" : ""
               }`}
-              onClick={onNext}
-            >
-              <p
-                className="md:text-[15px] ss:text-[15px] text-[14px]
-                tracking-tight font-medium"
-              >
-                Book Now
-              </p>
-
-              <HiOutlineArrowRight className="text-[13px] font-medium" />
-            </div>
+            />
           </div>
         </div>
       </div>
