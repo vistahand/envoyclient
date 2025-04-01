@@ -1,52 +1,39 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HiOutlineArrowRight } from 'react-icons/hi';
-import { BsX } from 'react-icons/bs';
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { HiOutlineArrowRight } from "react-icons/hi";
+import { BsX } from "react-icons/bs";
 import { useFormik } from "formik";
 import { TiArrowSortedDown } from "react-icons/ti";
-import * as Yup from 'yup';
+import { useGuestShipment } from "../context/GuestShipmentContext";
+import * as Yup from "yup";
 
-const PickupModal = ({ onClose }) => {
+const PickupModal = ({ onClose, values, onPrevious }) => {
   const formRef = useRef();
   const [countries, setCountries] = useState([]);
-  // const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  console.log("PickupModal values:", values);
+  // Modified to handle case when context isn't available
+  let shipmentPayload = {};
+  let updatePickupLocation = async () => {
+    console.warn("updatePickupLocation not available");
+    return { success: false, message: "Context not available" };
+  };
+  let loading = false;
 
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch('https://restcountries.com/v3.1/all');
+  try {
+    // Try to use the context, but don't crash if it's not available
+    const contextValue = useGuestShipment();
+    if (contextValue) {
+      shipmentPayload = contextValue.shipmentPayload;
+      updatePickupLocation = contextValue.updatePickupLocation;
+      loading = contextValue.loading;
+      console.log("Current shipment payload:", shipmentPayload);
+    }
+  } catch (error) {
+    console.error("Context not available:", error);
+  }
 
-        const data = await response.json();
-        const sortedCountries = [...data].sort((a, b) => 
-          a.name.common.localeCompare(b.name.common)
-        );
-
-        setCountries(sortedCountries);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
-
-    fetchCountries();
-  }, []);
-
-  const formik = useFormik({
-    initialValues: {
-      countryPick: 'IE',
-      statePick: '',
-      townPick: '',
-    },
-    validationSchema: Yup.object().shape({
-      countryPick: Yup.string(),
-      statePick: Yup.string().required("State is required"),
-      townPick: Yup.string().required("Town/City is required"),
-    }),
-    
-    onSubmit: (values) => {
-     
-    },
-  });
-
+  // Nigerian States Options
   const stateOptions = [
     { value: "abia", label: "Abia" },
     { value: "adamawa", label: "Adamawa" },
@@ -86,32 +73,22 @@ const PickupModal = ({ onClose }) => {
     { value: "zamfara", label: "Zamfara" },
     { value: "fct", label: "Federal Capital Territory" },
   ];
-
-  const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
+  // Custom Select Component
+  const CustomSelect = ({
+    name,
+    value,
+    onChange,
+    onBlur,
+    options,
+    placeholder,
+    error,
+  }) => {
     const [showOptions, setShowOptions] = useState(false);
     const [selectedValue, setSelectedValue] = useState(value);
     const selectRef = useRef(null);
-    const [filterText, setFilterText] = useState("");
-    const [inputValue, setInputValue] = useState(value);
-
-    const handleKeyDown = (event) => {
-      if (event.key.length === 1) {
-        setInputValue(prev => prev + event.key); // Update inputValue
-      } else if (event.key === "Backspace") {
-        setInputValue(prev => prev.slice(0, -1));
-      }
-    };
 
     useEffect(() => {
-      // Update filterText when inputValue changes
-      setFilterText(inputValue); 
-    }, [inputValue]);
-
-    const filteredOptions = options.filter(option => 
-      option.label.toLowerCase().includes(filterText.toLowerCase())
-    );
-
-    useEffect(() => {
+      // Close options when clicking outside
       const handleClickOutside = (event) => {
         if (selectRef.current && !selectRef.current.contains(event.target)) {
           setShowOptions(false);
@@ -119,50 +96,60 @@ const PickupModal = ({ onClose }) => {
       };
 
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
     }, []);
 
-    const handleChange = (optionValue) => {
-      setSelectedValue(optionValue);
-      onChange({ target: { name, value: optionValue } });
-      setTimeout(() => onBlur({ target: { name } }), 0); 
-      setShowOptions(false);
-    };
-    
+    // Update selected value when prop value changes
+    useEffect(() => {
+      setSelectedValue(value);
+    }, [value]);
+
     return (
-      <div className="relative" ref={selectRef} onKeyDown={handleKeyDown}>
-        <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
-        md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
-        ss:text-[14px] text-[12px] focus:outline-primary
-        bg-transparent w-full custom-select outline-[1px] 
-        ${error ? "outline-mainRed" : "outline-main6"}
-        ${value === "" ? "text-main6" : "text-black"}
-        flex items-center justify-between`}
-        onClick={() => setShowOptions(!showOptions)}
-        tabIndex={0}
+      <div className="relative" ref={selectRef}>
+        <div
+          className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
+          md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
+          ss:text-[14px] text-[12px] focus:outline-primary
+          bg-transparent w-full custom-select outline-[1px] 
+          ${error ? "outline-mainRed" : "outline-main6"}
+          ${value === "" ? "text-main6" : "text-black"}
+          flex items-center justify-between`}
+          onClick={() => setShowOptions(!showOptions)}
         >
           {selectedValue ? (
-            <>
-              {options.find((option) => option.value === value).label}
-            </>
+            <>{options.find((option) => option.value === value)?.label}</>
           ) : (
-            <span className="text-main6">{inputValue || placeholder}</span>
+            <span className="text-main6">{placeholder}</span>
           )}
         </div>
-
+        {/* Dropdown options */}
         {showOptions && (
-          <div className="absolute z-20 w-full bg-white rounded-md mt-2 
-          shadow-[0px_5px_15px_rgba(0,0,0,0.25)] max-h-[16rem] overflow-auto">
-            {filteredOptions.map((option, optionIndex) => (
-              <div 
-              key={optionIndex}
-              data-option-index={optionIndex}
-              className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
-              hover:bg-primary flex items-center hover:text-white 
-              md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
-              ${optionIndex === 0 ? 'rounded-t-md' : optionIndex === options.length - 1 ? 'rounded-b-md' : ''}
-              `}
-              onClick={() => handleChange(option.value)}
+          <div
+            className="absolute z-20 w-full bg-white rounded-md mt-2 
+          shadow-[0px_5px_15px_rgba(0,0,0,0.25)] max-h-[16rem] overflow-auto"
+          >
+            {options.map((option, optionIndex) => (
+              <div
+                key={optionIndex}
+                className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
+                hover:bg-primary flex items-center hover:text-white 
+                md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
+                ${
+                  optionIndex === 0
+                    ? "rounded-t-md"
+                    : optionIndex === options.length - 1
+                    ? "rounded-b-md"
+                    : ""
+                }
+                `}
+                onClick={() => {
+                  setSelectedValue(option.value);
+                  onChange({ target: { name, value: option.value } });
+                  onBlur({ target: { name } });
+                  setShowOptions(false);
+                }}
               >
                 {option.label}
               </div>
@@ -173,40 +160,202 @@ const PickupModal = ({ onClose }) => {
     );
   };
 
+  // Fetch countries on component mount
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
+        const data = await response.json();
+        const sortedCountries = [...data].sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+
+  // Helper function to get the minimum datetime for datetime-local input
+  function getMinDateTime() {
+    const now = new Date();
+    // Format date to YYYY-MM-DDTHH:MM for datetime-local input
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  // Add handleConfirm function
+  const handleConfirm = () => {
+    if (formRef.current) {
+      formRef.current.dispatchEvent(
+        new Event("submit", { cancelable: true, bubbles: true })
+      );
+    }
+  };
+
+  // Formik Configuration
+  const formik = useFormik({
+    initialValues: {
+      countryPick: values?.country || "IE",
+      statePick: values?.state || "",
+      townPick: values?.city || "",
+      streetPick: values?.street || "",
+      zipCodePick: values?.postalCode || "",
+      pickupDate: values?.date || getMinDateTime(),
+      specialInstructions: values?.instructions || "",
+    },
+    validationSchema: Yup.object().shape({
+      countryPick: Yup.string().required("Country is required"),
+      statePick: Yup.string().required("State is required"),
+      townPick: Yup.string().required("Town/City is required"),
+      streetPick: Yup.string().required("Street address is required"),
+      pickupDate: Yup.date()
+        .required("Pickup date is required")
+        .min(new Date(), "Pickup date must be in the future"),
+    }),
+    onSubmit: async (formValues) => {
+      setIsLoading(true);
+      try {
+        console.log("Form values being submitted:", formValues);
+
+        // Structure data to match server schema
+        const pickupPayload = {
+          pickup: {
+            location: {
+              street: formValues.streetPick,
+              city: formValues.townPick,
+              state: formValues.statePick,
+              country: formValues.countryPick,
+              postalCode: formValues.zipCodePick,
+            },
+            instructions: formValues.specialInstructions,
+            date: formValues.pickupDate,
+          },
+        };
+
+        console.log("About to call updatePickupLocation with:", pickupPayload);
+
+        // Check if context is available
+        if (!contextValue) {
+          console.error("Context not available");
+          alert("Application error: Context not available");
+          setIsLoading(false);
+          return;
+        }
+
+        // Make API call
+        const response = await updatePickupLocation(pickupPayload);
+        console.log("Full API response:", response);
+
+        // Enhanced response validation
+        if (
+          response &&
+          response.success === true &&
+          response.data &&
+          response.data.shipment &&
+          response.data.shipment._id
+        ) {
+          alert("Pickup information updated successfully!");
+          onClose(); // Close the modal after successful update
+        } else {
+          // Handle failed but returned response
+          console.error("API returned unsuccessful response:", response);
+          const errorMessage =
+            response?.message ||
+            response?.error ||
+            "Unable to update pickup location";
+          alert(`Update Failed: ${errorMessage}`);
+        }
+      } catch (error) {
+        console.error("Full error object:", error);
+
+        // Improved error handling
+        if (error.response) {
+          // Axios-style error with response property
+          console.error("Error response data:", error.response.data);
+          console.error("Error response status:", error.response.status);
+
+          const errorMessage =
+            error.response.data?.message ||
+            error.response.data?.error ||
+            "Server rejected the request";
+          alert(`Update Failed: ${errorMessage}`);
+        } else if (error.request) {
+          // Network error - request was made but no response received
+          console.error("No response received:", error.request);
+          alert(
+            "Network Error: No response from server. Please check your connection and try again."
+          );
+        } else if (error.message === "Invalid response from server") {
+          // Our custom thrown error for invalid response format
+          alert(
+            "Server returned an invalid response format. Please try again or contact support."
+          );
+        } else {
+          // Generic error handling
+          console.error("Error details:", error.message || error);
+          alert(
+            `An error occurred: ${error.message || "Please try again later"}`
+          );
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    },
+  });
+
+  // Enable scroll when closing modal
   const enableScroll = () => {
-    document.body.style.overflow = 'auto';
-    document.body.style.top = '0';
+    document.body.style.overflow = "auto";
+    document.body.style.top = "0";
   };
 
   return (
     <AnimatePresence>
       <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 flex items-center justify-center
-      bg-black bg-opacity-40 z-50">
-        <div className='max-w-[68rem] w-full flex md:justify-center 
-        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:max-h-[75%] h-auto'>
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 flex items-center justify-center
+        bg-black bg-opacity-40 z-50"
+      >
+        <div
+          className="max-w-[68rem] w-full flex md:justify-center 
+        ss:justify-center md:mx-0 ss:mx-16 mx-5 md:max-h-[75%] h-auto"
+        >
           <motion.div
-          initial={{ y: 0, opacity: 0.7 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 10, opacity: 0 }}
-          transition={{ duration: 0.1 }}
-          className="bg-white md:rounded-3xl ss:rounded-3xl relative
-          rounded-2xl shadow-xl flex flex-col md:w-[90%] w-full 
-          overflow-auto items-center scrollbar-hidden">
-            <div className='flex justify-between items-center w-full
+            initial={{ y: 0, opacity: 0.7 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 10, opacity: 0 }}
+            transition={{ duration: 0.1 }}
+            className="bg-white md:rounded-3xl ss:rounded-3xl relative
+            rounded-2xl shadow-xl flex flex-col md:w-[90%] w-full 
+            overflow-auto items-center scrollbar-hidden"
+          >
+            {/* Modal Header */}
+            <div
+              className="flex justify-between items-center w-full
             border-b border-b-main7 md:py-6 md:px-12 ss:py-6 
-            ss:px-12 py-4 px-5 bg-white top-0 sticky z-10'>
-              <h1 className="md:text-[30px] ss:text-[25px] text-[20px] 
-              tracking-tight font-bold text-main2">
+            ss:px-12 py-4 px-5 bg-white top-0 sticky z-10"
+            >
+              <h1
+                className="md:text-[30px] ss:text-[25px] text-[20px] 
+              tracking-tight font-bold text-main2"
+              >
                 Change Pickup Location
               </h1>
 
-              <BsX 
-                className='md:w-[3.2rem] ss:w-[3.2rem] w-[2rem] h-auto 
-                text-redClose bg-redCircle md:p-2.5 ss:p-2.5 p-1.5 rounded-full cursor-pointer grow2'
+              <BsX
+                className="md:w-[3.2rem] ss:w-[3.2rem] w-[2rem] h-auto 
+                text-redClose bg-redCircle md:p-2.5 ss:p-2.5 p-1.5 rounded-full cursor-pointer grow2"
                 strokeWidth={0.2}
                 onClick={() => {
                   onClose();
@@ -215,20 +364,27 @@ const PickupModal = ({ onClose }) => {
               />
             </div>
 
-            <div className='flex items-center w-full flex-col md:px-12 
-            ss:px-12 px-5 mb-3 md:gap-5 ss:gap-5 gap-4'>
-              <form ref={formRef} onSubmit={formik.handleSubmit}
-              className='w-full md:mt-6 ss:mt-6 mt-4'>
-                <div className='flex flex-col w-full items-center'>
-                  <div className='flex flex-col w-full items-center gap-4'>   
-                    <div className='grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4'>
+            {/* Modal Content */}
+            <div
+              className="flex items-center w-full flex-col md:px-12 
+            ss:px-12 px-5 mb-3 md:gap-5 ss:gap-5 gap-4"
+            >
+              <form
+                ref={formRef}
+                onSubmit={formik.handleSubmit}
+                className="md:w-[85%] w-full md:mt-6 ss:mt-6 mt-4"
+              >
+                <div className="flex flex-col w-full items-center gap-8">
+                  <div className="flex flex-col w-full items-center gap-4">
+                    <div className="grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4">
                       <div className="relative flex flex-col">
-                        <div className='relative flex items-center'>
+                        <div className="relative flex items-center">
                           {formik.values.countryPick && (
                             <img
                               src={
                                 countries.find(
-                                  (country) => country.cca2 === formik.values.countryPick
+                                  (country) =>
+                                    country.cca2 === formik.values.countryPick
                                 )?.flags?.png
                               }
                               alt="flag"
@@ -247,9 +403,16 @@ const PickupModal = ({ onClose }) => {
                             cursor-pointer md:text-[14px] font-bold pl-[3.6rem]
                             ss:text-[14px] text-[12px] focus:outline-primary
                             bg-transparent w-full custom-select outline-[1px]
-                            ${formik.touched.countryPick && formik.errors.countryPick ? 'outline-mainRed' : 'outline-main6'}`}
+                            ${
+                              formik.touched.countryPick &&
+                              formik.errors.countryPick
+                                ? "outline-mainRed"
+                                : "outline-main6"
+                            }`}
                           >
-                            <option value="" disabled hidden>Select recipient's country</option>
+                            <option value="" disabled hidden>
+                              Select recipient's country
+                            </option>
                             {countries.map((country) => (
                               <option key={country.cca2} value={country.cca2}>
                                 {country.name.common}
@@ -257,31 +420,36 @@ const PickupModal = ({ onClose }) => {
                             ))}
                           </select>
 
-                          <div className='absolute md:right-3.5 right-3'>
-                            <TiArrowSortedDown 
-                              className='text-main md:text-[16px]
-                              ss:text-[18px] text-[16px]'
+                          <div className="absolute md:right-3.5 right-3">
+                            <TiArrowSortedDown
+                              className="text-main md:text-[16px]
+                              ss:text-[18px] text-[16px]"
                             />
                           </div>
                         </div>
-                        
-                        <p className="text-mainRed md:text-[12px] flex justify-end
-                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                          {formik.touched.countryPick && formik.errors.countryPick}
+
+                        <p
+                          className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                        >
+                          {formik.touched.countryPick &&
+                            formik.errors.countryPick}
                         </p>
 
-                        <p className='text-main2 font-medium md:text-[12px]
-                        ss:text-[12px] text-[11px] tracking-tight'>
-                          You cannot change the pickup country/region unless you cancel shipment.
+                        <p
+                          className="text-main2 font-medium md:text-[12px]
+                        ss:text-[12px] text-[11px] tracking-tight"
+                        >
+                          This is your selected country/region
                         </p>
                       </div>
                     </div>
 
-                    <div className='grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4'>
+                    <div className="grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4">
                       <div className="relative flex flex-col">
-                        <div className='relative flex items-center'>
-                          <div className='w-full'>
-                            <CustomSelect 
+                        <div className="relative flex items-center">
+                          <div className="w-full">
+                            <CustomSelect
                               name="statePick"
                               value={formik.values.statePick}
                               onChange={formik.handleChange}
@@ -289,21 +457,24 @@ const PickupModal = ({ onClose }) => {
                               options={stateOptions}
                               placeholder="Select a state/district"
                               error={
-                                formik.touched.statePick && formik.errors.statePick
+                                formik.touched.statePick &&
+                                formik.errors.statePick
                               }
                             />
                           </div>
 
-                          <div className='absolute md:right-3.5 right-3'>
-                            <TiArrowSortedDown 
-                              className='text-main md:text-[16px]
-                              ss:text-[18px] text-[16px]'
+                          <div className="absolute md:right-3.5 right-3">
+                            <TiArrowSortedDown
+                              className="text-main md:text-[16px]
+                              ss:text-[18px] text-[16px]"
                             />
                           </div>
                         </div>
 
-                        <p className="text-mainRed md:text-[12px] flex justify-end
-                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
+                        <p
+                          className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                        >
                           {formik.touched.statePick && formik.errors.statePick}
                         </p>
                       </div>
@@ -312,7 +483,7 @@ const PickupModal = ({ onClose }) => {
                         <input
                           type="text"
                           name="townPick"
-                          placeholder=' '
+                          placeholder=" "
                           value={formik.values.townPick}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
@@ -320,12 +491,188 @@ const PickupModal = ({ onClose }) => {
                           peer outline text-black md:rounded-lg rounded-md 
                           md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                           bg-transparent w-full focus:outline-primary
-                          ${formik.touched.townPick && formik.errors.townPick ? 'outline-mainRed' : 'outline-main6'}
+                          ${
+                            formik.touched.townPick && formik.errors.townPick
+                              ? "outline-mainRed"
+                              : "outline-main6"
+                          }
                           `}
                         />
 
                         <label
-                        htmlFor="townPick"
+                          htmlFor="townPick"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.townPick ? "z-10 px-2" : ""}
+                          `}
+                        >
+                          Enter a town/city
+                        </label>
+
+                        <p
+                          className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                        >
+                          {formik.touched.townPick && formik.errors.townPick}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4">
+                      <div className="relative flex flex-col">
+                        <input
+                          type="text"
+                          name="streetPick"
+                          placeholder=" "
+                          value={formik.values.streetPick}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                          peer outline text-black md:rounded-lg rounded-md 
+                          md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                          bg-transparent w-full focus:outline-primary
+                          ${
+                            formik.touched.streetPick &&
+                            formik.errors.streetPick
+                              ? "outline-mainRed"
+                              : "outline-main6"
+                          }
+                          `}
+                        />
+                        <label
+                          htmlFor="streetPick"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.streetPick ? "z-10 px-2" : ""}
+                          `}
+                        >
+                          Street Address
+                        </label>
+                        <p
+                          className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                        >
+                          {formik.touched.streetPick &&
+                            formik.errors.streetPick}
+                        </p>
+                      </div>
+
+                      <div className="relative flex flex-col">
+                        <input
+                          type="text"
+                          name="zipCodePick"
+                          placeholder=" "
+                          value={formik.values.zipCodePick}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                          peer outline text-black md:rounded-lg rounded-md 
+                          md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                          bg-transparent w-full focus:outline-primary
+                          ${
+                            formik.touched.zipCodePick &&
+                            formik.errors.zipCodePick
+                              ? "outline-mainRed"
+                              : "outline-main6"
+                          }
+                          `}
+                        />
+                        <label
+                          htmlFor="zipCodePick"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                          md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                          md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                          duration-300 peer-placeholder-shown:translate-y-0 
+                          peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                          ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                          peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                          ${formik.values.zipCodePick ? "z-10 px-2" : ""}
+                          `}
+                        >
+                          Postal Code
+                        </label>
+                        <p
+                          className="text-mainRed md:text-[12px] flex justify-end
+                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                        >
+                          {formik.touched.zipCodePick &&
+                            formik.errors.zipCodePick}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="relative flex flex-col w-full mt-4">
+                      <input
+                        type="datetime-local"
+                        name="pickupDate"
+                        value={formik.values.pickupDate}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        min={getMinDateTime()}
+                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                        peer outline text-black md:rounded-lg rounded-md 
+                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                        bg-transparent w-full focus:outline-primary
+                        ${
+                          formik.touched.pickupDate && formik.errors.pickupDate
+                            ? "outline-mainRed"
+                            : "outline-main6"
+                        }
+                        `}
+                      />
+                      <label
+                        htmlFor="pickupDate"
+                        className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                        md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                        md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                        duration-300 peer-placeholder-shown:translate-y-0 
+                        peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                        ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                        peer-focus:scale-75 peer-focus:text-main6 pointer-events-none z-10 px-2
+                        `}
+                      >
+                        Pickup Date
+                      </label>
+                      <p
+                        className="text-mainRed md:text-[12px] flex justify-end
+                      ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                      >
+                        {formik.touched.pickupDate && formik.errors.pickupDate}
+                      </p>
+                    </div>
+
+                    <div className="relative flex flex-col w-full mt-4">
+                      <textarea
+                        name="specialInstructions"
+                        placeholder=" "
+                        value={formik.values.specialInstructions}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        rows={3}
+                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                        peer outline text-black md:rounded-lg rounded-md 
+                        md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
+                        bg-transparent w-full focus:outline-primary
+                        ${
+                          formik.touched.specialInstructions &&
+                          formik.errors.specialInstructions
+                            ? "outline-mainRed"
+                            : "outline-main6"
+                        }
+                        `}
+                      />
+                      <label
+                        htmlFor="specialInstructions"
                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                         md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -333,88 +680,60 @@ const PickupModal = ({ onClose }) => {
                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                         peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                        ${formik.values.townPick ? 'z-10 px-2' : ''}
+                        ${formik.values.specialInstructions ? "z-10 px-2" : ""}
                         `}
-                        >
-                          Enter a town/city
-                        </label>
-
-                        <p className="text-mainRed md:text-[12px] flex justify-end
-                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                          {formik.touched.townPick && formik.errors.townPick}
-                        </p>
-                      </div>
+                      >
+                        Special Instructions (Optional)
+                      </label>
+                      <p
+                        className="text-mainRed md:text-[12px] flex justify-end
+                      ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                      >
+                        {formik.touched.specialInstructions &&
+                          formik.errors.specialInstructions}
+                      </p>
                     </div>
+                  </div>
+
+                  <div
+                    className="mt-4 flex w-full items-center 
+                  justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
+                  ss:flex-row flex-col"
+                  >
+                    <button
+                      type="button"
+                      className="bg-none text-[13px] py-3.5 px-14
+                      text-primary rounded-full grow2 cursor-pointer
+                      items-center justify-center border border-primary
+                      md:flex ss:flex hidden"
+                      onClick={handlePrevious}
+                      disabled={formik.isSubmitting || isLoading}
+                    >
+                      <p className="font-semibold">Cancel</p>
+                    </button>
+
+                    {/* Confirm Button */}
+                    <button
+                      type="button"
+                      className={`bg-primary text-[13px] py-3.5 w-[50%] flex text-white rounded-full grow4 
+                      cursor-pointer items-center justify-center gap-3 ${
+                        isLoading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      onClick={handleConfirm}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <p>Confirming...</p>
+                      ) : (
+                        <>
+                          <p>Confirm</p>
+                          <HiOutlineArrowRight className="text-[14px]" />
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </form>
-
-              <div className="flex flex-col gap-4 w-full">
-                <h2 className="font-bold md:text-[18px] ss:text-[18px] 
-                text-[16px] tracking-tight text-main4">
-                  SELECTED PICKUP LOCATION
-                </h2>
-            
-                <div className="flex flex-col gap-0.5">
-                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
-                  tracking-tight font-medium text-main2">
-                    276 Garden Heights Road
-                  </p>
-
-                  <p className="md:text-[15px] ss:text-[15px] text-[14px] 
-                  tracking-tight font-medium text-main2">
-                    Heightenton Industrial Layout
-                  </p>
-
-                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
-                  tracking-tight font-medium text-main2">
-                    Brooks Heights, Dublin
-                  </p>
-
-                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
-                  tracking-tight font-medium text-main2">
-                    Leinster, <span className="font-bold">IE.</span>
-                  </p>
-                  
-                  <p className="md:text-[15px] ss:text-[15px] text-[14px]  
-                  tracking-tight font-medium text-main2">
-                    456882
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className='flex md:justify-end ss:justify-end w-full
-            border-t border-t-main7 md:py-6 md:px-12 ss:py-6 
-            ss:px-12 py-4 px-5 bg-white bottom-0 sticky'>
-              <div className="flex md:w-[45%] ss:w-[45%] w-full items-center 
-              md:gap-5 ss:gap-5 gap-3">
-                <button
-                className='bg-none text-[13px] py-3.5 w-[50%]
-                text-primary rounded-full grow2 cursor-pointer
-                items-center justify-center border border-primary'
-                onClick={() => {
-                  onClose();
-                  enableScroll();
-                }}
-                >
-                  <p className='font-semibold'>
-                    Cancel
-                  </p>
-                </button>
-
-                <button
-                className='bg-primary text-[13px] py-3.5 w-[50%] flex
-                text-white rounded-full grow4 cursor-pointer
-                items-center justify-center gap-3'
-                >
-                  <p>
-                    Confirm
-                  </p>
-                  
-                  <HiOutlineArrowRight className='text-[14px]'/>
-                </button>
-              </div>
             </div>
           </motion.div>
         </div>

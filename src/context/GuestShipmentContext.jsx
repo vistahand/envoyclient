@@ -209,8 +209,8 @@ export const GuestShipmentProvider = ({ children }) => {
       setError(null);
 
       const response = await shipments.updateSenderInfo(
-        shipmentData.id,
-        senderData
+        shipmentData.id !== null ? shipmentData.id : senderData.id,
+        senderData.data ? senderData.data : senderData
       );
 
       if (!response.success) {

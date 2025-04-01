@@ -643,7 +643,7 @@ const ShipmentDetails = ({ onNext }) => {
             setIsPickupModalOpen(false);
             enableScroll();
           }}
-          shipmentData={shipmentData}
+          values={shipmentData}
           onUpdate={() => {
             // Refresh the shipment data after update
             window.location.reload();
