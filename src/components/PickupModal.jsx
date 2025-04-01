@@ -7,31 +7,31 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import { useGuestShipment } from "../context/GuestShipmentContext";
 import * as Yup from "yup";
 
-const PickupModal = ({ onClose, values, onPrevious }) => {
+const PickupModal = ({ onClose, values, onUpdate }) => {
   const formRef = useRef();
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   console.log("PickupModal values:", values);
   // Modified to handle case when context isn't available
-  let shipmentPayload = {};
-  let updatePickupLocation = async () => {
-    console.warn("updatePickupLocation not available");
-    return { success: false, message: "Context not available" };
-  };
-  let loading = false;
+  const { updatePickupLocation } = useGuestShipment();
 
-  try {
-    // Try to use the context, but don't crash if it's not available
-    const contextValue = useGuestShipment();
-    if (contextValue) {
-      shipmentPayload = contextValue.shipmentPayload;
-      updatePickupLocation = contextValue.updatePickupLocation;
-      loading = contextValue.loading;
-      console.log("Current shipment payload:", shipmentPayload);
+  const formatDateTimeLocal = (dateString) => {
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return getMinDateTime(); // Handle invalid date
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return getMinDateTime(); // Fallback to current date/time
     }
-  } catch (error) {
-    console.error("Context not available:", error);
-  }
+  };
 
   // Nigerian States Options
   const stateOptions = [
@@ -86,9 +86,27 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
     const [showOptions, setShowOptions] = useState(false);
     const [selectedValue, setSelectedValue] = useState(value);
     const selectRef = useRef(null);
+    const [filterText, setFilterText] = useState("");
+    const [inputValue, setInputValue] = useState(value);
+
+    const handleKeyDown = (event) => {
+      if (event.key.length === 1) {
+        setInputValue((prev) => prev + event.key); // Update inputValue
+      } else if (event.key === "Backspace") {
+        setInputValue((prev) => prev.slice(0, -1));
+      }
+    };
 
     useEffect(() => {
-      // Close options when clicking outside
+      // Update filterText when inputValue changes
+      setFilterText(inputValue);
+    }, [inputValue]);
+
+    const filteredOptions = options.filter((option) =>
+      option.label.toLowerCase().includes(filterText.toLowerCase())
+    );
+
+    useEffect(() => {
       const handleClickOutside = (event) => {
         if (selectRef.current && !selectRef.current.contains(event.target)) {
           setShowOptions(false);
@@ -96,60 +114,61 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
       };
 
       document.addEventListener("mousedown", handleClickOutside);
-      return () => {
+      return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-      };
     }, []);
 
-    // Update selected value when prop value changes
-    useEffect(() => {
-      setSelectedValue(value);
-    }, [value]);
+    const handleChange = (optionValue) => {
+      setSelectedValue(optionValue);
+      onChange({ target: { name, value: optionValue } });
+      setTimeout(() => onBlur({ target: { name } }), 0);
+      setShowOptions(false);
+    };
 
     return (
-      <div className="relative" ref={selectRef}>
+      <div className="relative" ref={selectRef} onKeyDown={handleKeyDown}>
         <div
           className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
-          md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
-          ss:text-[14px] text-[12px] focus:outline-primary
-          bg-transparent w-full custom-select outline-[1px] 
-          ${error ? "outline-mainRed" : "outline-main6"}
-          ${value === "" ? "text-main6" : "text-black"}
-          flex items-center justify-between`}
+        md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
+        ss:text-[14px] text-[12px] focus:outline-primary
+        bg-transparent w-full custom-select outline-[1px] 
+        ${error ? "outline-mainRed" : "outline-main6"}
+        ${value === "" ? "text-main6" : "text-black"}
+        flex items-center justify-between`}
           onClick={() => setShowOptions(!showOptions)}
+          tabIndex={0}
         >
           {selectedValue ? (
-            <>{options.find((option) => option.value === value)?.label}</>
+            <>
+              {options.find((option) => option.value === value)?.label ||
+                placeholder}
+            </>
           ) : (
-            <span className="text-main6">{placeholder}</span>
+            <span className="text-main6">{inputValue || placeholder}</span>
           )}
         </div>
-        {/* Dropdown options */}
+
         {showOptions && (
           <div
             className="absolute z-20 w-full bg-white rounded-md mt-2 
           shadow-[0px_5px_15px_rgba(0,0,0,0.25)] max-h-[16rem] overflow-auto"
           >
-            {options.map((option, optionIndex) => (
+            {filteredOptions.map((option, optionIndex) => (
               <div
                 key={optionIndex}
+                data-option-index={optionIndex}
                 className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
-                hover:bg-primary flex items-center hover:text-white 
-                md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
-                ${
-                  optionIndex === 0
-                    ? "rounded-t-md"
-                    : optionIndex === options.length - 1
-                    ? "rounded-b-md"
-                    : ""
-                }
-                `}
-                onClick={() => {
-                  setSelectedValue(option.value);
-                  onChange({ target: { name, value: option.value } });
-                  onBlur({ target: { name } });
-                  setShowOptions(false);
-                }}
+              hover:bg-primary flex items-center hover:text-white 
+              md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
+              ${
+                optionIndex === 0
+                  ? "rounded-t-md"
+                  : optionIndex === options.length - 1
+                  ? "rounded-b-md"
+                  : ""
+              }
+              `}
+                onClick={() => handleChange(option.value)}
               >
                 {option.label}
               </div>
@@ -158,6 +177,58 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
         )}
       </div>
     );
+  };
+
+  const getStateFieldByCountry = (country) => {
+    // Only show dropdown for Nigeria
+    if (country === "NG") {
+      return (
+        <div className="w-full flex flex-col gap-1.5">
+          <CustomSelect
+            name="statePick"
+            value={formik.values.statePick}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            options={stateOptions}
+            placeholder="Select your state"
+            error={formik.touched.statePick && formik.errors.statePick}
+          />
+          {formik.touched.statePick && formik.errors.statePick ? (
+            <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+              {formik.errors.statePick}
+            </p>
+          ) : null}
+        </div>
+      );
+    } else {
+      // For other countries, use a text input
+      return (
+        <div className="w-full flex flex-col gap-1.5">
+          <input
+            type="text"
+            name="statePick"
+            value={formik.values.statePick}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            placeholder="Enter your state/province/region"
+            className={`md:py-3.5 py-3 md:px-3.5 px-3 outline text-main2
+                      md:rounded-lg rounded-md outline-[1px]
+                      md:text-[14px] ss:text-[14px] text-[12px]
+                      focus:outline-primary w-full
+                      ${
+                        formik.touched.stateInd && formik.errors.stateInd
+                          ? "outline-mainRed"
+                          : "outline-main6"
+                      }`}
+          />
+          {formik.touched.statePick && formik.errors.statePick ? (
+            <p className="text-mainRed md:text-[12px] ss:text-[12px] text-[11px]">
+              {formik.errors.statePick}
+            </p>
+          ) : null}
+        </div>
+      );
+    }
   };
 
   // Fetch countries on component mount
@@ -178,11 +249,9 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
     fetchCountries();
   }, []);
 
-
   // Helper function to get the minimum datetime for datetime-local input
-  function getMinDateTime() {
+  const getMinDateTime = () => {
     const now = new Date();
-    // Format date to YYYY-MM-DDTHH:MM for datetime-local input
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const day = String(now.getDate()).padStart(2, "0");
@@ -190,27 +259,20 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
     const minutes = String(now.getMinutes()).padStart(2, "0");
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
-  }
-
-  // Add handleConfirm function
-  const handleConfirm = () => {
-    if (formRef.current) {
-      formRef.current.dispatchEvent(
-        new Event("submit", { cancelable: true, bubbles: true })
-      );
-    }
   };
 
+  const pickup = values.pickup;
   // Formik Configuration
   const formik = useFormik({
     initialValues: {
-      countryPick: values?.country || "IE",
-      statePick: values?.state || "",
-      townPick: values?.city || "",
-      streetPick: values?.street || "",
-      zipCodePick: values?.postalCode || "",
-      pickupDate: values?.date || getMinDateTime(),
-      specialInstructions: values?.instructions || "",
+      countryPick: pickup?.location?.country || "IE",
+      statePick: pickup?.location?.state || "",
+      townPick: pickup?.location?.city || "",
+      streetPick: pickup?.location?.street || "",
+      zipCodePick: pickup?.location?.postalCode || "",
+      pickupDate: pickup?.date
+        ? formatDateTimeLocal(pickup.date)
+        : getMinDateTime(), // specialInstructions: pickup?.instructions || "",
     },
     validationSchema: Yup.object().shape({
       countryPick: Yup.string().required("Country is required"),
@@ -228,32 +290,24 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
 
         // Structure data to match server schema
         const pickupPayload = {
-          pickup: {
-            location: {
-              street: formValues.streetPick,
-              city: formValues.townPick,
-              state: formValues.statePick,
-              country: formValues.countryPick,
-              postalCode: formValues.zipCodePick,
+          id: values._id,
+          data: {
+            pickup: {
+              location: {
+                street: formValues.streetPick,
+                city: formValues.townPick,
+                state: formValues.statePick,
+                country: formValues.countryPick,
+                postalCode: formValues.zipCodePick,
+              },
+              instructions: formValues.specialInstructions,
+              date: formValues.pickupDate,
             },
-            instructions: formValues.specialInstructions,
-            date: formValues.pickupDate,
           },
         };
 
-        console.log("About to call updatePickupLocation with:", pickupPayload);
-
-        // Check if context is available
-        if (!contextValue) {
-          console.error("Context not available");
-          alert("Application error: Context not available");
-          setIsLoading(false);
-          return;
-        }
-
         // Make API call
         const response = await updatePickupLocation(pickupPayload);
-        console.log("Full API response:", response);
 
         // Enhanced response validation
         if (
@@ -263,8 +317,7 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
           response.data.shipment &&
           response.data.shipment._id
         ) {
-          alert("Pickup information updated successfully!");
-          onClose(); // Close the modal after successful update
+          onUpdate();
         } else {
           // Handle failed but returned response
           console.error("API returned unsuccessful response:", response);
@@ -272,7 +325,6 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
             response?.message ||
             response?.error ||
             "Unable to update pickup location";
-          alert(`Update Failed: ${errorMessage}`);
         }
       } catch (error) {
         console.error("Full error object:", error);
@@ -447,36 +499,7 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
 
                     <div className="grid md:grid-cols-2 ss:grid-cols-2 w-full md:gap-5 ss:gap-5 gap-4">
                       <div className="relative flex flex-col">
-                        <div className="relative flex items-center">
-                          <div className="w-full">
-                            <CustomSelect
-                              name="statePick"
-                              value={formik.values.statePick}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              options={stateOptions}
-                              placeholder="Select a state/district"
-                              error={
-                                formik.touched.statePick &&
-                                formik.errors.statePick
-                              }
-                            />
-                          </div>
-
-                          <div className="absolute md:right-3.5 right-3">
-                            <TiArrowSortedDown
-                              className="text-main md:text-[16px]
-                              ss:text-[18px] text-[16px]"
-                            />
-                          </div>
-                        </div>
-
-                        <p
-                          className="text-mainRed md:text-[12px] flex justify-end
-                        ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
-                        >
-                          {formik.touched.statePick && formik.errors.statePick}
-                        </p>
+                        {getStateFieldByCountry(formik.values.countryPick)}
                       </div>
 
                       <div className="relative flex flex-col">
@@ -706,7 +729,7 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
                       text-primary rounded-full grow2 cursor-pointer
                       items-center justify-center border border-primary
                       md:flex ss:flex hidden"
-                      onClick={handlePrevious}
+                      onClick={onClose}
                       disabled={formik.isSubmitting || isLoading}
                     >
                       <p className="font-semibold">Cancel</p>
@@ -719,7 +742,7 @@ const PickupModal = ({ onClose, values, onPrevious }) => {
                       cursor-pointer items-center justify-center gap-3 ${
                         isLoading ? "opacity-50 cursor-not-allowed" : ""
                       }`}
-                      onClick={handleConfirm}
+                      onClick={formik.handleSubmit}
                       disabled={isLoading}
                     >
                       {isLoading ? (

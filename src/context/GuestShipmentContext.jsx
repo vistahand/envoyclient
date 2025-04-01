@@ -289,8 +289,8 @@ export const GuestShipmentProvider = ({ children }) => {
       setError(null);
 
       const response = await shipments.updatePickupLocation(
-        shipmentData.id,
-        pickupData
+        shipmentData.id !== null ? shipmentData.id : pickupData.id,
+        pickupData.data ? pickupData.data : pickupData
       );
 
       if (!response.success) {
