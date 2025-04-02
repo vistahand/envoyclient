@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GoPlus } from "react-icons/go";
-import LocationSelectorMgt from "../../components/locationSelectorMgt";
+import LocationSelectorMgt from "../../components/LocationSelectorMgt";
 import ShipmentTrackMgt from "../../components/ShipmentMgt";
 
 const ShipmentMgt = () => {
