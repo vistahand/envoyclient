@@ -101,7 +101,7 @@ const Sidebar = () => {
                     currentPath.startsWith("/admin") ||
                     currentPath.startsWith("/admin/")
                       ? "/admin/settings"
-                      : "/admin/settings"
+                      : "/user/settings"
                   }`}
                   className="flex p-3 gap-4 items-center"
                 >

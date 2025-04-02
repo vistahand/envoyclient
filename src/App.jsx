@@ -1,86 +1,136 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { 
-  CreateShipmentPage, 
-  HomePage, 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  CreateShipmentPage,
+  HomePage,
   PaymentReviewPage,
-  PaymentReviewPageUser, 
-  TrackResultsPage, 
+  TrackResultsPage,
   RegisterPage,
   UserDashHome,
   AdminDashHome,
   AboutPage,
   TermsPage,
   PrivacyPage,
-} from './scenes';
-import { AuthProvider } from './context/AuthContext';
-import { NotificationProvider } from './context/NotificationContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import GuestRoute from './components/GuestRoute';
-import NotificationToast from './components/NotificationToast';
+} from "./scenes";
+import { AuthProvider } from "./context/AuthContext";
+import { NotificationProvider } from "./context/NotificationContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import GuestRoute from "./components/GuestRoute";
+import NotificationToast from "./components/NotificationToast";
 
-import { Login } from './dashboard';
-import { 
-  Home, 
-  Shipments, 
-  SavedLoc, 
-  Payments, 
-  ShipmentDetails, 
-  PaymentDetails 
-} from './dashboard/user';
-import { 
-  AdminHome, 
-  ShipmentMgt, 
-  PaymentsAdmin, 
-  PickupLoc, 
-  QuoteMgt, 
-  Analytics, 
-  Users 
-} from './dashboard/admin';
-import ScrollToTopButton from './constants/ScrollToTop';
-import { GetStarted } from './pages';
-import { ShipmentFinish, TrackShipmentUser } from './components';
-import SettingsPage from './pages/SettingPage';
-import { ShipmentProvider } from './context/ShipmentContext';
-import PaymentSuccessPage from './components/PaymentSuccessPage';
-import PaymentFailedPage from './components/PaymentFailedPage';
-import CreatePickupLocation from "./dashboard/admin/CreatePickupLocation";
-import ShipmentDetailMgt from "./components/ShipmentDetailMgt";
+import { Login } from "./dashboard";
+import {
+  Home,
+  Shipments,
+  SavedLoc,
+  Payments,
+  ShipmentDetails,
+  PaymentDetails,
+} from "./dashboard/user";
+import {
+  AdminHome,
+  ShipmentMgt,
+  PaymentsAdmin,
+  PickupLoc,
+  QuoteMgt,
+  Analytics,
+  Users,
+} from "./dashboard/admin";
+import ScrollToTopButton from "./constants/ScrollToTop";
+import { GetStarted } from "./pages";
+import TrackShipment from "./components/TrackShipment";
+import SettingsPage from "./pages/SettingPage";
+import { GuestShipmentProvider } from "./context/GuestShipmentContext";
+import PaymentFailedPage from "./pages/PaymentFailedPage";
+import FinishShipmentPage from "./scenes/FinishShipmentPage";
+import PaymentSuccessScene from "./scenes/PaymentSuccess";
 
 const App = () => {
   return (
     <AuthProvider>
       <NotificationProvider>
-        <ShipmentProvider>
+        <GuestShipmentProvider>
           <BrowserRouter>
             <div>
-              
               <Routes>
-                <Route path='/' element={<HomePage />} />
-                <Route path='/about' element={<AboutPage />} />
-                <Route path='/termsofusage' element={<TermsPage />} />
-                <Route path='/privacypolicy' element={<PrivacyPage />} />
-                <Route path='/createshipment' element={<CreateShipmentPage />} />
-                <Route path='/createshipment-payment' element={<PaymentReviewPage />} />
-                <Route path='/trackshipment' element={<TrackResultsPage />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/termsofusage" element={<TermsPage />} />
+                <Route path="/privacypolicy" element={<PrivacyPage />} />
+                <Route
+                  path="/createshipment"
+                  element={<CreateShipmentPage />}
+                />
+                <Route
+                  path="/createshipment-payment"
+                  element={<PaymentReviewPage />}
+                />
+                <Route path="/trackshipment" element={<TrackResultsPage />} />
 
-                <Route path='/createshipment-payment/finish' element={<ShipmentFinish />} />
-                <Route path='/createshipment-payment/success' element={<PaymentSuccessPage />} />
-                <Route path='/createshipment-payment/failure' element={<PaymentFailedPage />} />
-                
-                <Route path='/register' element={<GuestRoute><RegisterPage /></GuestRoute>} />
-                <Route path='/login' element={<GuestRoute><Login /></GuestRoute>} />
-                
-                <Route path='/user' element={<ProtectedRoute><UserDashHome /></ProtectedRoute>}>
+                <Route
+                  path="/createshipment-payment/finish"
+                  element={<FinishShipmentPage />}
+                />
+                <Route
+                  path="/createshipment-payment/success"
+                  element={<PaymentSuccessScene />}
+                />
+                <Route
+                  path="/createshipment-payment/failure"
+                  element={<PaymentFailedPage />}
+                />
+               
+                <Route path="trackshipment" element={<TrackShipment />} />
+
+                <Route
+                  path="/register"
+                  element={
+                    <GuestRoute>
+                      <RegisterPage />
+                    </GuestRoute>
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <GuestRoute>
+                      <Login />
+                    </GuestRoute>
+                  }
+                />
+
+                <Route
+                  path="/user"
+                  element={
+                    <ProtectedRoute>
+                      <UserDashHome />
+                    </ProtectedRoute>
+                  }
+                >
                   <Route index element={<Home />} />
-                  <Route path='shipments' element={<Shipments />} />
-                  <Route path='payments' element={<Payments />} />
-                  <Route path='savedlocations' element={<SavedLoc />} />
-                  <Route path='shipments/createshipment' element={<GetStarted />} />
-                  <Route path='shipments/createshipment-payment' element={<PaymentReviewPageUser />} />
-                  <Route path='trackshipment' element={<TrackShipmentUser />} />
-                  <Route path='shipments/details' element={<ShipmentDetails />} />
-                  <Route path='payments/details' element={<PaymentDetails />} />
-                  <Route path='settings' element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+                  <Route path="shipments" element={<Shipments />} />
+                  <Route path="payments" element={<Payments />} />
+                  <Route path="savedlocations" element={<SavedLoc />} />
+                  <Route
+                    path="shipments/createshipment"
+                    element={<GetStarted />}
+                  />
+                  <Route
+                    path="shipments/createshipment-payment"
+                    element={<PaymentReviewPage />}
+                  />
+                  <Route
+                    path="shipments/details"
+                    element={<ShipmentDetails />}
+                  />
+                  <Route path="payments/details" element={<PaymentDetails />} />
+                  <Route
+                    path="settings"
+                    element={
+                      <ProtectedRoute>
+                        <SettingsPage />
+                      </ProtectedRoute>
+                    }
+                  />
                 </Route>
 
                 {/* <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashHome /></ProtectedRoute>}> */}
@@ -97,17 +147,18 @@ const App = () => {
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />
                   <Route path="settings" element={<SettingsPage />} />
+
                 </Route>
               </Routes>
-              
+
               <NotificationToast />
               <ScrollToTopButton />
             </div>
           </BrowserRouter>
-        </ShipmentProvider>
+        </GuestShipmentProvider>
       </NotificationProvider>
     </AuthProvider>
-  )
+  );
 };
 
 export default App;

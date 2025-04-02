@@ -1,5 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { auth, updatePassword as apiUpdatePassword, updateProfile as apiUpdateProfile, updateProfileImage as apiUpdateProfileImage } from "../services/api";
+import {
+  auth,
+  updatePassword as apiUpdatePassword,
+  updateProfile as apiUpdateProfile,
+  updateProfileImage as apiUpdateProfileImage,
+} from "../services/api";
 import LoadingScreen from "../components/LoadingScreen";
 import { handleApiError } from "../utils/errorHandler";
 
@@ -27,7 +32,10 @@ export const AuthProvider = ({ children }) => {
       const response = await apiCall();
       return response;
     } catch (err) {
-      const errorMessage = handleApiError(err, { context: { action }, defaultMessage });
+      const errorMessage = handleApiError(err, {
+        context: { action },
+        defaultMessage,
+      });
       setError(errorMessage);
       throw err;
     }
@@ -80,7 +88,10 @@ export const AuthProvider = ({ children }) => {
       await auth.logout();
       logoutUser(); // 🔥 Use logoutUser() for consistency
     } catch (err) {
-      handleApiError(err, { context: { action: "logout" }, defaultMessage: "Logout failed" });
+      handleApiError(err, {
+        context: { action: "logout" },
+        defaultMessage: "Logout failed",
+      });
       logoutUser();
     }
   };
@@ -112,11 +123,19 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await apiUpdateProfileImage(file);
       if (response.success) {
-        setUser((prevUser) => {
-          const updatedUser = { ...prevUser, profileImage: response.data.profileImageUrl };
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-          return updatedUser;
-        });
+        // Create updated user object
+        const updatedUser = {
+          ...user,
+          profileImage: response.data.profileImageUrl,
+        };
+
+        // Update localStorage
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        // Update state
+        setUser(updatedUser);
+
+        return response;
       }
       return response;
     } catch (error) {
@@ -127,7 +146,12 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async ({ phone, address, country, profileImage }) => {
     try {
-      const response = await apiUpdateProfile({ phone, address, country, profileImage });
+      const response = await apiUpdateProfile({
+        phone,
+        address,
+        country,
+        profileImage,
+      });
       if (response.success) {
         setUser((prevUser) => {
           const updatedUser = {
@@ -135,7 +159,8 @@ export const AuthProvider = ({ children }) => {
             phone: response.data.phone,
             address: response.data.address,
             country: response.data.country,
-            profileImage: response.data.profileImageUrl || prevUser.profileImage,
+            profileImage:
+              response.data.profileImageUrl || prevUser.profileImage,
           };
           localStorage.setItem("user", JSON.stringify(updatedUser));
           return updatedUser;
@@ -149,16 +174,32 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = (userData) =>
-    handleAuthRequest(() => auth.register(userData), "register", "Registration failed");
+    handleAuthRequest(
+      () => auth.register(userData),
+      "register",
+      "Registration failed"
+    );
 
   const forgotPassword = (email) =>
-    handleAuthRequest(() => auth.forgotPassword(email), "forgot_password", "Password reset request failed");
+    handleAuthRequest(
+      () => auth.forgotPassword(email),
+      "forgot_password",
+      "Password reset request failed"
+    );
 
   const resetPassword = (token, password) =>
-    handleAuthRequest(() => auth.resetPassword(token, password), "reset_password", "Password reset failed");
+    handleAuthRequest(
+      () => auth.resetPassword(token, password),
+      "reset_password",
+      "Password reset failed"
+    );
 
   const verifyEmail = (token) =>
-    handleAuthRequest(() => auth.verifyEmail(token), "verify_email", "Email verification failed");
+    handleAuthRequest(
+      () => auth.verifyEmail(token),
+      "verify_email",
+      "Email verification failed"
+    );
 
   const value = {
     user,

@@ -1,37 +1,43 @@
 import { useState, useEffect, useRef } from "react";
-import { HiLogout, HiOutlineSearch } from "react-icons/hi";
+import { HiLogout } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { FiMail } from "react-icons/fi";
 import { PiBell } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
-import { help, logo, logout, settings } from "../../assets";
+import { logo, logout, settings } from "../assets";
 import { IoIosMenu } from "react-icons/io";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { BsX } from "react-icons/bs";
-import { sideLinks } from "../../constants";
+import { adminSideLinks, sideLinks } from "../constants";
 import { useNavigate, useLocation } from "react-router-dom";
-import LogoutComponent from "../../components/Logout";
+import { GoPerson } from "react-icons/go";
+import LogoutComponent from "../components/Logout";
 
 const Navbar = () => {
   const { user } = useAuth(); // Get user data from AuthContext
   const [toggle, setToggle] = useState(false);
   const [notificationMenu, setNotificationMenu] = useState(false);
   const menuRef = useRef(null);
+  const [userData, setUserData] = useState(null);
   const searchRef = useRef(null);
   const notificationRef = useRef(null);
+  const profileDropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState("Home");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  const handleSearchClick = () => {
-    setIsSearchOpen(!isSearchOpen);
-  };
-  
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const currentPath = location.pathname;
+    if (user) {
+      setUserData(user);
+    } else {
+      setUserData(null);
+    }
+  }, [user]);
+
+  const currentPath = location.pathname;
+  useEffect(() => {
     if (currentPath === "/user" || currentPath === "/user/") {
       setActive("Home");
     } else if (currentPath.startsWith("/user/")) {
@@ -80,6 +86,12 @@ const Navbar = () => {
       ) {
         setNotificationMenu(false);
       }
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
+        setIsProfileDropdownOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -102,27 +114,17 @@ const Navbar = () => {
     };
   }, []);
 
+  const links = currentPath.startsWith("/admin/") ? adminSideLinks : sideLinks;
+
   return (
     <section className="w-full flex items-center border-b border-b-main7">
       <div
         className="w-full flex items-center md:py-4 py-5 md:px-7 
       ss:px-10 px-5 justify-between"
       >
-        <div
-          className="bg-mainalt w-[50%] rounded-full p-3 gap-3 
-        items-center hidden md:flex"
-        >
-          <HiOutlineSearch className="w-[1.3rem] h-auto text-main2 cursor-pointer" />
+        <div className="hidden md:block"></div>
 
-          <input
-            type="text"
-            placeholder="Search for anything"
-            className="text-main4 focus:outline-none text-[15px] w-full
-            placeholder:text-[14px] placeholder:text-main4 font-semibold 
-            tracking-tight bg-transparent"
-          />
-        </div>
-
+        {/* sidebar  */}
         <div className="md:hidden flex">
           <div>
             {!toggle && (
@@ -148,14 +150,19 @@ const Navbar = () => {
           <div
             ref={menuRef}
             className={`ss:px-10 ss:py-5 p-5 absolute top-0 left-0 z-20 flex
-          flex-col ss:w-[50%] w-full bg-white shadow-lg overflow-y-auto h-auto
-          ${
-            toggle
-              ? "menu-slide-enter2 menu-slide-enter-active2"
-              : "menu-slide-exit2 menu-slide-exit-active2"
-          }`}
+            flex-col justify-between my-auto  ss:w-[50%] w-[80%] bg-white shadow-lg overflow-y-auto h-screen
+            ${
+              toggle
+                ? "menu-slide-enter2 menu-slide-enter-active2"
+                : "menu-slide-exit2 menu-slide-exit-active2"
+            }`}
           >
-            <div className="w-full flex items-center justify-between">
+            <div
+              className="w-full flex items-center justify-between"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
               <img
                 src={logo}
                 alt="logo"
@@ -175,7 +182,7 @@ const Navbar = () => {
             </div>
 
             <ul className="list-none flex flex-col gap-2 mt-12 w-full">
-              {sideLinks.map((link) => (
+              {links.map((link) => (
                 <li
                   key={link.id}
                   className={`${
@@ -200,38 +207,39 @@ const Navbar = () => {
                   </div>
                 </li>
               ))}
-              <LogoutComponent
-                component="li"
-                className={`text-[19px] list-item            hover:text-secondary cursor-pointer grow3 text-textalt mt-20`}
-              >
-                <div className="flex gap-6 px-5 items-center">
-                  <HiLogout className="transform scale-x-[-1]" />
-                  Logout
-                </div>
-              </LogoutComponent>
             </ul>
 
             <ul
-              className="list-none flex flex-col gap-2 mt-8 w-full 
-            border-t border-t-main7 pt-8"
+              className="list-none flex flex-col gap-2 mt-auto w-full 
+                border-t border-t-main7 pt-8"
             >
-              <li
-                className="text-main2 font-semibold ss:text-[16px] 
-              text-[15px] tracking-tight"
-              >
-                <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
-                  <img
-                    src={help}
-                    alt="helpcentre"
-                    className="ss:w-[1.5rem] w-[1.4rem] h-auto"
-                  />
-                  Help Centre
-                </div>
-              </li>
+              {/* <li
+                  className="text-main2 font-semibold ss:text-[16px] 
+                  text-[15px] tracking-tight"
+                >
+                  <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
+                    <img
+                      src={help}
+                      alt="helpcentre"
+                      className="ss:w-[1.5rem] w-[1.4rem] h-auto"
+                    />
+                    Help Centre
+                  </div>
+                </li> */}
 
               <li
-                className="text-main2 font-semibold ss:text-[16px] 
-              text-[15px] tracking-tight"
+                onClick={() => {
+                  navigate(
+                    `${
+                      userData?.role === "admin"
+                        ? "/admin/settings"
+                        : "/user/settings"
+                    }`
+                  );
+                  setToggle(!toggle);
+                }}
+                className="text-main2 font-semibold cursor-pointer ss:text-[16px] 
+                  text-[15px] tracking-tight"
               >
                 <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
                   <img
@@ -244,31 +252,20 @@ const Navbar = () => {
               </li>
 
               <LogoutComponent
-                component="li"
-                className="text-logRed font-semibold ss:text-[16px] text-[15px] tracking-tight"
+                component="div"
+                className="text-logRed font-semibold text-sm cursor-pointer tracking-tight hover:bg-gray-100"
               >
                 <div className="flex p-3 ss:gap-4 gap-3 items-center">
-                  <img
-                    src={logout}
-                    alt="logout"
-                    className="ss:w-[1.5rem] w-[1.4rem] h-auto"
-                  />
+                  <img src={logout} alt="logout" className="w-6 h-6" />
                   Logout
                 </div>
               </LogoutComponent>
             </ul>
 
             <div
-              className="flex flex-col gap-1.5 mt-12 w-full 
-            border-t border-t-main7 pt-3 pb-3"
+              className="flex flex-col gap-1.5 mt-5 w-full 
+                border-t border-t-main7 pt-3 pb-3"
             >
-              <p
-                className="text-main4 ss:text-[13px] text-[12px] tracking-tight
-              font-medium"
-              >
-                v. 1.0.1
-              </p>
-
               <p
                 className="ss:text-[13px] text-[12px] text-main4 mt-0.5 
               font-medium tracking-tight"
@@ -280,50 +277,11 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="flex items-center md:gap-7 ss:gap-7 gap-4">
+        {/* mobile top */}
+        <div className="flex items-center md:gap-x-7 ss:gap-x-7 gap-x-4">
+          {/* notification */}
           <div
-            ref={searchRef}
-            className="bg-mainalt rounded-full ss:p-3 p-2.5 relative md:hidden flex navsmooth"
-          >
-            {isSearchOpen ? (
-              <div className="flex items-center justify-between w-full">
-                <input
-                  type="text"
-                  placeholder="Search for anything"
-                  className="text-main4 focus:outline-none ss:text-[15px] text-[13px] ss:w-[14rem] w-[14rem]
-                  ss:placeholder:text-[14px] placeholder:text-[13px] placeholder:text-main4 font-medium 
-                  tracking-tight bg-transparent"
-                />
-
-                <HiOutlineSearch className="text-[19px] h-auto text-main2" />
-              </div>
-            ) : (
-              <HiOutlineSearch
-                className="text-main2 text-[19px]"
-                onClick={handleSearchClick}
-              />
-            )}
-          </div>
-
-          <a
-            href=""
-            className={`bg-mainalt rounded-full md:p-3 ss:p-3 p-2.5 relative grow2 ${
-              isSearchOpen ? "md:flex hidden" : "flex"
-            }`}
-          >
-            <FiMail className="text-main2 text-[19px]" />
-
-            <span
-              className="absolute top-0 right-0 bg-logRed 
-              rounded-full md:w-[12px] ss:w-[12px] w-[10px] md:h-[12px]
-              ss:h-[12px] h-[10px]"
-            />
-          </a>
-
-          <div
-            className={`rounded-full relative ${
-              isSearchOpen ? "md:flex hidden" : "flex"
-            }`}
+            className={`rounded-full relative flex`}
             onClick={(e) => {
               e.preventDefault();
               setNotificationMenu(!notificationMenu);
@@ -410,30 +368,74 @@ const Navbar = () => {
             )}
           </div>
 
-          <a href="/user/settings">
-      <div
-        className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${
-          isSearchOpen ? "md:flex hidden" : "flex"
-        }`}
-      >
-        <div className="rounded-full overflow-hidden">
-        <img
-  src={user?.profileImage || "/default-avatar.png"} // Fallback in case of missing image
-  alt="User Profile"
-  className="w-[40px] h-[40px] rounded-full object-cover"
-/>
-        </div>
+          {/* settings profile image */}
+          <div className="relative">
+            <div
+              className={`flex items-center md:gap-4 ss:gap-4 gap-2 cursor-pointer ${
+                isSearchOpen ? "md:flex hidden" : "flex"
+              }`}
+              onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+            >
+              {user?.profileImage !== "default.jpg" ? (
+                <div className="rounded-full overflow-hidden">
+                  <img
+                    src={user.profileImage}
+                    alt="User Profile"
+                    className="w-[40px] h-[40px] rounded-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-[40px] h-[40px] rounded-full bg-gray-200 flex items-center justify-center">
+                  <GoPerson className="w-5 h-5 text-gray-500" />
+                </div>
+              )}
 
-        <p
-          className="text-[16px] tracking-tight text-main2 font-semibold hidden md:flex ss:flex"
-        >
-          {user?.name || "Guest"}
-        </p>
+              <p className="text-[16px] tracking-tight text-main2 font-semibold hidden md:flex ss:flex capitalize">
+                {`${userData?.firstName} ${userData?.lastName}` || "Guest"}
+              </p>
 
-        <MdKeyboardArrowDown className="text-main2 md:text-[20px] text-[22px]" />
-      </div>
-    </a>
+              <MdKeyboardArrowDown
+                className={`text-main2 md:text-[20px] text-[22px] transition-transform duration-300 ${
+                  isProfileDropdownOpen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
 
+            {/* Profile Dropdown Menu */}
+            {isProfileDropdownOpen && (
+              <div
+                ref={profileDropdownRef}
+                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+              >
+                <a
+                  href={`${userData?.role === "admin" ? "/admin" : "/user"}`}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary font-medium"
+                >
+                  Account
+                </a>
+                <a
+                  href={`${
+                    currentPath.startsWith("/admin") ||
+                    currentPath.startsWith("/admin/")
+                      ? "/admin/settings"
+                      : "/user/settings"
+                  }`}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary font-medium"
+                >
+                  Settings
+                </a>
+                <LogoutComponent
+                  component="div"
+                  className="text-logRed font-semibold text-sm cursor-pointer tracking-tight hover:bg-gray-100"
+                >
+                  <div className="flex p-3 ss:gap-4 gap-3 items-center">
+                    <img src={logout} alt="logout" className="w-6 h-6" />
+                    Logout
+                  </div>
+                </LogoutComponent>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

@@ -70,9 +70,141 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
   const formRef = useRef();
   const currentTab = selectedTab;
   const [selectedOption, setSelectedOption] = useState({});
-  const { updatePackageDetails, loading, error, shipmentData } =
-    useGuestShipment();
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [calculatedCost, setCalculatedCost] = useState(null);
+  const [meetsMinimumPayment, setMeetsMinimumPayment] = useState(false);
+  const {
+    updatePackageDetails,
+    loading,
+    error,
+    calculateShippingCost,
+    shipmentData,
+  } = useGuestShipment();
   const { addNotification } = useNotifications();
+
+  const handleCalculateCost = async () => {
+    try {
+      // Validate form before calculation
+      const isValid = await formik.validateForm();
+      if (Object.keys(isValid).length > 0) {
+        formik.setTouched(
+          Object.keys(isValid).reduce((acc, key) => {
+            acc[key] = true;
+            return acc;
+          }, {})
+        );
+        addNotification({
+          type: "error",
+          title: "Validation Error",
+          message: "Please correct the errors before calculating cost.",
+        });
+        return;
+      }
+
+      // Validate international shipments are between different countries
+      if (currentTab === "international") {
+        if (
+          !shipmentData?.origin?.country ||
+          !shipmentData?.destination?.country
+        ) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "Origin and destination countries must be specified for international shipments.",
+          });
+          return;
+        }
+
+        if (shipmentData.origin.country === shipmentData.destination.country) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "International shipments must be between different countries. For shipments within the same country, please use the local shipping option.",
+          });
+          return;
+        }
+      }
+
+      // For local shipments, ensure the countries are the same
+      if (currentTab === "local") {
+        if (
+          !shipmentData?.origin?.country ||
+          !shipmentData?.destination?.country
+        ) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "Origin and destination countries must be specified for local shipments.",
+          });
+          return;
+        }
+
+        if (shipmentData.origin.country !== shipmentData.destination.country) {
+          addNotification({
+            type: "error",
+            title: "Validation Error",
+            message:
+              "Local shipments must be within the same country. For shipments between different countries, please use the international shipping option.",
+          });
+          return;
+        }
+      }
+
+      setIsCalculating(true);
+      setCalculatedCost(null);
+
+      // Prepare data for calculation
+      const calculationData = {
+        type: currentTab,
+        packages: formik.values.packages.map((packageItem) => {
+          return {
+            packageType: packageItem.packageType,
+            weight: packageItem.weight,
+            dimensions: {
+              length: packageItem.length,
+              width: packageItem.width,
+              height: packageItem.height,
+            },
+            isFragile: packageItem.isFragile,
+            isPerishable: packageItem.isPerishable,
+            isHazardous: packageItem.isHazardous,
+          };
+        }),
+        insurance: {
+          type: "none",
+        },
+      };
+
+      // Call the calculate cost endpoint
+      const response = await calculateShippingCost(calculationData);
+
+      // Set the calculated cost
+      setCalculatedCost(response.cost.total);
+
+      // Check if it meets minimum payment threshold (0.50 USD in Naira)
+      // Assuming exchange rate is defined elsewhere or fetched from an API
+      const minimumNairaAmount = 0.5 * getExchangeRate(); // Implement getExchangeRate() or use a fixed value
+      setMeetsMinimumPayment(response.cost.total >= minimumNairaAmount);
+    } catch (error) {
+      addNotification({
+        type: "error",
+        title: "Calculation Error",
+        message: error.message || "Failed to calculate shipping cost.",
+      });
+      setMeetsMinimumPayment(false);
+    } finally {
+      setIsCalculating(false);
+    }
+  };
+
+  // Helper function to get current exchange rate - implement as needed
+  const getExchangeRate = () => {
+    // For now using a fixed value - you can replace with API call or config value
+    return currentTab == "local" ? 1500 : 1; // Example rate: 1 USD = 1500 Naira
+  };
 
   const handleSelectOption = (pkgIndex, optionIndex) => {
     setSelectedOption((prevSelected) => {
@@ -82,10 +214,10 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       if (updatedSelected[pkgIndex] === optionIndex) {
         delete updatedSelected[pkgIndex];
         formik.setFieldValue(`packages[${pkgIndex}]`, {
-          packageWeight: "",
-          packageLength: "",
-          packageWidth: "",
-          packageHeight: "",
+          weight: "",
+          length: "",
+          width: "",
+          height: "",
           isFragile: false,
           isPerishable: false,
           isHazardous: false,
@@ -95,10 +227,10 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
         // Select the new option for this package
         const selectedPackage = packageOptions[optionIndex];
         formik.setFieldValue(`packages[${pkgIndex}]`, {
-          packageWeight: selectedPackage.weight,
-          packageLength: selectedPackage.length,
-          packageWidth: selectedPackage.width,
-          packageHeight: selectedPackage.height,
+          weight: selectedPackage.weight,
+          length: selectedPackage.length,
+          width: selectedPackage.width,
+          height: selectedPackage.height,
           isFragile: false,
           isPerishable: false,
           isHazardous: false,
@@ -114,10 +246,10 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       packages: [
         {
           packageType: "",
-          packageWeight: "",
-          packageLength: "",
-          packageWidth: "",
-          packageHeight: "",
+          weight: "",
+          length: "",
+          width: "",
+          height: "",
           isFragile: false,
           isPerishable: false,
           isHazardous: false,
@@ -130,16 +262,16 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
         packages: Yup.array().of(
           Yup.object().shape({
             packageType: Yup.string().required("Package type is required"),
-            packageWeight: Yup.number()
+            weight: Yup.number()
               .typeError("Package weight must be a number")
               .required("Package weight is required"),
-            packageLength: Yup.number()
+            length: Yup.number()
               .typeError("Package length must be a number")
               .required("Package length is required"),
-            packageWidth: Yup.number()
+            width: Yup.number()
               .typeError("Package width must be a number")
               .required("Package width is required"),
-            packageHeight: Yup.number()
+            height: Yup.number()
               .typeError("Package height must be a number")
               .required("Package height is required"),
           })
@@ -154,8 +286,24 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
             "No shipment ID found. Please try again from step 1."
           );
         }
-        await updatePackageDetails(values.packages);
-        onNext(currentTab);
+        const data = {
+          packages: values.packages.map((packageItem) => {
+            return {
+              packageType: packageItem.packageType,
+              weight: packageItem.weight,
+              dimensions: {
+                length: packageItem.length,
+                width: packageItem.width,
+                height: packageItem.height,
+              },
+              isFragile: packageItem.isFragile,
+              isPerishable: packageItem.isPerishable,
+              isHazardous: packageItem.isHazardous,
+            };
+          }),
+        };
+        await updatePackageDetails(data);
+        onNext(currentTab, calculatedCost);
       } catch (err) {
         addNotification({
           type: "error",
@@ -171,10 +319,10 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       ...formik.values.packages,
       {
         packageType: "",
-        packageWeight: "",
-        packageLength: "",
-        packageWidth: "",
-        packageHeight: "",
+        weight: "",
+        length: "",
+        width: "",
+        height: "",
         isFragile: false,
         isPerishable: false,
         isHazardous: false,
@@ -516,9 +664,9 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                     <div className="relative z-10">
                       <input
                         type="text"
-                        name={`packages[${index}].packageWeight`}
+                        name={`packages[${index}].weight`}
                         placeholder=" "
-                        value={pkg.packageWeight}
+                        value={pkg.weight}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
@@ -532,16 +680,16 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                               formik.touched.packages[index] &&
                                               formik.errors.packages[index] &&
                                               formik.touched.packages[index]
-                                                .packageWeight &&
+                                                .weight &&
                                               formik.errors.packages[index]
-                                                .packageWeight
+                                                .weight
                                                 ? "outline-mainRed"
                                                 : "outline-main6"
                                             }`}
                       />
 
                       <label
-                        htmlFor="packageWeight"
+                        htmlFor="weight"
                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                         md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -549,7 +697,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                         peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                        ${pkg.packageWeight ? "z-10 px-2" : ""}
+                                        ${pkg.weight ? "z-10 px-2" : ""}
                                         `}
                       >
                         Weight of package (kg)
@@ -564,8 +712,8 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                         formik.errors.packages &&
                         formik.touched.packages[index] &&
                         formik.errors.packages[index] &&
-                        formik.touched.packages[index].packageWeight &&
-                        formik.errors.packages[index].packageWeight}
+                        formik.touched.packages[index].weight &&
+                        formik.errors.packages[index].weight}
                     </p>
                   </div>
 
@@ -573,9 +721,9 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                     <div className="relative z-10">
                       <input
                         type="text"
-                        name={`packages[${index}].packageLength`}
+                        name={`packages[${index}].length`}
                         placeholder=" "
-                        value={pkg.packageLength}
+                        value={pkg.length}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
@@ -589,16 +737,16 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                               formik.touched.packages[index] &&
                                               formik.errors.packages[index] &&
                                               formik.touched.packages[index]
-                                                .packageLength &&
+                                                .length &&
                                               formik.errors.packages[index]
-                                                .packageLength
+                                                .length
                                                 ? "outline-mainRed"
                                                 : "outline-main6"
                                             }`}
                       />
 
                       <label
-                        htmlFor="packageLength"
+                        htmlFor="length"
                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                         md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -606,7 +754,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                         peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                        ${pkg.packageLength ? "z-10 px-2" : ""}
+                                        ${pkg.length ? "z-10 px-2" : ""}
                                         `}
                       >
                         Package Length (cm)
@@ -621,8 +769,8 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                         formik.errors.packages &&
                         formik.touched.packages[index] &&
                         formik.errors.packages[index] &&
-                        formik.touched.packages[index].packageLength &&
-                        formik.errors.packages[index].packageLength}
+                        formik.touched.packages[index].length &&
+                        formik.errors.packages[index].length}
                     </p>
                   </div>
 
@@ -630,9 +778,9 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                     <div className="relative z-10">
                       <input
                         type="text"
-                        name={`packages[${index}].packageWidth`}
+                        name={`packages[${index}].width`}
                         placeholder=" "
-                        value={pkg.packageWidth}
+                        value={pkg.width}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
@@ -646,16 +794,16 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                               formik.touched.packages[index] &&
                                               formik.errors.packages[index] &&
                                               formik.touched.packages[index]
-                                                .packageWidth &&
+                                                .width &&
                                               formik.errors.packages[index]
-                                                .packageWidth
+                                                .width
                                                 ? "outline-mainRed"
                                                 : "outline-main6"
                                             }`}
                       />
 
                       <label
-                        htmlFor="packageWidth"
+                        htmlFor="width"
                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                         md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -663,7 +811,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                         peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                        ${pkg.packageWidth ? "z-10 px-2" : ""}
+                                        ${pkg.width ? "z-10 px-2" : ""}
                                         `}
                       >
                         Package Width (cm)
@@ -678,8 +826,8 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                         formik.errors.packages &&
                         formik.touched.packages[index] &&
                         formik.errors.packages[index] &&
-                        formik.touched.packages[index].packageWidth &&
-                        formik.errors.packages[index].packageWidth}
+                        formik.touched.packages[index].width &&
+                        formik.errors.packages[index].width}
                     </p>
                   </div>
 
@@ -687,9 +835,9 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                     <div className="relative z-10">
                       <input
                         type="text"
-                        name={`packages[${index}].packageHeight`}
+                        name={`packages[${index}].height`}
                         placeholder=" "
-                        value={pkg.packageHeight}
+                        value={pkg.height}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         className={`md:py-3.5 py-3 md:px-3.5 px-3 
@@ -703,16 +851,16 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                               formik.touched.packages[index] &&
                                               formik.errors.packages[index] &&
                                               formik.touched.packages[index]
-                                                .packageHeight &&
+                                                .height &&
                                               formik.errors.packages[index]
-                                                .packageHeight
+                                                .height
                                                 ? "outline-mainRed"
                                                 : "outline-main6"
                                             }`}
                       />
 
                       <label
-                        htmlFor="packageHeight"
+                        htmlFor="height"
                         className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                         md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                         md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
@@ -720,7 +868,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                                         peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                         ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                         peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                        ${pkg.packageHeight ? "z-10 px-2" : ""}
+                                        ${pkg.height ? "z-10 px-2" : ""}
                                         `}
                       >
                         Package Height (cm)
@@ -735,8 +883,8 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                         formik.errors.packages &&
                         formik.touched.packages[index] &&
                         formik.errors.packages[index] &&
-                        formik.touched.packages[index].packageHeight &&
-                        formik.errors.packages[index].packageHeight}
+                        formik.touched.packages[index].height &&
+                        formik.errors.packages[index].height}
                     </p>
                   </div>
                 </div>
@@ -848,8 +996,8 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
 
             <div
               className="mt-2 flex w-full items-center 
-                    justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
-                    ss:flex-row flex-col"
+                    justify-center md:gap-5 ss:gap-5 gap-3 
+                    flex-col"
             >
               <button
                 className="bg-none text-[13px] py-3.5 px-14
@@ -861,7 +1009,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                 <p className="font-semibold">Go back</p>
               </button>
 
-              <button
+              {/* <button
                 type="submit"
                 className="bg-primary text-[13px] py-3.5 px-14 flex
                         text-white rounded-full grow4 cursor-pointer
@@ -871,7 +1019,64 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                 <p>{loading ? "Processing..." : "Next"}</p>
 
                 {!loading && <HiOutlineArrowRight className="text-[14px]" />}
-              </button>
+              </button> */}
+
+              {/* Add this section for cost calculation before your submit button */}
+              <div className="w-full flex flex-col gap-4 items-center mt-6">
+                <button
+                  type="button"
+                  onClick={handleCalculateCost}
+                  disabled={isCalculating}
+                  className="bg-primary text-[13px] py-3.5 px-8
+                    text-white rounded-full grow4 cursor-pointer
+                    flex items-center justify-center"
+                >
+                  {isCalculating ? "Calculating..." : "Calculate Shipping Cost"}
+                </button>
+
+                {calculatedCost !== null && (
+                  <div className="w-full md:w-[70%] flex flex-col items-center bg-primary1 p-5 rounded-xl">
+                    <h3 className="font-bold text-[18px] text-main2 mb-2">
+                      Estimated Shipping Cost
+                    </h3>
+                    <p className="text-primary md:text-[25px] ss:text-[25px] text-[22px] font-bold">
+                      {currentTab === "international" ? "€" : "₦"}{" "}
+                      {calculatedCost.toLocaleString()}.00
+                    </p>
+
+                    {!meetsMinimumPayment && (
+                      <p className="text-mainRed mt-2 text-center md:text-[14px] ss:text-[14px] text-[13px]">
+                        This amount is below the minimum payment threshold.
+                        Please add more items or adjust your package.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Conditionally render the submit button */}
+              <div className="w-full flex justify-center mt-6">
+                {!calculatedCost || !meetsMinimumPayment ? (
+                  <p className="text-main4 text-center md:text-[14px] ss:text-[14px] text-[13px]">
+                    Please calculate shipping cost before proceeding
+                  </p>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-primary text-[13px] py-3.5 px-14
+                    text-white rounded-full grow4 cursor-pointer
+                    flex items-center justify-center gap-3"
+                    onClick={formik.handleSubmit}
+                  >
+                    <p>{loading ? "Processing..." : "Continue"}</p>
+
+                    {!loading && (
+                      <HiOutlineArrowRight className="text-[14px]" />
+                    )}
+                  </button>
+                )}
+              </div>
 
               <button
                 className="bg-none text-[13px] py-3.5 px-14

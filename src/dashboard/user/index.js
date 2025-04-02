@@ -2,8 +2,8 @@ import RegisterStart from './RegisterStart';
 import RegisterConfirm from './RegisterConfirm';
 import RegisterFinish from './RegisterFinish';
 
-import Sidebar from './Sidebar';
-import Navbar from './Navbar';
+import Sidebar from '../Sidebar';
+import Navbar from '../Navbar';
 import Home from './Home';
 import Shipments from './Shipments';
 import Payments from './Payments';

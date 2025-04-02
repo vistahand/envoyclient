@@ -248,7 +248,6 @@ const Hero = () => {
                                     value={trackingNumber}
                                     onChange={(e) => setTrackingNumber(e.target.value)}
                                     onBlur={(e) => {
-                                        // Don't collapse if clicking the track button
                                         if (!e.relatedTarget?.closest('.track-button')) {
                                             setIsExpanded(false);
                                         }
@@ -259,29 +258,31 @@ const Hero = () => {
                                     Track Shipment
                                 </p>
                             )}
-                            <a href='/trackshipment'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                if (trackingNumber.trim()) {
-                                    setTrackingNumber(''); // Clear tracking number after clicking track
-                                    window.location.href = '/trackshipment';
-                                }
-                            }}
-                            className={`track-button ${isExpanded 
-                                ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
-                                : ''}`}
+                            <div
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (trackingNumber.trim()) {
+                                        window.location.href = `/trackshipment?tracking=${trackingNumber.trim()}`;
+                                        setTrackingNumber(''); // Clear tracking number after clicking track
+                                    } else {
+                                        window.location.href = '/trackshipment';
+                                    }
+                                }}
+                                className={`track-button ${isExpanded 
+                                    ? 'bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5'
+                                    : ''}`}
                             >
                                 <img src={websearch} alt='trackshipment'
-                                className='wht w-5 h-5'
+                                    className='wht w-5 h-5'
                                 />
 
-                                {isExpanded && 
+                                {isExpanded &&
                                     <p className='text-white text-[12.5px]'>
                                         Track
                                     </p>
                                 }
-                            </a>
+                            </div>
                         </motion.div>
                     </div>  
                 </motion.div> 
