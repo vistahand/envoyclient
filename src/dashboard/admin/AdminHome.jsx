@@ -3,6 +3,7 @@ import LocalIcon from "../../assets/loc-ship.svg";
 import InternationalIcon from "../../assets/int-ship.svg";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { analytics, paymentact } from "../../assets";
+import WeeklyInsightsChart from "../../components/WeeklyInsightsChart";
 
 const AdminHome = () => {
   const [countries, setCountries] = useState([]);
@@ -305,12 +306,7 @@ const AdminHome = () => {
           </div>
 
           <div className="w-full mt-3">
-            <h4
-              className="tracking-tight text-main4 md:text-[16px] 
-            ss:text-[16px] text-[15px] font-semibold"
-            >
-              Weekly Insights
-            </h4>
+          <WeeklyInsightsChart />
           </div>
         </div>
 

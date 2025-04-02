@@ -78,7 +78,7 @@ const App = () => {
                   path="/createshipment-payment/failure"
                   element={<PaymentFailedPage />}
                 />
-
+               
                 <Route path="trackshipment" element={<TrackShipment />} />
 
                 <Route
@@ -133,26 +133,21 @@ const App = () => {
                   />
                 </Route>
 
-                {/* <Route path='/admin' element={<ProtectedRoute requireAdmin><AdminDashHome /></ProtectedRoute>}> */}
+                {/* <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashHome /></ProtectedRoute>}> */}
                 <Route path="/admin" element={<AdminDashHome />}>
+
                   <Route index element={<AdminHome />} />
+
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
+                  <Route path="shipmentmanagement/details/:shipmentId" element={<ShipmentDetailMgt />} />
                   <Route path="payments" element={<PaymentsAdmin />} />
                   <Route path="pickuplocations" element={<PickupLoc />} />
+                  <Route path="pickuplocations/create" element={<CreatePickupLocation />} />
                   <Route path="quotemanagement" element={<QuoteMgt />} />
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />
-                  <Route
-                    path="settings"
-                    element={
-                      <ProtectedRoute>
-                        <SettingsPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  {/* <Route path='trackshipment' element={<TrackShipment />} />
-                  <Route path='shipments/details' element={<ShipmentDetails />} />
-                  <Route path='payments/details' element={<PaymentDetails />} /> */}
+                  <Route path="settings" element={<SettingsPage />} />
+
                 </Route>
               </Routes>
 
