@@ -34,6 +34,8 @@ import {
   QuoteMgt,
   Analytics,
   Users,
+  ShipmentDetailMgt,
+  CreatePickupLocation
 } from "./dashboard/admin";
 import ScrollToTopButton from "./constants/ScrollToTop";
 import { GetStarted } from "./pages";

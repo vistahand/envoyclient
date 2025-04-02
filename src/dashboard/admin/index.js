@@ -7,6 +7,8 @@ import QuoteMgt from "./QuoteMgt";
 import Analytics from "./Analytics";
 import Users from "./Users";
 import PickupLoc from "./PickupLoc";
+import ShipmentDetailMgt from "./ShipmentDetailMgt";
+import CreatePickupLocation from "./CreatePickupLocation";
 
 export {
   Sidebar,
@@ -15,6 +17,8 @@ export {
   ShipmentMgt,
   PaymentsAdmin,
   PickupLoc,
+  ShipmentDetailMgt,
+  CreatePickupLocation,
   QuoteMgt,
   Analytics,
   Users,
