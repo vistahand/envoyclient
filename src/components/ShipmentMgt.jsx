@@ -11,7 +11,7 @@ const TabButton = ({ active, children, onClick }) => (
   </button>
 );
 
-const ShipmentMgt = () => {
+const ShipmentTrackMgt = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('active');
   
@@ -237,4 +237,4 @@ const ShipmentMgt = () => {
   );
 };
 
-export default ShipmentMgt;
+export default ShipmentTrackMgt;
