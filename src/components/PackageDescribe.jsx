@@ -303,7 +303,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
           }),
         };
         await updatePackageDetails(data);
-        onNext(currentTab);
+        onNext(currentTab, calculatedCost);
       } catch (err) {
         addNotification({
           type: "error",

@@ -1,26 +1,105 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { delOptions } from "../constants";
 import { SectionWrapper } from "../hoc";
 import { wing } from "../assets";
 import { useGuestShipment } from "../context/GuestShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 
-const DeliveryCard = ({ option, onNext, index, totalOptions }) => {
+// Utility functions for delivery cost calculations
+const calculateDeliveryCost = (baseAmount, percentageMarkup) => {
+  if (!baseAmount) return 0;
+  const markupAmount = (baseAmount * percentageMarkup) / 100;
+  return baseAmount + markupAmount;
+};
+
+const formatCurrency = (amount, shipmentType) => {
+  if (!amount) return "0.00";
+
+  const formattedAmount = parseFloat(amount).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  if (shipmentType === "international") {
+    return `€${formattedAmount}`;
+  } else {
+    // For local (Naira)
+    return (
+      <>
+        <span className="line-through">N</span> {formattedAmount}
+      </>
+    );
+  }
+};
+
+// This will be replaced with API call in the future
+const getDeliveryOptions = () => [
+  {
+    id: 1,
+    name: "QuickWing",
+    description: "Enjoy fast, priority shipping",
+    estimatedDeliveryTime: "2PM at the earliest",
+    percentageMarkup: 20, // 20% markup on base cost
+    isExpress: true,
+    daysToAdd: 1, // Deliver 1 day from shipment date
+  },
+  {
+    id: 2,
+    name: "Standard",
+    description: "Regular shipping option",
+    estimatedDeliveryTime: "Within 3 days",
+    percentageMarkup: 0, // No markup for standard
+    isExpress: false,
+    daysToAdd: 3, // Deliver 3 days from shipment date
+  },
+];
+
+const DeliveryCard = ({
+  option,
+  onNext,
+  index,
+  totalOptions,
+  baseAmount,
+  shipmentType,
+  date,
+  isSelected,
+}) => {
+  // Calculate estimated delivery date
+  const estimatedDate = new Date(date);
+  estimatedDate.setDate(estimatedDate.getDate() + option.daysToAdd);
+
+  const formattedDate = estimatedDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+
+  // Calculate total cost with markup
+  const totalCost = calculateDeliveryCost(baseAmount, option.percentageMarkup);
+
+  // Standard is usually the last option
+  const isStandard = index === totalOptions - 1;
+
   return (
     <div className="w-full flex md:flex-row ss:flex-row flex-col">
       <div
         className={`${
-          index === totalOptions - 1
+          isStandard
             ? "w-full md:rounded-2xl ss:rounded-2xl rounded-xl bg-mainalt border border-main5 text-main2"
             : "md:w-[85%] ss:w-[85%] w-full md:rounded-l-2xl ss:rounded-l-2xl mobdel bg-primary text-white"
         }
           flex md:flex-row ss:flex-row flex-col justify-between md:px-7 px-7 md:py-10 py-8 md:items-center ss:items-center
-          md:gap-0 ss:gap-0 gap-4 cursor-pointer hover:opacity-95 transition-opacity`}
-        onClick={onNext}
+          md:gap-0 ss:gap-0 gap-4 cursor-pointer hover:opacity-95 transition-opacity relative`}
+        onClick={() => onNext(option)}
       >
+        {isSelected && (
+          <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs">
+            Selected
+          </div>
+        )}
+
         <div className="flex flex-col gap-1">
           <p
             className="md:text-[13px] ss:text-[13px] text-[12px]
@@ -33,7 +112,7 @@ const DeliveryCard = ({ option, onNext, index, totalOptions }) => {
             className="md:text-[20px] ss:text-[20px] text-[18px]
             font-bold tracking-tight md:block ss:block hidden"
           >
-            {option.date}{" "}
+            {formattedDate}{" "}
             <span
               className="md:text-[19px] ml-2
               ss:text-[19x] text-[16px] font-normal"
@@ -44,7 +123,7 @@ const DeliveryCard = ({ option, onNext, index, totalOptions }) => {
               className="md:text-[19px] ml-2
               ss:text-[19x] text-[16px] font-medium"
             >
-              {option.estimatedDeliveryTime || "2PM at the earliest"}
+              {option.estimatedDeliveryTime}
             </span>
           </h1>
 
@@ -52,19 +131,28 @@ const DeliveryCard = ({ option, onNext, index, totalOptions }) => {
             className="flex flex-col tracking-tight 
             ss:hidden md:hidden gap-1"
           >
-            <h1 className="text-[20px] font-bold">{option.date}</h1>
-
+            <h1 className="text-[20px] font-bold">{formattedDate}</h1>
             <h2 className="text-[15px] font-medium">
-              {option.estimatedDeliveryTime || "2PM at the earliest"}
+              {option.estimatedDeliveryTime}
             </h2>
           </div>
 
           <p
             className={`md:text-[13px] ss:text-[13px] text-[11px]
-            tracking-tight ${index === totalOptions - 1 ? "text-main4" : ""}`}
+            tracking-tight ${isStandard ? "text-main4" : ""}`}
           >
             Book a shipment before noon to schedule a pickup on the same day
           </p>
+
+          {option.percentageMarkup > 0 && (
+            <p
+              className={`text-[12px] ${
+                isStandard ? "text-main4" : "text-white opacity-80"
+              } mt-1 italic`}
+            >
+              {option.percentageMarkup}% added to base shipping cost
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-1">
@@ -72,69 +160,86 @@ const DeliveryCard = ({ option, onNext, index, totalOptions }) => {
             className="md:text-[13px] ss:text-[13px] text-[12px]
             tracking-tight text-right"
           >
-            Excluding VAT
+            {option.percentageMarkup > 0 ? "Priority Rate" : "Standard Rate"}
           </p>
 
           <h1
             className={`md:text-[25px] ss:text-[25px] text-[28px] text-right
-            font-bold tracking-tight ${
-              index === totalOptions - 1 ? "text-primary" : ""
-            }`}
+            font-bold tracking-tight ${isStandard ? "text-primary" : ""}`}
           >
-            <span className="line-through">N</span> {option.price}.00
+            {shipmentType === "international" ? (
+              <>
+                €
+                {totalCost.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </>
+            ) : (
+              <>
+                <span className="line-through">N</span>{" "}
+                {totalCost.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </>
+            )}
           </h1>
 
-          {/* Arrow indicator instead of "Book Now" button */}
           <div className="flex justify-end">
             <HiOutlineArrowRight
-              className={`text-[18px] ${
-                index === totalOptions - 1 ? "text-primary" : ""
-              }`}
+              className={`text-[18px] ${isStandard ? "text-primary" : ""}`}
             />
           </div>
         </div>
       </div>
 
-      <div
-        className={`${index === totalOptions - 1 ? "hidden" : "flex"}
-          md:w-[15%] ss:w-[15%] w-full flex-col px-2 md:py-10 ss:py-8 py-3.5 items-center 
-          justify-center gap-0.5 bg-secondary md:rounded-r-2xl ss:rounded-r-2xl 
-          mobdel2 relative overflow-hidden text-white mobdelheight`}
-      >
-        <img
-          src={wing}
-          alt="wing"
-          className="absolute bottom-0 mobimg md:w-[10rem] ss:w-[9rem] w-[6.2rem] h-auto]"
-        />
+      {option.isExpress && (
+        <div
+          className={`${isStandard ? "hidden" : "flex"}
+            md:w-[15%] ss:w-[15%] w-full flex-col px-2 md:py-10 ss:py-8 py-3.5 items-center 
+            justify-center gap-0.5 bg-secondary md:rounded-r-2xl ss:rounded-r-2xl 
+            mobdel2 relative overflow-hidden text-white mobdelheight`}
+        >
+          <img
+            src={wing}
+            alt="wing"
+            className="absolute bottom-0 mobimg md:w-[10rem] ss:w-[9rem] w-[6.2rem] h-auto]"
+          />
 
-        <div className="z-10 flex flex-col items-center">
-          <h1
-            className="md:text-[20px] ss:text-[19px] text-[16px]
-            font-bold tracking-tight"
-          >
-            QuickWing
-          </h1>
+          <div className="z-10 flex flex-col items-center">
+            <h1
+              className="md:text-[20px] ss:text-[19px] text-[16px]
+              font-bold tracking-tight"
+            >
+              {option.name}
+            </h1>
 
-          <p
-            className="md:text-[13px] ss:text-[13px] text-[12px]
-            tracking-tight text-center"
-          >
-            Enjoy fast, priority shipping
-          </p>
+            <p
+              className="md:text-[13px] ss:text-[13px] text-[12px]
+              tracking-tight text-center"
+            >
+              {option.description}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
 
-const DeliveryOptions = ({ onPrev, onNext, selectedTab }) => {
+const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
   const formRef = useRef();
-  const currentTab = selectedTab;
   const { updateDeliveryOptions, loading, error, shipmentData } =
     useGuestShipment();
   const { addNotification } = useNotifications();
 
+  // Get today's date
   const today = new Date().toISOString().split("T")[0];
+
+  // State to track selected delivery option
+  const [selectedDeliveryOption, setSelectedDeliveryOption] = useState(null);
+  const [deliveryOptions] = useState(getDeliveryOptions());
 
   const formik = useFormik({
     initialValues: {
@@ -153,22 +258,41 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab }) => {
           );
         }
 
-        const option = delOptions[0]; // First option is QuickWing
+        if (!selectedDeliveryOption) {
+          throw new Error("Please select a delivery option");
+        }
+
+        // Calculate the total cost with the selected delivery option
+        const totalCost = calculateDeliveryCost(
+          calculatedCost,
+          selectedDeliveryOption.percentageMarkup
+        );
+
+        // Calculate estimated delivery date
+        const estimatedDate = new Date(values.date);
+        estimatedDate.setDate(
+          estimatedDate.getDate() + selectedDeliveryOption.daysToAdd
+        );
+
         const deliveryData = {
-          estimatedDate: values.date,
+          estimatedDate: estimatedDate.toISOString(),
           actualDate: values.date,
           options: {
+            deliveryOption: selectedDeliveryOption.name,
+            deliveryPercentage: selectedDeliveryOption.percentageMarkup,
+            baseAmount: calculatedCost,
+            totalCost: totalCost,
             timeWindow: {
               start: `${values.date}T08:00:00.000Z`,
-              end: `${values.date}T12:00:00.000Z`,
+              end: `${values.date}T18:00:00.000Z`,
             },
             specialInstructions: "Leave at the front door",
-            requiresSignature: true,
+            requiresSignature: selectedDeliveryOption.isExpress,
           },
         };
 
         await updateDeliveryOptions(deliveryData);
-        onNext(currentTab);
+        onNext(selectedTab);
       } catch (err) {
         addNotification({
           type: "error",
@@ -182,7 +306,20 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab }) => {
   });
 
   const handlePrevious = () => {
-    onPrev(currentTab);
+    onPrev(selectedTab);
+  };
+
+  const handleSelectOption = (option) => {
+    setSelectedDeliveryOption(option);
+
+    // Validate the form first
+    const errors = formik.validateForm();
+    if (Object.keys(errors).length === 0) {
+      formik.submitForm();
+    } else {
+      // If there are validation errors, touch all fields to show errors
+      formik.setTouched({ date: true });
+    }
   };
 
   return (
@@ -207,6 +344,17 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab }) => {
           >
             Select your preferred delivery method from the displayed options
           </p>
+
+          {calculatedCost > 0 && (
+            <div className="mt-4 bg-primary1 px-6 py-3 rounded-lg">
+              <p className="text-main2 font-medium">
+                Base Shipping Cost:{" "}
+                <span className="font-bold text-primary">
+                  {formatCurrency(calculatedCost, selectedTab)}
+                </span>
+              </p>
+            </div>
+          )}
         </div>
 
         <form
@@ -224,6 +372,7 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab }) => {
                   type="date"
                   name="date"
                   placeholder=""
+                  min={today} // Prevent selecting dates in the past
                   value={formik.values.date}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -264,36 +413,44 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab }) => {
             </div>
 
             <div className="w-full flex flex-col gap-6">
-              {delOptions.map((option, index) => (
+              {deliveryOptions.map((option, index) => (
                 <DeliveryCard
-                  key={index}
+                  key={option.id}
                   index={index}
                   option={option}
-                  onNext={async () => {
-                    if (formik.isValid) {
-                      await formik.submitForm();
-                    } else {
-                      addNotification({
-                        type: "error",
-                        title: "Error",
-                        message: "Please select a valid shipment date",
-                      });
-                    }
-                  }}
-                  totalOptions={delOptions.length}
+                  onNext={() => handleSelectOption(option)}
+                  totalOptions={deliveryOptions.length}
+                  baseAmount={calculatedCost || 0}
+                  shipmentType={selectedTab}
+                  date={formik.values.date}
+                  isSelected={selectedDeliveryOption?.id === option.id}
                 />
               ))}
             </div>
+
+            {loading && (
+              <div className="text-center text-primary">
+                <p>Processing your selection...</p>
+              </div>
+            )}
+
+            {error && (
+              <div className="text-center text-mainRed">
+                <p>{error}</p>
+              </div>
+            )}
 
             <div
               className="mt-3 flex w-full items-center 
                     justify-center"
             >
               <button
+                type="button"
                 className="bg-none text-[13px] py-3.5 px-14
                         text-primary rounded-full grow2 cursor-pointer
                         items-center justify-center border border-primary"
                 onClick={handlePrevious}
+                disabled={loading}
               >
                 <p className="font-semibold">Go back</p>
               </button>
