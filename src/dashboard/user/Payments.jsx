@@ -81,6 +81,7 @@ const Payments = () => {
             payMethod: formatPaymentMethod(
               payment.payment?.method || "unknown"
             ),
+            receipt: payment.payment.receipt,
             payStat: capitalize(payment.payment?.status || "unknown"),
             trackingNumber: payment.trackingNumber || "N/A",
             rawStatus: payment.payment?.status || "unknown",
@@ -204,10 +205,12 @@ const Payments = () => {
     navigate(`/user/payments/details?id=${id}`);
   };
 
-  const handleDownloadReceipt = (e, id) => {
+  const handleDownloadReceipt = (e, receiptId) => {
     e.stopPropagation();
-    // Implement download receipt functionality
-    console.log("Download receipt for", id);
+
+    // if (receiptId) {
+    //   navigate(receiptId);
+    // }
   };
 
   const handleReportProblem = (e, id) => {
@@ -421,7 +424,7 @@ const Payments = () => {
                                 <li
                                   className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2"
                                   onClick={(e) =>
-                                    handleDownloadReceipt(e, data._id)
+                                    handleDownloadReceipt(e, data.receipt)
                                   }
                                 >
                                   <HiOutlineDocumentDownload className="text-[17px]" />
