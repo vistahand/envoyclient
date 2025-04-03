@@ -11,7 +11,7 @@ import { SectionWrapper } from "../hoc";
 
 const SenderForm = ({
   onNext,
-  onPrev,
+  // onPrev,
   selectedTab,
   senderTab,
   setSenderTab,
@@ -207,9 +207,9 @@ const SenderForm = ({
     formik.resetForm();
   };
 
-  const handlePrevious = () => {
-    onPrev(currentTab);
-  };
+  // const handlePrevious = () => {
+  //   onPrev(currentTab);
+  // };
 
   const stateOptions = [
     { value: "abia", label: "Abia" },
@@ -1115,7 +1115,7 @@ const SenderForm = ({
                         justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
                         ss:flex-row flex-col"
               >
-                <button
+                {/* <button
                   className="bg-none text-[13px] py-3.5 px-14
                             text-primary rounded-full grow2 cursor-pointer
                             items-center justify-center border border-primary
@@ -1123,13 +1123,13 @@ const SenderForm = ({
                   onClick={handlePrevious}
                 >
                   <p className="font-semibold">Go back</p>
-                </button>
+                </button> */}
 
                 <button
                   type="submit"
                   className="bg-primary text-[13px] py-3.5 px-14 flex
-            text-white rounded-full grow4 cursor-pointer
-            items-center justify-center gap-3 mobbut"
+                          text-white rounded-full grow4 cursor-pointer
+                          items-center justify-center gap-3 mobbut"
                   disabled={loading}
                 >
                   <p>{loading ? "Updating..." : "Next"}</p>
@@ -1137,7 +1137,7 @@ const SenderForm = ({
                   {!loading && <HiOutlineArrowRight className="text-[14px]" />}
                 </button>
 
-                <button
+                {/* <button
                   className="bg-none text-[13px] py-3.5 px-14
                             text-primary rounded-full grow2 cursor-pointer
                             items-center justify-center border border-primary
@@ -1145,7 +1145,7 @@ const SenderForm = ({
                   onClick={handlePrevious}
                 >
                   <p className="font-semibold">Go back</p>
-                </button>
+                </button> */}
               </div>
             </div>
           ) : (
@@ -1889,7 +1889,7 @@ const SenderForm = ({
                         justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
                         ss:flex-row flex-col"
               >
-                <button
+                {/* <button
                   className="bg-none text-[13px] py-3.5 px-14
                             text-primary rounded-full grow2 cursor-pointer
                             items-center justify-center border border-primary
@@ -1897,7 +1897,7 @@ const SenderForm = ({
                   onClick={handlePrevious}
                 >
                   <p className="font-semibold">Go back</p>
-                </button>
+                </button> */}
 
                 <button
                   type="submit"
@@ -1910,7 +1910,7 @@ const SenderForm = ({
                   <HiOutlineArrowRight className="text-[14px]" />
                 </button>
 
-                <button
+                {/* <button
                   className="bg-none text-[13px] py-3.5 px-14
                             text-primary rounded-full grow2 cursor-pointer
                             items-center justify-center border border-primary
@@ -1918,7 +1918,7 @@ const SenderForm = ({
                   onClick={handlePrevious}
                 >
                   <p className="font-semibold">Go back</p>
-                </button>
+                </button> */}
               </div>
             </div>
           )}
