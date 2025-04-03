@@ -135,9 +135,7 @@ const App = () => {
                   />
                 </Route>
 
-                {/* <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashHome /></ProtectedRoute>}> */}
-                <Route path="/admin" element={<AdminDashHome />}>
-
+                <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashHome /></ProtectedRoute>}>
                   <Route index element={<AdminHome />} />
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
