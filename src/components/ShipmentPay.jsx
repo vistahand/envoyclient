@@ -1,14 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SectionWrapper } from "../hoc";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { PiWarningCircle } from "react-icons/pi";
 import { ShippingModal, BankTransferModal } from "../components";
-// import { paystack } from '../assets';
+import PaymentMethodSelector from "./PaymentMethodSelector";
+import { shipments } from "../services/api";
+import { saveShipment } from "../utils/shipmentStorage";
+import { useNotifications } from "../context/NotificationContext";
 
 const ShipmentPay = ({ onPrev, shipment }) => {
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [isBankTransferModalOpen, setIsBankTransferModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("immediate");
+  const [loading, setLoading] = useState(false);
+  const [isInitializingPayment, setIsInitializingPayment] = useState(false);
+
+  const navigate = useNavigate();
+  const { addNotification } = useNotifications();
 
   console.log("Shipment Details:", shipment);
 
@@ -33,7 +42,72 @@ const ShipmentPay = ({ onPrev, shipment }) => {
     onPrev();
   };
 
-  // Format currency based on currency type
+  const handlePaymentMethodChange = (method) => {
+    setPaymentMethod(method);
+  };
+
+  const handleInitiatePayment = async () => {
+    try {
+      // For immediate payment (Stripe), open the payment modal
+      if (paymentMethod === "immediate") {
+        handlePay(); // This opens the BankTransferModal with Stripe integration
+        return;
+      }
+
+      // For cash payments (delivery/pickup)
+      setLoading(true);
+
+      // Step 1: Set the payment method
+      const methodResponse = await shipments.setPaymentMethod(shipment._id, {
+        method: paymentMethod,
+      });
+
+      if (!methodResponse.success) {
+        throw new Error(
+          methodResponse.message || "Failed to set payment method"
+        );
+      }
+
+      // Step 2: Finalize the shipment
+      const finalizeResponse = await shipments.finalizeShipment(shipment._id);
+
+      if (!finalizeResponse.success) {
+        throw new Error(
+          finalizeResponse.message || "Failed to finalize shipment"
+        );
+      }
+
+      // Step 3: Save the shipment details locally
+      saveShipment({
+        id: shipment._id,
+        trackingNumber: finalizeResponse.data.shipment.trackingNumber,
+        paymentMethod: paymentMethod,
+        paymentStatus: "awaiting_confirmation",
+        finalizationStatus: "completed",
+        ...finalizeResponse.data.shipment,
+      });
+
+      // Step 4: Navigate to success page
+      if (paymentMethod === "cash_on_delivery") {
+        navigate("/shipment-success");
+      } else if (paymentMethod === "cash_on_pickup") {
+        navigate("/shipment-success");
+      } else if (paymentMethod === "immediate") {
+        navigate(`/createshipment-payment/success`);
+      }
+    } catch (error) {
+      console.error("Error processing payment:", error);
+      addNotification({
+        type: "error",
+        title: "Payment Error",
+        message: error.message || "Failed to process payment",
+      });
+    } finally {
+      setLoading(false);
+      setIsInitializingPayment(false);
+    }
+  };
+
   const formatCurrency = (amount, currency = "ngn") => {
     if (!amount) return "0.00";
 
@@ -50,7 +124,6 @@ const ShipmentPay = ({ onPrev, shipment }) => {
     }
   };
 
-  // Calculate VAT percentage
   const calculateVatPercentage = () => {
     if (shipment?.cost?.vat && shipment?.cost?.baseAmount) {
       return ((shipment.cost.vat / shipment.cost.baseAmount) * 100).toFixed(1);
@@ -59,14 +132,8 @@ const ShipmentPay = ({ onPrev, shipment }) => {
   };
 
   return (
-    <section
-      className="w-full flex md:min-h-[600px] ss:min-h-[800px]
-        min-h-[800px]"
-    >
-      <div
-        className="w-full flex md:flex-row flex-col gap-14 
-            justify-between"
-      >
+    <section className="w-full flex justify-center mt-20">
+      <div className="w-full flex md:flex-row flex-col gap-14 md:justify-between">
         <div className="w-full flex flex-col gap-6">
           <h1
             className="text-primary font-bold md:text-[30px] 
@@ -218,22 +285,25 @@ const ShipmentPay = ({ onPrev, shipment }) => {
                   <p className="font-semibold">Go back</p>
                 </button>
 
-                <button
-                  className="bg-primary text-[13px] py-3.5 w-[50%] 
-                                flex text-white rounded-full grow4 cursor-pointer
-                                items-center justify-center gap-3"
-                  onClick={handlePay}
+                <div
+                  className="bg-primary py-3 w-full flex text-white rounded-full grow4 cursor-pointer items-center gap-3 justify-center"
+                  onClick={handleInitiatePayment}
                 >
-                  <p>Pay Now</p>
-
+                  <p className="text-[12px]">
+                    {paymentMethod === "immediate"
+                      ? "Pay Now"
+                      : paymentMethod === "cash_on_delivery"
+                      ? "Confirm Pay on Delivery"
+                      : "Confirm Pay on Pickup"}
+                  </p>
                   <HiOutlineArrowRight className="text-[14px]" />
-                </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="md:w-[55%] ss:w-[60%] md:mb-0 ss:mb-0 mb-8">
+        <div className="md:w-[55%] ss:w-[70%] md:mb-0 ss:mb-0 mb-8">
           <div
             className="bg-primary1 md:p-10 ss:p-10 p-5 flex flex-col 
                     rounded-2xl md:gap-6 ss:gap-6 gap-5 sticky-cart"
@@ -241,6 +311,11 @@ const ShipmentPay = ({ onPrev, shipment }) => {
             <h1 className="font-bold text-[16px] tracking-tight text-main2">
               Payment Summary
             </h1>
+
+            <PaymentMethodSelector
+              onSelect={handlePaymentMethodChange}
+              defaultMethod="immediate"
+            />
 
             <div
               className="flex flex-col w-full gap-2.5 md:text-[13px] 

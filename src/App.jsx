@@ -45,6 +45,7 @@ import { GuestShipmentProvider } from "./context/GuestShipmentContext";
 import PaymentFailedPage from "./pages/PaymentFailedPage";
 import FinishShipmentPage from "./scenes/FinishShipmentPage";
 import PaymentSuccessScene from "./scenes/PaymentSuccess";
+import PendingPayments from "./dashboard/admin/PendingPayments";
 
 const App = () => {
   return (
@@ -140,7 +141,8 @@ const App = () => {
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
                   <Route path="shipmentmanagement/details/:shipmentId" element={<ShipmentDetailMgt />} />
-                  <Route path="payments" element={<PaymentsAdmin />} />
+                  <Route path="payment-history" element={<PaymentsAdmin />} />
+                  <Route path="pending-payments" element={<PendingPayments />} />
                   <Route path="pickuplocations" element={<PickupLoc />} />
                   <Route path="pickuplocations/create" element={<CreatePickupLocation />} />
                   <Route path="quotemanagement" element={<QuoteMgt />} />

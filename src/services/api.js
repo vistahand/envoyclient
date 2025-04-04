@@ -378,7 +378,7 @@ export const shipments = {
       );
     }
   },
-  
+
   // Get shipment by ID
   getDraftById: async (id) => {
     try {
@@ -419,6 +419,61 @@ export const shipments = {
         throw new Error("Network error. Please check your connection.");
       }
       throw new Error(err.response?.data?.error || "Failed to track shipment");
+    }
+  },
+
+  // Set payment method for shipment
+  setPaymentMethod: async (shipmentId, paymentMethodData) => {
+    try {
+      console.log(paymentMethodData);
+      const response = await api.post(
+        `/shipments/${shipmentId}/payment-method`,
+        paymentMethodData
+      );
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to set payment method"
+      );
+    }
+  },
+
+  // For admin approval of cash payments
+  approvePayment: async (shipmentId, approvalData) => {
+    try {
+      const response = await api.post(
+        `/payments/${shipmentId}/approve`,
+        approvalData
+      );
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(err.response?.data?.error || "Failed to approve payment");
+    }
+  },
+
+  // Get pending cash payments (admin only)
+  getPendingPayments: async () => {
+    try {
+      const response = await api.get("/shipments", {
+        params: {
+          paymentStatus: "awaiting_confirmation",
+          paymentMethod: "cash",
+        },
+      });
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to fetch pending payments"
+      );
     }
   },
 };
