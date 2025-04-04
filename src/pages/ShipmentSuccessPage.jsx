@@ -27,7 +27,7 @@ const ShipmentSuccessPage = () => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate(`/track?tracking=${trackingNumber}`);
+          navigate(`/trackshipment?tracking=${trackingNumber}`);
           return 0;
         }
         return prev - 1;
@@ -120,7 +120,9 @@ const ShipmentSuccessPage = () => {
               <button
                 className="bg-primary text-[13px] py-3.5 px-8 w-fit
                 text-white rounded-full cursor-pointer"
-                onClick={() => navigate(`/track?tracking=${trackingNumber}`)}
+                onClick={() =>
+                  navigate(`/trackshipment?tracking=${trackingNumber}`)
+                }
               >
                 Track Your Shipment
               </button>

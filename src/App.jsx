@@ -83,8 +83,6 @@ const App = () => {
                   element={<PaymentFailedPage />}
                 />
 
-                <Route path="trackshipment" element={<TrackShipment />} />
-
                 <Route
                   path="/register"
                   element={
