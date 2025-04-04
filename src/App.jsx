@@ -35,7 +35,7 @@ import {
   Analytics,
   Users,
   ShipmentDetailMgt,
-  CreatePickupLocation
+  CreatePickupLocation,
 } from "./dashboard/admin";
 import ScrollToTopButton from "./constants/ScrollToTop";
 import { GetStarted } from "./pages";
@@ -46,6 +46,7 @@ import PaymentFailedPage from "./pages/PaymentFailedPage";
 import FinishShipmentPage from "./scenes/FinishShipmentPage";
 import PaymentSuccessScene from "./scenes/PaymentSuccess";
 import PendingPayments from "./dashboard/admin/PendingPayments";
+import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
 
 const App = () => {
   return (
@@ -81,7 +82,7 @@ const App = () => {
                   path="/createshipment-payment/failure"
                   element={<PaymentFailedPage />}
                 />
-               
+
                 <Route path="trackshipment" element={<TrackShipment />} />
 
                 <Route
@@ -136,21 +137,44 @@ const App = () => {
                   />
                 </Route>
 
-                <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashHome /></ProtectedRoute>}>
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute requireAdmin>
+                      <AdminDashHome />
+                    </ProtectedRoute>
+                  }
+                >
                   <Route index element={<AdminHome />} />
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
-                  <Route path="shipmentmanagement/details/:shipmentId" element={<ShipmentDetailMgt />} />
+                  <Route
+                    path="shipmentmanagement/details/:shipmentId"
+                    element={<ShipmentDetailMgt />}
+                  />
+
+                  {/* These are the routes for the paymens on the admin dashboard */}
                   <Route path="payment-history" element={<PaymentsAdmin />} />
-                  <Route path="pending-payments" element={<PendingPayments />} />
+                  <Route
+                    path="pending-payments"
+                    element={<PendingPayments />}
+                  />
+
                   <Route path="pickuplocations" element={<PickupLoc />} />
-                  <Route path="pickuplocations/create" element={<CreatePickupLocation />} />
+                  <Route
+                    path="pickuplocations/create"
+                    element={<CreatePickupLocation />}
+                  />
                   <Route path="quotemanagement" element={<QuoteMgt />} />
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />
                   <Route path="settings" element={<SettingsPage />} />
-
                 </Route>
+
+                <Route
+                  path="/shipment-success"
+                  element={<ShipmentSuccessScene />}
+                />
               </Routes>
 
               <NotificationToast />

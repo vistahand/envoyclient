@@ -115,8 +115,15 @@ const TrackShipment = () => {
       }
     });
 
+    // Get payment method
+    const paymentMethod = shipmentData.payment?.method;
+    const paymentStatus = shipmentData.payment?.status;
+    const isPaid = paymentStatus === "completed";
+    const isCashOnDelivery = paymentMethod === "cash_on_delivery";
+    const isCashOnPickup = paymentMethod === "cash_on_pickup";
+
     // Default steps with base data
-    const steps = [
+    let steps = [
       {
         title: "Shipment Created",
         date:
@@ -125,46 +132,131 @@ const TrackShipment = () => {
         isCompleted: true,
         details: null,
       },
-      {
-        title: "Payment Completed",
-        date:
-          shipmentData.payment?.paidAt ||
-          latestStatusEvents["awaiting_pickup"]?.timestamp,
-        isCompleted:
-          !!shipmentData.payment?.paidAt ||
-          !!latestStatusEvents["awaiting_pickup"],
-        details: null,
-      },
-      {
-        title: "Awaiting Pickup",
-        date: latestStatusEvents["awaiting_pickup"]?.timestamp,
-        isCompleted: !!latestStatusEvents["awaiting_pickup"],
-        details: shipmentData.pickup?.location
-          ? `Pickup scheduled at: ${
-              shipmentData.pickup.location.street || ""
-            }, ${shipmentData.pickup.location.city || ""}`
-          : null,
-      },
-      {
-        title: "Package Shipping",
-        date:
-          shipmentData.pickup?.date ||
-          latestStatusEvents["in_transit"]?.timestamp ||
-          shipmentData.delivery?.estimatedDate,
-        isCompleted: !!latestStatusEvents["in_transit"],
-        details: null,
-        isEstimated: !latestStatusEvents["in_transit"],
-      },
-      {
-        title: "Shipment Arrival",
-        date:
-          shipmentData.delivery?.estimatedDate ||
-          shipmentData.delivery?.actualDate,
-        isCompleted: !!latestStatusEvents["delivered"],
-        details: null,
-        isEstimated: !latestStatusEvents["delivered"],
-      },
     ];
+
+    // Handle different payment methods with different timeline steps
+    if (isCashOnDelivery) {
+      // For Cash on Delivery method
+      steps = [
+        ...steps,
+        {
+          title: "Awaiting Pickup",
+          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
+          isCompleted: !!latestStatusEvents["awaiting_pickup"],
+          details: `Pickup scheduled at: ${
+            shipmentData.pickup?.location?.street || ""
+          }, ${shipmentData.pickup?.location?.city || ""}`,
+        },
+        {
+          title: "Package Shipping",
+          date:
+            shipmentData.pickup?.date ||
+            latestStatusEvents["in_transit"]?.timestamp,
+          isCompleted: !!latestStatusEvents["in_transit"],
+          details: "Payment will be collected upon delivery",
+          isEstimated: !latestStatusEvents["in_transit"],
+        },
+        {
+          title: "Payment on Delivery",
+          date: isPaid
+            ? shipmentData.payment?.paidAt
+            : shipmentData.delivery?.estimatedDate,
+          isCompleted: isPaid,
+          details: isPaid
+            ? "Payment has been collected and confirmed"
+            : "Payment to be collected upon delivery",
+          isEstimated: !isPaid,
+        },
+        {
+          title: "Shipment Arrival",
+          date:
+            shipmentData.delivery?.actualDate ||
+            shipmentData.delivery?.estimatedDate,
+          isCompleted: !!latestStatusEvents["delivered"],
+          details: null,
+          isEstimated: !latestStatusEvents["delivered"],
+        },
+      ];
+    } else if (isCashOnPickup) {
+      // For Cash on Pickup method
+      steps = [
+        ...steps,
+        {
+          title: "Awaiting Pickup",
+          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
+          isCompleted: !!latestStatusEvents["awaiting_pickup"],
+          details: `Pickup scheduled at: ${
+            shipmentData.pickup?.location?.street || ""
+          }, ${shipmentData.pickup?.location?.city || ""}`,
+        },
+        {
+          title: "Payment at Pickup",
+          date: isPaid ? shipmentData.payment?.paidAt : getAwaitingPickupDate(),
+          isCompleted: isPaid,
+          details: isPaid
+            ? "Payment has been collected and confirmed"
+            : "Payment to be made during package drop-off",
+          isEstimated: !isPaid,
+        },
+        {
+          title: "Package Shipping",
+          date:
+            shipmentData.pickup?.date ||
+            latestStatusEvents["in_transit"]?.timestamp,
+          isCompleted: !!latestStatusEvents["in_transit"] && isPaid,
+          details: null,
+          isEstimated: !latestStatusEvents["in_transit"],
+        },
+        {
+          title: "Shipment Arrival",
+          date:
+            shipmentData.delivery?.actualDate ||
+            shipmentData.delivery?.estimatedDate,
+          isCompleted: !!latestStatusEvents["delivered"],
+          details: null,
+          isEstimated: !latestStatusEvents["delivered"],
+        },
+      ];
+    } else {
+      // For immediate (Stripe) payment method
+      steps = [
+        ...steps,
+        {
+          title: "Payment Completed",
+          date: shipmentData.payment?.paidAt,
+          isCompleted: isPaid,
+          details: null,
+        },
+        {
+          title: "Awaiting Pickup",
+          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
+          isCompleted: !!latestStatusEvents["awaiting_pickup"],
+          details: shipmentData.pickup?.location
+            ? `Pickup scheduled at: ${
+                shipmentData.pickup.location.street || ""
+              }, ${shipmentData.pickup.location.city || ""}`
+            : null,
+        },
+        {
+          title: "Package Shipping",
+          date:
+            shipmentData.pickup?.date ||
+            latestStatusEvents["in_transit"]?.timestamp,
+          isCompleted: !!latestStatusEvents["in_transit"],
+          details: null,
+          isEstimated: !latestStatusEvents["in_transit"],
+        },
+        {
+          title: "Shipment Arrival",
+          date:
+            shipmentData.delivery?.estimatedDate ||
+            shipmentData.delivery?.actualDate,
+          isCompleted: !!latestStatusEvents["delivered"],
+          details: null,
+          isEstimated: !latestStatusEvents["delivered"],
+        },
+      ];
+    }
 
     return steps;
   };
@@ -248,12 +340,22 @@ const TrackShipment = () => {
   const getStatusHeading = () => {
     if (!shipmentData) return "Tracking your shipment";
 
+    const paymentMethod = shipmentData.payment?.method;
+    const paymentStatus = shipmentData.payment?.status;
+    const isPaid = paymentStatus === "completed";
+
     switch (shipmentData.status) {
       case "pending":
         return "Your shipment is pending";
       case "awaiting_pickup":
+        if (paymentMethod === "cash_on_pickup" && !isPaid) {
+          return "Your shipment is awaiting pickup & payment";
+        }
         return "Your shipment is awaiting pickup";
       case "in_transit":
+        if (paymentMethod === "cash_on_delivery" && !isPaid) {
+          return "Your package is on its way - payment due on delivery";
+        }
         return "Your package is on its way!";
       case "delivered":
         return "Your package has been delivered";
@@ -283,16 +385,27 @@ const TrackShipment = () => {
         ? "Nigeria"
         : shipmentData?.destination?.country;
 
+    const paymentMethod = shipmentData?.payment?.method;
+    const paymentStatus = shipmentData?.payment?.status;
+    const isPaid = paymentStatus === "completed";
+
+    let paymentInfo = "";
+    if (paymentMethod === "cash_on_delivery" && !isPaid) {
+      paymentInfo = " Payment will be collected upon delivery.";
+    } else if (paymentMethod === "cash_on_pickup" && !isPaid) {
+      paymentInfo = " Payment will be collected during package drop-off.";
+    }
+
     if (
       shipmentData?.status === "pending" ||
       shipmentData?.status === "awaiting_pickup"
     ) {
-      return `Your shipment will travel from ${origin} to ${destination} once picked up.`;
+      return `Your shipment will travel from ${origin} to ${destination} once picked up.${paymentInfo}`;
     } else if (shipmentData?.status === "in_transit") {
-      return `The package is on its way from ${origin} to ${destination}.`;
+      return `The package is on its way from ${origin} to ${destination}.${paymentInfo}`;
     }
 
-    return `This shipment is from ${origin} to ${destination}.`;
+    return `This shipment is from ${origin} to ${destination}.${paymentInfo}`;
   };
 
   return (
