@@ -48,6 +48,7 @@ const Payments = () => {
       const response = await payments.getAll({
         page: currentPage,
         limit: rowsPerPage,
+        method: "stripe",
       });
 
       if (response.success) {

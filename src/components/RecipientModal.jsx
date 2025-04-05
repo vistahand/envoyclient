@@ -4,14 +4,14 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { BsX } from "react-icons/bs";
 import { useFormik } from "formik";
 import { TiArrowSortedDown } from "react-icons/ti";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 import * as Yup from "yup";
 import { useNotifications } from "../context/NotificationContext";
 
 const RecipientModal = ({ onClose, shipmentData, onUpdate }) => {
   const formRef = useRef();
   const [countries, setCountries] = useState([]);
-  const { updateRecipientInfo } = useGuestShipment();
+  const { updateRecipientInfo } = useShipment();
   const { addNotification } = useNotifications();
   const [isLoading, setIsLoading] = useState(false);
 

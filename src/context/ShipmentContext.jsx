@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-import axios from "axios";
 import { shipments } from "../services/api";
 import { handleApiError } from "../utils/errorHandler";
 import {
@@ -8,10 +7,9 @@ import {
   clearCurrentShipment,
 } from "../utils/shipmentStorage";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const GuestShipmentContext = createContext(null);
+const ShipmentContext = createContext(null);
 
-export const GuestShipmentProvider = ({ children }) => {
+export const ShipmentProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [shipmentData, setShipmentData] = useState({
@@ -428,6 +426,63 @@ export const GuestShipmentProvider = ({ children }) => {
     setError(null);
   };
 
+  const getDraftById = async (shipmentId) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await shipments.getDraftById(shipmentId);
+
+      if (!response.success) {
+        throw new Error(
+          response.data?.error || "Server returned unsuccessful response"
+        );
+      }
+
+      const shipment = response.data?.shipment;
+      if (!shipment?._id) {
+        throw new Error("Invalid shipment data in server response");
+      }
+
+      // Update the context state with the retrieved draft
+      setShipmentData({
+        id: shipment._id,
+        shipmentType: shipment.type,
+        origin: shipment.origin,
+        destination: shipment.destination,
+        package: shipment.packages,
+        delivery: shipment.delivery,
+        sender: shipment.sender,
+        recipient: shipment.recipient,
+        pickup: shipment.pickup,
+        insurance: shipment.insurance,
+      });
+
+      // Save to localStorage
+      saveShipment({
+        id: shipment._id,
+        shipmentType: shipment.type,
+        origin: shipment.origin,
+        destination: shipment.destination,
+        package: shipment.packages,
+        delivery: shipment.delivery,
+        sender: shipment.sender,
+        recipient: shipment.recipient,
+        pickup: shipment.pickup,
+        insurance: shipment.insurance,
+      });
+
+      return response;
+    } catch (err) {
+      const message =
+        err.response?.data?.error || "Failed to retrieve draft shipment";
+      setError(message);
+      throw new Error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     loading,
     error,
@@ -442,21 +497,20 @@ export const GuestShipmentProvider = ({ children }) => {
     updateInsurance,
     finalizeShipment,
     resetShipment,
+    getDraftById, // Add this
   };
 
   return (
-    <GuestShipmentContext.Provider value={value}>
+    <ShipmentContext.Provider value={value}>
       {children}
-    </GuestShipmentContext.Provider>
+    </ShipmentContext.Provider>
   );
 };
 
-export const useGuestShipment = () => {
-  const context = useContext(GuestShipmentContext);
+export const useShipment = () => {
+  const context = useContext(ShipmentContext);
   if (!context) {
-    throw new Error(
-      "useGuestShipment must be used within a GuestShipmentProvider"
-    );
+    throw new Error("useShipment must be used within a ShipmentProvider");
   }
   return context;
 };

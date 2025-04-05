@@ -4,7 +4,7 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { BsX } from "react-icons/bs";
 import { useFormik } from "formik";
 import { TiArrowSortedDown } from "react-icons/ti";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 import * as Yup from "yup";
 
 const PickupModal = ({ onClose, values, onUpdate }) => {
@@ -13,7 +13,7 @@ const PickupModal = ({ onClose, values, onUpdate }) => {
   const [isLoading, setIsLoading] = useState(false);
   console.log("PickupModal values:", values);
   // Modified to handle case when context isn't available
-  const { updatePickupLocation } = useGuestShipment();
+  const { updatePickupLocation } = useShipment();
 
   const formatDateTimeLocal = (dateString) => {
     try {

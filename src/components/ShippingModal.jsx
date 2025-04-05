@@ -6,13 +6,13 @@ import { useFormik } from "formik";
 import { TiArrowSortedDown } from "react-icons/ti";
 import * as Yup from "yup";
 import { useNotifications } from "../context/NotificationContext";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 
 const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
   const formRef = useRef();
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { updateSenderInfo } = useGuestShipment();
+  const { updateSenderInfo } = useShipment();
   const [senderTab, setSenderTab] = useState(
     shipmentData?.sender?.type === "business" ? "business" : "individual"
   );

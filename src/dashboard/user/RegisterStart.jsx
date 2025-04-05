@@ -102,7 +102,7 @@ const RegisterStart = ({ onNext }) => {
                 </h2>
               </div>
 
-              <div
+              {/* <div
                 className="flex md:justify-between items-center w-full 
               md:gap-5 ss:gap-5 gap-3 mobauth"
               >
@@ -175,7 +175,7 @@ const RegisterStart = ({ onNext }) => {
                 <div className="flex-grow">
                   <div className="bg-main7 w-full h-[1px]" />
                 </div>
-              </div>
+              </div> */}
 
               <div className="w-full">
                 <form

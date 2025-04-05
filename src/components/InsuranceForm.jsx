@@ -1,337 +1,372 @@
-import { useState, useRef, useEffect } from 'react';
-import { useGuestShipment } from '../context/GuestShipmentContext';
-import { useNotifications } from '../context/NotificationContext';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from "react";
+import { useShipment } from "../context/ShipmentContext";
+import { useNotifications } from "../context/NotificationContext";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { TiArrowSortedDown } from "react-icons/ti";
-import * as Yup from 'yup';
-// import { useNavigate } from 'react-router-dom';
-import { SectionWrapper } from '../hoc';
-
+import * as Yup from "yup";
+import { SectionWrapper } from "../hoc";
 
 const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
-    const formRef = useRef();
-    const currentTab = selectedTab;
-    const navigate = useNavigate();
-    const { shipmentData, updateInsurance, loading } = useGuestShipment();
-    const { addNotification } = useNotifications();
-    const [showCoverageInput, setShowCoverageInput] = useState(false);
+  const formRef = useRef();
+  const currentTab = selectedTab;
+  const navigate = useNavigate();
+  const { shipmentData, updateInsurance, loading } = useShipment();
+  const { addNotification } = useNotifications();
+  const [showCoverageInput, setShowCoverageInput] = useState(false);
 
+  const formik = useFormik({
+    initialValues: {
+      insuranceType: "none",
+      coverage: 0,
+      customsAssistance: false,
+    },
+    validationSchema: Yup.object().shape({
+      insuranceType: Yup.string()
+        .required("Insurance type is required")
+        .oneOf(["none", "basic", "premium"], "Invalid insurance type"),
+      coverage: Yup.number().when("insuranceType", {
+        is: (type) => type !== "none",
+        then: () =>
+          Yup.number()
+            .required("Coverage amount is required")
+            .min(1, "Coverage must be greater than 0"),
+        otherwise: () => Yup.number().nullable(),
+      }),
+      customsAssistance: Yup.boolean().optional(),
+    }),
 
-    const formik = useFormik({
-        initialValues: {
-            insuranceType: 'none',
-            coverage: 0,
-            customsAssistance: false,
-        },
-        validationSchema: Yup.object().shape({
-            insuranceType: Yup.string()
-                .required("Insurance type is required")
-                .oneOf(['none', 'basic', 'premium'], "Invalid insurance type"),
-            coverage: Yup.number()
-                .when('insuranceType', {
-                    is: (type) => type !== 'none',
-                    then: () => Yup.number()
-                        .required("Coverage amount is required")
-                        .min(1, "Coverage must be greater than 0"),
-                    otherwise: () => Yup.number().nullable()
-                }),
-            customsAssistance: Yup.boolean().optional(),
-        }),
-        
-        onSubmit: async (values) => {
-            try {
-                if (!shipmentData?.id) {
-                    addNotification({
-                        type: 'error',
-                        title: 'Error',
-                        message: 'No shipment ID found. Please try again from step 1.'
-                    });
-                    return;
-                }
+    onSubmit: async (values) => {
+      try {
+        if (!shipmentData?.id) {
+          addNotification({
+            type: "error",
+            title: "Error",
+            message: "No shipment ID found. Please try again from step 1.",
+          });
+          return;
+        }
 
-                const insuranceData = {
-                   insurance: {
-                        type: values.insuranceType,
-                        coverage: values.insuranceType !== 'none' ? values.coverage : 0
-                    },
-                    customsAssistance: values.customsAssistance
-                };
+        const insuranceData = {
+          insurance: {
+            type: values.insuranceType,
+            coverage: values.insuranceType !== "none" ? values.coverage : 0,
+          },
+          customsAssistance: values.customsAssistance,
+        };
 
-                const response = await updateInsurance(insuranceData);
-                if (response?.success && response?.data?.shipment?._id) {
-                    addNotification({
-                        type: 'success',
-                        title: 'Success',
-                        message: 'Insurance information updated successfully'
-                    });
-                    navigate('/createshipment-payment');
-                } else {
-                    throw new Error('Invalid response from server');
-                }
-            } catch (err) {
-                addNotification({
-                    type: 'error',
-                    title: 'Error',
-                    message: err.message || 'Failed to update insurance information'
-                });
-            }
-        },
-    });
+        const response = await updateInsurance(insuranceData);
+        if (response?.success && response?.data?.shipment?._id) {
+          addNotification({
+            type: "success",
+            title: "Success",
+            message: "Insurance information updated successfully",
+          });
+          navigate(
+            `/createshipment-payment?shipmentId=${response.data.shipment._id}`
+          );
+        } else {
+          throw new Error("Invalid response from server");
+        }
+      } catch (err) {
+        addNotification({
+          type: "error",
+          title: "Error",
+          message: err.message || "Failed to update insurance information",
+        });
+      }
+    },
+  });
+
+  useEffect(() => {
+    setShowCoverageInput(formik.values.insuranceType !== "none");
+  }, [formik.values.insuranceType]);
+
+  const handlePrevious = () => {
+    onPrev(currentTab, senderTab);
+  };
+
+  const handleCancelShipment = () => {
+    setCurrentStep(1);
+  };
+
+  const insuranceOptions = [
+    { value: "none", label: "No Insurance" },
+    { value: "basic", label: "Basic Insurance" },
+    { value: "premium", label: "Premium Insurance" },
+  ];
+
+  const CustomSelect = ({
+    name,
+    value,
+    onChange,
+    onBlur,
+    options,
+    placeholder,
+    error,
+  }) => {
+    const [showOptions, setShowOptions] = useState(false);
+    const [selectedValue, setSelectedValue] = useState(value);
+    const selectRef = useRef(null);
 
     useEffect(() => {
-        setShowCoverageInput(formik.values.insuranceType !== 'none');
-    }, [formik.values.insuranceType]);
+      const handleClickOutside = (event) => {
+        if (selectRef.current && !selectRef.current.contains(event.target)) {
+          setShowOptions(false);
+        }
+      };
 
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
-    const handlePrevious = () => {
-        onPrev(currentTab, senderTab);
+    const handleChange = (optionValue) => {
+      setSelectedValue(optionValue);
+      onChange({ target: { name, value: optionValue } });
+      setTimeout(() => onBlur({ target: { name } }), 0);
+      setShowOptions(false);
     };
 
-    const handleCancelShipment = () => {
-        setCurrentStep(1); 
-    };
-
-    const insuranceOptions = [
-        { value: "none", label: "No Insurance" },
-        { value: "basic", label: "Basic Insurance" },
-        { value: "premium", label: "Premium Insurance" },
-    ];
-
-    const CustomSelect = ({ name, value, onChange, onBlur, options, placeholder, error }) => {
-        const [showOptions, setShowOptions] = useState(false);
-        const [selectedValue, setSelectedValue] = useState(value);
-        const selectRef = useRef(null)
-
-        useEffect(() => {
-            const handleClickOutside = (event) => {
-                if (selectRef.current && !selectRef.current.contains(event.target)) {
-                    setShowOptions(false);
-                }
-            };
-        
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => document.removeEventListener("mousedown",   
-         handleClickOutside);
-        
-        }, []);
-
-        const handleChange = (optionValue) => {
-            setSelectedValue(optionValue);
-            onChange({ target: { name, value: optionValue } });
-            setTimeout(() => onBlur({ target: { name } }), 0); 
-            setShowOptions(false);
-        };
-      
-        return (
-            <div className="relative" ref={selectRef}>
-                <div className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
+    return (
+      <div className="relative" ref={selectRef}>
+        <div
+          className={`md:py-3.5 py-3 md:px-3.5 px-3 outline 
                 md:rounded-lg rounded-md cursor-pointer md:text-[14px] 
                 ss:text-[14px] text-[12px] focus:outline-primary
                 bg-transparent w-full custom-select outline-[1px] 
                 ${error ? "outline-mainRed" : "outline-main6"}
                 ${value === "" ? "text-main6" : "text-black"}
                 flex items-center justify-between`}
-                onClick={() => setShowOptions(!showOptions)}
-                tabIndex={0}
-                >
-                    {selectedValue ? (
-                        <>
-                            {options.find((option) => option.value === value).label}
-                        </>
-                    ) : (
-                        <span className="text-main6">{placeholder}</span>
-                    )}
-                </div>
+          onClick={() => setShowOptions(!showOptions)}
+          tabIndex={0}
+        >
+          {selectedValue ? (
+            <>{options.find((option) => option.value === value).label}</>
+          ) : (
+            <span className="text-main6">{placeholder}</span>
+          )}
+        </div>
 
-                {showOptions && (
-                    <div className="absolute z-20 w-full bg-white rounded-md mt-2 
-                    shadow-[0px_5px_15px_rgba(0,0,0,0.25)]">
-                        {options.map((option, optionIndex) => (
-                            <div key={optionIndex}
-                            className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
+        {showOptions && (
+          <div
+            className="absolute z-20 w-full bg-white rounded-md mt-2 
+                    shadow-[0px_5px_15px_rgba(0,0,0,0.25)]"
+          >
+            {options.map((option, optionIndex) => (
+              <div
+                key={optionIndex}
+                className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
                             hover:bg-primary flex items-center hover:text-white 
                             md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
-                            ${optionIndex === 0 ? 'rounded-t-md' : optionIndex === options.length - 1 ? 'rounded-b-md' : ''}
+                            ${
+                              optionIndex === 0
+                                ? "rounded-t-md"
+                                : optionIndex === options.length - 1
+                                ? "rounded-b-md"
+                                : ""
+                            }
                             `}
-                            onClick={() => handleChange(option.value)}
-                            >
-                                {option.label}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-        );
-    };
+                onClick={() => handleChange(option.value)}
+              >
+                {option.label}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
-    <section className='w-full flex md:min-h-[500px] ss:min-h-[450px]
-    min-h-[550px]'>
-        <div className='flex items-center w-full flex-col'>
-            <div className='w-full flex flex-col gap-1.5 items-center'>
-                <h1 className='text-primary font-bold md:text-[40px] 
+    <section
+      className="w-full flex md:min-h-[500px] ss:min-h-[450px]
+    min-h-[550px]"
+    >
+      <div className="flex items-center w-full flex-col">
+        <div className="w-full flex flex-col gap-1.5 items-center">
+          <h1
+            className="text-primary font-bold md:text-[40px] 
                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
-                ss:leading-[3.5rem] leading-[2.5rem] text-center'>
-                    Almost there...
-                </h1>
+                ss:leading-[3.5rem] leading-[2.5rem] text-center"
+          >
+            Almost there...
+          </h1>
 
-                <p className='text-main6 md:text-[17px] ss:text-[16px] 
+          <p
+            className="text-main6 md:text-[17px] ss:text-[16px] 
                 text-[15px] md:leading-[1.4rem] ss:leading-[1.4rem] 
-                leading-[1.2rem] tracking-tight font-medium text-center'>
-                    Select some add-ons you might want for your shipment
-                </p>
-            </div>
+                leading-[1.2rem] tracking-tight font-medium text-center"
+          >
+            Select some add-ons you might want for your shipment
+          </p>
+        </div>
 
-            <div className='md:w-[50%] ss:w-[70%] w-full md:mt-10 ss:mt-10 mt-8'>
-                <h1 className='flex text-main2 font-bold md:text-[30px] 
-                ss:text-[25px] text-[22px] tracking-tighter'>
-                    Insurance Services
-                </h1>
-            </div>
+        <div className="md:w-[50%] ss:w-[70%] w-full md:mt-10 ss:mt-10 mt-8">
+          <h1
+            className="flex text-main2 font-bold md:text-[30px] 
+                ss:text-[25px] text-[22px] tracking-tighter"
+          >
+            Insurance Services
+          </h1>
+        </div>
 
-            <form ref={formRef} onSubmit={formik.handleSubmit}
-            className='md:w-[50%] ss:w-[70%] w-full md:mt-6 ss:mt-6 mt-4'>
-                <div className='flex flex-col w-full items-center gap-8'>
-                    <div className='flex flex-col w-full items-center gap-4'>
-                        <div className='w-full flex flex-col gap-4'>
-                            <div className="relative flex flex-col">
-                                <div className='relative flex items-center'>
-                                    <div className='w-full'>
-                                        <CustomSelect 
-                                            name="insurance"
-                                            value={formik.values.insurance}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            options={insuranceOptions}
-                                            placeholder="Select an insurance covering (optional)"
-                                            error={
-                                                formik.touched.insurance && formik.errors.insurance
-                                            }
-                                        />
-                                    </div>
+        <form
+          ref={formRef}
+          onSubmit={formik.handleSubmit}
+          className="md:w-[50%] ss:w-[70%] w-full md:mt-6 ss:mt-6 mt-4"
+        >
+          <div className="flex flex-col w-full items-center gap-8">
+            <div className="flex flex-col w-full items-center gap-4">
+              <div className="w-full flex flex-col gap-4">
+                <div className="relative flex flex-col">
+                  <div className="relative flex items-center">
+                    <div className="w-full">
+                      <CustomSelect
+                        name="insurance"
+                        value={formik.values.insurance}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        options={insuranceOptions}
+                        placeholder="Select an insurance covering (optional)"
+                        error={
+                          formik.touched.insurance && formik.errors.insurance
+                        }
+                      />
+                    </div>
 
-                                    <div className='absolute md:right-3.5 right-3'>
-                                        <TiArrowSortedDown 
-                                            className='text-main md:text-[16px]
-                                            ss:text-[18px] text-[16px]'
-                                        />
-                                    </div>
-                                </div>
+                    <div className="absolute md:right-3.5 right-3">
+                      <TiArrowSortedDown
+                        className="text-main md:text-[16px]
+                                            ss:text-[18px] text-[16px]"
+                      />
+                    </div>
+                  </div>
 
-                                <p className="text-mainRed md:text-[12px] flex justify-end
-                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.insuranceType && formik.errors.insuranceType}
-                                </p>
-                            </div>
+                  <p
+                    className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                  >
+                    {formik.touched.insuranceType &&
+                      formik.errors.insuranceType}
+                  </p>
+                </div>
 
-                            {showCoverageInput && (
-                                <div className="relative flex flex-col">
-                                    <input
-                                        type="number"
-                                        name="coverage"
-                                        placeholder=' '
-                                        value={formik.values.coverage}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                {showCoverageInput && (
+                  <div className="relative flex flex-col">
+                    <input
+                      type="number"
+                      name="coverage"
+                      placeholder=" "
+                      value={formik.values.coverage}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className={`md:py-3.5 py-3 md:px-3.5 px-3 
                                         peer outline text-black md:rounded-lg rounded-md 
                                         md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                                         bg-transparent w-full focus:outline-primary
-                                        ${formik.touched.coverage && formik.errors.coverage ? 'outline-mainRed' : 'outline-main6'}
+                                        ${
+                                          formik.touched.coverage &&
+                                          formik.errors.coverage
+                                            ? "outline-mainRed"
+                                            : "outline-main6"
+                                        }
                                         `}
-                                    />
-                                    <label
-                                    htmlFor="coverage"
-                                    className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                    />
+                    <label
+                      htmlFor="coverage"
+                      className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
                                     md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
                                     md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
                                     duration-300 peer-placeholder-shown:translate-y-0 
                                     peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
                                     ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
                                     peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                                    ${formik.values.coverage ? 'z-10 px-2' : ''}
+                                    ${formik.values.coverage ? "z-10 px-2" : ""}
                                     `}
-                                    >
-                                        Coverage Amount
-                                    </label>
-                                    <p className="text-mainRed md:text-[12px] flex justify-end
-                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium">
-                                        {formik.touched.coverage && formik.errors.coverage}
-                                    </p>
-                                </div>
-                            )}
-                            <div className='flex gap-3 md:w-[80%] ss:w-[80%] items-center'>
-                                <input
-                                    type='checkbox'
-                                    className='cursor-pointer checkbox'
-                                    name='assistance'
-                                    checked={formik.values.assistance}
-                                    onChange={formik.handleChange}
-                                />
-                                <p className='text-main2 md:text-[16px]
-                                ss:text-[16px] text-[15px] font-medium'>
-                                    Require assistance with customs documents
-                                    (International Shipments only)
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mt-4 flex w-full items-center 
-                    justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
-                    ss:flex-row flex-col">
-                        <button
-                        type="button"
-                        className='bg-none text-[13px] py-3.5 px-14
-                        text-primary rounded-full grow2 cursor-pointer
-                        items-center justify-center border border-primary
-                        md:flex ss:flex hidden'
-                        onClick={handlePrevious}
-                        >
-                            <p className='font-semibold'>
-                                Go back
-                            </p>
-                        </button>
-
-                        <button type='submit'
-                        className='bg-primary text-[13px] py-3.5 px-14 flex
-                        text-white rounded-full grow4 cursor-pointer
-                        items-center justify-center gap-3 mobbut'
-                        disabled={loading}
-                        >
-                            <p>
-                                {loading ? 'Updating...' : 'Pay now'}
-                            </p>
-                            
-                            {!loading && <HiOutlineArrowRight className='text-[14px]'/>}
-                        </button>
-
-                        <button
-                        type="button"
-                        className='bg-none text-[13px] py-3.5 px-14
-                        text-primary rounded-full grow2 cursor-pointer
-                        items-center justify-center border border-primary
-                        md:hidden ss:hidden flex mobbut'
-                        onClick={handlePrevious}
-                        >
-                            <p className='font-semibold'>
-                                Go back
-                            </p>
-                        </button>
-                    </div>
-
-                    <p className='text-realRed md:text-[16px] ss:text-[16px] 
-                    text-[15px] font-semibold cursor-pointer grow2'
-                    onClick={handleCancelShipment}>
-                        Cancel Shipment
+                    >
+                      Coverage Amount
+                    </label>
+                    <p
+                      className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                    >
+                      {formik.touched.coverage && formik.errors.coverage}
                     </p>
+                  </div>
+                )}
+                <div className="flex gap-3 md:w-[80%] ss:w-[80%] items-center">
+                  <input
+                    type="checkbox"
+                    className="cursor-pointer checkbox"
+                    name="assistance"
+                    checked={formik.values.assistance}
+                    onChange={formik.handleChange}
+                  />
+                  <p
+                    className="text-main2 md:text-[16px]
+                                ss:text-[16px] text-[15px] font-medium"
+                  >
+                    Require assistance with customs documents (International
+                    Shipments only)
+                  </p>
                 </div>
-            </form>
-        </div>
+              </div>
+            </div>
+
+            <div
+              className="mt-4 flex w-full items-center 
+                    justify-center md:gap-5 ss:gap-5 gap-3 md:flex-row 
+                    ss:flex-row flex-col"
+            >
+              <button
+                type="button"
+                className="bg-none text-[13px] py-3.5 px-14
+                        text-primary rounded-full grow2 cursor-pointer
+                        items-center justify-center border border-primary
+                        md:flex ss:flex hidden"
+                onClick={handlePrevious}
+              >
+                <p className="font-semibold">Go back</p>
+              </button>
+
+              <button
+                type="submit"
+                className="bg-primary text-[13px] py-3.5 px-14 flex
+                        text-white rounded-full grow4 cursor-pointer
+                        items-center justify-center gap-3 mobbut"
+                disabled={loading}
+              >
+                <p>{loading ? "Updating..." : "Pay now"}</p>
+
+                {!loading && <HiOutlineArrowRight className="text-[14px]" />}
+              </button>
+
+              <button
+                type="button"
+                className="bg-none text-[13px] py-3.5 px-14
+                        text-primary rounded-full grow2 cursor-pointer
+                        items-center justify-center border border-primary
+                        md:hidden ss:hidden flex mobbut"
+                onClick={handlePrevious}
+              >
+                <p className="font-semibold">Go back</p>
+              </button>
+            </div>
+
+            <p
+              className="text-realRed md:text-[16px] ss:text-[16px] 
+                    text-[15px] font-semibold cursor-pointer grow2"
+              onClick={handleCancelShipment}
+            >
+              Cancel Shipment
+            </p>
+          </div>
+        </form>
+      </div>
     </section>
   );
 };
 
-export default SectionWrapper(InsuranceForm, '');
+export default SectionWrapper(InsuranceForm, "");

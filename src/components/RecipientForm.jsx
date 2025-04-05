@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -12,7 +12,7 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
   const formRef = useRef();
   const currentTab = selectedTab;
   const [countries, setCountries] = useState([]);
-  const { shipmentData, updateRecipientInfo, loading } = useGuestShipment();
+  const { shipmentData, updateRecipientInfo, loading } = useShipment();
   const { addNotification } = useNotifications();
   // const navigate = useNavigate();
 
