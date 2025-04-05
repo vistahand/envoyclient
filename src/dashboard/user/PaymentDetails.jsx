@@ -287,7 +287,11 @@ const PaymentDetails = () => {
               className="font-semibold md:text-[17px] ss:text-[17px] text-[15px] 
             tracking-tight text-main2"
             >
-              {payment.trackingNumber.startsWith("INT")
+              {payment.trackingNumber
+                ? payment.trackingNumber.startsWith("INT")
+                  ? "International"
+                  : "Local"
+                : payment.shipmentDetails?.type === "international"
                 ? "International"
                 : "Local"}{" "}
               Shipping
@@ -309,7 +313,7 @@ const PaymentDetails = () => {
                 navigate(`/user/shipments/details?id=${payment.shipmentId}`)
               }
             >
-              {payment.trackingNumber}
+              {payment.trackingNumber || "Pending Assignment"}
             </h2>
           </div>
 
