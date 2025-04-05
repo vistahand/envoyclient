@@ -495,7 +495,7 @@ export const payments = {
     }
   },
 
-  getAll: async (params = { page: 1, limit: 10 }) => {
+  getAll: async (params = { page: 1, limit: 10, method: "stripe" }) => {
     try {
       const response = await api.get("/payments/history", { params });
       return response.data;
