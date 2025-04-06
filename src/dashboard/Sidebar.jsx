@@ -91,7 +91,7 @@ const Sidebar = () => {
                         src={link.Icon}
                         alt={link.id}
                         className={`w-[1.5rem] h-auto ${
-                          active === link.title || openDropdown === link.id ? "s-white" : "s-main2"
+                          active === link.title || openDropdown === link.id ? "text-black" : "text-black"
                         }`}
                       />
                       {link.title}
