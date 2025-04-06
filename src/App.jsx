@@ -141,7 +141,7 @@ const App = () => {
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
                   <Route path="shipmentmanagement/details/:shipmentId" element={<ShipmentDetailMgt />} />
-                  <Route path="payment-history" element={<PaymentsAdmin />} />
+                  <Route path="payments" element={<PaymentsAdmin />} />
                   <Route path="pending-payments" element={<PendingPayments />} />
                   <Route path="pickuplocations" element={<PickupLoc />} />
                   <Route path="pickuplocations/create" element={<CreatePickupLocation />} />
