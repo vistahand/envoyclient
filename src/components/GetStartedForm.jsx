@@ -6,14 +6,14 @@ import * as Yup from "yup";
 import { SectionWrapper } from "../hoc";
 import { localIcon } from "../assets";
 import { internationalIcon } from "../assets";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 
 const GetStartedForm = ({ onNext, selectedTab }) => {
   const formRef = useRef();
   const [currentTab, setCurrentTab] = useState(selectedTab);
   const [countries, setCountries] = useState([]);
-  const { initializeShipment, loading, error } = useGuestShipment();
+  const { initializeShipment, loading, error } = useShipment();
   const { addNotification } = useNotifications();
 
   useEffect(() => {
@@ -120,8 +120,8 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
 
         const response = await initializeShipment(initialData);
         const shipmentId = response.shipment._id;
-        localStorage.setItem("shipmentId", shipmentId); // Store in local storage
-        const newUrl = `${window.location.pathname}?shipmentId=${shipmentId}?type=${currentTab}`;
+        localStorage.setItem("shipmentId", shipmentId);
+        const newUrl = `${window.location.pathname}?shipmentId=${shipmentId}&type=${currentTab}`;
         window.history.pushState({ path: newUrl }, "", newUrl);
         onNext(currentTab);
       } catch (err) {

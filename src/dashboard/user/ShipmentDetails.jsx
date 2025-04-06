@@ -201,19 +201,6 @@ const ShipmentDetails = () => {
 
               <PiWarningOctagon className="md:text-[16px] ss:text-[18px] text-[17px]" />
             </button>
-
-            {status !== "delivered" && (
-              <button
-                type="button"
-                className="bg-logRed md:text-[14px] ss:text-[14px] text-[13px]
-                flex text-white md:rounded-xl rounded-lg grow4 cursor-pointer whitespace-nowrap
-                items-center justify-center gap-2 md:py-3 ss:py-3 py-2.5 md:px-6 ss:px-3 px-2.5"
-              >
-                <p className="font-semibold hidden md:flex">Cancel Shipment</p>
-
-                <TbTrashX className="md:text-[16px] ss:text-[18px] text-[17px]" />
-              </button>
-            )}
           </div>
         </div>
 

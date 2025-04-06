@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -20,7 +20,7 @@ const SenderForm = ({
   const currentTab = selectedTab;
   const [countries, setCountries] = useState([]);
   const navigate = useNavigate();
-  const { shipmentData, updateSenderInfo, loading } = useGuestShipment();
+  const { shipmentData, updateSenderInfo, loading } = useShipment();
   const { addNotification } = useNotifications();
 
   useEffect(() => {
@@ -183,11 +183,6 @@ const SenderForm = ({
         console.log("senderData: ", senderData);
         const response = await updateSenderInfo(senderData);
         if (response?.success && response?.data?.shipment?._id) {
-          addNotification({
-            type: "success",
-            title: "Success",
-            message: "Sender information updated successfully",
-          });
           onNext(currentTab, senderTab);
         } else {
           throw new Error("Invalid response from server");

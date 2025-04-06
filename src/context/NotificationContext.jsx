@@ -53,12 +53,16 @@ export const NotificationProvider = ({ children }) => {
       });
 
       // Listen for shipment status
-      socket.on('shipment_status', (status) => {
+      socket.on('shipment_update', (update) => {
         addNotification({
           type: 'info',
           title: 'Shipment Update',
-          message: status.message
+          message: update.message
         });
+      });
+
+      socket.onAny((event, ...args) => {
+        console.log('Socket event received:', event, args);
       });
 
       // Cleanup on unmount
@@ -67,7 +71,7 @@ export const NotificationProvider = ({ children }) => {
         socket.off('email_verification_status');
         socket.off('registration_status');
         socket.off('payment_status');
-        socket.off('shipment_status');
+        socket.off('shipment_update');
         socketService.disconnect();
       };
     }

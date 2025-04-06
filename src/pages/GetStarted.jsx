@@ -8,7 +8,7 @@ import {
   RecipientForm,
   SenderForm,
 } from "../components";
-import { GuestShipmentProvider } from "../context/GuestShipmentContext";
+import { ShipmentProvider } from "../context/ShipmentContext";
 
 const GetStarted = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -53,7 +53,7 @@ const GetStarted = () => {
   };
 
   return (
-    <GuestShipmentProvider>
+    <ShipmentProvider>
       <div ref={sectionRef} className="font-manrope">
         {currentStep === 1 && (
           <GetStartedForm onNext={handleNextStep} selectedTab={selectedTab} />
@@ -107,7 +107,7 @@ const GetStarted = () => {
           />
         )}
       </div>
-    </GuestShipmentProvider>
+    </ShipmentProvider>
   );
 };
 

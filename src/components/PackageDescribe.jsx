@@ -13,7 +13,7 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import { TbSquareForbid, TbTrashX } from "react-icons/tb";
 import { GrAppsRounded } from "react-icons/gr";
 import { FaPallet } from "react-icons/fa";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 
 const PackageCard = ({ index, option, selected, onSelect }) => {
@@ -79,7 +79,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
     error,
     calculateShippingCost,
     shipmentData,
-  } = useGuestShipment();
+  } = useShipment();
   const { addNotification } = useNotifications();
 
   const handleCalculateCost = async () => {

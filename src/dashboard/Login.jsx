@@ -110,7 +110,7 @@ const Login = () => {
                 className="flex md:justify-between items-center w-full 
               md:gap-5 ss:gap-5 gap-3 mobauth"
               >
-                <div
+                {/* <div
                   className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
                 rounded-full border border-main7 cursor-pointer grow4"
                 >
@@ -126,9 +126,9 @@ const Login = () => {
                   >
                     Continue with Google
                   </h4>
-                </div>
+                </div> */}
 
-                <div
+                {/* <div
                   className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
                 rounded-full border border-main7 cursor-pointer grow4"
                 >
@@ -158,10 +158,10 @@ const Login = () => {
                   >
                     Continue with Facebook
                   </h4>
-                </div>
+                </div> */}
               </div>
 
-              <div
+              {/* <div
                 className="flex justify-between items-center w-full 
               gap-4"
               >
@@ -179,7 +179,7 @@ const Login = () => {
                 <div className="flex-grow">
                   <div className="bg-main7 w-full h-[1px]" />
                 </div>
-              </div>
+              </div> */}
 
               <div className="w-full">
                 <form

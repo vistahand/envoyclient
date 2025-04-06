@@ -430,6 +430,14 @@ const Navbar = () => {
                     <div className="mt-3 bg-gray-50 rounded-md py-2 shadow-sm">
                       <a
                         href={`${
+                          userData?.role === "admin" ? "/admin" : "/user"
+                        }`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary font-medium"
+                      >
+                        Account
+                      </a>
+                      <a
+                        href={`${
                           userData?.role === "admin"
                             ? "/admin/settings"
                             : "/user/settings"

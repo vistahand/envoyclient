@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { SectionWrapper } from "../hoc";
 import { wing } from "../assets";
-import { useGuestShipment } from "../context/GuestShipmentContext";
+import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 
 // Utility functions for delivery cost calculations
@@ -230,8 +230,7 @@ const DeliveryCard = ({
 
 const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
   const formRef = useRef();
-  const { updateDeliveryOptions, loading, error, shipmentData } =
-    useGuestShipment();
+  const { updateDeliveryOptions, loading, error, shipmentData } = useShipment();
   const { addNotification } = useNotifications();
 
   // Get today's date
