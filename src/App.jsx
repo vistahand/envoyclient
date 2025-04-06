@@ -146,17 +146,10 @@ const App = () => {
                   <Route index element={<AdminHome />} />
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
-                  <Route
-                    path="shipmentmanagement/details/:shipmentId"
-                    element={<ShipmentDetailMgt />}
-                  />
 
-                  {/* These are the routes for the paymens on the admin dashboard */}
-                  <Route path="payment-history" element={<PaymentsAdmin />} />
-                  <Route
-                    path="pending-payments"
-                    element={<PendingPayments />}
-                  />
+                  <Route path="shipmentmanagement/details/:shipmentId" element={<ShipmentDetailMgt />} />
+                  <Route path="payments" element={<PaymentsAdmin />} />
+                  <Route path="pending-payments" element={<PendingPayments />} />
 
                   <Route path="pickuplocations" element={<PickupLoc />} />
                   <Route

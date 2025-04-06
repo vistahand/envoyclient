@@ -8,6 +8,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState("Home");
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   const currentPath = location.pathname;
   useEffect(() => {
@@ -21,6 +22,21 @@ const Sidebar = () => {
       const activeLink = sideLinks.find((link) =>
         link.route.includes(pathSegments[2])
       );
+      
+      // Check if the current path matches a dropdown item
+      const links = currentPath.startsWith("/admin") ? adminSideLinks : sideLinks;
+      for (const link of links) {
+        if (link.hasDropdown) {
+          for (const item of link.dropdownItems) {
+            if (currentPath === item.route) {
+              setActive(item.title);
+              setOpenDropdown(link.id);
+              return;
+            }
+          }
+        }
+      }
+      
       if (activeLink) {
         setActive(activeLink.title);
       }
@@ -28,8 +44,17 @@ const Sidebar = () => {
   }, [location]);
 
   const handleSideItemClick = (link) => {
-    setActive(link.title);
-    navigate(link.route);
+    if (link.hasDropdown) {
+      setOpenDropdown(openDropdown === link.id ? null : link.id);
+    } else {
+      setActive(link.title);
+      navigate(link.route);
+    }
+  };
+
+  const handleDropdownItemClick = (parentLink, item) => {
+    setActive(item.title);
+    navigate(item.route);
   };
 
   const links =
@@ -51,27 +76,64 @@ const Sidebar = () => {
 
           <ul className="list-none flex flex-col gap-2.5 mt-14 w-full">
             {links.map((link) => (
-              <li
-                key={link.id}
-                className={`${
-                  active === link.title
-                    ? "bg-primary rounded-lg text-white font-bold"
-                    : "bg-none text-main2 grow4 font-semibold"
-                } cursor-pointer text-[16px] tracking-tight`}
-                onClick={() => {
-                  handleSideItemClick(link);
-                }}
-              >
-                <div className={`p-3 flex gap-4 items-center`}>
-                  <img
-                    src={link.Icon}
-                    alt={link.id}
-                    className={`w-[1.5rem] h-auto ${
-                      active === link.title ? "s-white" : "s-main2"
-                    }`}
-                  />
-                  {link.title}
+              <li key={link.id}>
+                <div
+                  className={`${
+                    (active === link.title || openDropdown === link.id) && !link.hasDropdown
+                      ? "bg-primary rounded-lg text-white font-bold"
+                      : "bg-none text-main2 grow4 font-semibold"
+                  } cursor-pointer text-[16px] tracking-tight`}
+                  onClick={() => handleSideItemClick(link)}
+                >
+                  <div className={`p-3 flex gap-4 items-center justify-between`}>
+                    <div className="flex gap-4 items-center">
+                      <img
+                        src={link.Icon}
+                        alt={link.id}
+                        className={`w-[1.5rem] h-auto ${
+                          active === link.title || openDropdown === link.id ? "s-white" : "s-main2"
+                        }`}
+                      />
+                      {link.title}
+                    </div>
+                    {link.hasDropdown && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-4 w-4 transition-transform ${
+                          openDropdown === link.id ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    )}
+                  </div>
                 </div>
+                
+                {link.hasDropdown && openDropdown === link.id && (
+                  <ul className="pl-10 mt-1 space-y-1">
+                    {link.dropdownItems.map((item) => (
+                      <li
+                        key={item.id}
+                        className={`${
+                          active === item.title
+                            ? "text-primary font-bold"
+                            : "text-main2 font-semibold"
+                        } cursor-pointer text-[14px] tracking-tight py-2`}
+                        onClick={() => handleDropdownItemClick(link, item)}
+                      >
+                        {item.title}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
@@ -81,20 +143,6 @@ const Sidebar = () => {
               className="list-none flex flex-col gap-2.5 mt-auto 
                     w-full border-t border-t-main7 pt-12"
             >
-              {/* <li
-                className="text-main2 grow4 font-semibold
-                          cursor-pointer text-[16px] tracking-tight"
-                >
-                <div className={`flex p-3 gap-4 items-center`}>
-                  <img
-                    src={help}
-                    alt="helpcentre"
-                    className="w-[1.5rem] h-auto"
-                  />
-                  Help Centre
-                </div>
-              </li> */}
-
               <li className="text-main2 grow4 font-semibold cursor-pointer text-[16px] tracking-tight">
                 <Link
                   to={`${
