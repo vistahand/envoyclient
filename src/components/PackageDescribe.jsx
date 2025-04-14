@@ -286,6 +286,12 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
             "No shipment ID found. Please try again from step 1."
           );
         }
+
+        // Ensure we have a calculated cost
+        if (!calculatedCost) {
+          throw new Error("Please calculate shipping cost before proceeding.");
+        }
+
         const data = {
           packages: values.packages.map((packageItem) => {
             return {
@@ -301,9 +307,27 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
               isHazardous: packageItem.isHazardous,
             };
           }),
+          // Include cost information to save to the server
+          cost: {
+            baseAmount: calculatedCost,
+            currency: currentTab === "international" ? "eur" : "ngn",
+            // We'll update total cost when delivery options are selected
+            total: calculatedCost,
+          },
         };
-        await updatePackageDetails(data);
-        onNext(currentTab, calculatedCost);
+
+        const response = await updatePackageDetails(data);
+
+        if (response?.success) {
+          // Pass the calculated cost to the next step
+          onNext(currentTab, calculatedCost);
+        } else {
+          addNotification({
+            type: "error",
+            title: "Error",
+            message: response?.error || "Failed to update package details",
+          });
+        }
       } catch (err) {
         addNotification({
           type: "error",

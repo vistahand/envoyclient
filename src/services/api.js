@@ -328,7 +328,7 @@ export const shipments = {
         throw new Error("Network error. Please check your connection.");
       }
       throw new Error(
-        err.response?.data?.error || "Failed to updatye insurance"
+        err.response?.data?.error || "Failed to update insurance"
       );
     }
   },
@@ -352,7 +352,7 @@ export const shipments = {
   },
 
   // Get all shipments
-  getAll: async (params) => {
+  getAll: async () => {
     try {
       const response = await api.get(`/shipments`);
       return response.data;
@@ -361,6 +361,25 @@ export const shipments = {
         throw new Error("Network error. Please check your connection.");
       }
       throw new Error(err.response?.data?.error || "Failed to fetch shipments");
+    }
+  },
+
+  // Get all shipments
+  getAllDrafts: async () => {
+    try {
+      console.log("Fetching all draft shipments...");
+      const response = await api.get(`/shipments/drafts`);
+      console.log("Drafts fetched successfully");
+      return response.data;
+    } catch (err) {
+      console.error("Error fetching drafts:", err);
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      const errorMessage =
+        err.response?.data?.error || "Failed to fetch draft shipments";
+      console.error("Error message:", errorMessage);
+      throw new Error(errorMessage);
     }
   },
 
@@ -383,14 +402,19 @@ export const shipments = {
   getDraftById: async (id) => {
     try {
       const response = await api.get(`/shipments/draft/${id}`);
+      console.log("Draft shipment fetched successfully");
       return response.data;
     } catch (err) {
+      console.error(`Error fetching draft shipment with ID ${id}:`, err);
       if (!err.response) {
         throw new Error("Network error. Please check your connection.");
       }
-      throw new Error(
-        err.response?.data?.error || "Failed to fetch shipment details"
-      );
+      const errorMessage =
+        err.response?.data?.error ||
+        err.message ||
+        "Failed to fetch shipment details";
+      console.error("Error message:", errorMessage);
+      throw new Error(errorMessage);
     }
   },
 

@@ -1,12 +1,8 @@
 import { createContext, useContext, useState } from "react";
 import { shipments } from "../services/api";
 import { handleApiError } from "../utils/errorHandler";
-import {
-  saveShipment,
-  updateShipment,
-  clearCurrentShipment,
-} from "../utils/shipmentStorage";
 
+// Create ShipmentContext
 const ShipmentContext = createContext(null);
 
 export const ShipmentProvider = ({ children }) => {
@@ -23,6 +19,7 @@ export const ShipmentProvider = ({ children }) => {
     recipient: null,
     pickup: null,
     insurance: null,
+    lastSavedStep: 1,
   });
 
   const initializeShipment = async (initialData) => {
@@ -71,18 +68,17 @@ export const ShipmentProvider = ({ children }) => {
       if (!shipment?._id) {
         throw new Error("Invalid shipment data in server response");
       }
+
       const updatedData = {
         ...shipmentData,
         id: shipment._id,
         shipmentType: initialData.shipmentType,
         origin: initialData.origin,
         destination: initialData.destination,
+        lastSavedStep: shipment.lastSavedStep || 1,
       };
 
       setShipmentData(updatedData);
-
-      // Save to localStorage
-      saveShipment(updatedData);
 
       return response.data;
     } catch (err) {
@@ -119,12 +115,13 @@ export const ShipmentProvider = ({ children }) => {
       setShipmentData((prev) => ({
         ...prev,
         package: packageData,
+        lastSavedStep: Math.max(
+          prev.lastSavedStep,
+          shipment.lastSavedStep || 2
+        ),
       }));
 
-      // Update in localStorage
-      updateShipment(shipmentData.id, { package: packageData });
-
-      return response.data;
+      return response;
     } catch (err) {
       const errorMessage = handleApiError(err, {
         context: { action: "update_package_details" },
@@ -166,6 +163,16 @@ export const ShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
+      // Validate shipment ID before making API call
+      if (
+        !shipmentData.id ||
+        shipmentData.id === "drafts" ||
+        typeof shipmentData.id !== "string" ||
+        shipmentData.id.length !== 24
+      ) {
+        throw new Error("Invalid shipment ID. Please restart from step 1.");
+      }
+
       const response = await shipments.updateDeliveryOptions(
         shipmentData.id,
         deliveryData
@@ -185,15 +192,18 @@ export const ShipmentProvider = ({ children }) => {
       setShipmentData((prev) => ({
         ...prev,
         delivery: deliveryData,
+        lastSavedStep: Math.max(
+          prev.lastSavedStep,
+          shipment.lastSavedStep || 3
+        ),
       }));
-
-      // Update in localStorage
-      updateShipment(shipmentData.id, { delivery: deliveryData });
 
       return response;
     } catch (err) {
       const message =
-        err.response?.data?.error || "Failed to update delivery options";
+        err.response?.data?.error ||
+        err.message ||
+        "Failed to update delivery options";
       setError(message);
       throw new Error(message);
     } finally {
@@ -207,8 +217,8 @@ export const ShipmentProvider = ({ children }) => {
       setError(null);
 
       const response = await shipments.updateSenderInfo(
-        shipmentData.id !== null ? shipmentData.id : senderData.id,
-        senderData.data ? senderData.data : senderData
+        shipmentData.id,
+        senderData
       );
 
       if (!response.success) {
@@ -225,10 +235,11 @@ export const ShipmentProvider = ({ children }) => {
       setShipmentData((prev) => ({
         ...prev,
         sender: senderData,
+        lastSavedStep: Math.max(
+          prev.lastSavedStep,
+          shipment.lastSavedStep || 4
+        ),
       }));
-
-      // Update in localStorage
-      updateShipment(shipmentData.id, { sender: senderData });
 
       return response;
     } catch (err) {
@@ -247,8 +258,8 @@ export const ShipmentProvider = ({ children }) => {
       setError(null);
 
       const response = await shipments.updateRecipientInfo(
-        shipmentData.id !== null ? shipmentData.id : recipientData.id,
-        recipientData.data ? recipientData.data : recipientData
+        shipmentData.id,
+        recipientData
       );
 
       if (!response.success) {
@@ -265,10 +276,11 @@ export const ShipmentProvider = ({ children }) => {
       setShipmentData((prev) => ({
         ...prev,
         recipient: recipientData,
+        lastSavedStep: Math.max(
+          prev.lastSavedStep,
+          shipment.lastSavedStep || 5
+        ),
       }));
-
-      // Update in localStorage
-      updateShipment(shipmentData.id, { recipient: recipientData });
 
       return response;
     } catch (err) {
@@ -287,8 +299,8 @@ export const ShipmentProvider = ({ children }) => {
       setError(null);
 
       const response = await shipments.updatePickupLocation(
-        shipmentData.id !== null ? shipmentData.id : pickupData.id,
-        pickupData.data ? pickupData.data : pickupData
+        shipmentData.id,
+        pickupData
       );
 
       if (!response.success) {
@@ -305,10 +317,11 @@ export const ShipmentProvider = ({ children }) => {
       setShipmentData((prev) => ({
         ...prev,
         pickup: pickupData,
+        lastSavedStep: Math.max(
+          prev.lastSavedStep,
+          shipment.lastSavedStep || 6
+        ),
       }));
-
-      // Update in localStorage
-      updateShipment(shipmentData.id, { pickup: pickupData });
 
       return response;
     } catch (err) {
@@ -345,16 +358,15 @@ export const ShipmentProvider = ({ children }) => {
       setShipmentData((prev) => ({
         ...prev,
         insurance: insuranceData,
+        lastSavedStep: Math.max(
+          prev.lastSavedStep,
+          shipment.lastSavedStep || 7
+        ),
       }));
-
-      // Update in localStorage
-      updateShipment(shipmentData.id, { insurance: insuranceData });
 
       return response;
     } catch (err) {
-      console.log(err);
-      const message =
-        err.response?.data?.error || "Failed happily to update insurance";
+      const message = err.response?.data?.error || "Failed to update insurance";
       setError(message);
       throw new Error(message);
     } finally {
@@ -367,7 +379,12 @@ export const ShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await shipments.finalizeShipment(shipmentId);
+      if (!shipmentId && !shipmentData.id) {
+        throw new Error("No shipment ID provided");
+      }
+
+      const id = shipmentId || shipmentData.id;
+      const response = await shipments.finalizeShipment(id);
 
       if (!response.success) {
         throw new Error(
@@ -375,28 +392,15 @@ export const ShipmentProvider = ({ children }) => {
         );
       }
 
-      // Clear shipment data after successful finalization
-      setShipmentData({
-        id: null,
-        shipmentType: null,
-        origin: null,
-        destination: null,
-        package: null,
-        delivery: null,
-        sender: null,
-        recipient: null,
-        pickup: null,
-        insurance: null,
-      });
+      const shipment = response.data?.shipment;
+      if (!shipment) {
+        throw new Error("No shipment returned from server");
+      }
 
-      // Update localStorage but don't clear current shipment
-      // We want to keep it for the success screens
-      updateShipment(shipmentId, {
-        finalizationStatus: "completed",
-        finalizationDate: new Date().toISOString(),
-      });
+      // Reset current shipment after finalization
+      resetShipment();
 
-      return response;
+      return response.data;
     } catch (err) {
       const message =
         err.response?.data?.error || "Failed to finalize shipment";
@@ -419,63 +423,82 @@ export const ShipmentProvider = ({ children }) => {
       recipient: null,
       pickup: null,
       insurance: null,
+      lastSavedStep: 1,
     });
-
-    // Clear current shipment in localStorage
-    clearCurrentShipment();
-    setError(null);
   };
 
-  const getDraftById = async (shipmentId) => {
+  // Method to load a draft shipment by ID
+  const loadShipmentDraft = async (shipmentId) => {
     try {
       setLoading(true);
       setError(null);
+
+      // Validate shipment ID format
+      if (
+        !shipmentId ||
+        typeof shipmentId !== "string" ||
+        shipmentId === "drafts" ||
+        shipmentId.length !== 24
+      ) {
+        throw new Error("Invalid shipment ID format. Please try again.");
+      }
 
       const response = await shipments.getDraftById(shipmentId);
 
       if (!response.success) {
         throw new Error(
-          response.data?.error || "Server returned unsuccessful response"
+          response.data?.error || "Failed to fetch shipment draft"
         );
       }
 
-      const shipment = response.data?.shipment;
-      if (!shipment?._id) {
-        throw new Error("Invalid shipment data in server response");
+      const shipment = response.data.shipment;
+
+      if (!shipment) {
+        throw new Error("No shipment data returned from server");
       }
 
-      // Update the context state with the retrieved draft
-      setShipmentData({
+      // Check if we have a saved step in sessionStorage
+      let lastStep = shipment.lastSavedStep || 1;
+      const savedStep = sessionStorage.getItem(`shipment_step_${shipmentId}`);
+      if (savedStep) {
+        const stepNumber = parseInt(savedStep, 10);
+        if (stepNumber >= 1 && stepNumber <= 7) {
+          // Use the greater of server lastSavedStep or sessionStorage
+          lastStep = Math.max(lastStep, stepNumber);
+        }
+      }
+
+      // Map the server response to our local state format
+      const mappedData = {
         id: shipment._id,
         shipmentType: shipment.type,
         origin: shipment.origin,
         destination: shipment.destination,
-        package: shipment.packages,
-        delivery: shipment.delivery,
-        sender: shipment.sender,
-        recipient: shipment.recipient,
-        pickup: shipment.pickup,
-        insurance: shipment.insurance,
-      });
+        package: shipment.packages ? { packages: shipment.packages } : null,
+        delivery: shipment.deliveryOptions || null,
+        sender: shipment.sender || null,
+        recipient: shipment.recipient || null,
+        pickup: shipment.pickup || null,
+        insurance: shipment.insurance || null,
+        lastSavedStep: lastStep,
+        // Include other fields like cost if needed
+        cost: shipment.cost || null,
+      };
 
-      // Save to localStorage
-      saveShipment({
-        id: shipment._id,
-        shipmentType: shipment.type,
-        origin: shipment.origin,
-        destination: shipment.destination,
-        package: shipment.packages,
-        delivery: shipment.delivery,
-        sender: shipment.sender,
-        recipient: shipment.recipient,
-        pickup: shipment.pickup,
-        insurance: shipment.insurance,
-      });
+      setShipmentData(mappedData);
 
-      return response;
+      // Store the current step in sessionStorage
+      sessionStorage.setItem(
+        `shipment_step_${shipmentId}`,
+        lastStep.toString()
+      );
+
+      return mappedData;
     } catch (err) {
       const message =
-        err.response?.data?.error || "Failed to retrieve draft shipment";
+        err.response?.data?.error ||
+        err.message ||
+        "Failed to load shipment draft";
       setError(message);
       throw new Error(message);
     } finally {
@@ -483,10 +506,11 @@ export const ShipmentProvider = ({ children }) => {
     }
   };
 
-  const value = {
+  // Context value
+  const contextValue = {
+    shipmentData,
     loading,
     error,
-    shipmentData,
     initializeShipment,
     updatePackageDetails,
     calculateShippingCost,
@@ -497,11 +521,11 @@ export const ShipmentProvider = ({ children }) => {
     updateInsurance,
     finalizeShipment,
     resetShipment,
-    getDraftById, // Add this
+    loadShipmentDraft,
   };
 
   return (
-    <ShipmentContext.Provider value={value}>
+    <ShipmentContext.Provider value={contextValue}>
       {children}
     </ShipmentContext.Provider>
   );

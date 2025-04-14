@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -92,7 +92,7 @@ const DeliveryCard = ({
         }
           flex md:flex-row ss:flex-row flex-col justify-between md:px-7 px-7 md:py-10 py-8 md:items-center ss:items-center
           md:gap-0 ss:gap-0 gap-4 cursor-pointer hover:opacity-95 transition-opacity relative`}
-        onClick={() => onNext(option)}
+        onClick={() => onNext()}
       >
         {isSelected && (
           <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs">
@@ -228,10 +228,17 @@ const DeliveryCard = ({
   );
 };
 
-const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
+const DeliveryOptions = ({
+  onPrev,
+  onNext,
+  selectedTab,
+  calculatedCost,
+  initialData,
+}) => {
   const formRef = useRef();
   const { updateDeliveryOptions, loading, error, shipmentData } = useShipment();
   const { addNotification } = useNotifications();
+  const [baseShippingCost, setBaseShippingCost] = useState(0);
 
   // Get today's date
   const today = new Date().toISOString().split("T")[0];
@@ -240,9 +247,38 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
   const [selectedDeliveryOption, setSelectedDeliveryOption] = useState(null);
   const [deliveryOptions] = useState(getDeliveryOptions());
 
+  // Determine the base shipping cost from server data or prop
+  useEffect(() => {
+    // Priority of cost sources:
+    // 1. shipmentData.cost.baseAmount from server
+    // 2. initialData.options.baseAmount from server
+    // 3. calculatedCost from previous page
+    // 4. Default to 0
+
+    if (shipmentData?.cost?.baseAmount) {
+      setBaseShippingCost(shipmentData.cost.baseAmount);
+    } else if (initialData?.options?.baseAmount) {
+      setBaseShippingCost(initialData.options.baseAmount);
+    } else if (calculatedCost) {
+      setBaseShippingCost(calculatedCost);
+    } else {
+      setBaseShippingCost(0);
+    }
+
+    // If there's a saved delivery option, preselect it
+    if (initialData?.options?.deliveryOption) {
+      const savedOption = deliveryOptions.find(
+        (opt) => opt.name === initialData.options.deliveryOption
+      );
+      if (savedOption) {
+        setSelectedDeliveryOption(savedOption);
+      }
+    }
+  }, [shipmentData, initialData, calculatedCost, deliveryOptions]);
+
   const formik = useFormik({
     initialValues: {
-      date: today,
+      date: initialData?.actualDate || today,
     },
 
     validationSchema: Yup.object({
@@ -257,13 +293,22 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
           );
         }
 
+        // Check if shipmentID is valid - not "drafts" or other invalid values
+        if (
+          shipmentData.id === "drafts" ||
+          typeof shipmentData.id !== "string" ||
+          shipmentData.id.length !== 24
+        ) {
+          throw new Error("Invalid shipment ID. Please restart from step 1.");
+        }
+
         if (!selectedDeliveryOption) {
           throw new Error("Please select a delivery option");
         }
 
         // Calculate the total cost with the selected delivery option
         const totalCost = calculateDeliveryCost(
-          calculatedCost,
+          baseShippingCost,
           selectedDeliveryOption.percentageMarkup
         );
 
@@ -279,7 +324,7 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
           options: {
             deliveryOption: selectedDeliveryOption.name,
             deliveryPercentage: selectedDeliveryOption.percentageMarkup,
-            baseAmount: calculatedCost,
+            baseAmount: baseShippingCost,
             totalCost: totalCost,
             timeWindow: {
               start: `${values.date}T08:00:00.000Z`,
@@ -290,8 +335,25 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
           },
         };
 
-        await updateDeliveryOptions(deliveryData);
-        onNext(selectedTab);
+        const response = await updateDeliveryOptions(deliveryData);
+
+        if (response?.success) {
+          // Prepare the cost data object to pass to the parent component
+          const costData = {
+            base: baseShippingCost,
+            markup: selectedDeliveryOption.percentageMarkup,
+            total: totalCost,
+          };
+
+          // Pass the cost data to the parent component
+          onNext(selectedTab, costData);
+        } else {
+          addNotification({
+            type: "error",
+            title: "Error",
+            message: response?.error || "Failed to update delivery options",
+          });
+        }
       } catch (err) {
         addNotification({
           type: "error",
@@ -314,7 +376,14 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
     // Validate the form first
     const errors = formik.validateForm();
     if (Object.keys(errors).length === 0) {
-      formik.submitForm();
+      // Calculate the total cost with the selected delivery option
+      const totalCost = calculateDeliveryCost(
+        baseShippingCost,
+        option.percentageMarkup
+      );
+
+      // Submit the form directly here to update delivery options
+      formik.submitForm(totalCost);
     } else {
       // If there are validation errors, touch all fields to show errors
       formik.setTouched({ date: true });
@@ -344,12 +413,12 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
             Select your preferred delivery method from the displayed options
           </p>
 
-          {calculatedCost > 0 && (
+          {baseShippingCost > 0 && (
             <div className="mt-4 bg-primary1 px-6 py-3 rounded-lg">
               <p className="text-main2 font-medium">
                 Base Shipping Cost:{" "}
                 <span className="font-bold text-primary">
-                  {formatCurrency(calculatedCost, selectedTab)}
+                  {formatCurrency(baseShippingCost, selectedTab)}
                 </span>
               </p>
             </div>
@@ -419,7 +488,7 @@ const DeliveryOptions = ({ onPrev, onNext, selectedTab, calculatedCost }) => {
                   option={option}
                   onNext={() => handleSelectOption(option)}
                   totalOptions={deliveryOptions.length}
-                  baseAmount={calculatedCost || 0}
+                  baseAmount={baseShippingCost || 0}
                   shipmentType={selectedTab}
                   date={formik.values.date}
                   isSelected={selectedDeliveryOption?.id === option.id}

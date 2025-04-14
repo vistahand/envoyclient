@@ -9,12 +9,38 @@ import { internationalIcon } from "../assets";
 import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 
-const GetStartedForm = ({ onNext, selectedTab }) => {
+const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
   const formRef = useRef();
-  const [currentTab, setCurrentTab] = useState(selectedTab);
+  const [currentTab, setCurrentTab] = useState(selectedTab || "international");
   const [countries, setCountries] = useState([]);
-  const { initializeShipment, loading, error } = useShipment();
+  const { initializeShipment, loading, error, shipmentData } = useShipment();
   const { addNotification } = useNotifications();
+  const [submitting, setSubmitting] = useState(false);
+
+  // Set initial values based on any existing data
+  useEffect(() => {
+    if (initialData) {
+      const isInternational = initialData.shipmentType === "international";
+      setCurrentTab(initialData.shipmentType || "international");
+
+      if (isInternational) {
+        formik.setValues({
+          ...formik.values,
+          countryFromInt: initialData.origin?.country || "IE",
+          cityFromInt: initialData.origin?.city || "",
+          countryTo: initialData.destination?.country || "NG",
+          cityToInt: initialData.destination?.city || "",
+        });
+      } else {
+        formik.setValues({
+          ...formik.values,
+          countryFromLoc: initialData.origin?.country || "NG",
+          cityFromLoc: initialData.origin?.city || "",
+          cityToLoc: initialData.destination?.city || "",
+        });
+      }
+    }
+  }, [initialData]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -68,6 +94,11 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
     validateOnMount: true,
     onSubmit: async (values) => {
       try {
+        setSubmitting(true);
+
+        // Use existing shipment ID if available
+        const existingShipmentId = shipmentData?.id;
+
         // Validate international/local shipment type against countries
         if (currentTab === "international") {
           if (values.countryFromInt === values.countryTo) {
@@ -77,6 +108,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
               message:
                 "International shipments must be between different countries. Please select different countries for sender and recipient.",
             });
+            setSubmitting(false);
             return;
           }
         }
@@ -90,6 +122,7 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
               message:
                 "Local shipments must be within the same country. Please select local shipping options.",
             });
+            setSubmitting(false);
             return;
           }
         }
@@ -119,18 +152,25 @@ const GetStartedForm = ({ onNext, selectedTab }) => {
         };
 
         const response = await initializeShipment(initialData);
-        const shipmentId = response.shipment._id;
-        localStorage.setItem("shipmentId", shipmentId);
-        const newUrl = `${window.location.pathname}?shipmentId=${shipmentId}&type=${currentTab}`;
-        window.history.pushState({ path: newUrl }, "", newUrl);
-        onNext(currentTab);
+
+        // Call onNext with the tab type and move to next step
+        if (response && response.shipment) {
+          // Update URL with the shipment ID
+          const shipmentId = response.shipment._id;
+          const newUrl = `${window.location.pathname}?shipmentId=${shipmentId}&type=${currentTab}`;
+          window.history.pushState({ path: newUrl }, "", newUrl);
+          onNext(currentTab);
+        }
       } catch (err) {
         console.error("Error initializing shipment:", err);
         addNotification({
           type: "error",
           title: "Error",
-          message: err.message,
+          message:
+            err.message || "Failed to initialize shipment. Please try again.",
         });
+      } finally {
+        setSubmitting(false);
       }
     },
   });

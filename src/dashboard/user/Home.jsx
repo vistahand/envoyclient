@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { format } from "date-fns";
+import { RecentDrafts } from "../../components";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -135,6 +136,9 @@ const Home = () => {
             <div className="mt-3 text-sm text-main4">Completed shipments</div>
           </div>
         </div>
+
+        {/* Recent Drafts Section */}
+        <RecentDrafts />
 
         {/* Recent Shipments Section */}
         <div className="w-full">
