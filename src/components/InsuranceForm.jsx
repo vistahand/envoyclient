@@ -338,7 +338,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                         items-center justify-center gap-3 mobbut"
                 disabled={loading}
               >
-                <p>{loading ? "Updating..." : "Pay now"}</p>
+                <p>{loading ? "Updating..." : "Continue"}</p>
 
                 {!loading && <HiOutlineArrowRight className="text-[14px]" />}
               </button>
