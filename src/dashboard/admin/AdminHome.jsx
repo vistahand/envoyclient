@@ -7,8 +7,64 @@ import WeeklyInsightsChart from "../../components/WeeklyInsightsChart";
 
 const AdminHome = () => {
   const [countries, setCountries] = useState([]);
+  const [dashboardStats, setDashboardStats] = useState({
+    activeShipments: 0,
+    shipmentsToday: 0,
+    deliveredToday: 0,
+    pendingShipments: 0,
+    totalShipments: 0,
+    revenue: 0,
+    totalUsers: 0,
+    newUsers: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // Get the token from localStorage, parsing it from JSON format
+        const token = JSON.parse(localStorage.getItem('token'));
+        
+        if (!token) {
+          throw new Error('Authentication token not found');
+        }
+
+        // Use environment variable for API URL
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://envoyserver-pyxd.onrender.com';
+        const endpoint = `${apiUrl}/api/admin/dashboard`;
+        
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error('Unauthorized access. Please log in again.');
+          }
+          throw new Error(`Error fetching dashboard data: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setDashboardStats(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        setError(error.message);
+        setLoading(false);
+        
+        // Handle authentication errors
+        if (error.message.includes('Unauthorized') || error.message.includes('token')) {
+          // Redirect to login page or show auth error
+          // window.location.href = '/login'; // Uncomment to enable redirect
+        }
+      }
+    };
+
     const fetchCountries = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
@@ -25,7 +81,18 @@ const AdminHome = () => {
     };
 
     fetchCountries();
+    fetchDashboardData();
   }, []);
+
+  // Format revenue to currency with 2 decimal places
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount).replace('NGN', '₦');
+  };
 
   return (
     <section className="w-full h-full">
@@ -256,20 +323,6 @@ const AdminHome = () => {
                     Drop your shipment at the selected pickup station
                   </p>
 
-                  {/* <div className='flex items-center gap-3.5'>
-                    <p className="font-medium text-[13px] text-main4
-                    tracking-tight">
-                      Monday 28th October, 2024.
-                    </p>
-
-                    <div className='h-[3px] w-[3px] bg-main4 rounded-full'/>
-
-                    <p className="font-medium text-[13px] tracking-tight 
-                    text-main4">
-                      11:25AM
-                    </p>
-                  </div> */}
-
                   <div>
                     <a
                       href="/user/shipments/details"
@@ -306,7 +359,7 @@ const AdminHome = () => {
           </div>
 
           <div className="w-full mt-3">
-          <WeeklyInsightsChart />
+            <WeeklyInsightsChart />
           </div>
         </div>
 
@@ -331,59 +384,75 @@ const AdminHome = () => {
               </h2>
             </div>
 
-            <div className="w-full grid grid-cols-2 gap-4">
-              <div
-                className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
-              items-start flex flex-col"
-              >
-                <p className="text-white md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
-                  Active Shipments
-                </p>
-
-                <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
-                  58
-                </h1>
+            {loading ? (
+              <div className="flex justify-center items-center h-40">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
               </div>
-
-              <div
-                className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
-              items-start flex flex-col"
-              >
-                <p className="text-white md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
-                  Shipments Today
-                </p>
-
-                <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
-                  25
-                </h1>
+            ) : error ? (
+              <div className="text-white text-center py-4">
+                <p className="mb-2 font-medium">{error}</p>
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="bg-primary py-2 px-4 rounded-lg text-sm hover:opacity-90 transition-opacity"
+                >
+                  Retry
+                </button>
               </div>
+            ) : (
+              <div className="w-full grid grid-cols-2 gap-4">
+                <div
+                  className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
+                items-start flex flex-col"
+                >
+                  <p className="text-white md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
+                    Active Shipments
+                  </p>
 
-              <div
-                className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
-              items-start flex flex-col"
-              >
-                <p className="text-white md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
-                  Delivered Today
-                </p>
+                  <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
+                    {dashboardStats.activeShipments}
+                  </h1>
+                </div>
 
-                <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
-                  18
-                </h1>
+                <div
+                  className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
+                items-start flex flex-col"
+                >
+                  <p className="text-white md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
+                    Shipments Today
+                  </p>
+
+                  <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
+                    {dashboardStats.shipmentsToday}
+                  </h1>
+                </div>
+
+                <div
+                  className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
+                items-start flex flex-col"
+                >
+                  <p className="text-white md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
+                    Delivered Today
+                  </p>
+
+                  <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
+                    {dashboardStats.deliveredToday}
+                  </h1>
+                </div>
+
+                <div
+                  className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
+                items-start flex flex-col"
+                >
+                  <p className="text-white md:whitespace-nowrap md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
+                    Pending Shipments
+                  </p>
+
+                  <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
+                    {dashboardStats.pendingShipments}
+                  </h1>
+                </div>
               </div>
-
-              <div
-                className="w-full md:rounded-xl ss:rounded-xl rounded-lg bg-primary p-5 
-              items-start flex flex-col"
-              >
-                <p className="text-white md:whitespace-nowrap md:text-[13px] ss:text-[13px] text-[12px] font-medium tracking-tight">
-                  Pending Shipments
-                </p>
-
-                <h1 className="text-white md:text-[45px] ss:text-[43px] text-[33px] font-bold tracking-tight">
-                  15
-                </h1>
-              </div>
-            </div>
+            )}
 
             <div>
               <a
@@ -424,6 +493,21 @@ const AdminHome = () => {
                 >
                   Payment Activity
                 </h2>
+              </div>
+
+              <div className="flex items-center gap-4 mb-2">
+                <div className="flex flex-col">
+                  <p className="text-main4 text-[13px] font-medium">Total Revenue</p>
+                  <h3 className="text-main2 text-[22px] font-bold">
+                    {formatCurrency(dashboardStats.revenue)}
+                  </h3>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-main4 text-[13px] font-medium">Total Users</p>
+                  <h3 className="text-main2 text-[22px] font-bold">
+                    {dashboardStats.totalUsers}
+                  </h3>
+                </div>
               </div>
 
               <table className="">

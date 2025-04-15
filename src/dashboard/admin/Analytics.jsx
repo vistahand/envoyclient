@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, PieChart, Pie, Cell, Legend, AreaChart, Area
+  LineChart, Line, PieChart, Pie, Cell, Legend,
 } from "recharts";
-import { HiOutlineArrowRight, HiOutlineRefresh, HiOutlineDownload } from "react-icons/hi";
+import {  HiOutlineRefresh, HiOutlineDownload } from "react-icons/hi";
+import RecentActivities from "../../components/recentActivities";
 
 // Sample data (taken from your provided code)
 const weeklyData = [
@@ -419,117 +420,7 @@ const Analytics = () => {
         </div>
       </div>
 
-      {/* Recent Shipments Table */}
-      <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm mb-6">
-        <div className="flex justify-between items-center mb-4 sm:mb-6">
-          <h2 className="font-semibold text-sm sm:text-base text-gray-700">Recent Shipments</h2>
-          <button className="text-xs sm:text-sm text-blue-600 font-medium">View All</button>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ID
-                </th>
-                <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Destination
-                </th>
-                <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
-                  Customer
-                </th>
-                <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                  Carrier
-                </th>
-                <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
-                  ETA
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {[
-                {
-                  id: "TRK-2023-04576",
-                  shortId: "4576",
-                  destination: "New York, NY",
-                  shortDest: "NY",
-                  customer: "John Smith",
-                  carrier: "FedEx",
-                  status: "In Transit",
-                  eta: "Apr 3, 2025"
-                },
-                {
-                  id: "TRK-2023-04577",
-                  shortId: "4577",
-                  destination: "Los Angeles, CA",
-                  shortDest: "LA",
-                  customer: "Jane Doe",
-                  carrier: "UPS",
-                  status: "Delivered",
-                  eta: "Apr 1, 2025"
-                },
-                {
-                  id: "TRK-2023-04578",
-                  shortId: "4578",
-                  destination: "Chicago, IL",
-                  shortDest: "CHI",
-                  customer: "Robert Johnson",
-                  carrier: "USPS",
-                  status: "Pending",
-                  eta: "Apr 5, 2025"
-                },
-                {
-                  id: "TRK-2023-04579",
-                  shortId: "4579",
-                  destination: "Houston, TX",
-                  shortDest: "HOU",
-                  customer: "Maria Garcia",
-                  carrier: "DHL",
-                  status: "Out for Delivery",
-                  eta: "Apr 2, 2025"
-                },
-                {
-                  id: "TRK-2023-04580",
-                  shortId: "4580",
-                  destination: "Phoenix, AZ",
-                  shortDest: "PHX",
-                  customer: "David Lee",
-                  carrier: "FedEx",
-                  status: "In Transit",
-                  eta: "Apr 4, 2025"
-                }
-              ].map((shipment, index) => (
-                <tr key={index}>
-                  <td className="py-2 sm:py-4 px-2 sm:px-4 text-xs sm:text-sm text-blue-600 font-medium">
-                    <span className="hidden sm:inline">{shipment.id}</span>
-                    <span className="sm:hidden">{shipment.shortId}</span>
-                  </td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-4 text-xs sm:text-sm text-gray-700">
-                    <span className="hidden sm:inline">{shipment.destination}</span>
-                    <span className="sm:hidden">{shipment.shortDest}</span>
-                  </td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-4 text-xs sm:text-sm text-gray-700 hidden sm:table-cell">{shipment.customer}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-4 text-xs sm:text-sm text-gray-700 hidden md:table-cell">{shipment.carrier}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-4">
-                    <span className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-xxs sm:text-xs rounded-full whitespace-nowrap ${
-                      shipment.status === "Delivered" ? "bg-green-100 text-green-800" :
-                      shipment.status === "In Transit" ? "bg-blue-100 text-blue-800" :
-                      shipment.status === "Pending" ? "bg-yellow-100 text-yellow-800" :
-                      "bg-purple-100 text-purple-800"
-                    }`}>
-                      {shipment.status}
-                    </span>
-                  </td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-4 text-xs sm:text-sm text-gray-700 hidden sm:table-cell">{shipment.eta}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <RecentActivities />
     </div>
   );
 };
