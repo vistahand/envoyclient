@@ -88,17 +88,18 @@ const Home = () => {
             </h4>
           </div>
 
-          <button
-            type="button"
-            onClick={() => navigate("/user/shipments/createshipment")}
-            className="bg-primary md:text-[14px] ss:text-[15px] text-[13px]
+          <a href="/user/shipments/createshipment">
+            <button
+              type="button"
+              className="bg-primary md:text-[14px] ss:text-[15px] text-[13px]
             md:py-3 ss:py-3 py-2.5 md:px-6 ss:px-6 px-2.5 flex text-white md:rounded-xl ss:rounded-xl
             rounded-lg grow4 cursor-pointer gap-3 items-center"
-          >
-            <p>Create Shipment</p>
+            >
+              <p>Create Shipment</p>
 
-            <HiOutlineArrowRight className="text-[14px]" />
-          </button>
+              <HiOutlineArrowRight className="text-[14px]" />
+            </button>
+          </a>
         </div>
 
         {/* Summary Cards */}
