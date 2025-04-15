@@ -427,12 +427,12 @@ export const sideLinks = [
         route: '/user/payments',
         Icon: invoice,
     },
-    {
-        id: 'savedlocations',
-        title: 'Saved Locations',
-        route: '/user/savedlocations',
-        Icon: savedloc,
-    },
+    // {
+    //     id: 'savedlocations',
+    //     title: 'Saved Locations',
+    //     route: '/user/savedlocations',
+    //     Icon: savedloc,
+    // },
 ];
 export const adminSideLinks = [
   {
