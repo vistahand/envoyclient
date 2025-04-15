@@ -472,12 +472,12 @@ export const adminSideLinks = [
       route: '/admin/pickuplocations',
       Icon: savedloc,
   },
-  // {
-  //     id: 'quoteMgt',
-  //     title: 'Quote Management',
-  //     route: '/admin/quotemanagement',
-  //     Icon: quote,
-  // },
+  {
+      id: 'quoteMgt',
+      title: 'Quote Management',
+      route: '/admin/quotemanagement',
+      Icon: quote,
+  },
   {
       id: 'analytics',
       title: 'Analytics',

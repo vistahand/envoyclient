@@ -17,11 +17,22 @@ const SettingsPage = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [fileError, setFileError] = useState("");
 
   // Handle profile image selection and upload
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    
+    // Clear previous errors
+    setFileError("");
+    
+    // Check file size (10MB = 10 * 1024 * 1024 bytes)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      setFileError("File size exceeds 10MB limit. Please choose a smaller image.");
+      return;
+    }
 
     setPreviewImage(URL.createObjectURL(file));
     setUploading(true);
@@ -57,6 +68,10 @@ const SettingsPage = () => {
     try {
       await updatePassword(currentPassword, newPassword);
       toast.success("Password updated successfully");
+      // Clear password fields after successful update
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
     } catch (error) {
       toast.error("Password update failed");
     }
@@ -68,9 +83,13 @@ const SettingsPage = () => {
         {/* Profile Image Section */}
         <div className="w-full md:w-1/3 bg-[#F7F7F7] p-6 rounded-tr-lg rounded-br-lg flex flex-col items-center">
           <img
-            src={previewImage || <GoPerson className="w-5 h-5 text-gray-500" />}
+            src={previewImage || ""}
             alt="Profile"
             className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-md object-cover"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = <GoPerson className="w-5 h-5 text-gray-500" />;
+            }}
           />
           <label
             htmlFor="profileImage"
@@ -91,12 +110,14 @@ const SettingsPage = () => {
           <div className="py-5">
             <p className="text-sm text-gray-600 text-center bg-gray-100 border border-gray-300 rounded-lg p-3">
               Upload a new avatar. Larger image will be resized automatically.
-              Maximum upload size is <span className="font-semibold"></span>
+              Maximum upload size is <span className="font-semibold">10mb</span>
             </p>
           </div>
-          {/* <p className="text-sm text-gray-600 mt-4">
-            Member Since: <span className="font-semibold">29 Sept 2019</span>
-          </p> */}
+          {fileError && (
+            <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+              <p className="text-sm">{fileError}</p>
+            </div>
+          )}
         </div>
 
         {/* Profile Settings Form */}
@@ -109,7 +130,7 @@ const SettingsPage = () => {
               <label className="block text-gray-700 font-medium">Email</label>
               <input
                 type="email"
-                value={user.email}
+                value={user?.email || ""}
                 disabled
                 className="w-full p-3 border rounded-lg bg-gray-100 text-gray-500"
               />
