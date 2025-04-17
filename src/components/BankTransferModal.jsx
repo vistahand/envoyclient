@@ -17,10 +17,11 @@ const BankTransferModal = ({ onClose, shipment }) => {
     shipment: null,
   });
   const navigate = useNavigate();
+  console.log(shipment);
 
   const initializePayment = async () => {
     setLoading(true);
-    const storedShipmentId = localStorage.getItem("shipmentId");
+    const storedShipmentId = shipment._id;
     const paymentData = {
       shipmentId: String(storedShipmentId),
     };
@@ -52,7 +53,7 @@ const BankTransferModal = ({ onClose, shipment }) => {
   const handlePaymentSuccess = async (paymentIntent) => {
     try {
       // First finalize the shipment
-      const storedShipmentId = localStorage.getItem("shipmentId");
+      const storedShipmentId = shipment._id;
       const finalizeResponse = await shipments.finalizeShipment(
         storedShipmentId
       );

@@ -1,38 +1,56 @@
 import {
-    Navbar,
-    HeroShipment,
-    Footer,
-    ShipmentSteps,
-} from '../components';
+  Navbar,
+  HeroShipment,
+  Footer,
+  ShipmentSteps,
+  ShipmentProgressIndicator,
+} from "../components";
 
-import { GetStarted } from '../pages';
-
-import { Helmet } from 'react-helmet';
+import { GetStarted } from "../pages";
+import { useState } from "react";
+import { Helmet } from "react-helmet";
+import { ShipmentProvider } from "../context/ShipmentContext";
 
 const CreateShipmentPage = () => {
+  const [currentStepOverride, setCurrentStepOverride] = useState(null);
 
-    return (
-        <div className='font-manrope'>
-            <Helmet>
-                <title>Create Shipment | Envoy Angel Shipping and Logistics</title>
-                <meta name="description" content="Content" />
-            </Helmet>
+  const handleStepClick = (stepId) => {
+    setCurrentStepOverride(stepId);
+  };
 
-            <Navbar />
+  return (
+    <div className="font-manrope">
+      <Helmet>
+        <title>Create Shipment | Envoy Angel Shipping and Logistics</title>
+        <meta
+          name="description"
+          content="Create a new shipment with Envoy Angel"
+        />
+      </Helmet>
 
-            <div className='heroShipment'>
-                <HeroShipment />
-            </div>
+      <Navbar />
 
-            <ShipmentSteps />
+      <div className="heroShipment">
+        <HeroShipment />
+      </div>
 
-            <GetStarted />
-            
-            <div className='footer'>
-                <Footer />
-            </div>
-        </div>
-    )
+      <div className="container mx-auto px-4 my-8">
+        <ShipmentProvider>
+          <ShipmentProgressIndicator onStepClick={handleStepClick} />
+          <GetStarted
+            stepOverride={currentStepOverride}
+            onStepChange={() => setCurrentStepOverride(null)}
+          />
+        </ShipmentProvider>
+      </div>
+
+      <ShipmentSteps />
+
+      <div className="footer">
+        <Footer />
+      </div>
+    </div>
+  );
 };
 
 export default CreateShipmentPage;

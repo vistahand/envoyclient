@@ -25,6 +25,7 @@ import {
   Payments,
   ShipmentDetails,
   PaymentDetails,
+  UserShipmentCreate,
 } from "./dashboard/user";
 import {
   AdminHome,
@@ -116,7 +117,7 @@ const App = () => {
                   <Route path="savedlocations" element={<SavedLoc />} />
                   <Route
                     path="shipments/createshipment"
-                    element={<GetStarted />}
+                    element={<UserShipmentCreate />}
                   />
                   <Route
                     path="shipments/createshipment-payment"
@@ -149,10 +150,14 @@ const App = () => {
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
 
-                  <Route path="shipmentmanagement/details/:shipmentId" element={<ShipmentDetailMgt />} />
+                  <Route
+                    path="shipmentmanagement/details/:shipmentId"
+                    element={<ShipmentDetailMgt />}
+                  />
                   <Route path="payments" element={<PaymentsAdmin />} />
                   <Route path="pending-payments" element={<PendingPayments />} />
-                  <Route path="/admin/payments/:paymentId" element={<AdminPaymentDetail />} />
+                  <Route path="payments/:paymentId" element={<AdminPaymentDetail />} />
+
                   <Route path="pickuplocations" element={<PickupLoc />} />
                   <Route
                     path="pickuplocations/create"

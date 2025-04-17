@@ -9,6 +9,9 @@ import { shipments } from "../services/api";
 import { format, parseISO } from "date-fns";
 
 const ShipmentDetails = ({ onNext }) => {
+  const params = new URLSearchParams(window.location.search);
+  const shipmentId = params.get("shipmentId");
+  console.log(shipmentId);
   const [countries, setCountries] = useState([]);
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
@@ -71,9 +74,7 @@ const ShipmentDetails = ({ onNext }) => {
     const fetchShipmentData = async () => {
       try {
         setLoading(true);
-
         // Get shipment ID from localStorage
-        const shipmentId = localStorage.getItem("envoy_current_shipment");
 
         if (!shipmentId) {
           setError("No shipment ID found");
@@ -83,6 +84,7 @@ const ShipmentDetails = ({ onNext }) => {
 
         // Fetch shipment data from API
         const response = await shipments.getDraftById(shipmentId);
+        console.log(response);
 
         if (response.success && response.data.shipment) {
           setShipmentData(response.data.shipment);
