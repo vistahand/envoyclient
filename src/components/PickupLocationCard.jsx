@@ -1,26 +1,128 @@
-import React from "react";
-import { FiMoreHorizontal } from "react-icons/fi";
+import React, { useState } from "react";
+import { FiMoreHorizontal, FiTrash2, FiEdit } from "react-icons/fi";
 import { MdOutlineWarehouse } from "react-icons/md";
 
-const PickupLocationCard = ({ name, address, phone, days, shippingTypes }) => {
+const PickupLocationCard = ({ location, onRefresh }) => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
+  
+  // Extract data from the location object
+  const { 
+    name, 
+    address, 
+    contactPhone, 
+    operatingHours,
+    isActive,
+    _id
+  } = location;
+
+  // Format address if it exists
+  const formattedAddress = address ? 
+    `${address.street}, ${address.city}, ${address.state} ${address.zipCode}` : 
+    "No address available";
+
+  // Format operating hours for display
+  const formatOperatingHours = () => {
+    if (!operatingHours) return "Hours not available";
+    
+    // Get a sample of operating hours to display
+    const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+    const openDays = daysOfWeek.filter(day => operatingHours[day]);
+    
+    if (openDays.length === 0) return "No operating hours set";
+    if (openDays.length === 7) {
+      const mondayHours = operatingHours.monday;
+      return `Open daily: ${mondayHours.open} - ${mondayHours.close}`;
+    }
+    
+    return `Open ${openDays.length} days/week`;
+  };
+
+  // Mock shipping types (as they're not in your API response)
+  const shippingTypes = ["Standard Delivery"];
+
+  // Get auth token
+  const getAuthToken = () => {
+    return localStorage.getItem('authToken');
+  };
+
+  // Delete functionality
+  const handleDelete = async () => {
+    if (!window.confirm(`Are you sure you want to delete "${name}" pickup location?`)) {
+      return;
+    }
+
+    setIsDeleting(true);
+    setDeleteError(null);
+    
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/admin/pickup-locations/${_id}`, 
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete pickup location');
+      }
+      
+      // Call the refresh function to update the list
+      if (onRefresh) {
+        onRefresh();
+      }
+      
+    } catch (err) {
+      console.error("Error deleting pickup location:", err);
+      setDeleteError(err.message);
+      alert(`Failed to delete: ${err.message}`);
+    } finally {
+      setIsDeleting(false);
+      setShowDropdown(false);
+    }
+  };
+
+  // Toggle dropdown
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   return (
-    <div className="bg-gray-100 border border-gray-200 rounded-lg p-5 shadow-sm 
-                    flex flex-col md:flex-row md:justify-between md:items-center">
+    <div className="bg-gray-100 border border-gray-200 rounded-lg p-5 shadow-sm flex flex-col md:flex-row md:justify-between md:items-center">
       {/* Top Section (Icon & Details) - Mobile & Desktop */}
       <div className="flex items-start sm:items-center gap-4">
         <MdOutlineWarehouse className="text-2xl md:text-3xl text-primary" />
         <div>
-          <h3 className="font-semibold text-gray-900 text-[16px] md:text-lg">{name}</h3>
-          <p className="text-gray-600 text-[14px] md:text-sm">{address}</p>
-          <p className="font-semibold text-gray-900 text-[14px] md:text-sm">{phone}</p>
+          <div className="flex items-center gap-2">
+            <h3 className="font-semibold text-gray-900 text-[16px] md:text-lg">{name}</h3>
+            {isActive ? (
+              <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">Active</span>
+            ) : (
+              <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full">Unavailable</span>
+            )}
+          </div>
+          <p className="text-gray-600 text-[14px] md:text-sm">{formattedAddress}</p>
+          <p className="font-semibold text-gray-900 text-[14px] md:text-sm">{contactPhone}</p>
         </div>
       </div>
 
       {/* Horizontal Divider for Mobile */}
       <div className="border-t border-gray-300 my-3 md:hidden"></div>
 
-      {/* Middle Section - Days (Mobile & Desktop) */}
-      <p className="text-gray-700 text-[14px] md:text-sm">{days}</p>
+      {/* Middle Section - Operating Hours (Mobile & Desktop) */}
+      <p className="text-gray-700 text-[14px] md:text-sm">{formatOperatingHours()}</p>
 
       {/* Horizontal Divider for Mobile */}
       <div className="border-t border-gray-300 my-3 md:hidden"></div>
@@ -34,8 +136,41 @@ const PickupLocationCard = ({ name, address, phone, days, shippingTypes }) => {
           ))}
         </div>
 
-        {/* More Options Icon - Positioned Correctly */}
-        <FiMoreHorizontal className="text-gray-500 text-xl cursor-pointer" />
+        {/* More Options Icon - Dropdown menu */}
+        <div className="relative">
+          <button 
+            onClick={toggleDropdown}
+            disabled={isDeleting}
+            className="p-1 hover:bg-gray-200 rounded-full"
+          >
+            <FiMoreHorizontal className="text-gray-500 text-xl cursor-pointer" />
+          </button>
+          
+          {/* Dropdown Menu */}
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+              <div className="py-1">
+                {/* <button 
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  onClick={() => {
+                    setShowDropdown(false);
+                    // You can add edit functionality here
+                    alert("Edit functionality will be implemented");
+                  }}
+                >
+                  <FiEdit /> Edit
+                </button> */}
+                <button 
+                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center gap-2"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                >
+                  <FiTrash2 /> {isDeleting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

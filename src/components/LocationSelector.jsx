@@ -1,159 +1,219 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-const LocationSelector = () => {
+const LocationSelector = ({ onSelection }) => {
   const [countries, setCountries] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [states, setStates] = useState([]);
+  const [selectedState, setSelectedState] = useState(null);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const [selectedState, setSelectedState] = useState("");
   const [showStateDropdown, setShowStateDropdown] = useState(false);
+  
+  // Refs for click outside detection
+  const countryRef = useRef(null);
+  const stateRef = useRef(null);
 
-  const NIGERIA_FLAG = "https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_Nigeria.svg"; // Fixed Nigeria flag URL
-
-  const stateOptions = [ { value: "abia", label: "Abia" }, { value: "adamawa", label: "Adamawa" }, { value: "akwa-ibom", label: "Akwa Ibom" }, { value: "anambra", label: "Anambra" }, { value: "bauchi", label: "Bauchi" }, { value: "bayelsa", label: "Bayelsa" }, 
-    { value: "benue", label: "Benue" }, { value: "borno", label: "Borno" }, { value: "cross-river", label: "Cross River" }, { value: "delta", label: "Delta" }, { value: "ebonyi", label: "Ebonyi" }, { value: "edo", label: "Edo" }, { value: "ekiti", label: "Ekiti" }, 
-    { value: "enugu", label: "Enugu" }, { value: "gombe", label: "Gombe" }, { value: "imo", label: "Imo" }, { value: "jigawa", label: "Jigawa" }, { value: "kaduna", label: "Kaduna" }, { value: "kano", label: "Kano" }, { value: "katsina", label: "Katsina" },
-    { value: "kebbi", label: "Kebbi" }, { value: "kogi", label: "Kogi" }, { value: "kwara", label: "Kwara" }, { value: "lagos", label: "Lagos" }, { value: "nasarawa", label: "Nasarawa" }, { value: "niger", label: "Niger" }, { value: "ogun", label: "Ogun" },
-    { value: "ondo", label: "Ondo" }, { value: "osun", label: "Osun" }, { value: "oyo", label: "Oyo" }, { value: "plateau", label: "Plateau" }, { value: "rivers", label: "Rivers" }, { value: "sokoto", label: "Sokoto" }, { value: "taraba", label: "Taraba" }, 
-    { value: "yobe", label: "Yobe" }, { value: "zamfara", label: "Zamfara" }, { value: "fct", label: "Federal Capital Territory" }, 
-];
-
+  // Effect for outside click detection
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        const sortedCountries = data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sortedCountries);
-
-        // Set the default selected country (e.g., Ireland)
-        const defaultCountry = sortedCountries.find((country) => country.cca2 === "IE");
-        setSelectedCountry(defaultCountry || sortedCountries[0]);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
+    const handleClickOutside = (event) => {
+      if (countryRef.current && !countryRef.current.contains(event.target)) {
+        setShowCountryDropdown(false);
+      }
+      if (stateRef.current && !stateRef.current.contains(event.target)) {
+        setShowStateDropdown(false);
       }
     };
 
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch('https://restcountries.com/v3.1/all');
+        if (!res.ok) {
+          throw new Error(`Failed to fetch countries: ${res.status}`);
+        }
+        const data = await res.json();
+        
+        const sorted = data
+          .filter(country => country.name && country.name.common && country.flags) // Filter out invalid entries
+          .sort((a, b) => a.name.common.localeCompare(b.name.common));
+        
+        setCountries(sorted);
+      } catch (error) {
+        console.error("Failed to fetch countries", error);
+        setCountries([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     fetchCountries();
   }, []);
 
-  const handleCountryChange = (country) => {
-    setSelectedCountry(country);
-    setSelectedState(""); // Clear state when country changes
-    setShowCountryDropdown(false);
+  const fetchStates = async (countryName) => {
+    try {
+      const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: countryName })
+      });
+      
+      const data = await res.json();
+      
+      if (data.data?.states && Array.isArray(data.data.states)) {
+        const sortedStates = data.data.states.sort((a, b) => 
+          a.name.localeCompare(b.name)
+        );
+        setStates(sortedStates);
+      } else {
+        setStates([]);
+      }
+    } catch (err) {
+      console.error(`Failed to fetch states for ${countryName}`, err);
+      setStates([]);
+    }
   };
 
-  const handleStateChange = (state) => {
+  const handleCountrySelect = (country) => {
+    setSelectedCountry(country);
+    setSelectedState(null);
+    setShowCountryDropdown(false);
+    fetchStates(country.name.common);
+    
+    // Modified to match CreatePickupLocation's expected format
+    if (onSelection) onSelection({
+      origin: {
+        country: country.name.common,
+        state: null
+      }
+    });
+  };
+
+  const handleStateSelect = (state) => {
     setSelectedState(state);
     setShowStateDropdown(false);
+    
+    // Modified to match CreatePickupLocation's expected format
+    if (onSelection) onSelection({
+      origin: {
+        country: selectedCountry.name.common,
+        state: state.name
+      }
+    });
+  };
+
+  const renderCountryDropdown = () => {
+    if (isLoading) {
+      return (
+        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-4 text-center">
+          Loading...
+        </div>
+      );
+    }
+    
+    if (!countries || countries.length === 0) {
+      return (
+        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-4">
+          No countries available
+        </div>
+      );
+    }
+
+    return (
+      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+        {countries.map((country) => {
+          const countryName = country.name?.common || "Unknown";
+          const flagUrl = country.flags?.png || country.flags?.svg;
+          
+          return (
+            <div
+              key={countryName}
+              onClick={() => handleCountrySelect(country)}
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+            >
+              {flagUrl && (
+                <img
+                  src={flagUrl}
+                  alt={`${countryName} flag`}
+                  className="w-6 h-4 object-cover rounded"
+                  onError={(e) => e.target.style.display = 'none'}
+                />
+              )}
+              <span>{countryName}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderStatesDropdown = () => {
+    if (!states || states.length === 0) {
+      return (
+        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-4">
+          No states available for this country
+        </div>
+      );
+    }
+    
+    return (
+      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+        {states.map((state) => (
+          <div
+            key={state.name || `state-${Math.random()}`}
+            onClick={() => handleStateSelect(state)}
+            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+          >
+            {state.name}
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
-    <div className="w-full max-w-4xl">
-      <h2 className="text-lg font-medium mb-4">Select Location</h2>
+    <div className="max-w-lg mx-auto space-y-6">
+      <h2 className="text-lg font-medium mb-4">Pickup Location</h2>
 
-      <div className="flex flex-row gap-4">
-        {/* Country Selector */}
-        <div className="relative w-full">
+      <div className="flex gap-4 flex-col md:flex-row">
+        {/* Country */}
+        <div className="relative w-full" ref={countryRef}>
           <div
             onClick={() => setShowCountryDropdown(!showCountryDropdown)}
             className="flex items-center justify-between border border-gray-300 rounded-md p-3 cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              {selectedCountry && (
+              {selectedCountry && (selectedCountry.flags?.png || selectedCountry.flags?.svg) && (
                 <img
-                  src={selectedCountry.flags?.png}
-                  alt={`${selectedCountry.name.common} flag`}
-                  className="w-6 h-4 object-cover rounded"
+                  src={selectedCountry.flags?.png || selectedCountry.flags?.svg}
+                  className="w-6 h-4 rounded"
+                  alt="flag"
+                  onError={(e) => e.target.style.display = 'none'}
                 />
               )}
-              <span className="font-medium">{selectedCountry?.name?.common || "Select Country"}</span>
+              <span>{selectedCountry?.name?.common || "Select country"}</span>
             </div>
-            <ChevronDown className="h-5 w-5 text-gray-500" />
+            <ChevronDown className="w-5 h-5 text-gray-500" />
           </div>
-
-          {showCountryDropdown && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-              {countries.map((country) => (
-                <div
-                  key={country.cca2}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
-                  onClick={() => handleCountryChange(country)}
-                >
-                  <img
-                    src={country.flags?.png}
-                    alt={`${country.name.common} flag`}
-                    className="w-6 h-4 object-cover rounded"
-                  />
-                  <span>{country.name.common}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          {showCountryDropdown && renderCountryDropdown()}
         </div>
 
-        {/* State Selector */}
-        <div className="relative w-full">
+        {/* State */}
+        <div className="relative w-full" ref={stateRef}>
           <div
-            onClick={() => setShowStateDropdown(!showStateDropdown)}
-            className="flex items-center justify-between border border-gray-300 rounded-md p-3 cursor-pointer"
+            onClick={() => selectedCountry && setShowStateDropdown(!showStateDropdown)}
+            className={`flex items-center justify-between border border-gray-300 rounded-md p-3 ${selectedCountry ? 'cursor-pointer' : 'cursor-not-allowed bg-gray-100'}`}
           >
-            <span>{selectedState ? stateOptions.find((state) => state.value === selectedState)?.label : "Select a state/province"}</span>
-            <ChevronDown className="h-5 w-5 text-gray-500" />
+            <span>{selectedState?.name || "Select state"}</span>
+            <ChevronDown className="w-5 h-5 text-gray-500" />
           </div>
-
-          {showStateDropdown && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-              {stateOptions.map((state) => (
-                <div
-                  key={state.value}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
-                  onClick={() => handleStateChange(state.value)}
-                >
-                  {/* Display Nigeria flag for state dropdown */}
-                  {selectedCountry?.cca2 === "NG" && (
-                    <img
-                      src={NIGERIA_FLAG}
-                      alt="Nigeria flag"
-                      className="w-6 h-4 object-cover rounded"
-                    />
-                  )}
-                  {state.label}
-                </div>
-              ))}
-            </div>
-          )}
+          {showStateDropdown && renderStatesDropdown()}
         </div>
       </div>
-
-      {/* Preview of Selected Location */}
-      {selectedCountry && selectedState && (
-        <div className="mt-6">
-          <div className="w-full flex gap-6 items-center">
-            <div className="rounded-lg px-6 py-4 bg-gray-100 flex gap-2">
-              <img
-                src={selectedCountry.flags?.png}
-                alt={`${selectedCountry.name.common} flag`}
-                className="w-10 h-5 rounded"
-              />
-              <p className="text-sm font-bold text-gray-800">{selectedCountry.name.common}</p>
-            </div>
-            <p className="text-sm font-semibold text-gray-500">to</p>
-            <div className="rounded-lg px-6 py-4 bg-gray-100 flex gap-2">
-              <img
-                src={NIGERIA_FLAG}
-                alt="Nigeria flag"
-                className="w-10 h-5 rounded"
-              />
-              <p className="text-sm font-bold text-gray-800">
-                {stateOptions.find((state) => state.value === selectedState)?.label}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

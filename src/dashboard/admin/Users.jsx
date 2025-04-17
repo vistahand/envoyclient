@@ -4,6 +4,23 @@ import { GoPlus } from "react-icons/go";
 import { FiSearch, FiFilter, FiDownload, FiEdit, FiTrash, FiEye } from "react-icons/fi";
 import { HiOutlineStatusOnline } from "react-icons/hi";
 import { RiUserSettingsLine } from "react-icons/ri";
+import axios from "axios";
+import AdminUserDetail from "../../components/AdminUserDetail"; // Import the user detail component
+
+// Fixed authentication helper function
+const getAuthToken = () => {
+  let token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Authentication token not found. Please log in again.");
+  }
+  
+  // Remove quotes if present (critical fix)
+  if (token.startsWith('"') && token.endsWith('"')) {
+    token = token.slice(1, -1);
+  }
+  
+  return token;
+};
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -12,67 +29,122 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isCreating, setIsCreating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [showActions, setShowActions] = useState(null);
   const [filters, setFilters] = useState({
     role: "all",
     status: "all"
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null); // Added for user detail view
 
-  // Mock data configuration
-  const roleOptions = ["all", "admin", "user", "manager", "guest"];
-  const statusOptions = ["all", "active", "inactive", "pending", "suspended"];
+  const apiUrl = import.meta.env.VITE_API_URL;
 
-  // Generate mock data on component mount
-  useEffect(() => {
-    // Simulate loading delay
-    const timer = setTimeout(() => {
-      // Generate 30 mock users
-      const mockUsers = Array(30).fill().map((_, i) => ({
-        id: i + 1,
-        name: `User ${i + 1}`,
-        email: `user${i + 1}@example.com`,
-        role: roleOptions[Math.floor(Math.random() * (roleOptions.length - 1)) + 1],
-        status: statusOptions[Math.floor(Math.random() * (statusOptions.length - 1)) + 1],
-        lastLogin: new Date(Date.now() - Math.floor(Math.random() * 30) * 86400000).toISOString().split('T')[0]
-      }));
+  // Function to fetch users from the API
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      // Get token from our dedicated auth function
+      const token = getAuthToken();
+      console.log("Fetching users data with token:", token);
       
-      setUsers(mockUsers);
-      setFilteredUsers(mockUsers);
+      // Prepare query parameters based on filters
+      const queryParams = {
+        page: currentPage,
+        limit: itemsPerPage,
+        ...(searchTerm && { search: searchTerm }),
+        ...(filters.role !== "all" && { role: filters.role })
+      };
+      
+      // Fix for status filter - convert to boolean or string as expected by your API
+      if (filters.status !== "all") {
+        // Check if the API expects isSuspended (boolean) or status (string)
+        // Option 1: If API expects isSuspended as boolean
+        queryParams.isSuspended = filters.status === "suspended";
+        
+        // Option 2: If API expects status as string
+        // queryParams.status = filters.status;
+      }
+      
+      console.log("API request params:", queryParams);
+      
+      const response = await axios.get(`${apiUrl}/api/admin/users`, {
+        headers: {
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        params: queryParams
+      });
+
+      // Handle successful response
+      const { items, total, page, limit, pages } = response.data;
+      
+      setUsers(items);
+      setFilteredUsers(items);
+      setTotalUsers(total);
+      setTotalPages(pages);
+      setCurrentPage(page);
+      setItemsPerPage(limit);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching users:", err);
+      
+      // More detailed error handling
+      if (err.response) {
+        // The server responded with a status code outside the 2xx range
+        if (err.response.status === 401) {
+          setError("Session expired or invalid token. Redirecting to login...");
+          // Clear auth token and redirect to login
+          localStorage.removeItem("token");
+          
+          // Redirect to login page - use your app's navigation method
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 2000);
+        } else {
+          setError(`Failed to load users. Server error: ${err.response.data.error || 'Unknown error'}`);
+        }
+      } else if (err.request) {
+        // The request was made but no response was received
+        setError("Server not responding. Please try again later.");
+      } else {
+        // Something happened in setting up the request
+        setError("Failed to load users. Please try again later.");
+      }
+      
+      setUsers([]);
+      setFilteredUsers([]);
+    } finally {
       setLoading(false);
-    }, 800); // Simulate network delay
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Apply filters and search whenever users, filters, or searchTerm changes
+  // Fetch users when component mounts and when filters/pagination changes
   useEffect(() => {
-    let result = [...users];
-
-    // Apply role filter
-    if (filters.role !== "all") {
-      result = result.filter(user => user.role === filters.role);
+    if (!selectedUserId) { // Only fetch users when not on detail view
+      fetchUsers();
     }
+  }, [currentPage, filters, selectedUserId]);
 
-    // Apply status filter
-    if (filters.status !== "all") {
-      result = result.filter(user => user.status === filters.status);
-    }
-
-    // Apply search term
-    if (searchTerm) {
+  // Handle search separately to avoid too many API calls
+  useEffect(() => {
+    // If search is implemented client-side:
+    if (users.length > 0 && searchTerm) {
       const lowerSearchTerm = searchTerm.toLowerCase();
-      result = result.filter(
+      const result = users.filter(
         user => 
-          user.name.toLowerCase().includes(lowerSearchTerm) ||
-          user.email.toLowerCase().includes(lowerSearchTerm)
+          (user.firstName && user.firstName.toLowerCase().includes(lowerSearchTerm)) ||
+          (user.lastName && user.lastName.toLowerCase().includes(lowerSearchTerm)) ||
+          (user.email && user.email.toLowerCase().includes(lowerSearchTerm))
       );
+      setFilteredUsers(result);
+    } else {
+      setFilteredUsers(users);
     }
-
-    setFilteredUsers(result);
-    setCurrentPage(1); // Reset to first page when filters change
-  }, [users, filters, searchTerm]);
+  }, [searchTerm, users]);
 
   // Close action menu when clicking elsewhere
   useEffect(() => {
@@ -93,13 +165,8 @@ const Users = () => {
       ...prev,
       [filterType]: value
     }));
+    setCurrentPage(1); // Reset to first page when filters change
   };
-
-  // Pagination calculation
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   // Handle action button clicks
   const handleActionClick = (e, userId) => {
@@ -107,69 +174,135 @@ const Users = () => {
     setShowActions(showActions === userId ? null : userId);
   };
 
-  // Handle user actions (mock implementations)
-  const handleViewUser = (userId) => {
-    alert(`View user with ID: ${userId}`);
+  // Handle user actions
+  const handleViewUser = async (userId) => {
+    setSelectedUserId(userId); // Set the selected user ID to view details
     setShowActions(null);
   };
 
-  const handleEditUser = (userId) => {
+  const handleEditUser = async (userId) => {
     alert(`Edit user with ID: ${userId}`);
     setShowActions(null);
   };
 
-  const handleDeleteUser = (userId) => {
-    if (window.confirm(`Are you sure you want to delete user with ID: ${userId}?`)) {
-      // Remove user from the list (mock delete)
-      setUsers(users.filter(user => user.id !== userId));
-      setShowActions(null);
+  const handleDeleteUser = async (userId) => {
+    if (window.confirm(`Are you sure you want to delete this user?`)) {
+      try {
+        const token = getAuthToken();
+        await axios.delete(`${apiUrl}/api/admin/users/${userId}`, {
+          headers: {
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        
+        // Refresh the user list
+        fetchUsers();
+        setShowActions(null);
+      } catch (err) {
+        console.error("Error deleting user:", err);
+        
+        if (err.response && err.response.status === 401) {
+          alert("Session expired. Please log in again.");
+          localStorage.removeItem("token");
+          window.location.href = '/login';
+        } else {
+          alert("Failed to delete user. Please try again.");
+        }
+      }
     }
   };
 
-  // Create new user (mock implementation)
+  // Create new user
   const handleCreateUser = () => {
-    const newId = users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
-    const newUser = {
-      id: newId,
-      name: `New User ${newId}`,
-      email: `newuser${newId}@example.com`,
-      role: "user",
-      status: "active",
-      lastLogin: "N/A"
-    };
-    
-    setUsers([newUser, ...users]);
-    setIsCreating(false);
-    alert("New user created!");
+    // Navigate to create user page or open modal
+    setIsCreating(true);
   };
 
-  // Export users data (mock implementation)
+  // Export users data
   const handleExportUsers = () => {
-    alert(`Exporting ${filteredUsers.length} users to CSV`);
+    try {
+      const token = getAuthToken();
+      // Implement export functionality with proper auth
+      alert(`Exporting ${filteredUsers.length} users to CSV`);
+      
+      // Example export implementation (you would adjust based on your API)
+      /*
+      axios({
+        url: `${apiUrl}/api/admin/users/export`,
+        method: 'GET',
+        responseType: 'blob', // Important for file downloads
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'users_export.csv');
+        document.body.appendChild(link);
+        link.click();
+      });
+      */
+    } catch (err) {
+      console.error("Error exporting users:", err);
+      alert("Failed to export users. Please try again.");
+    }
   };
 
   // Get status badge color
-  const getStatusBadgeColor = (status) => {
-    switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'inactive':
-        return 'bg-gray-100 text-gray-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'suspended':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
+  const getStatusBadgeColor = (isSuspended) => {
+    return isSuspended 
+      ? 'bg-red-100 text-red-800' 
+      : 'bg-green-100 text-green-800';
   };
 
-  if (loading) {
+  // Format date string to a readable format
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  // Handle back button from user detail view
+  const handleBackToUsers = () => {
+    setSelectedUserId(null);
+  };
+
+  // If we're viewing a specific user's details
+  if (selectedUserId) {
+    return <AdminUserDetail userId={selectedUserId} onBack={handleBackToUsers} />;
+  }
+
+  if (loading && users.length === 0) {
     return (
       <div className="w-full h-96 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading users...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-500 text-xl mb-4">⚠️</div>
+          <p className="text-lg font-medium text-gray-800">{error}</p>
+          <button 
+            onClick={fetchUsers}
+            className="mt-4 px-4 py-2 bg-primary text-white rounded-lg"
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -254,11 +387,9 @@ const Users = () => {
                   onChange={(e) => handleFilterChange('role', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md bg-white"
                 >
-                  {roleOptions.map(role => (
-                    <option key={role} value={role}>
-                      {role === 'all' ? 'All Roles' : role.charAt(0).toUpperCase() + role.slice(1)}
-                    </option>
-                  ))}
+                  <option value="all">All Roles</option>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
                 </select>
               </div>
 
@@ -270,11 +401,9 @@ const Users = () => {
                   onChange={(e) => handleFilterChange('status', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md bg-white"
                 >
-                  {statusOptions.map(status => (
-                    <option key={status} value={status}>
-                      {status === 'all' ? 'All Statuses' : status.charAt(0).toUpperCase() + status.slice(1)}
-                    </option>
-                  ))}
+                  <option value="all">All Statuses</option>
+                  <option value="active">Active</option>
+                  <option value="suspended">Suspended</option>
                 </select>
               </div>
 
@@ -333,7 +462,7 @@ const Users = () => {
 
       {/* Results Summary */}
       <div className="text-sm text-gray-600">
-        Showing {filteredUsers.length > 0 ? indexOfFirstItem + 1 : 0} to {Math.min(indexOfLastItem, filteredUsers.length)} of {filteredUsers.length} users
+        Showing {filteredUsers.length > 0 ? ((currentPage - 1) * itemsPerPage) + 1 : 0} to {Math.min(currentPage * itemsPerPage, totalUsers)} of {totalUsers} users
       </div>
 
       {/* User Table */}
@@ -350,31 +479,33 @@ const Users = () => {
             </tr>
           </thead>
           <tbody className="text-[14px] text-gray-700">
-            {currentItems.length > 0 ? (
-              currentItems.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50 border-b">
-                  <td className="py-3 px-4 font-medium">{user.name}</td>
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
+                <tr key={user._id} className="hover:bg-gray-50 border-b">
+                  <td className="py-3 px-4 font-medium">
+                    {user.firstName} {user.lastName}
+                  </td>
                   <td className="py-3 px-4">{user.email}</td>
                   <td className="py-3 px-4">
                     <span className="capitalize">{user.role}</span>
                   </td>
                   <td className="py-3 px-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(user.status)}`}>
-                      {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(user.isSuspended)}`}>
+                      {user.isSuspended ? 'Suspended' : 'Active'}
                     </span>
                   </td>
-                  <td className="py-3 px-4">{user.lastLogin}</td>
+                  <td className="py-3 px-4">{formatDate(user.lastLogin)}</td>
                   <td className="py-3 px-4">
                     <div className="flex justify-center items-center relative">
                       <button
-                        onClick={(e) => handleActionClick(e, user.id)}
+                        onClick={(e) => handleActionClick(e, user._id)}
                         className="p-1 hover:bg-gray-100 rounded-full"
                       >
                         <BsThreeDots className="text-gray-600 text-xl" />
                       </button>
 
                       {/* Actions Dropdown */}
-                      {showActions === user.id && (
+                      {showActions === user._id && (
                         <div 
                           className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 w-40"
                           onClick={(e) => e.stopPropagation()}
@@ -382,7 +513,7 @@ const Users = () => {
                           <ul>
                             <li>
                               <button
-                                onClick={() => handleViewUser(user.id)}
+                                onClick={() => handleViewUser(user._id)}
                                 className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                               >
                                 <FiEye size={14} />
@@ -391,7 +522,7 @@ const Users = () => {
                             </li>
                             <li>
                               <button
-                                onClick={() => handleEditUser(user.id)}
+                                onClick={() => handleEditUser(user._id)}
                                 className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                               >
                                 <FiEdit size={14} />
@@ -400,7 +531,7 @@ const Users = () => {
                             </li>
                             <li className="border-t border-gray-100">
                               <button
-                                onClick={() => handleDeleteUser(user.id)}
+                                onClick={() => handleDeleteUser(user._id)}
                                 className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center gap-2"
                               >
                                 <FiTrash size={14} />
@@ -442,7 +573,7 @@ const Users = () => {
       </div>
 
       {/* Pagination */}
-      {filteredUsers.length > itemsPerPage && (
+      {totalPages > 1 && (
         <div className="flex justify-between items-center mt-4">
           <div className="text-sm text-gray-600">
             Page {currentPage} of {totalPages}

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { BsThreeDots } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { FaSync } from "react-icons/fa";
+import { admin } from "../../services/api";
 
 const PaymentsAdmin = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
   const [payments, setPayments] = useState([]);
+  const [filteredPayments, setFilteredPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [masterChecked, setMasterChecked] = useState(true);
@@ -20,73 +24,80 @@ const PaymentsAdmin = () => {
   
   // Filter state
   const [statusFilter, setStatusFilter] = useState("");
+  const [methodFilter, setMethodFilter] = useState(""); // New filter for payment method
 
   useEffect(() => {
     fetchPayments();
-  }, [page, limit, statusFilter]);
+  }, [page, limit]); // Remove filters from dependency as we'll handle filtering client-side
+
+  useEffect(() => {
+    // Apply filters client-side
+    applyFilters();
+  }, [statusFilter, methodFilter, payments]);
+
+  const applyFilters = () => {
+    let result = [...payments];
+    
+    // Apply status filter
+    if (statusFilter) {
+      const statusMap = {
+        "completed": "Successful",
+        "pending": "Pending",
+        "failed": "Unsuccessful"
+      };
+      result = result.filter(payment => payment.status === statusMap[statusFilter]);
+    }
+    
+    // Apply method filter
+    if (methodFilter) {
+      result = result.filter(payment => payment.rawMethod === methodFilter);
+    }
+    
+    setFilteredPayments(result);
+    setTotalItems(result.length);
+    setSelectedPayments(Array(result.length).fill(true));
+    setMasterChecked(true);
+  };
 
   const getAuthToken = () => {
     // Get token from localStorage or wherever it's stored
     const token = localStorage.getItem("token");
-    // Remove quotes if they exist (I noticed your token had quotes in the example)
+    // Remove quotes if they exist
     return token ? token.replace(/^"|"$/g, '') : '';
   };
 
   const fetchPayments = async () => {
     try {
       setLoading(true);
-      const token = getAuthToken();
+      const response = await admin.payments.getAll();
+      console.log(response)
+      const data = response
       
-      if (!token) {
-        throw new Error("Authentication token not found. Please log in again.");
-      }
-      
-      let url = `/api/admin/payments?page=${page}&limit=${limit}`;
-      if (statusFilter) {
-        url += `&status=${statusFilter}`;
-      }
-
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Accept": "application/json",
-          "Authorization": `Bearer ${token}`,
-          // Adding these additional headers that were in your request
-          "Cache-Control": "no-cache",
-          "Pragma": "no-cache"
-        },
-        credentials: "include" // Include cookies in the request if needed
-      });
-
-      if (response.status === 401) {
-        // Handle authentication error
-        throw new Error("Your session has expired. Please log in again.");
-      }
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch payments: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      
-      // Check if the response has the expected structure
-      if (!data || !Array.isArray(data.payments)) {
+      // Transform the incoming data to match expected format
+      if (data && data.items && Array.isArray(data.items)) {
+        const transformedPayments = data.items.map(item => ({
+          amount: item.amount || 0,
+          currency: item.currency || "USD",
+          transactionId: item.transactionId || 'Nil', 
+          date: new Date(item.createdAt).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: 'numeric'}),
+          purpose: item.trackingNumber ? `Shipping (${item.trackingNumber})` : "Payment Processing",
+          rawMethod: item.method, // Store raw method for filtering
+          status: item.status === "completed" ? "Successful" : item.status === 'pending' ? 'Pending' : "Unsuccessful",
+          _id: item._id // Keep original ID for reference
+        }));
+        
+        setPayments(transformedPayments);
+        // Filtered payments will be set by the useEffect that watches for filter changes
+      } else {
         console.warn("Unexpected API response format:", data);
         // Fallback to using mock data temporarily
-        setPayments([
-          { amount: 250000.00, transactionId: "TRX-18084578123", date: "28 Oct 2024", purpose: "Standard Shipping, Basic Insurance", method: "Online (Paystack)", status: "Successful" },
-          { amount: 250000.00, transactionId: "TRX-18084578124", date: "28 Oct 2024", purpose: "Standard Shipping, Basic Insurance", method: "Online (Paystack)", status: "Unsuccessful" },
-          { amount: 250000.00, transactionId: "TRX-18084578125", date: "12 Oct 2024", purpose: "QuickWing, Basic Insurance", method: "Online (Paystack)", status: "Successful" }
-        ]);
-        setTotalItems(3);
-      } else {
-        setPayments(data.payments);
-        setTotalItems(data.total || data.payments.length);
+        const mockData = [
+          { _id: "67fe68624cfa00255e46ea7e", amount: 250000.00, currency: "USD", transactionId: "TRX-18084578123", date: "28 Oct 2024", purpose: "Standard Shipping, Basic Insurance", rawMethod: "Paystack", status: "Successful" },
+          { _id: "67fe68624cfa00255e46ea7f", amount: 250000.00, currency: "USD", transactionId: "TRX-18084578124", date: "28 Oct 2024", purpose: "Standard Shipping, Basic Insurance", rawMethod: "Paystack", status: "Unsuccessful" },
+          { _id: "67fe68624cfa00255e46ea80", amount: 250000.00, currency: "USD", transactionId: "TRX-18084578125", date: "12 Oct 2024", purpose: "QuickWing, Basic Insurance", rawMethod: "Cash on Delivery", status: "Successful" }
+        ];
+        setPayments(mockData);
       }
-      
-      // Initialize checkboxes for new payment data
-      setSelectedPayments(Array(payments.length).fill(true));
-      setMasterChecked(true);
     } catch (err) {
       console.error("Error fetching payments:", err);
       setError(err.message);
@@ -110,7 +121,7 @@ const PaymentsAdmin = () => {
   const handleMasterCheckboxChange = () => {
     const newCheckedState = !masterChecked;
     setMasterChecked(newCheckedState);
-    setSelectedPayments(payments.map(() => newCheckedState));
+    setSelectedPayments(filteredPayments.map(() => newCheckedState));
   };
   
   const handlePaymentCheckboxChange = (index) => {
@@ -140,10 +151,57 @@ const PaymentsAdmin = () => {
     setPage(1); // Reset to first page when applying filter
   };
 
+  const handleMethodFilterChange = (e) => {
+    setMethodFilter(e.target.value);
+    setPage(1); // Reset to first page when applying filter
+  };
+
+  // Get unique payment methods for filter dropdown
+  const getUniquePaymentMethods = () => {
+    if (!payments || payments.length === 0) return [];
+    const methods = [...new Set(payments.map(payment => payment.rawMethod))];
+    return methods;
+  };
+
+  // Format currency display
+  const formatCurrency = (amount, currency) => {
+    if (currency === "eur" || currency === "EUR") {
+      return `€${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    } else if (currency === "USD") {
+      return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    } else {
+      return `${currency.toUpperCase()} ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+  };
+
+  // Format payment method for display
+  const formatPaymentMethod = (method) => {
+    return method === "Cash on Delivery" ? method : `Online (${method})`;
+  };
+
+  // Navigate to payment detail page
+  const handlePaymentClick = (paymentId) => {
+    navigate(`/admin/payments/${paymentId}`);
+  }
+
+  // Handle action menu click
+  const handleActionClick = (e, paymentId) => {
+    e.stopPropagation(); // Prevent row click event
+    // Implement action menu functionality here
+    navigate(`/admin/payments/${paymentId}`);
+  };
+
   // Calculate pagination info
   const startItem = (page - 1) * limit + 1;
   const endItem = Math.min(page * limit, totalItems);
   const totalPages = Math.ceil(totalItems / limit);
+
+  // Get the current page of payments
+  const getCurrentPagePayments = () => {
+    const start = (page - 1) * limit;
+    const end = page * limit;
+    return filteredPayments.slice(start, end);
+  };
 
   return (
     <div className="w-full bg-white rounded-lg shadow p-6">
@@ -162,19 +220,39 @@ const PaymentsAdmin = () => {
         </button>
       </div>
       
-      {/* Add filter controls */}
-      <div className="mb-4 flex items-center">
-        <label htmlFor="statusFilter" className="mr-2">Filter by status:</label>
-        <select 
-          id="statusFilter"
-          value={statusFilter}
-          onChange={handleStatusFilterChange}
-          className="border rounded px-2 py-1"
-        >
-          <option value="">All Statuses</option>
-          <option value="Successful">Successful</option>
-          <option value="Unsuccessful">Unsuccessful</option>
-        </select>
+      {/* Filter controls */}
+      <div className="mb-4 flex items-center flex-wrap gap-4">
+        <div className="flex items-center">
+          <label htmlFor="statusFilter" className="mr-2">Filter by status:</label>
+          <select 
+            id="statusFilter"
+            value={statusFilter}
+            onChange={handleStatusFilterChange}
+            className="border rounded px-2 py-1"
+          >
+            <option value="">All Statuses</option>
+            <option value="completed">Successful</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Unsuccessful</option>
+          </select>
+        </div>
+        
+        <div className="flex items-center">
+          <label htmlFor="methodFilter" className="mr-2">Filter by payment method:</label>
+          <select 
+            id="methodFilter"
+            value={methodFilter}
+            onChange={handleMethodFilterChange}
+            className="border rounded px-2 py-1"
+          >
+            <option value="">All Payment Methods</option>
+            {getUniquePaymentMethods().map(method => (
+              <option key={method} value={method}>
+                {formatPaymentMethod(method)}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       
       {loading && !refreshing ? (
@@ -218,14 +296,18 @@ const PaymentsAdmin = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-800">
-                {payments.length === 0 ? (
+                {getCurrentPagePayments().length === 0 ? (
                   <tr>
                     <td colSpan="8" className="py-4 px-4 text-center">No payments found</td>
                   </tr>
                 ) : (
-                  payments.map((payment, index) => (
-                    <tr key={payment.transactionId || index} className="border-b hover:bg-gray-50">
-                      <td className="py-4 px-2">
+                  getCurrentPagePayments().map((payment, index) => (
+                    <tr 
+                      key={payment._id || payment.transactionId || index} 
+                      className="border-b hover:bg-gray-50 cursor-pointer"
+                      onClick={() => handlePaymentClick(payment._id)}
+                    >
+                      <td className="py-4 px-2" onClick={(e) => e.stopPropagation()}>
                         <input 
                           type="checkbox" 
                           className="form-checkbox h-4 w-4 accent-primary" 
@@ -233,16 +315,16 @@ const PaymentsAdmin = () => {
                           onChange={() => handlePaymentCheckboxChange(index)}
                         />
                       </td>
-                      <td className="py-4 px-4">₦{payment.amount.toLocaleString()}</td>
+                      <td className="py-4 px-4">{formatCurrency(payment.amount, payment.currency)}</td>
                       <td className="py-4 px-4">{payment.transactionId}</td>
                       <td className="py-4 px-4">{payment.date}</td>
                       <td className="py-4 px-4">{payment.purpose}</td>
-                      <td className="py-4 px-4">{payment.method}</td>
+                      <td className="py-4 px-4">{formatPaymentMethod(payment.rawMethod)}</td>
                       <td className="py-4 px-4 flex items-center">
-                        <FaCircle className={`text-xs mr-2 ${payment.status === "Successful" ? "text-green-500" : "text-red-500"}`} />
+                        <FaCircle className={`text-xs mr-2 ${payment.status === "Successful" ? "text-green" : payment.status === "Pending" ? "text-yellow-500" : "text-red-500"}`} />
                         {payment.status}
                       </td>
-                      <td className="py-4 px-4 text-center">
+                      <td className="py-4 px-4 text-center" onClick={(e) => handleActionClick(e, payment._id)}>
                         <BsThreeDots className="cursor-pointer text-lg text-primary" />
                       </td>
                     </tr>
