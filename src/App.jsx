@@ -47,6 +47,8 @@ import FinishShipmentPage from "./scenes/FinishShipmentPage";
 import PaymentSuccessScene from "./scenes/PaymentSuccess";
 import PendingPayments from "./dashboard/admin/PendingPayments";
 import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
+import AdminUserDetail from "./components/AdminUserDetail";
+import AdminPaymentDetail from "./components/AdminUserDetail";
 
 const App = () => {
   return (
@@ -150,7 +152,7 @@ const App = () => {
                   <Route path="shipmentmanagement/details/:shipmentId" element={<ShipmentDetailMgt />} />
                   <Route path="payments" element={<PaymentsAdmin />} />
                   <Route path="pending-payments" element={<PendingPayments />} />
-
+                  <Route path="/admin/payments/:paymentId" element={<AdminPaymentDetail />} />
                   <Route path="pickuplocations" element={<PickupLoc />} />
                   <Route
                     path="pickuplocations/create"

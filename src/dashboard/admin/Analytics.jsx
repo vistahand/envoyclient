@@ -1,95 +1,138 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, PieChart, Pie, Cell, Legend,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  // LineChart, Line,
 } from "recharts";
 import {  HiOutlineRefresh, HiOutlineDownload } from "react-icons/hi";
 import RecentActivities from "../../components/recentActivities";
+import SecondaryCharts from "../../components/SecondaryCharts";
 
-// Sample data (taken from your provided code)
-const weeklyData = [
-  { day: "Sun", shipments: 500, delivered: 420, delayed: 80 },
-  { day: "Mon", shipments: 200, delivered: 150, delayed: 50 },
-  { day: "Tue", shipments: 600, delivered: 520, delayed: 80 },
-  { day: "Wed", shipments: 150, delivered: 100, delayed: 50 },
-  { day: "Thu", shipments: 620, delivered: 580, delayed: 40 },
-  { day: "Fri", shipments: 250, delivered: 200, delayed: 50 },
-  { day: "Sat", shipments: 200, delivered: 180, delayed: 20 },
-];
-
-const monthlyData = [
-  { week: "W1", shipments: 1500, delivered: 1320, delayed: 180 },
-  { week: "W2", shipments: 2100, delivered: 1850, delayed: 250 },
-  { week: "W3", shipments: 1800, delivered: 1600, delayed: 200 },
-  { week: "W4", shipments: 2200, delivered: 1950, delayed: 250 },
-];
-
-const yearlyData = [
-  { month: "Jan", shipments: 8000, delivered: 7200, delayed: 800 },
-  { month: "Feb", shipments: 7500, delivered: 6750, delayed: 750 },
-  { month: "Mar", shipments: 9000, delivered: 8100, delayed: 900 },
-  { month: "Apr", shipments: 8500, delivered: 7650, delayed: 850 },
-  { month: "May", shipments: 9200, delivered: 8280, delayed: 920 },
-  { month: "Jun", shipments: 8800, delivered: 7920, delayed: 880 },
-  { month: "Jul", shipments: 9700, delivered: 8730, delayed: 970 },
-  { month: "Aug", shipments: 9100, delivered: 8190, delayed: 910 },
-  { month: "Sep", shipments: 9400, delivered: 8460, delayed: 940 },
-  { month: "Oct", shipments: 9900, delivered: 8910, delayed: 990 },
-  { month: "Nov", shipments: 8600, delivered: 7740, delayed: 860 },
-  { month: "Dec", shipments: 9300, delivered: 8370, delayed: 930 },
-];
-
-// Delivery times data
-const deliveryTimeData = [
-  { name: 'Same Day', value: 35 },
-  { name: 'Next Day', value: 45 },
-  { name: '2-3 Days', value: 15 },
-  { name: '4+ Days', value: 5 }
-];
-
-// Top destinations data
-const topDestinationsData = [
-  { name: 'New York', value: 25 },
-  { name: 'Los Angeles', value: 18 },
-  { name: 'Chicago', value: 15 },
-  { name: 'Houston', value: 12 },
-  { name: 'Other', value: 30 }
-];
-
-// Carrier performance data
-const carrierData = [
-  { name: 'FedEx', onTime: 92, delayed: 8 },
-  { name: 'UPS', onTime: 89, delayed: 11 },
-  { name: 'USPS', onTime: 85, delayed: 15 },
-  { name: 'DHL', onTime: 94, delayed: 6 }
-];
-
-// Customer satisfaction data (last 6 months)
-const satisfactionData = [
-  { month: 'Nov', rating: 4.2 },
-  { month: 'Dec', rating: 4.3 },
-  { month: 'Jan', rating: 4.1 },
-  { month: 'Feb', rating: 4.4 },
-  { month: 'Mar', rating: 4.5 },
-  { month: 'Apr', rating: 4.6 }
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+// // Customer satisfaction data (last 6 months)
+// const satisfactionData = [
+//   { month: 'Nov', rating: 4.2 },
+//   { month: 'Dec', rating: 4.3 },
+//   { month: 'Jan', rating: 4.1 },
+//   { month: 'Feb', rating: 4.4 },
+//   { month: 'Mar', rating: 4.5 },
+//   { month: 'Apr', rating: 4.6 }
+// ];
 
 const Analytics = () => {
   const [shipmentFilter, setShipmentFilter] = useState("weekly");
   const [dateRange, setDateRange] = useState("last30");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [chartData, setChartData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // New state for dashboard data
+  const [dashboardData, setDashboardData] = useState({
+    totalShipments: 0,
+    activeShipments: 0,
+    shipmentsToday: 0,
+    deliveredToday: 0,
+    pendingShipments: 0,
+    revenue: 0,
+    totalUsers: 0,
+    newUsersToday: 0
+  });
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+  const [dashboardError, setDashboardError] = useState(null);
+  
+  // API base URL from environment variable
+  const API_URL = import.meta.env.VITE_API_URL || "https://envoyserver-pyxd.onrender.com";
+  
+  // Get auth token safely
+  const getAuthToken = () => {
+    // Get token from localStorage or wherever it's stored
+    const token = localStorage.getItem("token");
+    // Remove quotes if they exist
+    return token ? token.replace(/^"|"$/g, '') : '';
+  };
 
-  const getShipmentData = () => {
-    switch (shipmentFilter) {
-      case "monthly":
-        return monthlyData;
-      case "yearly":
-        return yearlyData;
-      default:
-        return weeklyData;
+  useEffect(() => {
+    fetchShipmentData();
+    fetchDashboardData();
+  }, [shipmentFilter, dateRange]);
+
+  // New function to fetch dashboard data
+  const fetchDashboardData = async () => {
+    setIsDashboardLoading(true);
+    setDashboardError(null);
+    
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      const response = await fetch(`${API_URL}/api/admin/dashboard`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setDashboardData(data);
+    } catch (err) {
+      console.error("Error fetching dashboard data:", err);
+      setDashboardError(err.message);
+    } finally {
+      setIsDashboardLoading(false);
     }
+  };
+
+  const fetchShipmentData = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      const response = await fetch(`${API_URL}/api/admin/dashboard/charts?type=${shipmentFilter}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Transform the data to ensure it has shipments, delivered, and delayed properties
+      const transformedData = data.map(item => ({
+        ...item,
+        delayed: item.delayed || (item.shipments - item.delivered) || 0
+      }));
+      
+      setChartData(transformedData);
+    } catch (err) {
+      console.error("Error fetching shipment data:", err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle manual refresh - update to refresh both data sets
+  const handleRefreshData = () => {
+    fetchShipmentData();
+    fetchDashboardData();
   };
 
   // Custom responsive legend component for small screens
@@ -117,6 +160,36 @@ const Analytics = () => {
     );
   };
 
+  // Get the X-axis key based on filter type
+  const getXAxisDataKey = () => {
+    if (chartData.length === 0) return "name";
+    
+    const firstItem = chartData[0] || {};
+    
+    if (shipmentFilter === "yearly" && 'month' in firstItem) {
+      return "month";
+    } else if (shipmentFilter === "monthly" && 'week' in firstItem) {
+      return "week";
+    } else if (shipmentFilter === "weekly" && 'day' in firstItem) {
+      return "day";
+    }
+    
+    // Fallback to a key that exists in the data
+    const possibleKeys = ["day", "week", "month", "date"];
+    for (const key of possibleKeys) {
+      if (key in firstItem) {
+        return key;
+      }
+    }
+    
+    return "name";
+  };
+
+  // Function to render stat loading placeholder
+  const renderStatLoadingPlaceholder = () => (
+    <div className="animate-pulse h-6 w-16 bg-gray-200 rounded"></div>
+  );
+
   return (
     <div className="bg-gray-50 min-h-screen p-3 sm:p-0">
       {/* Header */}
@@ -126,10 +199,14 @@ const Analytics = () => {
           <p className="text-sm text-gray-600">Comprehensive logistics performance metrics</p>
         </div>
         <div className="flex flex-wrap w-full sm:w-auto justify-between sm:justify-start gap-2 sm:space-x-4">
-          <button className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-300 rounded-lg text-gray-700 text-xs sm:text-sm font-medium">
-            <HiOutlineRefresh className="w-4 h-4" />
-            <span className="hidden sm:inline">Refresh Data</span>
-            <span className="sm:hidden">Refresh</span>
+          <button 
+            className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-300 rounded-lg text-gray-700 text-xs sm:text-sm font-medium"
+            onClick={handleRefreshData}
+            disabled={isLoading || isDashboardLoading}
+          >
+            <HiOutlineRefresh className={`w-4 h-4 ${isLoading || isDashboardLoading ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">{(isLoading || isDashboardLoading) ? 'Loading...' : 'Refresh Data'}</span>
+            <span className="sm:hidden">{(isLoading || isDashboardLoading) ? 'Loading...' : 'Refresh'}</span>
           </button>
           <button className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-300 rounded-lg text-gray-700 text-xs sm:text-sm font-medium">
             <HiOutlineDownload className="w-4 h-4" />
@@ -139,7 +216,8 @@ const Analytics = () => {
         </div>
       </div>
 
-      {/* Date Range Selector */}
+      {/* Date Range Selector - COMMENTED OUT BECAUSE ENDPOINT IS NOT READY YET */}
+      {/* 
       <div className="mb-6 bg-white p-3 sm:p-4 rounded-xl shadow-sm">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
           <h2 className="text-gray-700 font-semibold text-sm sm:text-base">Date Range</h2>
@@ -164,14 +242,18 @@ const Analytics = () => {
           </div>
         </div>
       </div>
+      */}
 
       {/* Quick Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6">
+        {/* Active Shipments Card */}
         <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
           <div className="flex justify-between">
             <div>
               <p className="text-xs sm:text-sm font-medium text-gray-500">Active Shipments</p>
-              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">58</h3>
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">
+                {isDashboardLoading ? renderStatLoadingPlaceholder() : dashboardData.activeShipments}
+              </h3>
             </div>
             <div className="bg-blue-100 h-8 w-8 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center">
               <div className="text-blue-600 text-sm sm:text-base">📦</div>
@@ -188,11 +270,14 @@ const Analytics = () => {
           </div>
         </div>
 
+        {/* Shipments Today Card */}
         <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
           <div className="flex justify-between">
             <div>
               <p className="text-xs sm:text-sm font-medium text-gray-500">Shipments Today</p>
-              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">25</h3>
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">
+                {isDashboardLoading ? renderStatLoadingPlaceholder() : dashboardData.shipmentsToday}
+              </h3>
             </div>
             <div className="bg-green-100 h-8 w-8 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center">
               <div className="text-green-600 text-sm sm:text-base">🚚</div>
@@ -209,11 +294,14 @@ const Analytics = () => {
           </div>
         </div>
 
+        {/* Delivered Today Card */}
         <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
           <div className="flex justify-between">
             <div>
               <p className="text-xs sm:text-sm font-medium text-gray-500">Delivered Today</p>
-              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">18</h3>
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">
+                {isDashboardLoading ? renderStatLoadingPlaceholder() : dashboardData.deliveredToday}
+              </h3>
             </div>
             <div className="bg-yellow-100 h-8 w-8 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center">
               <div className="text-yellow-600 text-sm sm:text-base">✅</div>
@@ -230,11 +318,14 @@ const Analytics = () => {
           </div>
         </div>
 
+        {/* Pending Shipments Card */}
         <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
           <div className="flex justify-between">
             <div>
               <p className="text-xs sm:text-sm font-medium text-gray-500">Pending Shipments</p>
-              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">15</h3>
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mt-1">
+                {isDashboardLoading ? renderStatLoadingPlaceholder() : dashboardData.pendingShipments}
+              </h3>
             </div>
             <div className="bg-purple-100 h-8 w-8 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center">
               <div className="text-purple-600 text-sm sm:text-base">⏱️</div>
@@ -259,6 +350,8 @@ const Analytics = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
             <h2 className="font-semibold text-sm sm:text-base text-gray-700">
               {shipmentFilter.charAt(0).toUpperCase() + shipmentFilter.slice(1)} Shipment Insights
+              {isLoading && <span className="text-xs text-gray-500 ml-2">(Loading...)</span>}
+              {error && <span className="text-xs text-red-500 ml-2">({error})</span>}
             </h2>
             <div className="flex flex-wrap w-full sm:w-auto justify-start gap-1 bg-gray-100 p-1 rounded-lg">
               {["weekly", "monthly", "yearly"].map((type) => (
@@ -275,10 +368,10 @@ const Analytics = () => {
             </div>
           </div>
           {renderResponsiveChart(
-            <BarChart data={getShipmentData()} margin={{ top: 10, right: 10, left: 0, bottom: 15 }}>
+            <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 15 }}>
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
               <XAxis
-                dataKey={shipmentFilter === "yearly" ? "month" : shipmentFilter === "monthly" ? "week" : "day"}
+                dataKey={getXAxisDataKey()}
                 tick={{ fontSize: 10, fill: "#333" }}
               />
               <YAxis
@@ -295,7 +388,8 @@ const Analytics = () => {
           )}
         </div>
 
-        {/* Customer Satisfaction */}
+        {/* Customer Satisfaction - COMMENTED OUT */}
+        {/* 
         <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
           <div className="flex justify-between items-center mb-4 sm:mb-6">
             <h2 className="font-semibold text-sm sm:text-base text-gray-700">Customer Satisfaction Trend</h2>
@@ -323,107 +417,22 @@ const Analytics = () => {
             "h-64 sm:h-80"
           )}
         </div>
+        */}
       </div>
 
-      {/* Second Row of Charts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
-        {/* Delivery Time Distribution */}
-        <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
-          <h2 className="font-semibold text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">Delivery Time Distribution</h2>
-          {renderResponsiveChart(
-            <PieChart>
-              <Pie
-                data={deliveryTimeData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={window.innerWidth < 768 ? 60 : 80}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name, percent }) => window.innerWidth < 768 ? 
-                  `${(percent * 100).toFixed(0)}%` :
-                  `${name}: ${(percent * 100).toFixed(0)}%`}
-              >
-                {deliveryTimeData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(value) => `${value}%`} />
-              <Legend 
-                layout={window.innerWidth < 768 ? "horizontal" : "vertical"} 
-                verticalAlign={window.innerWidth < 768 ? "bottom" : "middle"} 
-                align={window.innerWidth < 768 ? "center" : "right"}
-                wrapperStyle={window.innerWidth < 768 ? { fontSize: "10px" } : {}}
-              />
-            </PieChart>,
-            "h-56 sm:h-64"
-          )}
-        </div>
+      {/* Import the Secondary Charts instead of inline code */}
+      <SecondaryCharts />
 
-        {/* Top Destinations */}
-        <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
-          <h2 className="font-semibold text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">Top Shipment Destinations</h2>
-          {renderResponsiveChart(
-            <PieChart>
-              <Pie
-                data={topDestinationsData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={window.innerWidth < 768 ? 60 : 80}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name, percent }) => window.innerWidth < 768 ? 
-                  `${(percent * 100).toFixed(0)}%` :
-                  `${name}: ${(percent * 100).toFixed(0)}%`}
-              >
-                {topDestinationsData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(value) => `${value}%`} />
-              <Legend 
-                layout={window.innerWidth < 768 ? "horizontal" : "vertical"} 
-                verticalAlign={window.innerWidth < 768 ? "bottom" : "middle"} 
-                align={window.innerWidth < 768 ? "center" : "right"}
-                wrapperStyle={window.innerWidth < 768 ? { fontSize: "10px" } : {}}
-              />
-            </PieChart>,
-            "h-56 sm:h-64"
-          )}
+      {/* Display dashboard error if exists */}
+      {dashboardError && (
+        <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-md mb-6">
+          <p className="text-sm font-medium">Error loading dashboard data: {dashboardError}</p>
         </div>
-
-        {/* Carrier Performance */}
-        <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
-          <h2 className="font-semibold text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">Carrier Performance</h2>
-          {renderResponsiveChart(
-            <BarChart
-              data={carrierData}
-              layout="vertical"
-              margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
-              <YAxis 
-                dataKey="name" 
-                type="category" 
-                tick={{ fontSize: 10 }} 
-                width={45}
-              />
-              <Tooltip formatter={(value) => `${value}%`} />
-              <Legend wrapperStyle={{ fontSize: "10px" }} />
-              <Bar dataKey="onTime" name="On Time %" stackId="a" fill="#4CAF50" />
-              <Bar dataKey="delayed" name="Delayed %" stackId="a" fill="#FF5722" />
-            </BarChart>,
-            "h-56 sm:h-64"
-          )}
-        </div>
-      </div>
+      )}
 
       <RecentActivities />
     </div>
   );
 };
 
-export default Analytics
-;
+export default Analytics;

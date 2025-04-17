@@ -620,4 +620,32 @@ export const updateProfileImage = async (file) => {
   }
 };
 
+export const admin = {
+  payments : {
+    getAll: async () => {
+      try {
+        const response = await api.get(`/admin/payments`);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(err.response?.data?.error || "Failed to fetch admin payments");
+      }
+    },
+
+      getById: async (params) => {
+        try {
+          const response = await api.get(`/admin/payments/${params}`);
+          return response.data;
+        } catch (err) {
+          if (!err.response) {
+            throw new Error("Network error. Please check your connection.");
+          }
+          throw new Error(err.response?.data?.error || "Failed to fetch admin payment detail");
+        }
+      },
+  }
+}
+
 export default api;

@@ -1,25 +1,127 @@
-import React, { useState } from "react";
-import { AiOutlineArrowLeft, AiOutlineSave } from "react-icons/ai";
+import React, { useState, useEffect } from "react";
+import { AiOutlineArrowLeft, AiOutlineSave, AiOutlinePlus } from "react-icons/ai";
 
 const QuoteMgt = ({ onBack }) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    vatRate: 0.075, // 7.5%
-    baseRateInternational: 20, // per kg
-    baseRateLocal: 10, // per kg
-    insuranceRateBasic: 0.01, // 1% of base amount
-    insuranceRatePremium: 0.02, // 2% of base amount
-    deliveryOptions: [
-      { name: "Standard", percentage: 0, isDefault: true },
-      { name: "QuickWing", percentage: 0.15, isDefault: false },
-      { name: "Express", percentage: 0.25, isDefault: false }
-    ]
+    vatRate: 0.075,
+    baseRateInternational: 20,
+    baseRateLocal: 10,
+    insuranceRateBasic: 0.01,
+    insuranceRatePremium: 0.02
   });
+  
+  const [deliveryOptions, setDeliveryOptions] = useState([]);
+  const [savingRates, setSavingRates] = useState(false);
+  const [savingDeliveryOption, setSavingDeliveryOption] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [newOption, setNewOption] = useState({
     name: "",
-    percentage: 0,
-    isDefault: false
+    description: "Standard delivery option",
+    estimatedDeliveryTime: "3-5 days",
+    percentageMarkup: 0,
+    isExpress: false,
+    daysToAdd: 3,
+    active: true
   });
+
+  // Function to get auth token
+  const getAuthToken = () => {
+    // Get token from localStorage or wherever you store it
+    return localStorage.getItem('authToken');
+  };
+
+  // Fetch shipping rates from API
+  const fetchShippingRates = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/shipping-rates`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch shipping rates');
+      }
+      
+      const data = await response.json();
+      
+      if (data.success && data.data && data.data.rates) {
+        const { rates } = data.data;
+        
+        // Update formData with rates from API
+        setFormData({
+          vatRate: rates.vatRate,
+          baseRateInternational: rates.baseRateInternational,
+          baseRateLocal: rates.baseRateLocal,
+          insuranceRateBasic: rates.insuranceRateBasic,
+          insuranceRatePremium: rates.insuranceRatePremium
+        });
+      }
+    } catch (err) {
+      console.error("Error fetching shipping rates:", err);
+      setError(err.message);
+    }
+  };
+
+  // Fetch delivery options from API
+  const fetchDeliveryOptions = async () => {
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/delivery-options`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch delivery options');
+      }
+      
+      const data = await response.json();
+      
+      if (data.success && data.data && data.data.deliveryOptions) {
+        setDeliveryOptions(data.data.deliveryOptions);
+      }
+    } catch (err) {
+      console.error("Error fetching delivery options:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load data when component mounts
+  useEffect(() => {
+    const loadAllData = async () => {
+      await fetchShippingRates();
+      await fetchDeliveryOptions();
+    };
+    
+    loadAllData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -27,76 +129,252 @@ const QuoteMgt = ({ onBack }) => {
     setFormData((prev) => ({ ...prev, [name]: parsedValue }));
   };
 
-  const handleDeliveryOptionChange = (index, field, value) => {
-    const updatedOptions = [...formData.deliveryOptions];
-    
-    if (field === "isDefault" && value === true) {
-      // Unset other defaults
-      updatedOptions.forEach((option, i) => {
-        updatedOptions[i].isDefault = i === index;
-      });
-    } else {
-      updatedOptions[index][field] = field === "percentage" ? parseFloat(value) : value;
-    }
-
-    setFormData((prev) => ({ ...prev, deliveryOptions: updatedOptions }));
-  };
-
   const handleNewOptionChange = (e) => {
-    const { name, value, type } = e.target;
-    const parsedValue = type === "number" ? parseFloat(value) : value;
+    const { name, value, type, checked } = e.target;
+    let parsedValue;
+    
+    if (type === "checkbox") {
+      parsedValue = checked;
+    } else if (type === "number") {
+      parsedValue = parseFloat(value);
+    } else {
+      parsedValue = value;
+    }
+    
     setNewOption((prev) => ({ ...prev, [name]: parsedValue }));
   };
 
-  const addDeliveryOption = () => {
+  const validateNewOption = () => {
     if (!newOption.name.trim()) {
-      alert("Option name cannot be empty");
-      return;
-    }
-
-    let updatedOptions = [...formData.deliveryOptions];
-    
-    // Handle default setting
-    if (newOption.isDefault) {
-      updatedOptions = updatedOptions.map(option => ({ ...option, isDefault: false }));
+      setError("Option name cannot be empty");
+      return false;
     }
     
-    updatedOptions.push({
-      name: newOption.name,
-      percentage: parseFloat(newOption.percentage) || 0,
-      isDefault: newOption.isDefault
-    });
-
-    setFormData(prev => ({ ...prev, deliveryOptions: updatedOptions }));
-    setNewOption({ name: "", percentage: 0, isDefault: false });
+    if (newOption.percentageMarkup < 0 || newOption.percentageMarkup > 1) {
+      setError("Percentage markup must be between 0 and 1");
+      return false;
+    }
+    
+    if (newOption.daysToAdd < 0) {
+      setError("Days to add must be a positive number");
+      return false;
+    }
+    
+    return true;
   };
 
-  const removeDeliveryOption = (index) => {
-    // Prevent removing if it's the default option
-    if (formData.deliveryOptions[index].isDefault) {
-      alert("Cannot remove the default delivery option.");
+  const addDeliveryOption = async (e) => {
+    if (e) e.preventDefault();
+    
+    if (!validateNewOption()) {
       return;
     }
 
-    // Prevent removing if it's Standard
-    if (formData.deliveryOptions[index].name === "Standard") {
-      alert("Cannot remove the Standard delivery option.");
-      return;
+    setError(null);
+    setSavingDeliveryOption(true);
+    setIsSubmitting(true);
+    
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      // Prepare payload for API
+      const payload = {
+        name: newOption.name,
+        description: newOption.description,
+        estimatedDeliveryTime: newOption.estimatedDeliveryTime,
+        percentageMarkup: newOption.percentageMarkup,
+        isExpress: newOption.isExpress,
+        daysToAdd: newOption.daysToAdd,
+        active: newOption.active
+      };
+      
+      console.log("Sending delivery option payload:", payload);
+      
+      // Send data to API
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/delivery-options`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create delivery option');
+      }
+      
+      const responseData = await response.json();
+      console.log("Delivery option created successfully:", responseData);
+      
+      // Refresh delivery options
+      await fetchDeliveryOptions();
+      
+      // Reset new option form
+      setNewOption({
+        name: "",
+        description: "Standard delivery option",
+        estimatedDeliveryTime: "3-5 days",
+        percentageMarkup: 0,
+        isExpress: false,
+        daysToAdd: 3,
+        active: true
+      });
+      
+      alert("Delivery option added successfully!");
+      
+    } catch (err) {
+      console.error("Error creating delivery option:", err);
+      setError(err.message);
+      alert(`Failed to add delivery option: ${err.message}`);
+    } finally {
+      setSavingDeliveryOption(false);
+      setIsSubmitting(false);
     }
-
-    const updatedOptions = formData.deliveryOptions.filter((_, i) => i !== index);
-    setFormData(prev => ({ ...prev, deliveryOptions: updatedOptions }));
   };
 
-  const saveConfiguration = () => {
-    // Here you would typically send this data to your API
-    console.log("Saving configuration:", formData);
-    alert("Configuration saved successfully!");
+  const toggleDeliveryOptionStatus = async (id, currentStatus) => {
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      // First update UI optimistically
+      setDeliveryOptions(prevOptions => 
+        prevOptions.map(option => 
+          option._id === id ? { ...option, active: !currentStatus } : option
+        )
+      );
+      
+      // Send toggle request to API
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/delivery-options/${id}/toggle-active`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        // Revert UI change if API call fails
+        setDeliveryOptions(prevOptions => 
+          prevOptions.map(option => 
+            option._id === id ? { ...option, active: currentStatus } : option
+          )
+        );
+        throw new Error(errorData.message || 'Failed to toggle delivery option status');
+      }
+      
+    } catch (err) {
+      console.error("Error toggling delivery option status:", err);
+      setError(err.message);
+      alert(`Failed to update status: ${err.message}`);
+    }
+  };
+
+  const removeDeliveryOption = async (id) => {
+    if (!confirm("Are you sure you want to delete this delivery option? This action cannot be undone.")) {
+      return;
+    }
+    
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      // Optimistically remove from UI
+      const originalOptions = [...deliveryOptions];
+      setDeliveryOptions(prevOptions => prevOptions.filter(option => option._id !== id));
+      
+      // Send delete request to API
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/delivery-options/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        // Revert UI if API call fails
+        setDeliveryOptions(originalOptions);
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete delivery option');
+      }
+      
+      alert("Delivery option deleted successfully!");
+      
+    } catch (err) {
+      console.error("Error deleting delivery option:", err);
+      setError(err.message);
+      alert(`Failed to delete delivery option: ${err.message}`);
+    }
+  };
+
+  const saveConfiguration = async () => {
+    setSavingRates(true);
+    setError(null);
+    
+    try {
+      const token = getAuthToken();
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please log in again.");
+      }
+      
+      // Prepare payload for API - only include the rates data
+      const payload = {
+        vatRate: formData.vatRate,
+        baseRateInternational: formData.baseRateInternational,
+        baseRateLocal: formData.baseRateLocal,
+        insuranceRateBasic: formData.insuranceRateBasic,
+        insuranceRatePremium: formData.insuranceRatePremium
+      };
+      
+      // Send data to API
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/shipping-rates`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update shipping rates');
+      }
+      
+      // Save was successful
+      alert("Shipping rates updated successfully!");
+      
+    } catch (err) {
+      console.error("Error saving configuration:", err);
+      setError(err.message);
+      alert(`Failed to save shipping rates: ${err.message}`);
+    } finally {
+      setSavingRates(false);
+    }
   };
 
   const formatPercentage = (value) => {
     return (value * 100).toFixed(1) + "%";
   };
+
+  if (loading) {
+    return <div className="w-full mx-auto p-4 text-center">Loading shipping configuration...</div>;
+  }
 
   return (
     <div className="w-full mx-auto p-4 md:p-6 bg-white">
@@ -112,6 +390,18 @@ const QuoteMgt = ({ onBack }) => {
       <p className="text-sm md:text-base text-gray-600">
         Configure shipping rates, VAT, insurance rates, and delivery options for quotes.
       </p>
+
+      {error && (
+        <div className="my-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          Error: {error}
+          <button 
+            className="ml-2 text-red-700 hover:text-red-900" 
+            onClick={() => setError(null)}
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Basic Rates Section */}
       <div className="mt-6">
@@ -198,133 +488,197 @@ const QuoteMgt = ({ onBack }) => {
             </div>
           </div>
         </div>
+        
+        {/* Save Button for Rates */}
+        <button
+          className={`mt-4 flex items-center justify-center px-6 py-2 ${savingRates ? 'bg-gray-400' : 'bg-primary'} text-white rounded-lg`}
+          onClick={saveConfiguration}
+          disabled={savingRates}
+        >
+          {savingRates ? 'Saving Rates...' : (
+            <>
+              <AiOutlineSave className="mr-2" /> Save Rate Configuration
+            </>
+          )}
+        </button>
       </div>
 
       {/* Delivery Options Section */}
-      <div className="mt-6">
+      <div className="mt-8">
         <h3 className="text-lg font-semibold text-gray-800 mb-3">Delivery Options</h3>
         
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200 text-sm md:text-base">
             <thead>
               <tr className="bg-gray-50">
-                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Option Name</th>
-                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Additional Percentage</th>
-                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Default</th>
+                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Name</th>
+                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Description</th>
+                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Est. Delivery</th>
+                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Markup %</th>
+                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Express</th>
+                <th className="px-4 py-2 text-left text-gray-700 font-semibold">Status</th>
                 <th className="px-4 py-2 text-left text-gray-700 font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {formData.deliveryOptions.map((option, index) => (
-                <tr key={index} className="border-t border-gray-200">
+              {deliveryOptions.map((option) => (
+                <tr key={option._id} className="border-t border-gray-200">
+                  <td className="px-4 py-3">{option.name}</td>
+                  <td className="px-4 py-3">{option.description}</td>
+                  <td className="px-4 py-3">{option.estimatedDeliveryTime}</td>
+                  <td className="px-4 py-3">{formatPercentage(option.percentageMarkup)}</td>
+                  <td className="px-4 py-3">{option.isExpress ? "Yes" : "No"}</td>
                   <td className="px-4 py-3">
-                    <input
-                      type="text"
-                      value={option.name}
-                      onChange={(e) => handleDeliveryOptionChange(index, "name", e.target.value)}
-                      className="w-full border p-2 rounded text-sm md:text-base"
-                      readOnly={option.name === "Standard"}
-                    />
+                    <span 
+                      className={`px-2 py-1 rounded text-xs ${option.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                    >
+                      {option.active ? "Active" : "Inactive"}
+                    </span>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center">
-                      <input
-                        type="number"
-                        value={option.percentage}
-                        onChange={(e) => handleDeliveryOptionChange(index, "percentage", e.target.value)}
-                        step="0.01"
-                        min="0"
-                        max="1"
-                        className="w-24 border p-2 rounded text-sm md:text-base"
-                        readOnly={option.name === "Standard"}
-                      />
-                      <span className="ml-2 text-gray-700">
-                        {formatPercentage(option.percentage)}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <input
-                      type="radio"
-                      name="defaultOption"
-                      checked={option.isDefault}
-                      onChange={() => handleDeliveryOptionChange(index, "isDefault", true)}
-                      className="w-4 h-4"
-                    />
-                  </td>
-                  <td className="px-4 py-3">
-                    {(option.name !== "Standard") && (
+                    <div className="flex space-x-2">
                       <button
-                        onClick={() => removeDeliveryOption(index)}
-                        className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600"
+                        onClick={() => toggleDeliveryOptionStatus(option._id, option.active)}
+                        className={`px-2 py-1 rounded-md text-xs ${option.active ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white'}`}
                       >
-                        Remove
+                        {option.active ? "Deactivate" : "Activate"}
                       </button>
-                    )}
+                      <button
+                        onClick={() => removeDeliveryOption(option._id)}
+                        className="bg-red-500 text-white px-2 py-1 rounded-md text-xs"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
+              {deliveryOptions.length === 0 && (
+                <tr className="border-t border-gray-200">
+                  <td colSpan="7" className="px-4 py-3 text-center text-gray-500">
+                    No delivery options found. Add your first one below.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
 
         {/* Add New Option */}
-        <div className="mt-4 p-4 border border-dashed border-gray-300 rounded-lg">
+        <div className="mt-6 p-4 border border-dashed border-gray-300 rounded-lg">
           <h4 className="text-md font-medium text-gray-700 mb-3">Add New Delivery Option</h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <input
-              type="text"
-              name="name"
-              value={newOption.name}
-              onChange={handleNewOptionChange}
-              placeholder="Option Name"
-              className="w-full border p-3 rounded-lg text-sm md:text-base"
-            />
-            <div className="flex items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Name <span className="text-red-500">*</span>
+              </label>
               <input
-                type="number"
-                name="percentage"
-                value={newOption.percentage}
+                type="text"
+                name="name"
+                value={newOption.name}
                 onChange={handleNewOptionChange}
-                step="0.01"
-                min="0"
-                max="1"
-                placeholder="Additional %"
+                placeholder="e.g. Express"
+                className="w-full border p-3 rounded-lg text-sm md:text-base"
+                required
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              <input
+                type="text"
+                name="description"
+                value={newOption.description}
+                onChange={handleNewOptionChange}
+                placeholder="e.g. Fast delivery option"
                 className="w-full border p-3 rounded-lg text-sm md:text-base"
               />
-              <span className="ml-2 text-gray-700">
-                {formatPercentage(newOption.percentage)}
-              </span>
             </div>
-            <div className="flex items-center space-x-4">
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Estimated Delivery Time</label>
+              <input
+                type="text"
+                name="estimatedDeliveryTime"
+                value={newOption.estimatedDeliveryTime}
+                onChange={handleNewOptionChange}
+                placeholder="e.g. 1-2 days"
+                className="w-full border p-3 rounded-lg text-sm md:text-base"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Percentage Markup</label>
+              <div className="flex items-center">
+                <input
+                  type="number"
+                  name="percentageMarkup"
+                  value={newOption.percentageMarkup}
+                  onChange={handleNewOptionChange}
+                  step="0.01"
+                  min="0"
+                  max="1"
+                  placeholder="e.g. 0.25 for 25%"
+                  className="w-full border p-3 rounded-lg text-sm md:text-base"
+                />
+                <span className="ml-2 text-gray-700">
+                  {formatPercentage(newOption.percentageMarkup)}
+                </span>
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Days to Add</label>
+              <input
+                type="number"
+                name="daysToAdd"
+                value={newOption.daysToAdd}
+                onChange={handleNewOptionChange}
+                min="0"
+                className="w-full border p-3 rounded-lg text-sm md:text-base"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-4 mt-6">
               <label className="flex items-center text-gray-700">
                 <input
                   type="checkbox"
-                  name="isDefault"
-                  checked={newOption.isDefault}
-                  onChange={(e) => setNewOption(prev => ({ ...prev, isDefault: e.target.checked }))}
+                  name="isExpress"
+                  checked={newOption.isExpress}
+                  onChange={handleNewOptionChange}
                   className="mr-2 w-4 h-4"
                 />
-                Set as Default
+                Express Option
               </label>
-              <button
-                onClick={addDeliveryOption}
-                className="bg-green-500 text-white px-4 py-2 rounded-md text-sm hover:bg-green-600"
-              >
-                Add Option
-              </button>
+              
+              <label className="flex items-center text-gray-700">
+                <input
+                  type="checkbox"
+                  name="active"
+                  checked={newOption.active}
+                  onChange={handleNewOptionChange}
+                  className="mr-2 w-4 h-4"
+                />
+                Active
+              </label>
             </div>
+       
           </div>
+          
+          {/* This is the button that was missing or not visible */}
+          <button
+  onClick={addDeliveryOption}
+  disabled={savingDeliveryOption || isSubmitting}
+  className="mt-4 flex items-center justify-center px-6 py-2 bg-green-500 text-black rounded-lg hover:bg-green-600 transition-colors"
+>
+  {savingDeliveryOption ? 'Adding...' : (
+    <>
+      <AiOutlinePlus className="mr-2" /> Add Delivery Option
+    </>
+  )}
+</button>
         </div>
       </div>
-
-      {/* Save Button */}
-      <button
-        className="mt-6 flex items-center justify-center w-full md:w-[30%] bg-primary text-white p-3 rounded-lg text-lg"
-        onClick={saveConfiguration}
-      >
-        <AiOutlineSave className="mr-2" /> Save Configuration
-      </button>
     </div>
   );
 };
