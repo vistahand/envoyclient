@@ -265,11 +265,11 @@ const PickupModal = ({ onClose, values, onUpdate }) => {
   // Formik Configuration
   const formik = useFormik({
     initialValues: {
-      countryPick: pickup?.location?.country || "IE",
-      statePick: pickup?.location?.state || "",
-      townPick: pickup?.location?.city || "",
-      streetPick: pickup?.location?.street || "",
-      zipCodePick: pickup?.location?.postalCode || "",
+      countryPick: pickup?.address?.country || "IE",
+      statePick: pickup?.address?.state || "",
+      townPick: pickup?.address?.city || "",
+      streetPick: pickup?.address?.street || "",
+      zipCodePick: pickup?.address?.postalCode || "",
       pickupDate: pickup?.date
         ? formatDateTimeLocal(pickup.date)
         : getMinDateTime(), // specialInstructions: pickup?.instructions || "",

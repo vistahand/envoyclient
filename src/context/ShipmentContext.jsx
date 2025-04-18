@@ -252,6 +252,47 @@ export const ShipmentProvider = ({ children }) => {
     }
   };
 
+  const selectPickupLocation = async (shipmentId, pickupData) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await shipments.selectPickupLocation(
+        shipmentId,
+        pickupData
+      );
+
+      if (!response.success) {
+        throw new Error(
+          response.data?.error || "Server returned unsuccessful response"
+        );
+      }
+
+      const shipment = response.data?.shipment;
+      if (!shipment?._id) {
+        throw new Error("Invalid shipment data in server response");
+      }
+
+      setShipmentData((prev) => ({
+        ...prev,
+        pickup: pickupData,
+        lastSavedStep: Math.max(
+          prev.lastSavedStep,
+          shipment.lastSavedStep || 6
+        ),
+      }));
+
+      return response;
+    } catch (err) {
+      const message =
+        err.response?.data?.error || "Failed to update pickup location";
+      setError(message);
+      throw new Error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const updateRecipientInfo = async (recipientData) => {
     try {
       setLoading(true);
@@ -513,6 +554,7 @@ export const ShipmentProvider = ({ children }) => {
     error,
     initializeShipment,
     updatePackageDetails,
+    selectPickupLocation,
     calculateShippingCost,
     updateDeliveryOptions,
     updateSenderInfo,

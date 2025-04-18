@@ -68,9 +68,9 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
 
   const internationalSchema = Yup.object().shape({
     countryFromInt: Yup.string().required("Sender's country is required"),
-    // cityFromInt: Yup.string().required("Sender's city is required"),
+    cityFromInt: Yup.string().required("Sender's city is required"),
     countryTo: Yup.string().required("Recipient country is required"),
-    // cityToInt: Yup.string().required('Recipient city is required')
+    cityToInt: Yup.string().required("Recipient city is required"),
   });
 
   const localSchema = Yup.object().shape({
@@ -411,8 +411,14 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                                     }
                                     `}
                     >
-                      Enter your city/town (optional)
+                      Enter your city/town
                     </label>
+                    <p
+                      className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                    >
+                      {formik.touched.cityFromInt && formik.errors.cityFromInt}
+                    </p>
                   </div>
                 </div>
 
@@ -533,8 +539,14 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                                     }
                                     `}
                     >
-                      Enter destination city/town (optional)
+                      Enter destination city/town
                     </label>
+                    <p
+                      className="text-mainRed md:text-[12px] flex justify-end
+                                    ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
+                    >
+                      {formik.touched.cityToInt && formik.errors.cityToInt}
+                    </p>
                   </div>
                 </div>
 

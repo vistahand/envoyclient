@@ -3,11 +3,13 @@ import { useAuth } from "../context/AuthContext";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { GoPerson } from "react-icons/go";
+import { auth } from "../services/api";
 
 const SettingsPage = () => {
   const { user, updateProfile, updatePassword, updateProfileImage } = useAuth();
   const [phoneNumber, setPhoneNumber] = useState(user?.phone || "");
-  const [address, setAddress] = useState(user?.address || "");
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
   const [country, setCountry] = useState(user?.country || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -17,20 +19,23 @@ const SettingsPage = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [fileError, setFileError] = useState("");
 
   // Handle profile image selection and upload
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     // Clear previous errors
     setFileError("");
-    
+
     // Check file size (10MB = 10 * 1024 * 1024 bytes)
     const MAX_FILE_SIZE = 10 * 1024 * 1024;
     if (file.size > MAX_FILE_SIZE) {
-      setFileError("File size exceeds 10MB limit. Please choose a smaller image.");
+      setFileError(
+        "File size exceeds 10MB limit. Please choose a smaller image."
+      );
       return;
     }
 
@@ -50,10 +55,13 @@ const SettingsPage = () => {
   // Handle profile information update
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
+    setUpdating(true);
     try {
-      await updateProfile({ phone: phoneNumber, address, country });
+      await updateProfile({ phone: phoneNumber, firstName, lastName, country });
       toast.success("Profile updated successfully!");
+      setUpdating(false);
     } catch (error) {
+      setUpdating(false);
       toast.error("Profile update failed!");
     }
   };
@@ -72,8 +80,9 @@ const SettingsPage = () => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+      await auth.logout();
     } catch (error) {
-      toast.error("Password update failed");
+      toast.error(error);
     }
   };
 
@@ -126,6 +135,30 @@ const SettingsPage = () => {
             Edit Profile
           </h2>
           <form onSubmit={handleProfileUpdate} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 font-medium">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
+            </div>
             <div>
               <label className="block text-gray-700 font-medium">Email</label>
               <input
@@ -161,21 +194,12 @@ const SettingsPage = () => {
               </div>
             </div>
 
-            <div>
-              <label className="block text-gray-700 font-medium">Address</label>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full p-3 border rounded-lg"
-              />
-            </div>
-
             <button
               type="submit"
+              disabled={updating}
               className="w-[50%] bg-primary hover:bg-primary-dark text-white py-3 rounded-lg font-semibold transition"
             >
-              Update Profile
+              {updating ? "Updating..." : "Update Profile"}
             </button>
           </form>
         </div>

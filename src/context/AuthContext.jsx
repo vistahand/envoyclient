@@ -114,7 +114,6 @@ export const AuthProvider = ({ children }) => {
       }
       return response;
     } catch (error) {
-      console.error("Password update failed:", error);
       throw error;
     }
   };
@@ -139,28 +138,26 @@ export const AuthProvider = ({ children }) => {
       }
       return response;
     } catch (error) {
-      console.error("Profile image update failed:", error);
       throw error;
     }
   };
 
-  const updateProfile = async ({ phone, address, country, profileImage }) => {
+  const updateProfile = async ({ phone, lastName, country, firstName }) => {
     try {
       const response = await apiUpdateProfile({
         phone,
-        address,
+        lastName,
+        firstName,
         country,
-        profileImage,
       });
       if (response.success) {
         setUser((prevUser) => {
           const updatedUser = {
             ...prevUser,
             phone: response.data.phone,
-            address: response.data.address,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
             country: response.data.country,
-            profileImage:
-              response.data.profileImageUrl || prevUser.profileImage,
           };
           localStorage.setItem("user", JSON.stringify(updatedUser));
           return updatedUser;
@@ -168,7 +165,8 @@ export const AuthProvider = ({ children }) => {
       }
       return response;
     } catch (error) {
-      console.error("Profile update failed:", error);
+      console.log(error);
+      // toast.error("Profile update failed:", error);
       throw error;
     }
   };

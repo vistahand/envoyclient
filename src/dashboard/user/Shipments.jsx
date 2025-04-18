@@ -259,17 +259,17 @@ const Shipments = () => {
     navigate(`/user/shipments/details?id=${id}`);
   };
 
-  const handleDownloadReceipt = (e, id) => {
-    e.stopPropagation();
-    // Implement download receipt functionality
-    console.log("Download receipt for", id);
-  };
+  // const handleDownloadReceipt = (e, id) => {
+  //   e.stopPropagation();
+  //   // Implement download receipt functionality
+  //   console.log("Download receipt for", id);
+  // };
 
-  const handleCancelShipment = (e, id) => {
-    e.stopPropagation();
-    // Implement cancel shipment functionality
-    console.log("Cancel shipment", id);
-  };
+  // const handleCancelShipment = (e, id) => {
+  //   e.stopPropagation();
+  //   // Implement cancel shipment functionality
+  //   console.log("Cancel shipment", id);
+  // };
 
   return (
     <section className="w-full">
@@ -494,7 +494,7 @@ const Shipments = () => {
                                   <IoInformationCircleOutline className="text-[17px]" />
                                   See full details
                                 </li>
-                                <li
+                                {/* <li
                                   className="p-3 hover:bg-mainalt cursor-pointer text-main2 flex items-center gap-2"
                                   onClick={(e) =>
                                     handleDownloadReceipt(e, data._id)
@@ -502,8 +502,8 @@ const Shipments = () => {
                                 >
                                   <HiOutlineDocumentDownload className="text-[17px]" />
                                   Download receipt
-                                </li>
-                                <li
+                                </li> */}
+                                {/* <li
                                   className="p-3 hover:bg-mainalt cursor-pointer text-mainRed flex items-center gap-2"
                                   onClick={(e) =>
                                     handleCancelShipment(e, data._id)
@@ -511,7 +511,7 @@ const Shipments = () => {
                                 >
                                   <TbTrashX className="text-[17px]" />
                                   Cancel Shipment
-                                </li>
+                                </li> */}
                               </ul>
                             </div>
                           )}

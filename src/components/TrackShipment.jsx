@@ -233,8 +233,8 @@ const TrackShipment = () => {
           isCompleted: !!latestStatusEvents["awaiting_pickup"],
           details: shipmentData.pickup?.location
             ? `Pickup scheduled at: ${
-                shipmentData.pickup.location.street || ""
-              }, ${shipmentData.pickup.location.city || ""}`
+                shipmentData.pickup.address.street || ""
+              }, ${shipmentData.pickup.address.city || ""}`
             : null,
         },
         {

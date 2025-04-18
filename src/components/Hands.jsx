@@ -119,11 +119,6 @@ const Hands = () => {
                 placeholder="Enter Tracking Number"
                 value={desktopTrackingNumber}
                 onChange={(e) => setDesktopTrackingNumber(e.target.value)}
-                onBlur={(e) => {
-                  if (!e.relatedTarget?.closest(".track-button-desktop")) {
-                    setIsDesktopExpanded(false);
-                  }
-                }}
                 className="flex-grow text-main flex 
                                 pr-16 focus:outline-none text-[13px]"
               />
@@ -141,21 +136,24 @@ const Hands = () => {
                   window.location.href = "/trackshipment";
                 }
               }}
-              className={`track-button-desktop ${
-                isDesktopExpanded
-                  ? "bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5"
-                  : ""
-              }`}
             >
-              <img
-                src={websearch}
-                alt="trackshipment"
-                className="wht w-5 h-5"
-              />
+              <div
+                className={`track-button-desktop ${
+                  isDesktopExpanded
+                    ? "bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center right-1.5"
+                    : ""
+                }`}
+              >
+                <img
+                  src={websearch}
+                  alt="trackshipment"
+                  className="wht w-5 h-5"
+                />
 
-              {isDesktopExpanded && (
-                <p className="text-white text-[12.5px]">Track</p>
-              )}
+                {isDesktopExpanded && (
+                  <p className="text-white text-[12.5px]">Track</p>
+                )}
+              </div>
             </div>
           </motion.div>
 
@@ -181,11 +179,6 @@ const Hands = () => {
                 placeholder="Enter Tracking Number"
                 value={mobileTrackingNumber}
                 onChange={(e) => setMobileTrackingNumber(e.target.value)}
-                onBlur={(e) => {
-                  if (!e.relatedTarget?.closest(".track-button-mobile")) {
-                    setIsMobileExpanded(false);
-                  }
-                }}
                 className="flex-grow text-main flex
                                 focus:outline-none text-[13px] pr-16"
               />
@@ -203,21 +196,24 @@ const Hands = () => {
                   window.location.href = "/trackshipment";
                 }
               }}
-              className={`track-button-mobile ${
-                isMobileExpanded
-                  ? "bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5"
-                  : ""
-              }`}
             >
-              <img
-                src={websearch}
-                alt="trackshipment"
-                className="wht w-5 h-5"
-              />
+              <div
+                className={`track-button-mobile ${
+                  isMobileExpanded
+                    ? "bg-secondary cursor-pointer p-1.5 pr-2 rounded-full flex gap-1.5 items-center absolute right-1.5"
+                    : ""
+                }`}
+              >
+                <img
+                  src={websearch}
+                  alt="trackshipment"
+                  className="wht w-5 h-5"
+                />
 
-              {isMobileExpanded && (
-                <p className="text-white text-[12.5px]">Track</p>
-              )}
+                {isMobileExpanded && (
+                  <p className="text-white text-[12.5px]">Track</p>
+                )}
+              </div>
             </div>
           </motion.div>
         </motion.div>

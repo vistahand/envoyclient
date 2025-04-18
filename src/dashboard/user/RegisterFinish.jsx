@@ -227,7 +227,7 @@ const RegisterFinish = () => {
 
                       <div className="relative flex flex-col col-span-4">
                         <input
-                          type="number"
+                          type="tel"
                           name="phone"
                           placeholder=" "
                           value={formik.values.phone}

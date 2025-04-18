@@ -315,6 +315,24 @@ export const shipments = {
     }
   },
 
+  // Update pickup location
+  selectPickupLocation: async (shipmentId, pickupData) => {
+    try {
+      const response = await api.post(
+        `/shipments/${shipmentId}/pickup/select`,
+        pickupData
+      );
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to update pickup location"
+      );
+    }
+  },
+
   // Update insurance
   updateInsurance: async (shipmentId, insuranceData) => {
     try {
@@ -430,6 +448,18 @@ export const shipments = {
       throw new Error(
         err.response?.data?.error || "Failed to fetch shipment details"
       );
+    }
+  },
+
+  getAdminDashboard: async () => {
+    try {
+      const response = await api.get("/admin/dashboard");
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(err.response?.data?.error || "Failed to track shipment");
     }
   },
 
@@ -608,68 +638,36 @@ export const deliveryOptions = {
 //Update user Password
 export const updatePassword = async (currentPassword, newPassword) => {
   try {
-    const token = localStorage.getItem("authToken"); // Ensure token is stored
-
-    if (!token) {
-      throw new Error("Authentication token is missing. Please log in.");
-    }
-
-    const response = await axios.put(
-      `${import.meta.env.VITE_API_URL}/api/auth/update-password`, // 🔥 Fix here
-      { currentPassword, newPassword },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
+    const response = await api.put(`/auth/update-password`, {
+      currentPassword,
+      newPassword,
+    });
 
     return response.data;
   } catch (error) {
-    console.error("Password update error:", error.response?.data || error);
-    throw error.response?.data?.message || "Password update failed.";
+    throw error.response.data.error || "Password Update failed";
   }
 };
 
 // Update profile (phone, address, country, optionally profile image)
 export const updateProfile = async ({
   phone,
-  address,
   country,
-  profileImage,
+  firstName,
+  lastName,
 }) => {
-  const API_BASE_URL = import.meta.env.VITE_API_URL; // ✅ Ensure API base URL is properly loaded
-  const token = localStorage.getItem("authToken");
-
-  if (!token)
-    throw new Error("Authentication token is missing. Please log in.");
-
-  const formData = new FormData();
-  if (phone) formData.append("phone", phone);
-  if (address) formData.append("address", address);
-  if (country) formData.append("country", country);
-  if (profileImage instanceof File) {
-    formData.append("profileImage", profileImage);
-  }
-
+  const formData = {
+    phone,
+    country,
+    firstName,
+    lastName,
+  };
   try {
-    const response = await axios.put(
-      `${API_BASE_URL}/api/user/profile`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
+    const response = await api.put(`/user/profile`, formData);
     return response.data;
   } catch (error) {
     console.error("Profile update error:", error.response?.data || error);
-    throw error.response?.data?.message || "Profile update failed.";
+    throw error.response?.data?.error || "Profile update failed.";
   }
 };
 
@@ -686,7 +684,7 @@ export const updateProfileImage = async (file) => {
 
   try {
     const response = await axios.put(
-      `${API_BASE_URL}/api/users/update-profile-image`,
+      `${API_BASE_URL}/api/user/update-profile-image`,
       formData,
       {
         headers: {
@@ -704,7 +702,7 @@ export const updateProfileImage = async (file) => {
 };
 
 export const admin = {
-  payments : {
+  payments: {
     getAll: async () => {
       try {
         const response = await api.get(`/admin/payments`);
@@ -713,22 +711,37 @@ export const admin = {
         if (!err.response) {
           throw new Error("Network error. Please check your connection.");
         }
-        throw new Error(err.response?.data?.error || "Failed to fetch admin payments");
+        throw new Error(
+          err.response?.data?.error || "Failed to fetch admin payments"
+        );
       }
     },
 
-      getById: async (params) => {
-        try {
-          const response = await api.get(`/admin/payments/${params}`);
-          return response.data;
-        } catch (err) {
-          if (!err.response) {
-            throw new Error("Network error. Please check your connection.");
-          }
-          throw new Error(err.response?.data?.error || "Failed to fetch admin payment detail");
+    getById: async (params) => {
+      try {
+        const response = await api.get(`/admin/payments/${params}`);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
         }
-      },
-  }
-}
+        throw new Error(
+          err.response?.data?.error || "Failed to fetch admin payment detail"
+        );
+      }
+    },
+  },
+};
+
+export const pickup = {
+  fetchPickupLocation: async () => {
+    try {
+      const response = await api.get(`/admin/pickup-locations`);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+};
 
 export default api;

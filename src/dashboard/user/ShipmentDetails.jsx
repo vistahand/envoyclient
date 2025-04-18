@@ -188,7 +188,7 @@ const ShipmentDetails = () => {
               <p className="font-semibold hidden md:flex">Go back</p>
             </button>
 
-            <button
+            {/* <button
               type="button"
               onClick={() =>
                 navigate(`/trackshipment?tracking=${trackingNumber}`)
@@ -200,7 +200,7 @@ const ShipmentDetails = () => {
               <p className="font-semibold hidden md:flex">Report an Issue</p>
 
               <PiWarningOctagon className="md:text-[16px] ss:text-[18px] text-[17px]" />
-            </button>
+            </button> */}
           </div>
         </div>
 

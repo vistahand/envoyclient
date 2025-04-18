@@ -460,7 +460,7 @@ const RecipientModal = ({ onClose, shipmentData, onUpdate }) => {
 
                       <div className="relative flex flex-col col-span-2">
                         <input
-                          type="number"
+                          type="tel"
                           name="phoneRec"
                           placeholder=" "
                           value={formik.values.phoneRec}
@@ -546,7 +546,7 @@ const RecipientModal = ({ onClose, shipmentData, onUpdate }) => {
 
                       <div className="relative flex flex-col col-span-2">
                         <input
-                          type="number"
+                          type="tel"
                           name="altPhoneRec"
                           placeholder=" "
                           value={formik.values.altPhoneRec}

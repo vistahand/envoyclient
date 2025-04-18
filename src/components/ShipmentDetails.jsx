@@ -494,13 +494,13 @@ const ShipmentDetails = ({ onNext }) => {
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-0.5">
                 <p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-medium text-main2">
-                  {pickup?.location?.street}
+                  {pickup?.address?.street}
                 </p>
                 <p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-medium text-main2">
-                  {pickup?.location?.city}, {pickup?.location?.country}
+                  {pickup?.address?.city}, {pickup?.address?.country}
                 </p>
                 <p className="md:text-[15px] ss:text-[15px] text-[14px] tracking-tight font-medium text-main2">
-                  {pickup?.location?.postalCode}
+                  {pickup?.address?.postalCode}
                 </p>
               </div>
 

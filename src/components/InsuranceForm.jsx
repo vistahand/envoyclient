@@ -256,7 +256,7 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
                 {showCoverageInput && (
                   <div className="relative flex flex-col">
                     <input
-                      type="number"
+                      type="tel"
                       name="coverage"
                       placeholder=" "
                       value={formik.values.coverage}
@@ -355,13 +355,13 @@ const InsuranceForm = ({ onPrev, selectedTab, senderTab, setCurrentStep }) => {
               </button>
             </div>
 
-            <p
+            {/* <p
               className="text-realRed md:text-[16px] ss:text-[16px] 
                     text-[15px] font-semibold cursor-pointer grow2"
               onClick={handleCancelShipment}
             >
               Cancel Shipment
-            </p>
+            </p> */}
           </div>
         </form>
       </div>

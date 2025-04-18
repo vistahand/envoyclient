@@ -662,7 +662,7 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
 
                         <div className="relative flex flex-col col-span-2">
                           <input
-                            type="number"
+                            type="tel"
                             name="phoneInd"
                             placeholder=" "
                             value={formik.values.phoneInd}
@@ -748,7 +748,7 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
 
                         <div className="relative flex flex-col col-span-2">
                           <input
-                            type="number"
+                            type="tel"
                             name="altPhoneInd"
                             placeholder=" "
                             value={formik.values.altPhoneInd}
@@ -1212,7 +1212,7 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
 
                         <div className="relative flex flex-col col-span-2">
                           <input
-                            type="number"
+                            type="tel"
                             name="businessPhone"
                             placeholder=" "
                             value={formik.values.businessPhone}
@@ -1302,7 +1302,7 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
 
                         <div className="relative flex flex-col col-span-2">
                           <input
-                            type="number"
+                            type="tel"
                             name="businessPhoneAlt"
                             placeholder=" "
                             value={formik.values.businessPhoneAlt}
@@ -1797,7 +1797,7 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
 
                         <div className="relative flex flex-col col-span-2">
                           <input
-                            type="number"
+                            type="tel"
                             name="phoneBus"
                             placeholder=" "
                             value={formik.values.phoneBus}

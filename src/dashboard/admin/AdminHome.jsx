@@ -3,7 +3,7 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { analytics, paymentact } from "../../assets";
 import WeeklyInsightsChart from "../../components/WeeklyInsightsChart";
 import RecentActivities from "../../components/recentActivities";
-import { admin } from "../../services/api";
+import { admin, shipments } from "../../services/api";
 
 const AdminHome = () => {
   const [dashboardStats, setDashboardStats] = useState({
@@ -25,42 +25,20 @@ const AdminHome = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // Get the token from localStorage, parsing it from JSON format
-        const token = JSON.parse(localStorage.getItem('token'));
-        
-        if (!token) {
-          throw new Error('Authentication token not found');
-        }
-
-        // Use environment variable for API URL
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://envoyserver-pyxd.onrender.com';
-        const endpoint = `${apiUrl}/api/admin/dashboard`;
-        
-        const response = await fetch(endpoint, {
-          method: "GET",
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error('Unauthorized access. Please log in again.');
-          }
-          throw new Error(`Error fetching dashboard data: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const response = await shipments.getAdminDashboard();
+        const data = response;
         setDashboardStats(data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
         setError(error.message);
         setLoading(false);
-        
+
         // Handle authentication errors
-        if (error.message.includes('Unauthorized') || error.message.includes('token')) {
+        if (
+          error.message.includes("Unauthorized") ||
+          error.message.includes("token")
+        ) {
           // Redirect to login page or show auth error
           // window.location.href = '/login'; // Uncomment to enable redirect
         }
@@ -72,27 +50,54 @@ const AdminHome = () => {
         setPaymentsLoading(true);
         const response = await admin.payments.getAll();
         console.log("Payment response:", response);
-        
+
         if (response && response.items && Array.isArray(response.items)) {
-          const transformedPayments = response.items.map(item => ({
+          const transformedPayments = response.items.map((item) => ({
             amount: item.amount || 0,
-            currency: item.currency || 'eur', // Default to EUR if not specified
-            trackingNumber: item.trackingNumber || (item.shipmentId ? item.shipmentId.substring(0, 10) + '...' : 'N/A'),
-            date: new Date(item.createdAt).toLocaleDateString('en-US', {
-              day: '2-digit', month: 'short', year: 'numeric'
+            currency: item.currency || "eur", // Default to EUR if not specified
+            trackingNumber:
+              item.trackingNumber ||
+              (item.shipmentId
+                ? item.shipmentId.substring(0, 10) + "..."
+                : "N/A"),
+            date: new Date(item.createdAt).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
             }),
             _id: item._id, // Keep original ID for reference
-            status: item.status || 'pending'
+            status: item.status || "pending",
           }));
-          
+
           setPayments(transformedPayments.slice(0, 3));
         } else {
           console.warn("Unexpected API response format:", response);
           // Fallback to mock data
           const mockData = [
-            { _id: "1", amount: 199.5, currency: "eur", trackingNumber: "INT-20250415-956", date: "15 Apr 2025", status: "completed" },
-            { _id: "2", amount: 161.25, currency: "eur", trackingNumber: "INT-20250415-912", date: "15 Apr 2025", status: "completed" },
-            { _id: "3", amount: 205.75, currency: "eur", trackingNumber: "INT-20250414-835", date: "14 Apr 2025", status: "pending" }
+            {
+              _id: "1",
+              amount: 199.5,
+              currency: "eur",
+              trackingNumber: "INT-20250415-956",
+              date: "15 Apr 2025",
+              status: "completed",
+            },
+            {
+              _id: "2",
+              amount: 161.25,
+              currency: "eur",
+              trackingNumber: "INT-20250415-912",
+              date: "15 Apr 2025",
+              status: "completed",
+            },
+            {
+              _id: "3",
+              amount: 205.75,
+              currency: "eur",
+              trackingNumber: "INT-20250414-835",
+              date: "14 Apr 2025",
+              status: "pending",
+            },
           ];
           setPayments(mockData);
         }
@@ -101,12 +106,33 @@ const AdminHome = () => {
         console.error("Error fetching payments:", error);
         setPaymentsError(error.message);
         setPaymentsLoading(false);
-        
+
         // Set fallback mock data even on error
         const mockData = [
-          { _id: "1", amount: 196.5, currency: "eur", trackingNumber: "INT-20250415-956", date: "15 Apr 2025", status: "completed" },
-          { _id: "2", amount: 161.25, currency: "eur", trackingNumber: "INT-20250415-912", date: "15 Apr 2025", status: "completed" },
-          { _id: "3", amount: 205.75, currency: "eur", trackingNumber: "INT-20250414-835", date: "14 Apr 2025", status: "pending" }
+          {
+            _id: "1",
+            amount: 196.5,
+            currency: "eur",
+            trackingNumber: "INT-20250415-956",
+            date: "15 Apr 2025",
+            status: "completed",
+          },
+          {
+            _id: "2",
+            amount: 161.25,
+            currency: "eur",
+            trackingNumber: "INT-20250415-912",
+            date: "15 Apr 2025",
+            status: "completed",
+          },
+          {
+            _id: "3",
+            amount: 205.75,
+            currency: "eur",
+            trackingNumber: "INT-20250414-835",
+            date: "14 Apr 2025",
+            status: "pending",
+          },
         ];
         setPayments(mockData);
       }
@@ -117,29 +143,29 @@ const AdminHome = () => {
   }, []);
 
   // Format currency based on the currency type from the payment data
-  const formatCurrency = (amount, currency = 'eur') => {
+  const formatCurrency = (amount, currency = "eur") => {
     const currencyMap = {
-      'ngn': {
-        locale: 'en-NG',
-        currency: 'NGN',
-        symbol: '₦'
+      ngn: {
+        locale: "en-NG",
+        currency: "NGN",
+        symbol: "₦",
       },
-      'eur': {
-        locale: 'de-DE',
-        currency: 'EUR',
-        symbol: '€'
+      eur: {
+        locale: "de-DE",
+        currency: "EUR",
+        symbol: "€",
       },
-      'usd': {
-        locale: 'en-US',
-        currency: 'USD',
-        symbol: '$'
-      }
+      usd: {
+        locale: "en-US",
+        currency: "USD",
+        symbol: "$",
+      },
     };
-    
+
     const currencyInfo = currencyMap[currency.toLowerCase()] || currencyMap.eur;
-    
+
     return new Intl.NumberFormat(currencyInfo.locale, {
-      style: 'currency',
+      style: "currency",
       currency: currencyInfo.currency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -150,44 +176,93 @@ const AdminHome = () => {
   const retryLoadPayments = () => {
     setPaymentsLoading(true);
     setPaymentsError(null);
-    
+
     // Call the fetchPayments function again
-    admin.payments.getAll()
-      .then(response => {
+    admin.payments
+      .getAll()
+      .then((response) => {
         if (response && response.items && Array.isArray(response.items)) {
-          const transformedPayments = response.items.map(item => ({
+          const transformedPayments = response.items.map((item) => ({
             amount: item.amount || 0,
-            currency: item.currency || 'eur',
-            trackingNumber: item.trackingNumber || (item.shipmentId ? item.shipmentId.substring(0, 10) + '...' : 'N/A'),
-            date: new Date(item.createdAt).toLocaleDateString('en-US', {
-              day: '2-digit', month: 'short', year: 'numeric'
+            currency: item.currency || "eur",
+            trackingNumber:
+              item.trackingNumber ||
+              (item.shipmentId
+                ? item.shipmentId.substring(0, 10) + "..."
+                : "N/A"),
+            date: new Date(item.createdAt).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
             }),
             _id: item._id,
-            status: item.status || 'pending'
+            status: item.status || "pending",
           }));
-          
+
           setPayments(transformedPayments.slice(0, 3));
         } else {
           console.warn("Unexpected API response format:", response);
           // Fallback to mock data
           const mockData = [
-            { _id: "1", amount: 293.5, currency: "eur", trackingNumber: "INT-20250415-956", date: "15 Apr 2025", status: "completed" },
-            { _id: "2", amount: 261.25, currency: "eur", trackingNumber: "INT-20250415-912", date: "15 Apr 2025", status: "completed" },
-            { _id: "3", amount: 205.75, currency: "eur", trackingNumber: "INT-20250414-835", date: "14 Apr 2025", status: "pending" }
+            {
+              _id: "1",
+              amount: 293.5,
+              currency: "eur",
+              trackingNumber: "INT-20250415-956",
+              date: "15 Apr 2025",
+              status: "completed",
+            },
+            {
+              _id: "2",
+              amount: 261.25,
+              currency: "eur",
+              trackingNumber: "INT-20250415-912",
+              date: "15 Apr 2025",
+              status: "completed",
+            },
+            {
+              _id: "3",
+              amount: 205.75,
+              currency: "eur",
+              trackingNumber: "INT-20250414-835",
+              date: "14 Apr 2025",
+              status: "pending",
+            },
           ];
           setPayments(mockData);
         }
         setPaymentsError(null);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error retrying payments fetch:", error);
         setPaymentsError(error.message);
-        
+
         // Set fallback mock data even on error
         const mockData = [
-          { _id: "1", amount: 199.5, currency: "eur", trackingNumber: "INT-20250415-956", date: "15 Apr 2025", status: "completed" },
-          { _id: "2", amount: 661.25, currency: "eur", trackingNumber: "INT-20250415-912", date: "15 Apr 2025", status: "completed" },
-          { _id: "3", amount: 205.75, currency: "eur", trackingNumber: "INT-20250414-835", date: "14 Apr 2025", status: "pending" }
+          {
+            _id: "1",
+            amount: 199.5,
+            currency: "eur",
+            trackingNumber: "INT-20250415-956",
+            date: "15 Apr 2025",
+            status: "completed",
+          },
+          {
+            _id: "2",
+            amount: 661.25,
+            currency: "eur",
+            trackingNumber: "INT-20250415-912",
+            date: "15 Apr 2025",
+            status: "completed",
+          },
+          {
+            _id: "3",
+            amount: 205.75,
+            currency: "eur",
+            trackingNumber: "INT-20250414-835",
+            date: "14 Apr 2025",
+            status: "pending",
+          },
         ];
         setPayments(mockData);
       })
@@ -256,7 +331,7 @@ const AdminHome = () => {
             ) : error ? (
               <div className="text-white text-center py-4">
                 <p className="mb-2 font-medium">{error}</p>
-                <button 
+                <button
                   onClick={() => window.location.reload()}
                   className="bg-primary py-2 px-4 rounded-lg text-sm hover:opacity-90 transition-opacity"
                 >
@@ -362,13 +437,20 @@ const AdminHome = () => {
 
               <div className="flex items-center gap-4 mb-2">
                 <div className="flex flex-col">
-                  <p className="text-main4 text-[13px] font-medium">Total Revenue</p>
+                  <p className="text-main4 text-[13px] font-medium">
+                    Total Revenue
+                  </p>
                   <h3 className="text-main2 text-[22px] font-bold">
-                    {formatCurrency(dashboardStats.revenue, dashboardStats.revenueCurrency || 'eur')}
+                    {formatCurrency(
+                      dashboardStats.revenue,
+                      dashboardStats.revenueCurrency || "eur"
+                    )}
                   </h3>
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-main4 text-[13px] font-medium">Total Users</p>
+                  <p className="text-main4 text-[13px] font-medium">
+                    Total Users
+                  </p>
                   <h3 className="text-main2 text-[22px] font-bold">
                     {dashboardStats.totalUsers}
                   </h3>
@@ -381,8 +463,10 @@ const AdminHome = () => {
                 </div>
               ) : paymentsError ? (
                 <div className="text-main2 text-center py-4">
-                  <p className="mb-2 font-medium text-sm">Failed to load payment data</p>
-                  <button 
+                  <p className="mb-2 font-medium text-sm">
+                    Failed to load payment data
+                  </p>
+                  <button
                     onClick={retryLoadPayments}
                     className="text-primary text-sm underline hover:opacity-90"
                   >
@@ -397,7 +481,9 @@ const AdminHome = () => {
                   >
                     <tr>
                       <th className="py-3 pr-4 text-left w-1/3">Amount</th>
-                      <th className="py-3 pr-4 text-left w-1/3">Tracking No.</th>
+                      <th className="py-3 pr-4 text-left w-1/3">
+                        Tracking No.
+                      </th>
                       <th className="py-3 pr-4 text-left w-1/3">Date</th>
                     </tr>
                   </thead>
@@ -413,9 +499,15 @@ const AdminHome = () => {
                           className="hover:bg-main7 border-b border-main7 cursor-pointer"
                         >
                           <td className="pr-4 py-3">
-                            {formatCurrency(payment.amount || 0, payment.currency || 'eur')}
+                            {formatCurrency(
+                              payment.amount || 0,
+                              payment.currency || "eur"
+                            )}
                           </td>
-                          <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]" title={payment.trackingNumber}>
+                          <td
+                            className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]"
+                            title={payment.trackingNumber}
+                          >
                             {payment.trackingNumber || "N/A"}
                           </td>
                           <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">
@@ -425,7 +517,10 @@ const AdminHome = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="3" className="text-center py-4 text-main4 font-normal">
+                        <td
+                          colSpan="3"
+                          className="text-center py-4 text-main4 font-normal"
+                        >
                           No payment records found
                         </td>
                       </tr>

@@ -39,8 +39,6 @@ import {
   CreatePickupLocation,
 } from "./dashboard/admin";
 import ScrollToTopButton from "./constants/ScrollToTop";
-import { GetStarted } from "./pages";
-import TrackShipment from "./components/TrackShipment";
 import SettingsPage from "./pages/SettingPage";
 import { ShipmentProvider } from "./context/ShipmentContext";
 import PaymentFailedPage from "./pages/PaymentFailedPage";
@@ -48,8 +46,8 @@ import FinishShipmentPage from "./scenes/FinishShipmentPage";
 import PaymentSuccessScene from "./scenes/PaymentSuccess";
 import PendingPayments from "./dashboard/admin/PendingPayments";
 import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
-import AdminUserDetail from "./components/AdminUserDetail";
 import AdminPaymentDetail from "./components/AdminUserDetail";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -57,6 +55,7 @@ const App = () => {
       <NotificationProvider>
         <ShipmentProvider>
           <BrowserRouter>
+            <Toaster />
             <div>
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -155,8 +154,14 @@ const App = () => {
                     element={<ShipmentDetailMgt />}
                   />
                   <Route path="payments" element={<PaymentsAdmin />} />
-                  <Route path="pending-payments" element={<PendingPayments />} />
-                  <Route path="payments/:paymentId" element={<AdminPaymentDetail />} />
+                  <Route
+                    path="pending-payments"
+                    element={<PendingPayments />}
+                  />
+                  <Route
+                    path="payments/:paymentId"
+                    element={<AdminPaymentDetail />}
+                  />
 
                   <Route path="pickuplocations" element={<PickupLoc />} />
                   <Route
