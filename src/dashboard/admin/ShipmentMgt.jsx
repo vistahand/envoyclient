@@ -30,7 +30,8 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'https://envoyserver-pyxd.onrender.com';
+  const apiUrl =
+    import.meta.env.VITE_API_URL || "https://envoyserver-pyxd.onrender.com";
 
   // Status mapping for tabs
   const statusMappings = {
@@ -50,14 +51,14 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   const fetchShipments = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
-      const res = await shipmentEndpoint.getAll("/admin/shipments");
+      const res = await shipmentEndpoint.getAll();
       const data = res.data.shipments;
       console.log(res);
       if (data && Array.isArray(data)) {
         setShipments(data);
-        setFilteredShipments(data); 
+        setFilteredShipments(data);
       } else {
         setShipments([]);
         setFilteredShipments([]);
@@ -113,11 +114,17 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
           const senderCountry = shipment.sender?.address?.country;
           const recipientCountry = shipment.recipient?.address?.country;
           const pickupCountry = shipment.pickup?.address?.country;
-          
+
           const countryToMatch = locationFilter.country.toLowerCase();
-          
-          return [originCountry, destCountry, senderCountry, recipientCountry, pickupCountry].some(country => 
-            country && country.toLowerCase() === countryToMatch
+
+          return [
+            originCountry,
+            destCountry,
+            senderCountry,
+            recipientCountry,
+            pickupCountry,
+          ].some(
+            (country) => country && country.toLowerCase() === countryToMatch
           );
         });
       }
@@ -127,11 +134,13 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
         const stateToMatch = locationFilter.state.toLowerCase();
         filtered = filtered.filter((shipment) => {
           const senderState = shipment.sender?.address?.state?.toLowerCase();
-          const recipientState = shipment.recipient?.address?.state?.toLowerCase();
+          const recipientState =
+            shipment.recipient?.address?.state?.toLowerCase();
           const pickupState = shipment.pickup?.address?.state?.toLowerCase();
-          
-          return [senderState, recipientState, pickupState].some(state => 
-            state && (state === stateToMatch || state.includes(stateToMatch))
+
+          return [senderState, recipientState, pickupState].some(
+            (state) =>
+              state && (state === stateToMatch || state.includes(stateToMatch))
           );
         });
       }
@@ -139,10 +148,13 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
       // Pickup location filter
       if (locationFilter.pickup && locationFilter.pickup !== "") {
         const pickupToMatch = locationFilter.pickup.toLowerCase();
-        filtered = filtered.filter(shipment => {
+        filtered = filtered.filter((shipment) => {
           const pickupCity = shipment.pickup?.address?.city?.toLowerCase();
-          
-          return pickupCity && (pickupCity === pickupToMatch || pickupCity.includes(pickupToMatch));
+
+          return (
+            pickupCity &&
+            (pickupCity === pickupToMatch || pickupCity.includes(pickupToMatch))
+          );
         });
       }
     }
@@ -546,17 +558,6 @@ const ShipmentMgt = () => {
             in one place.
           </p>
         </div>
-
-        {/* Button Section */}
-        <button
-          type="button"
-          onClick={() => navigate("/admin/shipment/create")}
-          className="bg-primary text-white flex items-center justify-center gap-3 rounded-lg md:rounded-xl transition-all cursor-pointer
-                    px-2.5 py-2.5 md:px-6 md:py-3 text-[13px] md:text-[14px] ss:text-[15px] md:w-auto ss:w-[27%] sm:w-10 sm:h-10"
-        >
-          <span className="hidden md:block">Create New</span>
-          <GoPlus className="text-[20px]" />
-        </button>
       </div>
 
       {/* Location Selector Management Section */}

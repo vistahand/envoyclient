@@ -4,7 +4,7 @@ import LocationSelector from "../../components/LocationSelector";
 import { toast } from "react-hot-toast";
 import Modal from "../../components/Modal";
 
-const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
+const CreatePickupLocation = ({ onBack }) => {
   const [formData, setFormData] = useState({
     name: "",
     address: {
@@ -199,6 +199,7 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
       }
 
       await response.json();
+      setShowSuccessModal(true);
       setFormData({
         name: "",
         address: {
@@ -246,7 +247,6 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
         notes: "",
       });
       toast.success("Pickup Location created");
-      setShowSuccessModal(true);
       // Reset form or redirect if needed
     } catch (err) {
       setError(
@@ -270,7 +270,6 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
       onBack();
     }
   };
-
 
   return (
     <div className="w-full mx-auto p-4 md:p-6 bg-white">
@@ -479,7 +478,7 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
         onClose={() => setShowSuccessModal(false)}
         type="success"
         title="Pickup Location Created"
-        message={`"${formData.name}" has been successfully created and is now available in the system.`}
+        message={`A new Pickup Location has been successfully created and is now available in the system.`}
         buttons={[
           {
             label: "Close",
