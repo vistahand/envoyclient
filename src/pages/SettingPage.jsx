@@ -178,37 +178,6 @@ const SettingsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-gray-700 font-medium">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => {
-                    setFirstName(e.target.value);
-                    console.log("firstName updated:", e.target.value);
-                  }}
-                  className="w-full p-3 border rounded-lg"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-medium">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => {
-                    setLastName(e.target.value);
-                    console.log("lastName updated:", e.target.value);
-                  }}
-                  className="w-full p-3 border rounded-lg"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-gray-700 font-medium">
                   Phone Number
                 </label>
                 <input
