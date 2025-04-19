@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import LocationSelector from "../../components/LocationSelector";
 import { toast } from "react-hot-toast";
+import Modal from "../../components/Modal";
 
-const CreatePickupLocation = ({ onBack }) => {
+const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
   const [formData, setFormData] = useState({
     name: "",
     address: {
@@ -53,8 +54,8 @@ const CreatePickupLocation = ({ onBack }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
   const [locationSelected, setLocationSelected] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Get token from localStorage and remove quotes if they exist
   const getAuthToken = () => {
@@ -135,6 +136,7 @@ const CreatePickupLocation = ({ onBack }) => {
     e.preventDefault();
 
     // Check if state is selected
+
     if (!formData.address.state) {
       setError("State is required");
       return;
@@ -169,7 +171,6 @@ const CreatePickupLocation = ({ onBack }) => {
 
     setLoading(true);
     setError(null);
-    setSuccess(false);
 
     try {
       const token = getAuthToken();
@@ -198,7 +199,6 @@ const CreatePickupLocation = ({ onBack }) => {
       }
 
       await response.json();
-      setSuccess(true);
       setFormData({
         name: "",
         address: {
@@ -246,6 +246,7 @@ const CreatePickupLocation = ({ onBack }) => {
         notes: "",
       });
       toast.success("Pickup Location created");
+      setShowSuccessModal(true);
       // Reset form or redirect if needed
     } catch (err) {
       setError(
@@ -256,6 +257,21 @@ const CreatePickupLocation = ({ onBack }) => {
     }
   };
 
+  const handleBackClick = (e) => {
+    e.preventDefault();
+    if (typeof onBack === "function") {
+      onBack();
+    }
+  };
+
+  const handleBackToList = () => {
+    setShowSuccessModal(false);
+    if (typeof onBack === "function") {
+      onBack();
+    }
+  };
+
+
   return (
     <div className="w-full mx-auto p-4 md:p-6 bg-white">
       {/* Header */}
@@ -264,7 +280,7 @@ const CreatePickupLocation = ({ onBack }) => {
           Create Pickup Location
         </h2>
         <button
-          onClick={onBack}
+          onClick={handleBackClick}
           className="flex items-center text-gray-600 hover:text-gray-900"
         >
           <AiOutlineArrowLeft className="mr-2 text-lg" /> Go back
@@ -275,11 +291,6 @@ const CreatePickupLocation = ({ onBack }) => {
       </p>
 
       {/* Display success or error messages */}
-      {success && (
-        <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-md">
-          Pickup location created successfully!
-        </div>
-      )}
       {error && (
         <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-md">
           {error}
@@ -375,7 +386,7 @@ const CreatePickupLocation = ({ onBack }) => {
             </div>
           </div>
 
-          {/* Operating Hours */}
+          {/* Operating Hours - Calendar Style */}
           <div className="p-4 border border-gray-200 rounded-lg">
             <h3 className="font-medium mb-3">Operating Hours</h3>
             <div className="space-y-3">
@@ -461,6 +472,27 @@ const CreatePickupLocation = ({ onBack }) => {
           {loading ? "Creating..." : "Create Pickup Location"}
         </button>
       </form>
+
+      {/* Success Modal */}
+      <Modal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        type="success"
+        title="Pickup Location Created"
+        message={`"${formData.name}" has been successfully created and is now available in the system.`}
+        buttons={[
+          {
+            label: "Close",
+            onClick: () => setShowSuccessModal(false),
+            variant: "secondary",
+          },
+          {
+            label: "Back to List",
+            onClick: handleBackToList,
+            variant: "secondary",
+          },
+        ]}
+      />
     </div>
   );
 };

@@ -144,13 +144,31 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async ({ phone, lastName, country, firstName }) => {
     try {
+      // Debug log to check what's being sent to the API
+      console.log("Sending to API:", {
+        firstName,
+        lastName,
+        phone,
+        address,
+        country,
+        profileImage,
+      });
+
       const response = await apiUpdateProfile({
+        firstName,
+        lastName,
         phone,
         lastName,
         firstName,
         country,
       });
+
+      console.log("API response:", response);
+
       if (response.success) {
+        // The user data is under response.data.user, not directly in response.data
+        const userData = response.data.user;
+
         setUser((prevUser) => {
           const updatedUser = {
             ...prevUser,
@@ -159,6 +177,8 @@ export const AuthProvider = ({ children }) => {
             lastName: response.data.lastName,
             country: response.data.country,
           };
+
+          console.log("Updating user state with:", updatedUser);
           localStorage.setItem("user", JSON.stringify(updatedUser));
           return updatedUser;
         });
