@@ -6,6 +6,7 @@ import { SectionWrapper } from "../hoc";
 import { wing } from "../assets";
 import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
+import { deliveryOptions as deliveryOptionsApi } from "../services/api";
 
 // Utility functions for delivery cost calculations
 const calculateDeliveryCost = (baseAmount, percentageMarkup) => {
@@ -33,28 +34,6 @@ const formatCurrency = (amount, shipmentType) => {
     );
   }
 };
-
-// This will be replaced with API call in the future
-const getDeliveryOptions = () => [
-  {
-    id: 1,
-    name: "QuickWing",
-    description: "Enjoy fast, priority shipping",
-    estimatedDeliveryTime: "2PM at the earliest",
-    percentageMarkup: 20, // 20% markup on base cost
-    isExpress: true,
-    daysToAdd: 1, // Deliver 1 day from shipment date
-  },
-  {
-    id: 2,
-    name: "Standard",
-    description: "Regular shipping option",
-    estimatedDeliveryTime: "Within 3 days",
-    percentageMarkup: 0, // No markup for standard
-    isExpress: false,
-    daysToAdd: 3, // Deliver 3 days from shipment date
-  },
-];
 
 const DeliveryCard = ({
   option,
@@ -235,17 +214,85 @@ const DeliveryOptions = ({
   calculatedCost,
   initialData,
 }) => {
-  const formRef = useRef();
-  const { updateDeliveryOptions, loading, error, shipmentData } = useShipment();
   const { addNotification } = useNotifications();
+  const Id = new URLSearchParams(window.location.search).get("id");
+  const shipmentId = String(Id);
   const [baseShippingCost, setBaseShippingCost] = useState(0);
-
-  // Get today's date
-  const today = new Date().toISOString().split("T")[0];
-
-  // State to track selected delivery option
+  const [deliveryOptions, setDeliveryOptions] = useState([]);
   const [selectedDeliveryOption, setSelectedDeliveryOption] = useState(null);
-  const [deliveryOptions] = useState(getDeliveryOptions());
+  const [isloading, setLoading] = useState(true);
+  const [shipmentData, setShipmentData] = useState(null);
+  const formRef = useRef();
+  const { updateDeliveryOptions, loading, error, loadShipmentDraft } =
+    useShipment();
+
+  // Load shipment data
+  useEffect(() => {
+    const fetchShipmentData = async () => {
+      try {
+        const data = await loadShipmentDraft(shipmentId);
+        console.log("shipmentData from server: ", data);
+        setShipmentData(data);
+      } catch (err) {
+        console.error("Error loading shipment draft:", err);
+        addNotification({
+          type: "error",
+          title: "Error",
+          message: "Failed to load shipment data",
+        });
+      }
+    };
+
+    if (shipmentId) {
+      fetchShipmentData();
+    }
+  }, []);
+
+  // Fetch DeliveryOptions
+  useEffect(() => {
+    const getDeliveryOptions = async () => {
+      setLoading(true);
+      try {
+        console.log("Starting");
+        deliveryOptionsApi.getAll().then((response) => {
+          console.log("Delivery Options response:", response);
+          if (response && response.data.deliveryOptions) {
+            // Transform the data structure to match component expectations
+            const transformedOptions = response.data.deliveryOptions.map(
+              (item) => ({
+                _id: item._id,
+                name: item.name,
+                description: item.description,
+                estimatedDeliveryTime: item.estimatedDeliveryTime,
+                percentageMarkup: item.percentageMarkup,
+                isExpress: item.isExpress,
+                daysToAdd: item.daysToAdd,
+                active: item.active,
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt,
+                __v: item.__v,
+              })
+            );
+
+            setDeliveryOptions(transformedOptions);
+          } else {
+            throw new Error("Invalid response format");
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching delivery Options:", error);
+        addNotification({
+          type: "error",
+          title: "Error",
+          message: "Error fetching delivery options",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getDeliveryOptions();
+  }, []); // Remove locations dependency to prevent infinite loop
 
   // Determine the base shipping cost from server data or prop
   useEffect(() => {
@@ -257,6 +304,7 @@ const DeliveryOptions = ({
 
     if (shipmentData?.cost?.baseAmount) {
       setBaseShippingCost(shipmentData.cost.baseAmount);
+      console.log("Got my data from the server");
     } else if (initialData?.options?.baseAmount) {
       setBaseShippingCost(initialData.options.baseAmount);
     } else if (calculatedCost) {
@@ -266,7 +314,7 @@ const DeliveryOptions = ({
     }
 
     // If there's a saved delivery option, preselect it
-    if (initialData?.options?.deliveryOption) {
+    if (initialData?.options?.deliveryOption && deliveryOptions.length > 0) {
       const savedOption = deliveryOptions.find(
         (opt) => opt.name === initialData.options.deliveryOption
       );
@@ -275,6 +323,9 @@ const DeliveryOptions = ({
       }
     }
   }, [shipmentData, initialData, calculatedCost, deliveryOptions]);
+
+  // Get today's date
+  const today = new Date().toISOString().split("T")[0];
 
   const formik = useFormik({
     initialValues: {
@@ -390,6 +441,10 @@ const DeliveryOptions = ({
     }
   };
 
+  if (isloading && !deliveryOptions.length) {
+    return <div className="text-center py-10">Loading delivery options...</div>;
+  }
+
   return (
     <section
       className="w-full flex md:min-h-[900px] ss:min-h-[820px]
@@ -431,7 +486,7 @@ const DeliveryOptions = ({
           className="md:w-[85%] w-full md:mt-12 ss:mt-10 mt-8"
         >
           <div className="flex flex-col w-full items-center gap-8">
-            <div className="w-full">
+            {/* <div className="w-full">
               <div
                 className="inline-flex flex-col relative
                         md:w-[25%] ss:w-[25%] w-[50%]"
@@ -478,22 +533,28 @@ const DeliveryOptions = ({
                   {formik.touched.date && formik.errors.date}
                 </p>
               </div>
-            </div>
+            </div> */}
 
             <div className="w-full flex flex-col gap-6">
-              {deliveryOptions.map((option, index) => (
-                <DeliveryCard
-                  key={option.id}
-                  index={index}
-                  option={option}
-                  onNext={() => handleSelectOption(option)}
-                  totalOptions={deliveryOptions.length}
-                  baseAmount={baseShippingCost || 0}
-                  shipmentType={selectedTab}
-                  date={formik.values.date}
-                  isSelected={selectedDeliveryOption?.id === option.id}
-                />
-              ))}
+              {deliveryOptions && deliveryOptions.length > 0 ? (
+                deliveryOptions.map((option, index) => (
+                  <DeliveryCard
+                    key={option._id || index}
+                    index={index}
+                    option={option}
+                    onNext={() => handleSelectOption(option)}
+                    totalOptions={deliveryOptions.length}
+                    baseAmount={baseShippingCost || 0}
+                    shipmentType={selectedTab}
+                    date={formik.values.date}
+                    isSelected={selectedDeliveryOption?._id === option._id}
+                  />
+                ))
+              ) : (
+                <div className="text-center py-6">
+                  No delivery options available
+                </div>
+              )}
             </div>
 
             {loading && (
@@ -531,7 +592,6 @@ const DeliveryOptions = ({
 };
 
 export default SectionWrapper(DeliveryOptions, "");
-
 
 // import React, { useRef, useState, useEffect } from "react";
 // import { useFormik } from "formik";
@@ -642,7 +702,7 @@ export default SectionWrapper(DeliveryOptions, "");
 //           </h1>
 
 //           <div
-//             className="flex flex-col tracking-tight 
+//             className="flex flex-col tracking-tight
 //             ss:hidden md:hidden gap-1"
 //           >
 //             <h1 className="text-[20px] font-bold">{formattedDate}</h1>
@@ -711,8 +771,8 @@ export default SectionWrapper(DeliveryOptions, "");
 //       {option.isExpress && (
 //         <div
 //           className={`${isStandard ? "hidden" : "flex"}
-//             md:w-[15%] ss:w-[15%] w-full flex-col px-2 md:py-10 ss:py-8 py-3.5 items-center 
-//             justify-center gap-0.5 bg-secondary md:rounded-r-2xl ss:rounded-r-2xl 
+//             md:w-[15%] ss:w-[15%] w-full flex-col px-2 md:py-10 ss:py-8 py-3.5 items-center
+//             justify-center gap-0.5 bg-secondary md:rounded-r-2xl ss:rounded-r-2xl
 //             mobdel2 relative overflow-hidden text-white mobdelheight`}
 //         >
 //           <img
@@ -1019,7 +1079,7 @@ export default SectionWrapper(DeliveryOptions, "");
 //       <div className="flex items-center w-full flex-col">
 //         <div className="w-full flex flex-col gap-1.5 items-center">
 //           <h1
-//             className="text-primary font-bold md:text-[40px] 
+//             className="text-primary font-bold md:text-[40px]
 //                 ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem]
 //                 ss:leading-[3.5rem] leading-[2.5rem] text-center"
 //           >
@@ -1027,8 +1087,8 @@ export default SectionWrapper(DeliveryOptions, "");
 //           </h1>
 
 //           <p
-//             className="text-main4 md:text-[17px] ss:text-[16px] 
-//                 text-[15px] md:leading-[1.4rem] ss:leading-[1.4rem] 
+//             className="text-main4 md:text-[17px] ss:text-[16px]
+//                 text-[15px] md:leading-[1.4rem] ss:leading-[1.4rem]
 //                 leading-[1.3rem] tracking-tight text-center"
 //           >
 //             Select your preferred delivery method from the displayed options
@@ -1065,8 +1125,8 @@ export default SectionWrapper(DeliveryOptions, "");
 //                   value={formik.values.date}
 //                   onChange={formik.handleChange}
 //                   onBlur={formik.handleBlur}
-//                   className={`md:py-3.5 py-3 md:px-3.5 px-3 
-//                                 peer outline text-black md:rounded-lg rounded-md 
+//                   className={`md:py-3.5 py-3 md:px-3.5 px-3
+//                                 peer outline text-black md:rounded-lg rounded-md
 //                                 md:text-[15px] ss:text-[14px] text-[13px] outline-[1px]
 //                                 bg-transparent w-full focus:outline-primary cursor-pointer
 //                                 ${
@@ -1079,10 +1139,10 @@ export default SectionWrapper(DeliveryOptions, "");
 
 //                 <label
 //                   htmlFor="date"
-//                   className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-//                             md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+//                   className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0]
+//                             md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6
 //                             md:text-[15px] ss:text-[14px] text-[13px] bg-white peer-focus:px-2
-//                             duration-300 peer-placeholder-shown:translate-y-0 
+//                             duration-300 peer-placeholder-shown:translate-y-0
 //                             peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
 //                             ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
 //                             peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
@@ -1150,7 +1210,7 @@ export default SectionWrapper(DeliveryOptions, "");
 //             )}
 
 //             <div
-//               className="mt-3 flex w-full items-center 
+//               className="mt-3 flex w-full items-center
 //                     justify-center"
 //             >
 //               <button

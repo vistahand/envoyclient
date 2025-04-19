@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 // Create axios instance with default config
 const api = axios.create({
@@ -580,43 +581,40 @@ export const payments = {
 export const deliveryOptions = {
   getAll: async () => {
     try {
-      const response = await api.get("/delivery-options");
+      const response = await api.get("/admin/delivery-options");
       return response.data;
     } catch (err) {
-      console.warn(
-        "Error fetching delivery options from server, using mocked data:",
-        err
-      );
+      toast.error("Error fetching delivery options from server");
 
-      // Return mocked delivery options in the expected format in case the endpoint isn't ready
-      return {
-        success: true,
-        message: "Mocked delivery options (no server endpoint)",
-        data: {
-          deliveryOptions: [
-            {
-              _id: "mock-option-1",
-              name: "QuickWing",
-              description: "Enjoy fast, priority shipping",
-              estimatedDeliveryTime: "2PM at the earliest",
-              percentageMarkup: 20,
-              isExpress: true,
-              daysToAdd: 1,
-              active: true,
-            },
-            {
-              _id: "mock-option-2",
-              name: "Standard",
-              description: "Regular shipping option",
-              estimatedDeliveryTime: "Within 3 days",
-              percentageMarkup: 0,
-              isExpress: false,
-              daysToAdd: 3,
-              active: true,
-            },
-          ],
-        },
-      };
+      // // Return mocked delivery options in the expected format in case the endpoint isn't ready
+      // return {
+      //   success: true,
+      //   message: "Mocked delivery options (no server endpoint)",
+      //   data: {
+      //     deliveryOptions: [
+      //       {
+      //         _id: "mock-option-1",
+      //         name: "QuickWing",
+      //         description: "Enjoy fast, priority shipping",
+      //         estimatedDeliveryTime: "2PM at the earliest",
+      //         percentageMarkup: 20,
+      //         isExpress: true,
+      //         daysToAdd: 1,
+      //         active: true,
+      //       },
+      //       {
+      //         _id: "mock-option-2",
+      //         name: "Standard",
+      //         description: "Regular shipping option",
+      //         estimatedDeliveryTime: "Within 3 days",
+      //         percentageMarkup: 0,
+      //         isExpress: false,
+      //         daysToAdd: 3,
+      //         active: true,
+      //       },
+      //     ],
+      //   },
+      // };
     }
   },
 
