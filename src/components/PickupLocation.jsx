@@ -171,16 +171,58 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
 
     // Filter by country
     if (selectedCountry) {
-      filtered = filtered.filter(
-        (location) => location.country === selectedCountry
-      );
+      filtered = filtered.filter((location) => {
+        // First try to match directly
+        if (location.country === selectedCountry) return true;
+
+        // Then check if country code matches
+        const countryObj = countries.find(
+          (country) => country.cca2 === selectedCountry
+        );
+        if (countryObj && location.country === countryObj.name.common)
+          return true;
+
+        // Also check the other way around (location has name but we're filtering by code)
+        const locationCountryObj = countries.find(
+          (country) => country.name.common === location.country
+        );
+        if (locationCountryObj && locationCountryObj.cca2 === selectedCountry)
+          return true;
+
+        return false;
+      });
     }
 
     // Filter by state
     if (selectedState) {
-      filtered = filtered.filter((location) =>
-        location.state.toLowerCase().includes(selectedState.toLowerCase())
-      );
+      filtered = filtered.filter((location) => {
+        const locationState = location.state?.toLowerCase() || "";
+        const searchState = selectedState.toLowerCase();
+
+        // Exact match or contains
+        if (
+          locationState === searchState ||
+          locationState.includes(searchState)
+        )
+          return true;
+
+        // Check for other variations (with/without "State" suffix)
+        if (
+          locationState.includes(searchState + " state") ||
+          searchState.includes(locationState + " state")
+        )
+          return true;
+
+        // Check for state names that might be formatted differently
+        if (
+          locationState
+            .replace(/\s+/g, "")
+            .includes(searchState.replace(/\s+/g, ""))
+        )
+          return true;
+
+        return false;
+      });
     }
 
     // Filter by search query
