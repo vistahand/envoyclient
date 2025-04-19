@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
@@ -6,6 +6,8 @@ import { GoPerson } from "react-icons/go";
 
 const SettingsPage = () => {
   const { user, updateProfile, updatePassword, updateProfileImage } = useAuth();
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
   const [phoneNumber, setPhoneNumber] = useState(user?.phone || "");
   const [address, setAddress] = useState(user?.address || "");
   const [country, setCountry] = useState(user?.country || "");
@@ -18,6 +20,11 @@ const SettingsPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [fileError, setFileError] = useState("");
+
+  // Log user data when component mounts
+  useEffect(() => {
+    console.log("Current user data:", user);
+  }, [user]);
 
   // Handle profile image selection and upload
   const handleImageChange = async (e) => {
@@ -50,10 +57,31 @@ const SettingsPage = () => {
   // Handle profile information update
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
+    
+    // Debug: Log the profile data being sent
+    console.log("Profile data being sent:", { 
+      firstName, 
+      lastName, 
+      phone: phoneNumber, 
+      address, 
+      country 
+    });
+    
     try {
-      await updateProfile({ phone: phoneNumber, address, country });
+      const response = await updateProfile({ 
+        firstName, 
+        lastName, 
+        phone: phoneNumber, 
+        address, 
+        country 
+      });
+      
+      // Debug: Log the API response
+      console.log("Profile update response:", response);
+      
       toast.success("Profile updated successfully!");
     } catch (error) {
+      console.error("Profile update error:", error);
       toast.error("Profile update failed!");
     }
   };
@@ -134,6 +162,37 @@ const SettingsPage = () => {
                 disabled
                 className="w-full p-3 border rounded-lg bg-gray-100 text-gray-500"
               />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 font-medium">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    console.log("firstName updated:", e.target.value);
+                  }}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                    console.log("lastName updated:", e.target.value);
+                  }}
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

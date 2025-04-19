@@ -20,10 +20,10 @@ const formatDate = (dateString) => {
   }
 };
 
-// Updated ShipmentTrackMgt component with improved API integration and filtering
+// Optimized ShipmentTrackMgt component with improved API integration
 const ShipmentTrackMgt = ({ locationFilter }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("all"); // Changed default to "all"
+  const [activeTab, setActiveTab] = useState("all");
   const [shipments, setShipments] = useState([]);
   const [filteredShipments, setFilteredShipments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +34,8 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://envoyserver-pyxd.onrender.com';
+
   // Status mapping for tabs
   const statusMappings = {
     all: [], // Show all shipments
@@ -42,9 +44,11 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
     pending: ["awaiting_processing", "draft"]
   };
 
-  // Fetch shipments directly from API
+  // Fetch shipments from API
   const fetchShipments = async () => {
     setLoading(true);
+    setError(null);
+    
     try {
       const token = getAuthToken();
       
@@ -52,8 +56,8 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
         throw new Error("Authentication token not found. Please log in again.");
       }
       
-      // Direct API call to your endpoint
-      const response = await fetch("https://envoyserver-pyxd.onrender.com/api/admin/shipments", {
+      // API call to fetch shipments
+      const response = await fetch(`${apiUrl}/api/admin/shipments`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -66,11 +70,10 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
       }
       
       const data = await response.json();
-      console.log("API Response Data:", data);
       
       if (data && Array.isArray(data.items)) {
         setShipments(data.items);
-        setFilteredShipments(data.items); // Initially set filtered shipments to all shipments
+        setFilteredShipments(data.items);
       } else {
         console.warn("API didn't return expected data structure");
         setShipments([]);
@@ -87,7 +90,7 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   // Initial fetch of shipments
   useEffect(() => {
     fetchShipments();
-  }, []);
+  }, [apiUrl]);
 
   // Apply filters whenever shipments data, active tab, location filter, or search query changes
   useEffect(() => {
@@ -111,23 +114,20 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
 
     // Apply location filtering if provided
     if (locationFilter && Object.values(locationFilter).some(val => val !== "")) {
-      // Country filter - check both origin/destination countries and sender/recipient addresses
+      // Country filter
       if (locationFilter.country && locationFilter.country !== '') {
         filtered = filtered.filter(shipment => {
-          // Convert country names to country codes or vice versa as needed
-          // This depends on how your API returns country data vs how locationFilter stores it
+          // Check various country fields in the shipment data
           const originCountry = shipment.origin?.country;
           const destCountry = shipment.destination?.country;
           const senderCountry = shipment.sender?.address?.country;
           const recipientCountry = shipment.recipient?.address?.country;
+          const pickupCountry = shipment.pickup?.address?.country;
           
-          // Check if the country matches any of the country fields
-          return [originCountry, destCountry, senderCountry, recipientCountry].some(country => 
-            country && (
-              country === locationFilter.country || 
-              country === getCountryCode(locationFilter.country) ||
-              getCountryName(country) === locationFilter.country
-            )
+          const countryToMatch = locationFilter.country.toLowerCase();
+          
+          return [originCountry, destCountry, senderCountry, recipientCountry, pickupCountry].some(country => 
+            country && country.toLowerCase() === countryToMatch
           );
         });
       }
@@ -138,9 +138,10 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
         filtered = filtered.filter(shipment => {
           const senderState = shipment.sender?.address?.state?.toLowerCase();
           const recipientState = shipment.recipient?.address?.state?.toLowerCase();
+          const pickupState = shipment.pickup?.address?.state?.toLowerCase();
           
-          return [senderState, recipientState].some(state => 
-            state && state === stateToMatch
+          return [senderState, recipientState, pickupState].some(state => 
+            state && (state === stateToMatch || state.includes(stateToMatch))
           );
         });
       }
@@ -149,8 +150,9 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
       if (locationFilter.pickup && locationFilter.pickup !== '') {
         const pickupToMatch = locationFilter.pickup.toLowerCase();
         filtered = filtered.filter(shipment => {
-          const pickupCity = shipment.pickup?.location?.city?.toLowerCase();
-          return pickupCity && pickupCity === pickupToMatch;
+          const pickupCity = shipment.pickup?.address?.city?.toLowerCase();
+          
+          return pickupCity && (pickupCity === pickupToMatch || pickupCity.includes(pickupToMatch));
         });
       }
     }
@@ -168,7 +170,7 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
           shipment.recipient?.address?.city,
           shipment.sender?.email,
           shipment.recipient?.email,
-          shipment.pickup?.location?.city,
+          shipment.pickup?.address?.city,
           shipment.destination?.country,
           shipment.origin?.country
         ].some(field => field && field.toString().toLowerCase().includes(query));
@@ -177,28 +179,6 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
 
     setFilteredShipments(filtered);
   }, [shipments, activeTab, locationFilter, searchQuery]);
-
-  // Simple helper functions for country code/name conversion if needed
-  // Implement these based on your data format
-  const getCountryCode = (countryName) => {
-    // Map country names to codes as needed
-    const countryCodes = {
-      "Ireland": "IE",
-      "Nigeria": "NG",
-      // Add more mappings as needed
-    };
-    return countryCodes[countryName] || countryName;
-  };
-  
-  const getCountryName = (countryCode) => {
-    // Map country codes to names as needed
-    const countryNames = {
-      "IE": "Ireland",
-      "NG": "Nigeria",
-      // Add more mappings as needed
-    };
-    return countryNames[countryCode] || countryCode;
-  };
 
   // Reset selections when changing tabs
   const handleTabChange = (tab) => {
@@ -250,7 +230,6 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   const getShippingType = (shipment) => {
     return shipment.delivery?.options?.deliveryOption || "Standard";
   };
-
   // Get shipping status with better formatting
   const getFormattedStatus = (status) => {
     if (!status) return "Unknown";
