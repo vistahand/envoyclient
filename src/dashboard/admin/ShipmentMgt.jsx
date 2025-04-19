@@ -52,7 +52,7 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
     setError(null);
     
     try {
-      const res = await shipmentEndpoint.getAll("/admin/shipments");
+      const res = await shipmentEndpoint.getAll();
       const data = res.data.shipments;
       console.log(res);
       if (data && Array.isArray(data)) {
