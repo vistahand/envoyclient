@@ -350,7 +350,7 @@ const Navbar = () => {
         {/* mobile top */}
         <div className="flex items-center md:gap-x-7 ss:gap-x-7 gap-x-4">
           {/* notification */}
-          <div
+          {/* <div
             className={`rounded-full relative flex`}
             onClick={(e) => {
               e.preventDefault();
@@ -436,7 +436,7 @@ const Navbar = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* settings profile image */}
           <div className="relative">
