@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { FiPlus, FiSearch } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
-import { FiSearch } from "react-icons/fi";
-import PickupLocationCard from "../../components/PickupLocationCard";
 import CreatePickupLocation from "./CreatePickupLocation";
+import PickupLocationCard from "../../components/PickupLocationCard";
+import { useNavigate } from "react-router-dom";
+import Modal from "../../components/Modal"; // Using the Modal component you provided
 
-
-// TabsAndSearch Component
 const TabsAndSearch = ({ activeTab, setActiveTab, searchQuery, setSearchQuery }) => {
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -21,16 +21,6 @@ const TabsAndSearch = ({ activeTab, setActiveTab, searchQuery, setSearchQuery })
         >
           Active
         </button>
-        {/* <button
-          className={`pb-4 px-1 ${
-            activeTab === "unavailable"
-              ? "border-b-2 border-primary text-primary font-medium"
-              : "text-gray-500"
-          }`}
-          onClick={() => setActiveTab("unavailable")}
-        >
-          Unavailable
-        </button> */}
       </div>
 
       {/* Search Bar */}
@@ -48,13 +38,12 @@ const TabsAndSearch = ({ activeTab, setActiveTab, searchQuery, setSearchQuery })
   );
 };
 
-// Main PickupLoc Component
 const PickupLoc = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("active");
   const [creating, setCreating] = useState(false);
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [pagination, setPagination] = useState({
     page: 1,
@@ -63,9 +52,38 @@ const PickupLoc = () => {
     pages: 0
   });
 
+  // Modal state
+  const [modal, setModal] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info", // info, success, error, warning
+    buttons: []
+  });
+
   const getAuthToken = () => {
-    // Get token from localStorage or wherever you store it
     return localStorage.getItem('authToken');
+  };
+
+  const showModal = (title, message, type = "info", buttons = []) => {
+    setModal({
+      isOpen: true,
+      title,
+      message,
+      type,
+      buttons: buttons.length > 0 ? buttons : [
+        { 
+          label: "OK", 
+          onClick: () => closeModal(), 
+          variant: type === "error" ? "danger" : 
+                   type === "success" ? "success" : "primary" 
+        }
+      ]
+    });
+  };
+
+  const closeModal = () => {
+    setModal(prev => ({ ...prev, isOpen: false }));
   };
 
   const fetchPickupLocations = async () => {
@@ -74,7 +92,24 @@ const PickupLoc = () => {
       const token = getAuthToken();
       
       if (!token) {
-        throw new Error("Authentication token not found. Please log in again.");
+        showModal(
+          "Authentication Error", 
+          "Authentication token not found. Please log in again.", 
+          "error",
+          [
+            { 
+              label: "Login", 
+              onClick: () => navigate("/login"), 
+              variant: "primary" 
+            },
+            { 
+              label: "Cancel", 
+              onClick: closeModal, 
+              variant: "secondary" 
+            }
+          ]
+        );
+        return;
       }
       
       const response = await fetch(
@@ -103,7 +138,7 @@ const PickupLoc = () => {
       });
     } catch (err) {
       console.error("Error fetching pickup locations:", err);
-      setError(err.message);
+      showModal("Error", err.message, "error");
     } finally {
       setLoading(false);
     }
@@ -122,46 +157,64 @@ const PickupLoc = () => {
     }));
   };
 
- // Placeholder for when we have no results or are loading
-const renderContent = () => {
-  if (loading) {
-    return <div className="text-center py-8">Loading pickup locations...</div>;
-  }
-  
-  if (error) {
-    return <div className="text-center py-8 text-red-500">{error}</div>;
-  }
-  
-  if (locations.length === 0) {
+  // Handle navigation to view a specific location
+  const handleNavigateToView = (locationId) => {
+    navigate(`/admin/pickup-locations/${locationId}`);
+    setCreating(false);
+  };
+
+  // Handle back button click - This is the function we pass to the CreatePickupLocation component
+  const handleBack = () => {
+    setCreating(false); // This changes the view back to the main page
+  };
+
+  // Placeholder for when we have no results or are loading
+  const renderContent = () => {
+    if (loading) {
+      return <div className="text-center py-8">Loading pickup locations...</div>;
+    }
+    
+    if (locations.length === 0) {
+      return (
+        <div className="text-center py-8 text-gray-500">
+          No {activeTab} pickup locations found.
+          {searchQuery && " Try adjusting your search query."}
+        </div>
+      );
+    }
+    
     return (
-      <div className="text-center py-8 text-gray-500">
-        No {activeTab} pickup locations found.
-        {searchQuery && " Try adjusting your search query."}
+      <div className="grid grid-cols-1 gap-4">
+        {locations.map((location, index) => (
+          <PickupLocationCard 
+            key={location._id || index} 
+            location={location} 
+            onRefresh={fetchPickupLocations}
+            onShowModal={(title, message, type, buttons) => showModal(title, message, type, buttons)}
+          />
+        ))}
       </div>
     );
-  }
-  
-  return (
-    <div className="grid grid-cols-1 gap-4">
-      {locations.map((location, index) => (
-        <PickupLocationCard 
-          key={location._id || index} 
-          location={location} 
-          onRefresh={fetchPickupLocations}
-        />
-      ))}
-    </div>
-  );
-};
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Modal Component */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={closeModal}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        buttons={modal.buttons}
+      />
+
       {creating ? (
         // Show CreatePickupLocation if user is in creation mode
-        <CreatePickupLocation onCancel={() => setCreating(false)} onSuccess={() => {
-          setCreating(false);
-          fetchPickupLocations(); // Refresh the list after creating a new location
-        }} />
+        <CreatePickupLocation 
+          onBack={handleBack} // Pass the back handler function
+          onNavigateToView={handleNavigateToView} // Pass the navigation handler
+        />
       ) : (
         // Default Pickup Locations List
         <>

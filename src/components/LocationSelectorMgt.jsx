@@ -1,31 +1,68 @@
-import React, { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { ChevronDown, X, Search, Filter, Loader2 } from "lucide-react";
 
 // Helper function to get authentication token
 const getAuthToken = () => {
   return localStorage.getItem("authToken");
 };
 
-// Updated LocationSelectorMgt component with API integration
-const LocationSelectorMgt = ({ onFilterChange }) => {
-  const [countries, setCountries] = useState([]);
+const LocationSelectorFilter = ({ onFilterChange }) => {
+  // Filter states
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-
-  const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
-  const [showStateDropdown, setShowStateDropdown] = useState(false);
-
-  const [pickupStations, setPickupStations] = useState([]);
   const [selectedPickup, setSelectedPickup] = useState("");
-  const [showPickupDropdown, setShowPickupDropdown] = useState(false);
   
+  // Data states
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [pickupLocations, setPickupLocations] = useState([]);
+  
+  // UI states
+  const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
+  const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
+  const [pickupDropdownOpen, setPickupDropdownOpen] = useState(false);
+  
+  // Search states
+  const [countrySearch, setCountrySearch] = useState("");
+  const [stateSearch, setStateSearch] = useState("");
+  const [pickupSearch, setPickupSearch] = useState("");
+  
+  // Loading states
   const [loadingCountries, setLoadingCountries] = useState(true);
   const [loadingStates, setLoadingStates] = useState(false);
   const [loadingPickups, setLoadingPickups] = useState(false);
+  
+  // Error state
   const [error, setError] = useState(null);
 
-  // Fetch countries from API
+  // Refs for dropdown click-outside handling
+  const countryDropdownRef = useRef(null);
+  const stateDropdownRef = useRef(null);
+  const pickupDropdownRef = useRef(null);
+
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://envoyserver-pyxd.onrender.com';
+
+  // Handle click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
+        setCountryDropdownOpen(false);
+      }
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
+        setStateDropdownOpen(false);
+      }
+      if (pickupDropdownRef.current && !pickupDropdownRef.current.contains(event.target)) {
+        setPickupDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Fetch countries on component mount
   useEffect(() => {
     const fetchCountries = async () => {
       setLoadingCountries(true);
@@ -33,78 +70,52 @@ const LocationSelectorMgt = ({ onFilterChange }) => {
         const token = getAuthToken();
         
         if (!token) {
-          throw new Error("Authentication token not found. Please log in again.");
+          throw new Error("Authentication token not found");
         }
         
-        // Try using the API endpoint if available
+        // Try to fetch from our API first
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/countries`, {
-            method: 'GET',
+          const response = await fetch(`${apiUrl}/api/admin/countries`, {
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
             }
           });
           
           if (response.ok) {
             const data = await response.json();
             if (data && Array.isArray(data.items)) {
-              // Format for our internal use
+              // Format countries for internal use
               const formattedCountries = data.items.map(country => ({
-                cca2: country.code,
-                name: { common: country.name },
-                flags: { png: country.flagUrl || `https://flagcdn.com/w20/${country.code.toLowerCase()}.png` }
+                code: country.code,
+                name: country.name,
+                flag: country.flagUrl || `https://flagcdn.com/w20/${country.code.toLowerCase()}.png`
               }));
               
-              const sortedCountries = formattedCountries.sort((a, b) => 
-                a.name.common.localeCompare(b.name.common)
-              );
-              
-              setCountries(sortedCountries);
-              
-              // Set default countries (IE or NG if available)
-              const defaultCountry = sortedCountries.find(c => c.cca2 === "IE") || 
-                                    sortedCountries.find(c => c.cca2 === "NG") ||
-                                    (sortedCountries.length > 0 ? sortedCountries[0] : null);
-              
-              if (defaultCountry) {
-                setSelectedCountry(defaultCountry);
-                onFilterChange({
-                  country: defaultCountry.name.common,
-                  state: "",
-                  pickup: ""
-                });
-              }
-              
-              return; // Exit if we successfully got data from our API
+              setCountries(formattedCountries.sort((a, b) => a.name.localeCompare(b.name)));
+              setError(null);
+              return;
             }
           }
         } catch (apiError) {
-          console.warn("Could not fetch countries from API, falling back to RestCountries:", apiError);
+          console.warn("Failed to fetch countries from API, falling back to backup source");
         }
         
         // Fallback to RestCountries API
-        const response = await fetch("https://restcountries.com/v3.1/all");
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2,flags');
         const data = await response.json();
-        const sortedCountries = data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sortedCountries);
         
-        // Start with Ireland as default
-        const ireland = sortedCountries.find((c) => c.cca2 === "IE");
-        if (ireland) {
-          setSelectedCountry(ireland);
-          
-          // Notify parent about initial filter
-          onFilterChange({
-            country: ireland.name.common,
-            state: "",
-            pickup: ""
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching countries:", error);
+        const formattedCountries = data.map(country => ({
+          code: country.cca2,
+          name: country.name.common,
+          flag: country.flags.png
+        }));
+        
+        setCountries(formattedCountries.sort((a, b) => a.name.localeCompare(b.name)));
+        setError(null);
+        
+      } catch (err) {
+        console.error("Error fetching countries:", err);
         setError("Failed to load countries. Please try again later.");
       } finally {
         setLoadingCountries(false);
@@ -112,342 +123,642 @@ const LocationSelectorMgt = ({ onFilterChange }) => {
     };
     
     fetchCountries();
-  }, []);
+  }, [apiUrl]);
 
-  // Handle country selection
-  const handleCountrySelect = (country) => {
-    setSelectedCountry(country);
-    setShowCountryDropdown(false);
-    
-    // Reset state and pickup when country changes
-    setSelectedState("");
-    setSelectedPickup("");
-    setPickupStations([]);
-    
-    // Update filter
-    onFilterChange({
-      country: country.name.common,
-      state: "",
-      pickup: ""
-    });
-  };
-
-  // Fetch states when country changes
+  // Fetch states when a country is selected
   useEffect(() => {
+    if (!selectedCountry) return;
+
     const fetchStates = async () => {
-      if (!selectedCountry) return;
-      
       setLoadingStates(true);
-      setStates([]);
-      
       try {
         const token = getAuthToken();
         
         if (!token) {
-          throw new Error("Authentication token not found. Please log in again.");
+          throw new Error("Authentication token not found");
         }
         
-        // Try using the API endpoint if available
+        // Try API endpoint first
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/states`, {
+          const response = await fetch(`${apiUrl}/api/admin/states`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 
-              countryCode: selectedCountry.cca2 
-            })
+            body: JSON.stringify({ countryCode: selectedCountry.code })
           });
           
           if (response.ok) {
             const data = await response.json();
             if (data && Array.isArray(data.items)) {
-              // Format states for our internal use
-              const formattedStates = data.items.map(state => ({
+              setStates(data.items.map(state => ({
                 name: state.name,
                 code: state.code
-              }));
-              
-              setStates(formattedStates);
-              return; // Exit if we successfully got data from our API
+              })));
+              return;
             }
           }
         } catch (apiError) {
-          console.warn("Could not fetch states from API, falling back to alternate source:", apiError);
+          console.warn("Failed to fetch states from API, using fallback");
         }
         
         // Fallback to CountriesNow API
-        const response = await fetch(
-          "https://countriesnow.space/api/v0.1/countries/states",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ country: selectedCountry.name.common }),
-          }
-        );
+        const response = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ country: selectedCountry.name })
+        });
+        
         const data = await response.json();
-        if (data?.data?.states) {
+        
+        if (data.error === false && data.data && Array.isArray(data.data.states)) {
           setStates(data.data.states);
         } else {
-          setStates([]);
+          // If that fails too, use sample data based on common states
+          const sampleStates = getSampleStatesForCountry(selectedCountry.code);
+          setStates(sampleStates);
         }
-      } catch (error) {
-        console.error("Error fetching states:", error);
-        setStates([]);
+        
+      } catch (err) {
+        console.error("Error fetching states:", err);
+        // Provide sample states as fallback
+        const sampleStates = getSampleStatesForCountry(selectedCountry.code);
+        setStates(sampleStates);
       } finally {
         setLoadingStates(false);
       }
     };
     
     fetchStates();
-  }, [selectedCountry]);
+  }, [selectedCountry, apiUrl]);
 
-  // Handle state selection
-  const handleStateSelect = (state) => {
-    const stateName = typeof state === 'object' ? state.name : state;
-    setSelectedState(stateName);
-    setShowStateDropdown(false);
-    setSelectedPickup(""); // Reset pickup when state changes
-    
-    // Update filter when state changes
-    onFilterChange({
-      country: selectedCountry?.name.common || "",
-      state: stateName,
-      pickup: ""
-    });
-  };
-
-  // Fetch pickup locations when state changes
+  // Fetch pickup locations when a state is selected
   useEffect(() => {
+    if (!selectedCountry || !selectedState) return;
+
     const fetchPickupLocations = async () => {
-      if (!selectedCountry || !selectedState) return;
-      
       setLoadingPickups(true);
-      setPickupStations([]);
-      
       try {
         const token = getAuthToken();
         
         if (!token) {
-          throw new Error("Authentication token not found. Please log in again.");
+          throw new Error("Authentication token not found");
         }
         
-        // Try using the API endpoint
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/pickup-cities`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({ 
-            country: selectedCountry.cca2,
-            state: selectedState
-          })
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          if (data && Array.isArray(data.cities)) {
-            setPickupStations(data.cities);
-          } else {
-            // Fallback to static data if API returns empty
-            setPickupStationsFromStaticData();
+        // Try API endpoint
+        try {
+          const response = await fetch(`${apiUrl}/api/admin/pickup-cities`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+              country: selectedCountry.code,
+              state: typeof selectedState === 'object' ? selectedState.name : selectedState
+            })
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            if (data && Array.isArray(data.cities)) {
+              setPickupLocations(data.cities);
+              return;
+            }
           }
-        } else {
-          // Fallback to static data if API fails
-          setPickupStationsFromStaticData();
+        } catch (apiError) {
+          console.warn("Failed to fetch pickup locations from API, using fallback");
         }
-      } catch (error) {
-        console.error("Error fetching pickup locations:", error);
-        // Fallback to static data
-        setPickupStationsFromStaticData();
+        
+        // Fallback to sample data
+        const sampleLocations = getSamplePickupLocations(
+          selectedCountry.code, 
+          typeof selectedState === 'object' ? selectedState.name : selectedState
+        );
+        setPickupLocations(sampleLocations);
+        
+      } catch (err) {
+        console.error("Error fetching pickup locations:", err);
+        const sampleLocations = getSamplePickupLocations(
+          selectedCountry.code, 
+          typeof selectedState === 'object' ? selectedState.name : selectedState
+        );
+        setPickupLocations(sampleLocations);
       } finally {
         setLoadingPickups(false);
       }
     };
     
-    // Helper function for static pickup data
-    const setPickupStationsFromStaticData = () => {
-      const pickupData = {
-        lagos: ["Ikeja", "Victoria Island", "Lekki"],
-        abuja: ["Garki", "Maitama", "Wuse"],
-        rivers: ["Port Harcourt", "Bonny Island", "Eleme"],
-        dublin: ["City Center", "Docklands", "Rathmines"],
-        belfast: ["City Center", "Titanic Quarter", "Queens Quarter"],
-        cork: ["City Center", "Blackpool", "Douglas"],
-        london: ["Central London", "Canary Wharf", "Camden"],
-        manchester: ["City Center", "Northern Quarter", "Salford"],
-        imo: ["Owerri", "Orlu", "Okigwe"],
-        adamawa: ["Yola", "Mubi", "Numan"],
-        "akwa-ibom": ["Uyo", "Eket", "Ikot Ekpene"],
-      };
-      
-      const formattedState = selectedState.toLowerCase().replace(/\s+/g, '_');
-      const stations = pickupData[formattedState] || [];
-      setPickupStations(stations);
+    fetchPickupLocations();
+  }, [selectedCountry, selectedState, apiUrl]);
+
+  // Helper function for sample states data
+  const getSampleStatesForCountry = (countryCode) => {
+    const statesByCountry = {
+      'NG': [
+        { name: 'Lagos', code: 'LAG' }, 
+        { name: 'Abuja', code: 'FCT' }, 
+        { name: 'Rivers', code: 'RIV' },
+        { name: 'Imo', code: 'IMO' },
+        { name: 'Abia', code: 'ABI' },
+        { name: 'Enugu', code: 'ENU' },
+        { name: 'Kaduna', code: 'KAD' },
+        { name: 'Kano', code: 'KAN' }
+      ],
+      'IE': [
+        { name: 'Dublin', code: 'D' },
+        { name: 'Cork', code: 'C' },
+        { name: 'Galway', code: 'G' },
+        { name: 'Limerick', code: 'L' }
+      ],
+      'GB': [
+        { name: 'London', code: 'LDN' },
+        { name: 'Manchester', code: 'MAN' },
+        { name: 'Birmingham', code: 'BIR' },
+        { name: 'Liverpool', code: 'LIV' }
+      ],
+      'US': [
+        { name: 'California', code: 'CA' },
+        { name: 'New York', code: 'NY' },
+        { name: 'Texas', code: 'TX' },
+        { name: 'Florida', code: 'FL' }
+      ]
     };
     
-    fetchPickupLocations();
-  }, [selectedCountry, selectedState]);
+    return statesByCountry[countryCode] || 
+      [{ name: 'State 1', code: 'S1' }, { name: 'State 2', code: 'S2' }, { name: 'State 3', code: 'S3' }];
+  };
 
-  // Handle pickup selection
-  const handlePickupChange = (pickup) => {
-    setSelectedPickup(pickup);
-    setShowPickupDropdown(false);
+  // Helper function for sample pickup locations
+  const getSamplePickupLocations = (countryCode, stateName) => {
+    const normalizedStateName = typeof stateName === 'string' ? 
+      stateName.toLowerCase().replace(/\s+/g, '') : '';
     
+    const pickupLocations = {
+      'NG': {
+        'lagos': ['Ikeja', 'Victoria Island', 'Lekki', 'Surulere', 'Yaba'],
+        'abuja': ['Garki', 'Maitama', 'Wuse', 'Asokoro', 'Gwarinpa'],
+        'rivers': ['Port Harcourt', 'Bonny Island', 'Eleme', 'Okrika'],
+        'imo': ['Owerri', 'Orlu', 'Okigwe', 'Mbaise', 'Oguta']
+      },
+      'IE': {
+        'dublin': ['City Center', 'Docklands', 'Rathmines', 'Ballsbridge'],
+        'cork': ['City Center', 'Blackpool', 'Douglas', 'Ballincollig']
+      },
+      'GB': {
+        'london': ['Central London', 'Canary Wharf', 'Camden', 'Kensington'],
+        'manchester': ['City Center', 'Northern Quarter', 'Salford', 'Didsbury']
+      },
+      'US': {
+        'california': ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento'],
+        'newyork': ['Manhattan', 'Brooklyn', 'Queens', 'Bronx']
+      }
+    };
+    
+    // Try to find pickup locations for this country and state
+    if (countryCode in pickupLocations) {
+      const stateLocations = Object.keys(pickupLocations[countryCode])
+        .find(key => key.includes(normalizedStateName) || normalizedStateName.includes(key));
+      
+      if (stateLocations) {
+        return pickupLocations[countryCode][stateLocations];
+      }
+    }
+    
+    // Default pickup locations if nothing specific found
+    return ['Downtown', 'Airport', 'Main Office', 'Shopping Center', 'Business District'];
+  };
+
+  // Handle country selection
+  const handleCountrySelect = (country) => {
+    setSelectedCountry(country);
+    setSelectedState("");
+    setSelectedPickup("");
+    setCountryDropdownOpen(false);
+    setCountrySearch("");
+    
+    // Update parent component with filter change
     onFilterChange({
-      country: selectedCountry?.name.common || "",
-      state: selectedState,
+      country: country.name,
+      state: "",
+      pickup: ""
+    });
+  };
+
+  // Handle state selection
+  const handleStateSelect = (state) => {
+    const stateName = typeof state === 'object' ? state.name : state;
+    setSelectedState(state);
+    setSelectedPickup("");
+    setStateDropdownOpen(false);
+    setStateSearch("");
+    
+    // Update parent component with filter change
+    onFilterChange({
+      country: selectedCountry.name,
+      state: stateName,
+      pickup: ""
+    });
+  };
+
+  // Handle pickup location selection
+  const handlePickupSelect = (pickup) => {
+    setSelectedPickup(pickup);
+    setPickupDropdownOpen(false);
+    setPickupSearch("");
+    
+    // Update parent component with filter change
+    onFilterChange({
+      country: selectedCountry.name,
+      state: typeof selectedState === 'object' ? selectedState.name : selectedState,
       pickup: pickup
     });
   };
 
-  if (loadingCountries) {
-    return <div className="w-full py-4 text-gray-500">Loading location filters...</div>;
-  }
+  // Clear all filters
+  const handleClearAll = () => {
+    setSelectedCountry(null);
+    setSelectedState("");
+    setSelectedPickup("");
+    setCountrySearch("");
+    setStateSearch("");
+    setPickupSearch("");
+    
+    // Update parent component with cleared filters
+    onFilterChange({
+      country: "",
+      state: "",
+      pickup: ""
+    });
+  };
 
-  if (error) {
-    return <div className="w-full py-4 text-red-500">{error}</div>;
-  }
+  // Clear country filter and its dependent filters
+  const handleClearCountry = (e) => {
+    if (e) e.stopPropagation();
+    setSelectedCountry(null);
+    setSelectedState("");
+    setSelectedPickup("");
+    
+    // Update parent component with cleared filters
+    onFilterChange({
+      country: "",
+      state: "",
+      pickup: ""
+    });
+  };
+
+  // Clear state filter and pickup filter
+  const handleClearState = (e) => {
+    if (e) e.stopPropagation();
+    setSelectedState("");
+    setSelectedPickup("");
+    
+    // Update parent component with cleared filters
+    onFilterChange({
+      country: selectedCountry?.name || "",
+      state: "",
+      pickup: ""
+    });
+  };
+
+  // Clear pickup filter only
+  const handleClearPickup = (e) => {
+    if (e) e.stopPropagation();
+    setSelectedPickup("");
+    
+    // Update parent component with cleared filters
+    onFilterChange({
+      country: selectedCountry?.name || "",
+      state: typeof selectedState === 'object' ? selectedState.name : selectedState,
+      pickup: ""
+    });
+  };
+
+  // Filter countries by search term
+  const filteredCountries = countrySearch
+    ? countries.filter(country => 
+        country.name.toLowerCase().includes(countrySearch.toLowerCase()))
+    : countries;
+
+  // Filter states by search term
+  const filteredStates = stateSearch
+    ? states.filter(state => {
+        const stateName = typeof state === 'object' ? state.name : state;
+        return stateName.toLowerCase().includes(stateSearch.toLowerCase());
+      })
+    : states;
+
+  // Filter pickup locations by search term
+  const filteredPickups = pickupSearch
+    ? pickupLocations.filter(pickup => 
+        pickup.toLowerCase().includes(pickupSearch.toLowerCase()))
+    : pickupLocations;
+
+  // Check if any filter is active
+  const isAnyFilterActive = selectedCountry || selectedState || selectedPickup;
 
   return (
-    <div className="w-full max-w-4xl">
-      <h2 className="text-base font-medium mb-4">Filter shipments by location</h2>
-      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
+    <div className="w-full bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center space-x-2">
+          <Filter className="h-5 w-5 text-gray-500" />
+          <h2 className="text-base font-medium">Location Filter</h2>
+        </div>
+        
+        {isAnyFilterActive && (
+          <button 
+            onClick={handleClearAll}
+            className="text-primary text-sm hover:bg-blue-50 px-3 py-1 rounded-md flex items-center space-x-1"
+          >
+            <X className="h-4 w-4" />
+            <span>Clear all filters</span>
+          </button>
+        )}
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Country Selector */}
-        <div className="relative w-full sm:w-1/3">
-          <div
-            onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-            className="flex items-center justify-between border p-3 cursor-pointer rounded-md"
+        <div className="relative" ref={countryDropdownRef}>
+          <div 
+            className="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary transition-colors"
+            onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}
           >
-            <div className="flex items-center gap-2">
-              {selectedCountry && (
-                <img
-                  src={selectedCountry.flags?.png}
-                  alt="flag"
-                  className="w-6 h-4 rounded"
-                />
-              )}
-              <span>{selectedCountry?.name?.common || "Select Country"}</span>
-            </div>
-            <ChevronDown className="h-5 w-5" />
-          </div>
-
-          {showCountryDropdown && (
-            <div className="absolute z-10 w-full bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
-              {countries.map((country) => (
-                <div
-                  key={country.cca2}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
-                  onClick={() => handleCountrySelect(country)}
-                >
-                  <img
-                    src={country.flags?.png}
-                    alt="flag"
-                    className="w-6 h-4 rounded"
+            <div className="flex items-center space-x-2 truncate">
+              {selectedCountry ? (
+                <>
+                  <img 
+                    src={selectedCountry.flag} 
+                    alt={`${selectedCountry.name} flag`} 
+                    className="w-5 h-4 rounded-sm object-cover"
                   />
-                  <span>{country.name.common}</span>
+                  <span className="truncate text-gray-800">{selectedCountry.name}</span>
+                  {selectedCountry && (
+                    <button
+                      onClick={handleClearCountry}
+                      className="text-gray-400 hover:text-gray-600 ml-1"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </>
+              ) : (
+                <span className="text-gray-500">Select Country</span>
+              )}
+            </div>
+            <ChevronDown className={`h-5 w-5 text-gray-400 transition-transform ${countryDropdownOpen ? "transform rotate-180" : ""}`} />
+          </div>
+          
+          {countryDropdownOpen && (
+            <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <div className="sticky top-0 z-10 bg-white p-2 border-b border-gray-100">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search countries..."
+                    className="w-full p-2 pl-8 border border-gray-200 rounded-md text-sm"
+                    value={countrySearch}
+                    onChange={(e) => setCountrySearch(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
                 </div>
-              ))}
+              </div>
+              
+              <div className="p-1">
+                {loadingCountries ? (
+                  <div className="flex items-center justify-center p-4 text-gray-500">
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    <span>Loading countries...</span>
+                  </div>
+                ) : filteredCountries.length > 0 ? (
+                  filteredCountries.map(country => (
+                    <div
+                      key={country.code}
+                      className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md cursor-pointer"
+                      onClick={() => handleCountrySelect(country)}
+                    >
+                      <img
+                        src={country.flag}
+                        alt={`${country.name} flag`}
+                        className="w-5 h-4 rounded-sm object-cover"
+                      />
+                      <span className="text-sm">{country.name}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-3 text-center text-gray-500">No matching countries found</div>
+                )}
+              </div>
             </div>
           )}
         </div>
-
+        
         {/* State Selector */}
-        <div className="relative w-full sm:w-1/3">
-          <div
-            onClick={() => setShowStateDropdown(!showStateDropdown)}
-            className="flex items-center justify-between border p-3 cursor-pointer rounded-md"
+        <div className="relative" ref={stateDropdownRef}>
+          <div 
+            className={`flex items-center justify-between p-3 border rounded-lg ${
+              selectedCountry 
+                ? "border-gray-200 cursor-pointer hover:border-primary transition-colors" 
+                : "border-gray-100 bg-gray-50 cursor-not-allowed"
+            }`}
+            onClick={() => selectedCountry && setStateDropdownOpen(!stateDropdownOpen)}
           >
-            <span>{selectedState || "Select State"}</span>
-            <ChevronDown className="h-5 w-5" />
-          </div>
-
-          {showStateDropdown && (
-            <div className="absolute z-10 w-full bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
-              {loadingStates ? (
-                <div className="px-4 py-2 text-gray-500">Loading states...</div>
-              ) : states.length > 0 ? (
-                states.map((state, idx) => (
-                  <div
-                    key={idx}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleStateSelect(state.name)}
+            <div className="flex items-center space-x-2 truncate">
+              {selectedState ? (
+                <>
+                  <span className="truncate text-gray-800">
+                    {typeof selectedState === 'object' ? selectedState.name : selectedState}
+                  </span>
+                  <button
+                    onClick={handleClearState}
+                    className="text-gray-400 hover:text-gray-600 ml-1"
                   >
-                    {state.name}
-                  </div>
-                ))
+                    <X className="h-4 w-4" />
+                  </button>
+                </>
               ) : (
-                <div className="px-4 py-2 text-gray-500">No states available</div>
+                <span className="text-gray-500">
+                  {selectedCountry ? "Select State" : "Select country first"}
+                </span>
               )}
+            </div>
+            <ChevronDown className={`h-5 w-5 text-gray-400 transition-transform ${stateDropdownOpen ? "transform rotate-180" : ""}`} />
+          </div>
+          
+          {stateDropdownOpen && selectedCountry && (
+            <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <div className="sticky top-0 z-10 bg-white p-2 border-b border-gray-100">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search states..."
+                    className="w-full p-2 pl-8 border border-gray-200 rounded-md text-sm"
+                    value={stateSearch}
+                    onChange={(e) => setStateSearch(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+                </div>
+              </div>
+              
+              <div className="p-1">
+                {loadingStates ? (
+                  <div className="flex items-center justify-center p-4 text-gray-500">
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    <span>Loading states...</span>
+                  </div>
+                ) : filteredStates.length > 0 ? (
+                  filteredStates.map((state, index) => (
+                    <div
+                      key={index}
+                      className="p-2 hover:bg-gray-50 rounded-md cursor-pointer"
+                      onClick={() => handleStateSelect(state)}
+                    >
+                      {typeof state === 'object' ? state.name : state}
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-3 text-center text-gray-500">No states available</div>
+                )}
+              </div>
             </div>
           )}
         </div>
-
-        {/* Pickup Station Selector */}
-        <div className="relative w-full sm:w-1/3">
-          <div
-            onClick={() => setShowPickupDropdown(!showPickupDropdown)}
-            className="flex items-center justify-between border p-3 cursor-pointer rounded-md"
+        
+        {/* Pickup Location Selector */}
+        <div className="relative" ref={pickupDropdownRef}>
+          <div 
+            className={`flex items-center justify-between p-3 border rounded-lg ${
+              selectedState 
+                ? "border-gray-200 cursor-pointer hover:border-primary transition-colors" 
+                : "border-gray-100 bg-gray-50 cursor-not-allowed"
+            }`}
+            onClick={() => selectedState && setPickupDropdownOpen(!pickupDropdownOpen)}
           >
-            <span>{selectedPickup || "Select Pickup Station"}</span>
-            <ChevronDown className="h-5 w-5" />
-          </div>
-
-          {showPickupDropdown && (
-            <div className="absolute z-10 w-full bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
-              {loadingPickups ? (
-                <div className="px-4 py-2 text-gray-500">Loading pickup stations...</div>
-              ) : pickupStations.length > 0 ? (
-                pickupStations.map((station, index) => (
-                  <div
-                    key={index}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handlePickupChange(station)}
+            <div className="flex items-center space-x-2 truncate">
+              {selectedPickup ? (
+                <>
+                  <span className="truncate text-gray-800">{selectedPickup}</span>
+                  <button
+                    onClick={handleClearPickup}
+                    className="text-gray-400 hover:text-gray-600 ml-1"
                   >
-                    {station}
-                  </div>
-                ))
+                    <X className="h-4 w-4" />
+                  </button>
+                </>
               ) : (
-                <div className="px-4 py-2 text-gray-500">No pickup stations available for this location</div>
+                <span className="text-gray-500">
+                  {!selectedCountry 
+                    ? "Select country first"
+                    : !selectedState
+                      ? "Select state first"
+                      : "Select pickup location"}
+                </span>
               )}
+            </div>
+            <ChevronDown className={`h-5 w-5 text-gray-400 transition-transform ${pickupDropdownOpen ? "transform rotate-180" : ""}`} />
+          </div>
+          
+          {pickupDropdownOpen && selectedState && (
+            <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <div className="sticky top-0 z-10 bg-white p-2 border-b border-gray-100">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search pickup locations..."
+                    className="w-full p-2 pl-8 border border-gray-200 rounded-md text-sm"
+                    value={pickupSearch}
+                    onChange={(e) => setPickupSearch(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+                </div>
+              </div>
+              
+              <div className="p-1">
+                {loadingPickups ? (
+                  <div className="flex items-center justify-center p-4 text-gray-500">
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    <span>Loading pickup locations...</span>
+                  </div>
+                ) : filteredPickups.length > 0 ? (
+                  filteredPickups.map((pickup, index) => (
+                    <div
+                      key={index}
+                      className="p-2 hover:bg-gray-50 rounded-md cursor-pointer"
+                      onClick={() => handlePickupSelect(pickup)}
+                    >
+                      {pickup}
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-3 text-center text-gray-500">No pickup locations available</div>
+                )}
+              </div>
             </div>
           )}
         </div>
       </div>
-
-      {/* Preview Section */}
-      {selectedCountry && (
-        <div className="mt-6">
-          <div className="w-full flex gap-6 items-center flex-wrap">
-            <div className="rounded-lg px-6 py-4 bg-gray-100 flex gap-2 items-center">
-              <img
-                src={selectedCountry.flags?.png}
-                alt={`${selectedCountry.name.common} flag`}
-                className="w-10 h-5 rounded"
-              />
-              <p className="text-sm font-bold text-gray-800">
-                {selectedCountry.name.common}
-              </p>
-            </div>
-            {selectedState && (
-              <div className="rounded-lg px-6 py-4 bg-gray-100 flex gap-2 items-center">
-                <p className="text-sm font-bold text-gray-800">{selectedState}</p>
+      
+      {/* Active Filters Display */}
+      {isAnyFilterActive && (
+        <div className="mt-4 pt-3 border-t border-gray-100">
+          <div className="text-sm font-medium text-gray-600 mb-2">Active filters:</div>
+          <div className="flex flex-wrap gap-2">
+            {selectedCountry && (
+              <div className="bg-blue-50 text-primary px-3 py-1.5 rounded-full text-sm flex items-center">
+                <img
+                  src={selectedCountry.flag}
+                  alt={`${selectedCountry.name} flag`}
+                  className="w-4 h-3 mr-2 rounded-sm object-cover"
+                />
+                <span>{selectedCountry.name}</span>
+                <button 
+                  onClick={handleClearCountry}
+                  className="ml-2 text-gray-500 hover:text-primary"
+                >
+                  <X className="h-3 w-3" />
+                </button>
               </div>
             )}
+            
+            {selectedState && (
+              <div className="bg-blue-50 text-primary px-3 py-1.5 rounded-full text-sm flex items-center">
+                <span>State: {typeof selectedState === 'object' ? selectedState.name : selectedState}</span>
+                <button 
+                  onClick={handleClearState}
+                  className="ml-2 text-gray-500 hover:text-primary"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            )}
+            
             {selectedPickup && (
-              <div className="rounded-lg px-6 py-4 bg-gray-100 flex gap-2 items-center">
-                <p className="text-sm font-semibold text-gray-800">
-                  Pickup: {selectedPickup}
-                </p>
+              <div className="bg-blue-50 text-primary px-3 py-1.5 rounded-full text-sm flex items-center">
+                <span>Pickup: {selectedPickup}</span>
+                <button 
+                  onClick={handleClearPickup}
+                  className="ml-2 text-gray-500 hover:text-primary"
+                >
+                  <X className="h-3 w-3" />
+                </button>
               </div>
             )}
           </div>
+        </div>
+      )}
+      
+      {error && (
+        <div className="mt-2 p-2 text-sm text-red-600 bg-red-50 rounded">
+          {error}
         </div>
       )}
     </div>
   );
 };
 
-export default LocationSelectorMgt;
+export default LocationSelectorFilter;

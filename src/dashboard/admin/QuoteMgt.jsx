@@ -4,6 +4,7 @@ import {
   AiOutlineSave,
   AiOutlinePlus,
 } from "react-icons/ai";
+import Modal from "../../components/Modal"; // Update this path based on your project structure
 
 const QuoteMgt = ({ onBack }) => {
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,16 @@ const QuoteMgt = ({ onBack }) => {
   const [savingDeliveryOption, setSavingDeliveryOption] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Modal state
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    type: "info", // success, error, warning, info
+    title: "",
+    message: "",
+    buttons: [],
+    optionIdToDelete: null, // Additional state to track which option to delete
+  });
+
   const [newOption, setNewOption] = useState({
     name: "",
     description: "Standard delivery option",
@@ -35,6 +46,22 @@ const QuoteMgt = ({ onBack }) => {
   const getAuthToken = () => {
     // Get token from localStorage or wherever you store it
     return localStorage.getItem("authToken");
+  };
+
+  // Modal helper functions
+  const closeModal = () => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  const showModal = (type, title, message, buttons = []) => {
+    setModalState({
+      isOpen: true,
+      type,
+      title,
+      message,
+      buttons,
+      optionIdToDelete: null,
+    });
   };
 
   // Fetch shipping rates from API
@@ -243,11 +270,21 @@ const QuoteMgt = ({ onBack }) => {
         active: true,
       });
 
-      alert("Delivery option added successfully!");
+      // Show success modal instead of alert
+      showModal("success", "Success", "Delivery option added successfully!", [
+        { label: "OK", onClick: closeModal, variant: "primary" },
+      ]);
     } catch (err) {
       console.error("Error creating delivery option:", err);
       setError(err.message);
-      alert(`Failed to add delivery option: ${err.message}`);
+
+      // Show error modal instead of alert
+      showModal(
+        "error",
+        "Error",
+        `Failed to add delivery option: ${err.message}`,
+        [{ label: "OK", onClick: closeModal, variant: "primary" }]
+      );
     } finally {
       setSavingDeliveryOption(false);
       setIsSubmitting(false);
@@ -298,19 +335,41 @@ const QuoteMgt = ({ onBack }) => {
     } catch (err) {
       console.error("Error toggling delivery option status:", err);
       setError(err.message);
-      alert(`Failed to update status: ${err.message}`);
+
+      showModal("error", "Error", `Failed to update status: ${err.message}`, [
+        { label: "OK", onClick: closeModal, variant: "primary" },
+      ]);
     }
   };
 
-  const removeDeliveryOption = async (id) => {
-    if (
-      !confirm(
-        "Are you sure you want to delete this delivery option? This action cannot be undone."
-      )
-    ) {
-      return;
-    }
+  // Show confirmation modal before deleting
+  const confirmDeleteOption = (id) => {
+    setModalState({
+      isOpen: true,
+      type: "warning",
+      title: "Confirm Deletion",
+      message:
+        "Are you sure you want to delete this delivery option? This action cannot be undone.",
+      buttons: [
+        {
+          label: "Cancel",
+          onClick: closeModal,
+          variant: "secondary",
+        },
+        {
+          label: "Delete",
+          onClick: () => {
+            closeModal();
+            executeDeleteOption(id);
+          },
+          variant: "danger",
+        },
+      ],
+      optionIdToDelete: id,
+    });
+  };
 
+  const executeDeleteOption = async (id) => {
     try {
       const token = getAuthToken();
 
@@ -345,11 +404,19 @@ const QuoteMgt = ({ onBack }) => {
         );
       }
 
-      alert("Delivery option deleted successfully!");
+      showModal("success", "Success", "Delivery option deleted successfully!", [
+        { label: "OK", onClick: closeModal, variant: "primary" },
+      ]);
     } catch (err) {
       console.error("Error deleting delivery option:", err);
       setError(err.message);
-      alert(`Failed to delete delivery option: ${err.message}`);
+
+      showModal(
+        "error",
+        "Error",
+        `Failed to delete delivery option: ${err.message}`,
+        [{ label: "OK", onClick: closeModal, variant: "primary" }]
+      );
     }
   };
 
@@ -391,12 +458,20 @@ const QuoteMgt = ({ onBack }) => {
         throw new Error(errorData.message || "Failed to update shipping rates");
       }
 
-      // Save was successful
-      alert("Shipping rates updated successfully!");
+      // Show success modal instead of alert
+      showModal("success", "Success", "Shipping rates updated successfully!", [
+        { label: "OK", onClick: closeModal, variant: "primary" },
+      ]);
     } catch (err) {
       console.error("Error saving configuration:", err);
       setError(err.message);
-      alert(`Failed to save shipping rates: ${err.message}`);
+
+      showModal(
+        "error",
+        "Error",
+        `Failed to save shipping rates: ${err.message}`,
+        [{ label: "OK", onClick: closeModal, variant: "primary" }]
+      );
     } finally {
       setSavingRates(false);
     }
@@ -404,6 +479,11 @@ const QuoteMgt = ({ onBack }) => {
 
   const formatPercentage = (value) => {
     return (value * 100).toFixed(1) + "%";
+  };
+
+  // Function to check if an option is the standard delivery option
+  const isStandardOption = (option) => {
+    return option.description === "Standard delivery option";
   };
 
   if (loading) {
@@ -416,6 +496,16 @@ const QuoteMgt = ({ onBack }) => {
 
   return (
     <div className="w-full mx-auto p-4 md:p-6 bg-white">
+      {/* Modal Component */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        type={modalState.type}
+        title={modalState.title}
+        message={modalState.message}
+        buttons={modalState.buttons}
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl md:text-2xl font-semibold text-primary">
@@ -628,26 +718,33 @@ const QuoteMgt = ({ onBack }) => {
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() =>
-                          toggleDeliveryOptionStatus(option._id, option.active)
-                        }
-                        className={`px-2 py-1 rounded-md text-xs ${
-                          option.active
-                            ? "bg-yellow-500 text-white"
-                            : "bg-green-500 text-white"
-                        }`}
-                      >
-                        {option.active ? "Deactivate" : "Activate"}
-                      </button>
-                      <button
-                        onClick={() => removeDeliveryOption(option._id)}
-                        className="bg-red-500 text-white px-2 py-1 rounded-md text-xs"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {isStandardOption(option) ? (
+                      <span className="text-xs text-gray-500 italic"></span>
+                    ) : (
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() =>
+                            toggleDeliveryOptionStatus(
+                              option._id,
+                              option.active
+                            )
+                          }
+                          className={`px-2 py-1 rounded-md text-xs ${
+                            option.active
+                              ? "bg-yellow-500 text-white"
+                              : "bg-green-500 text-white"
+                          }`}
+                        >
+                          {option.active ? "Deactivate" : "Activate"}
+                        </button>
+                        <button
+                          onClick={() => confirmDeleteOption(option._id)}
+                          className="bg-red-500 text-white px-2 py-1 rounded-md text-xs"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -775,7 +872,6 @@ const QuoteMgt = ({ onBack }) => {
             </div>
           </div>
 
-          {/* This is the button that was missing or not visible */}
           <button
             onClick={addDeliveryOption}
             disabled={savingDeliveryOption || isSubmitting}
