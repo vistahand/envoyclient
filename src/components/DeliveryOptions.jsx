@@ -62,14 +62,14 @@ const DeliveryCard = ({
   const isStandard = index === totalOptions - 1;
 
   return (
-    <div className="w-full flex md:flex-row ss:flex-row flex-col">
+    <div className="w-full flex lg:flex-row flex-col">
       <div
         className={`${
           isStandard
             ? "w-full md:rounded-2xl ss:rounded-2xl rounded-xl bg-mainalt border border-main5 text-main2"
-            : "md:w-[85%] ss:w-[85%] w-full md:rounded-l-2xl ss:rounded-l-2xl mobdel bg-primary text-white"
+            : "lg:w-[85%] w-full lg:rounded-l-2xl rounded-ss-2xl rounded-se-2xl lg:rounded-se-none mobdel bg-primary text-white"
         }
-          flex md:flex-row ss:flex-row flex-col justify-between md:px-7 px-7 md:py-10 py-8 md:items-center ss:items-center
+          flex lg:flex-row flex-col justify-between md:px-7 px-7 md:py-10 py-8 lg:items-center
           md:gap-0 ss:gap-0 gap-4 cursor-pointer hover:opacity-95 transition-opacity relative`}
         onClick={() => onNext()}
       >
@@ -156,7 +156,7 @@ const DeliveryCard = ({
               </>
             ) : (
               <>
-                <span className="line-through">N</span>{" "}
+                <span>₦</span>{" "}
                 {totalCost.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -176,8 +176,8 @@ const DeliveryCard = ({
       {option.isExpress && (
         <div
           className={`${isStandard ? "hidden" : "flex"}
-            md:w-[15%] ss:w-[15%] w-full flex-col px-2 md:py-10 ss:py-8 py-3.5 items-center 
-            justify-center gap-0.5 bg-secondary md:rounded-r-2xl ss:rounded-r-2xl 
+            lg:w-[15%] w-full flex-col px-2 md:py-10 ss:py-8 py-3.5 items-center 
+            justify-center gap-0.5 bg-secondary  lg:rounded-r-2xl 
             mobdel2 relative overflow-hidden text-white mobdelheight`}
         >
           <img
@@ -486,55 +486,6 @@ const DeliveryOptions = ({
           className="md:w-[85%] w-full md:mt-12 ss:mt-10 mt-8"
         >
           <div className="flex flex-col w-full items-center gap-8">
-            {/* <div className="w-full">
-              <div
-                className="inline-flex flex-col relative
-                        md:w-[25%] ss:w-[25%] w-[50%]"
-              >
-                <input
-                  type="date"
-                  name="date"
-                  placeholder=""
-                  min={today} // Prevent selecting dates in the past
-                  value={formik.values.date}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className={`md:py-3.5 py-3 md:px-3.5 px-3 
-                                peer outline text-black md:rounded-lg rounded-md 
-                                md:text-[15px] ss:text-[14px] text-[13px] outline-[1px]
-                                bg-transparent w-full focus:outline-primary cursor-pointer
-                                ${
-                                  formik.touched.date && formik.errors.date
-                                    ? "outline-mainRed"
-                                    : "outline-main6"
-                                }
-                                `}
-                />
-
-                <label
-                  htmlFor="date"
-                  className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
-                            md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
-                            md:text-[15px] ss:text-[14px] text-[13px] bg-white peer-focus:px-2
-                            duration-300 peer-placeholder-shown:translate-y-0 
-                            peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                            ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                            peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
-                            ${formik.values.date ? "z-10 px-2" : ""}
-                            `}
-                >
-                  Shipment Date
-                </label>
-
-                <p
-                  className="text-mainRed md:text-[12px] flex justify-end
-                            ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
-                >
-                  {formik.touched.date && formik.errors.date}
-                </p>
-              </div>
-            </div> */}
-
             <div className="w-full flex flex-col gap-6">
               {deliveryOptions && deliveryOptions.length > 0 ? (
                 deliveryOptions.map((option, index) => (
