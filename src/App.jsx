@@ -46,8 +46,9 @@ import FinishShipmentPage from "./scenes/FinishShipmentPage";
 import PaymentSuccessScene from "./scenes/PaymentSuccess";
 import PendingPayments from "./dashboard/admin/PendingPayments";
 import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
-import AdminPaymentDetail from "./components/AdminUserDetail";
+import AdminPaymentDetail from "./components/AdminPaymentDtl";
 import { Toaster } from "react-hot-toast";
+import AdminUserDetail from "./components/AdminUsersDetail";
 
 const App = () => {
   return (
@@ -171,6 +172,7 @@ const App = () => {
                   <Route path="quotemanagement" element={<QuoteMgt />} />
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />
+                  <Route path="users/:userId" element={<AdminUserDetail />} />
                   <Route path="settings" element={<SettingsPage />} />
                 </Route>
 
