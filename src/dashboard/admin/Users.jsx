@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { GoPlus } from "react-icons/go";
 import {
   FiSearch,
   FiFilter,
-  FiDownload,
   FiEdit,
   FiTrash,
   FiEye,
@@ -12,7 +12,6 @@ import {
 import { HiOutlineStatusOnline } from "react-icons/hi";
 import { RiUserSettingsLine } from "react-icons/ri";
 import axios from "axios";
-import AdminUserDetail from "../../components/AdminUserDetail"; // Import the user detail component
 
 // Fixed authentication helper function
 const getAuthToken = () => {
@@ -30,6 +29,7 @@ const getAuthToken = () => {
 };
 
 const Users = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,6 @@ const Users = () => {
   });
   const [showFilters, setShowFilters] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedUserId, setSelectedUserId] = useState(null); // Added for user detail view
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -135,11 +134,8 @@ const Users = () => {
 
   // Fetch users when component mounts and when filters/pagination changes
   useEffect(() => {
-    if (!selectedUserId) {
-      // Only fetch users when not on detail view
-      fetchUsers();
-    }
-  }, [currentPage, filters, selectedUserId]);
+    fetchUsers();
+  }, [currentPage, filters]);
 
   // Handle search separately to avoid too many API calls
   useEffect(() => {
@@ -188,11 +184,12 @@ const Users = () => {
     setShowActions(showActions === userId ? null : userId);
   };
 
-  // Handle user actions
-  const handleViewUser = async (userId) => {
-    setSelectedUserId(userId); // Set the selected user ID to view details
-    setShowActions(null);
-  };
+ // Update this function in the Users.jsx file
+ const handleViewUser = ( userId) => {
+  alert("Navigating to user details", userId);
+  // navigate(`${userId}`);
+  setShowActions(null);
+};
 
   const handleEditUser = async (userId) => {
     alert(`Edit user with ID: ${userId}`);
@@ -283,18 +280,6 @@ const Users = () => {
       minute: "2-digit",
     });
   };
-
-  // Handle back button from user detail view
-  const handleBackToUsers = () => {
-    setSelectedUserId(null);
-  };
-
-  // If we're viewing a specific user's details
-  if (selectedUserId) {
-    return (
-      <AdminUserDetail userId={selectedUserId} onBack={handleBackToUsers} />
-    );
-  }
 
   if (loading && users.length === 0) {
     return (
@@ -533,17 +518,16 @@ const Users = () => {
                       {showActions === user._id && (
                         <div
                           className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 w-40"
-                          onClick={(e) => e.stopPropagation()}
                         >
                           <ul>
                             <li>
-                              <button
-                                onClick={() => handleViewUser(user._id)}
-                                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
-                              >
-                                <FiEye size={14} />
-                                <span>View</span>
-                              </button>
+                            <a href={`/admin/users/${user._id}`}
+  // onClick={() => navigate(`/admin/users/${user._id}`)}
+  className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+>
+  <FiEye size={14} />
+  <span>View</span>
+</a>
                             </li>
                             <li>
                               <button

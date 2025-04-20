@@ -40,7 +40,7 @@ const LocationSelectorFilter = ({ onFilterChange }) => {
   const stateDropdownRef = useRef(null);
   const pickupDropdownRef = useRef(null);
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'https://envoyserver-pyxd.onrender.com';
+  const apiUrl = import.meta.env.VITE_API_URL ;
 
   // Handle click outside to close dropdowns
   useEffect(() => {
