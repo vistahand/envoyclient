@@ -86,7 +86,7 @@ const ShipmentSuccessPage = () => {
             <p className="md:text-[16px] ss:text-[16px] text-[15px] tracking-tight font-medium text-main2">
               Your shipment has been successfully created with {getMethodText()}{" "}
               payment option.
-              {paymentMethod === "cash_on_pickup" ??
+              {paymentMethod === "cash_on_pickup" &&
                 " Payment will be collected when you drop off your package."}
             </p>
 

@@ -290,8 +290,9 @@ const ShipmentPay = ({ onPrev, shipment }) => {
                   <p className="text-[12px]">
                     {paymentMethod === "immediate"
                       ? "Pay Now"
-                      : paymentMethod === "cash_on_pickup" ??
-                        "Confirm Pay on Pickup"}
+                      : paymentMethod === "cash_on_pickup"
+                      ? "Confirm Pay on Pickup"
+                      : ""}
                   </p>
                   <HiOutlineArrowRight className="text-[14px]" />
                 </div>
