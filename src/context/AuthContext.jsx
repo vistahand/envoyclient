@@ -155,6 +155,8 @@ export const AuthProvider = ({ children }) => {
       const response = await apiUpdateProfile({
         phone,
         country,
+        firstName,
+        lastName,
       });
 
       console.log("API response:", response);
