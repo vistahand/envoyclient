@@ -6,7 +6,7 @@ const VideoLoader = () => {
 
   useEffect(() => {
     // Load the video with lazy loading approach
-    const videoSource = "/src/assets/videos/envoy-angel-intro.mp4";
+    const videoSource = "/videos/envoy-angel-intro.mp4";
 
     // Create a link preload for the video
     const preloadLink = document.createElement("link");
