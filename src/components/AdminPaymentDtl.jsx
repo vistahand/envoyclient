@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiCalendar, FiClock, FiDollarSign, FiCreditCard, FiTag, FiUser, FiFileText } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiCalendar,
+  FiClock,
+  FiDollarSign,
+  FiCreditCard,
+  FiTag,
+  FiUser,
+  FiFileText,
+} from "react-icons/fi";
 import api, { admin } from "../services/api";
 
 const AdminPaymentDetail = () => {
@@ -10,7 +19,7 @@ const AdminPaymentDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const apiUrl = import.meta.env.VITE_API_URL ;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // Function to get auth token
   const getAuthToken = () => {
@@ -18,12 +27,12 @@ const AdminPaymentDetail = () => {
     if (!token) {
       throw new Error("Authentication token not found. Please log in again.");
     }
-    
+
     // Remove quotes if present
     if (token.startsWith('"') && token.endsWith('"')) {
       token = token.slice(1, -1);
     }
-    
+
     return token;
   };
 
@@ -32,8 +41,8 @@ const AdminPaymentDetail = () => {
     setLoading(true);
     try {
       const response = await admin.payments.getById(String(paymentId));
-      console.log(response)
-      const data = response
+      console.log(response);
+      const data = response;
       setPayment(data);
       setError(null);
     } catch (err) {
@@ -53,40 +62,53 @@ const AdminPaymentDetail = () => {
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   // Format currency display
   const formatCurrency = (amount, currency) => {
     if (!amount) return "N/A";
-    
-    const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-    
+
+    const numericAmount =
+      typeof amount === "string" ? parseFloat(amount) : amount;
+
     if (currency === "eur" || currency === "EUR") {
-      return `€${numericAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      return `€${numericAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`;
     } else if (currency === "USD") {
-      return `$${numericAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      return `$${numericAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`;
     } else if (currency === "NGN") {
-      return `₦${numericAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      return `₦${numericAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`;
     } else {
-      return `${currency || 'USD'} ${numericAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      return `${currency || "USD"} ${numericAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`;
     }
   };
 
   // Get status badge class
   const getStatusBadgeClass = (status) => {
     const statusMap = {
-      "completed": "bg-green-100 text-green-800",
-      "pending": "bg-yellow-100 text-yellow-800",
-      "failed": "bg-red-100 text-red-800"
+      completed: "bg-green-100 text-green-800",
+      pending: "bg-yellow-100 text-yellow-800",
+      failed: "bg-red-100 text-red-800",
     };
-    
+
     return statusMap[status] || "bg-gray-100 text-gray-800";
   };
 
@@ -97,7 +119,7 @@ const AdminPaymentDetail = () => {
 
   // Handle back button click
   const handleBackClick = () => {
-    navigate('/admin/payments');
+    navigate("/admin/payments");
   };
 
   if (loading) {
@@ -114,7 +136,7 @@ const AdminPaymentDetail = () => {
   if (error) {
     return (
       <div className="w-full bg-white rounded-lg shadow p-8">
-        <button 
+        <button
           onClick={handleBackClick}
           className="flex items-center gap-2 text-primary hover:underline mb-6"
         >
@@ -123,7 +145,7 @@ const AdminPaymentDetail = () => {
         <div className="text-center py-12">
           <div className="text-red-500 text-xl mb-4">⚠️</div>
           <p className="text-lg font-medium text-gray-800">{error}</p>
-          <button 
+          <button
             onClick={fetchPaymentDetails}
             className="mt-4 px-4 py-2 bg-primary text-white rounded-lg"
           >
@@ -137,7 +159,7 @@ const AdminPaymentDetail = () => {
   if (!payment) {
     return (
       <div className="w-full bg-white rounded-lg shadow p-8">
-        <button 
+        <button
           onClick={handleBackClick}
           className="flex items-center gap-2 text-primary hover:underline mb-6"
         >
@@ -154,18 +176,27 @@ const AdminPaymentDetail = () => {
     <div className="w-full bg-white rounded-lg shadow">
       {/* Header with back button */}
       <div className="p-6 border-b border-gray-200">
-        <button 
+        <button
           onClick={handleBackClick}
           className="flex items-center gap-2 text-primary hover:underline"
         >
           <FiArrowLeft /> Back to Payments
         </button>
         <div className="mt-4 flex flex-col md:flex-row justify-between items-start md:items-center">
-          <h2 className="text-2xl font-semibold text-gray-800">Payment Details</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Payment Details
+          </h2>
           <div className="mt-2 md:mt-0">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusBadgeClass(payment.status)}`}>
-              {payment.status === "completed" ? "Successful" : 
-               payment.status === "pending" ? "Pending" : "Unsuccessful"}
+            <span
+              className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusBadgeClass(
+                payment.status
+              )}`}
+            >
+              {payment.status === "completed"
+                ? "Successful"
+                : payment.status === "pending"
+                ? "Pending"
+                : "Unsuccessful"}
             </span>
           </div>
         </div>
@@ -181,11 +212,13 @@ const AdminPaymentDetail = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Amount</p>
-                <p className="font-semibold text-lg">{formatCurrency(payment.amount, payment.currency)}</p>
+                <p className="font-semibold text-lg">
+                  {formatCurrency(payment.amount, payment.currency)}
+                </p>
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white p-4 rounded-lg shadow-sm">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-green-100 rounded-full">
@@ -193,11 +226,13 @@ const AdminPaymentDetail = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Transaction ID</p>
-                <p className="font-semibold">{payment.transactionId || "N/A"}</p>
+                <p className="font-semibold">
+                  {payment.transactionId || "N/A"}
+                </p>
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white p-4 rounded-lg shadow-sm">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-purple-100 rounded-full">
@@ -217,16 +252,18 @@ const AdminPaymentDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Transaction Details */}
           <div className="bg-gray-50 rounded-lg p-6">
-            <h4 className="text-lg font-medium text-gray-800 mb-4">Transaction Details</h4>
-            
+            <h4 className="text-lg font-medium text-gray-800 mb-4">
+              Transaction Details
+            </h4>
+
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <FiTag className="text-gray-400 mt-1" size={18} />
                 <div>
                   <p className="text-sm text-gray-500">Purpose</p>
                   <p className="font-medium">
-                    {payment.trackingNumber 
-                      ? `Shipping (${payment.trackingNumber})` 
+                    {payment.trackingNumber
+                      ? `Shipping (${payment.trackingNumber})`
                       : payment.purpose || "Payment Processing"}
                   </p>
                 </div>
@@ -236,7 +273,9 @@ const AdminPaymentDetail = () => {
                 <FiCreditCard className="text-gray-400 mt-1" size={18} />
                 <div>
                   <p className="text-sm text-gray-500">Payment Method</p>
-                  <p className="font-medium">{getPaymentMethodDisplay(payment.method)}</p>
+                  <p className="font-medium">
+                    {getPaymentMethodDisplay(payment.method)}
+                  </p>
                 </div>
               </div>
 
@@ -244,7 +283,9 @@ const AdminPaymentDetail = () => {
                 <FiDollarSign className="text-gray-400 mt-1" size={18} />
                 <div>
                   <p className="text-sm text-gray-500">Amount</p>
-                  <p className="font-medium">{formatCurrency(payment.amount, payment.currency)}</p>
+                  <p className="font-medium">
+                    {formatCurrency(payment.amount, payment.currency)}
+                  </p>
                 </div>
               </div>
 
@@ -252,12 +293,20 @@ const AdminPaymentDetail = () => {
                 <FiFileText className="text-gray-400 mt-1" size={18} />
                 <div>
                   <p className="text-sm text-gray-500">Status</p>
-                  <p className={`font-medium capitalize ${
-                    payment.status === "completed" ? "text-green-600" : 
-                    payment.status === "pending" ? "text-yellow-600" : "text-red-600"
-                  }`}>
-                    {payment.status === "completed" ? "Successful" : 
-                     payment.status === "pending" ? "Pending" : "Unsuccessful"}
+                  <p
+                    className={`font-medium capitalize ${
+                      payment.status === "completed"
+                        ? "text-green-600"
+                        : payment.status === "pending"
+                        ? "text-yellow-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {payment.status === "completed"
+                      ? "Successful"
+                      : payment.status === "pending"
+                      ? "Pending"
+                      : "Unsuccessful"}
                   </p>
                 </div>
               </div>
@@ -266,18 +315,19 @@ const AdminPaymentDetail = () => {
 
           {/* Customer Information */}
           <div className="bg-gray-50 rounded-lg p-6">
-            <h4 className="text-lg font-medium text-gray-800 mb-4">Customer Information</h4>
-            
+            <h4 className="text-lg font-medium text-gray-800 mb-4">
+              Customer Information
+            </h4>
+
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <FiUser className="text-gray-400 mt-1" size={18} />
                 <div>
-  <p className="text-sm text-gray-500">Sender Name</p>
-  <p className="font-medium">
-    {payment.shipmentDetails?.sender?.name || "Not available"}
-  </p>
-</div>
-
+                  <p className="text-sm text-gray-500">Sender Name</p>
+                  <p className="font-medium">
+                    {payment.shipmentDetails?.sender?.name || "Not available"}
+                  </p>
+                </div>
               </div>
 
               {payment.user?.email && (
@@ -292,9 +342,13 @@ const AdminPaymentDetail = () => {
 
               {payment.paymentDetails && (
                 <div className="mt-4">
-                  <p className="text-sm text-gray-500 mb-2">Payment Provider Details:</p>
+                  <p className="text-sm text-gray-500 mb-2">
+                    Payment Provider Details:
+                  </p>
                   <div className="bg-gray-100 p-3 rounded text-sm">
-                    <pre className="whitespace-pre-wrap break-words">{JSON.stringify(payment.paymentDetails, null, 2)}</pre>
+                    <pre className="whitespace-pre-wrap break-words">
+                      {JSON.stringify(payment.paymentDetails, null, 2)}
+                    </pre>
                   </div>
                 </div>
               )}
@@ -305,21 +359,31 @@ const AdminPaymentDetail = () => {
         {/* Timeline Section */}
         {payment.paymentEvents && payment.paymentEvents.length > 0 && (
           <div className="mt-8">
-            <h4 className="text-lg font-medium text-gray-800 mb-4">Payment Timeline</h4>
-            
+            <h4 className="text-lg font-medium text-gray-800 mb-4">
+              Payment Timeline
+            </h4>
+
             <div className="relative border-l-2 border-gray-200 ml-4 pl-6">
               {payment.paymentEvents.map((event, index) => (
                 <div key={index} className="mb-6 relative">
                   <div className="absolute -left-10 mt-1.5">
-                    <div className={`h-4 w-4 rounded-full border-2 ${
-                      event.type === 'success' ? 'bg-green-500 border-green-500' :
-                      event.type === 'pending' ? 'bg-yellow-500 border-yellow-500' :
-                      'bg-gray-500 border-gray-500'
-                    }`}></div>
+                    <div
+                      className={`h-4 w-4 rounded-full border-2 ${
+                        event.type === "success"
+                          ? "bg-green-500 border-green-500"
+                          : event.type === "pending"
+                          ? "bg-yellow-500 border-yellow-500"
+                          : "bg-gray-500 border-gray-500"
+                      }`}
+                    ></div>
                   </div>
                   <div>
-                    <p className="font-medium">{event.description || "Payment status updated"}</p>
-                    <p className="text-sm text-gray-500">{formatDate(event.timestamp)}</p>
+                    <p className="font-medium">
+                      {event.description || "Payment status updated"}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {formatDate(event.timestamp)}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -327,7 +391,7 @@ const AdminPaymentDetail = () => {
           </div>
         )}
 
-        {/* Refund Section - Conditional rendering */}
+        {/* Refund Section - Conditional rendering
         {payment.status === "completed" && (
           <div className="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
             <h4 className="text-lg font-medium text-gray-800 mb-4">Refund Options</h4>
@@ -337,7 +401,7 @@ const AdminPaymentDetail = () => {
               Process Refund
             </button>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

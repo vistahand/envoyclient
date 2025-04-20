@@ -484,12 +484,12 @@ export const adminSideLinks = [
       route: '/admin/analytics',
       Icon: analytics,
   },
-  {
-      id: 'users',
-      title: 'Users',
-      route: '/admin/users',
-      Icon: users,
-  },
+//   {
+//       id: 'users',
+//       title: 'Users',
+//       route: '/admin/users',
+//       Icon: users,
+//   },
 ];
 
 export const shipmentHead = [

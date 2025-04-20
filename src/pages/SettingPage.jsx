@@ -20,6 +20,7 @@ const SettingsPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [updatingPassword, setUpdatingPassword] = useState(false);
   const [fileError, setFileError] = useState("");
 
   // Log user data when component mounts
@@ -75,6 +76,7 @@ const SettingsPage = () => {
   // Handle password update
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
+    setUpdatingPassword(true);
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -86,9 +88,11 @@ const SettingsPage = () => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+      setUpdatingPassword(false);
       await auth.logout();
     } catch (error) {
       toast.error(error);
+      setUpdatingPassword(false);
     }
   };
 
@@ -173,37 +177,6 @@ const SettingsPage = () => {
                 disabled
                 className="w-full p-3 border rounded-lg bg-gray-100 text-gray-500"
               />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-gray-700 font-medium">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => {
-                    setFirstName(e.target.value);
-                    console.log("firstName updated:", e.target.value);
-                  }}
-                  className="w-full p-3 border rounded-lg"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-medium">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => {
-                    setLastName(e.target.value);
-                    console.log("lastName updated:", e.target.value);
-                  }}
-                  className="w-full p-3 border rounded-lg"
-                />
-              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -311,9 +284,10 @@ const SettingsPage = () => {
           </div>
           <button
             type="submit"
+            disabled={updatingPassword}
             className="w-[50%] bg-primary hover:bg-primary-dark text-white py-3 rounded-lg font-semibold transition"
           >
-            Update Password
+            {updatingPassword ? "Updating" : "Update Password"}
           </button>
         </form>
       </div>

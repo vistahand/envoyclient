@@ -27,6 +27,7 @@ const Navbar = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -36,26 +37,60 @@ const Navbar = () => {
     }
   }, [user]);
 
+  // Determine which links to use based on the path
+  const isAdminPath = location.pathname === "/admin" || location.pathname.startsWith("/admin/");
+  const currentLinks = isAdminPath ? adminSideLinks : sideLinks;
+
   const currentPath = location.pathname;
   useEffect(() => {
+    // Use the appropriate link set based on path
+    const links = isAdminPath ? adminSideLinks : sideLinks;
+    
     if (currentPath === "/user" || currentPath === "/user/") {
       setActive("Home");
-    } else if (currentPath.startsWith("/user/")) {
+    } else if (currentPath === "/admin" || currentPath === "/admin/") {
+      setActive("Dashboard"); // Assuming "Dashboard" is the title for the admin home
+    } else if (currentPath.startsWith("/user/") || currentPath.startsWith("/admin/")) {
       const pathSegments = currentPath.split("/");
-      const activeLink = sideLinks.find((link) =>
+      const activeLink = links.find((link) =>
         link.route.includes(pathSegments[2])
       );
+
+      // Check for dropdown items
+      for (const link of links) {
+        if (link.hasDropdown) {
+          for (const item of link.dropdownItems) {
+            if (currentPath === item.route) {
+              setActive(item.title);
+              setOpenDropdown(link.id);
+              return;
+            }
+          }
+        }
+      }
+
       if (activeLink) {
         setActive(activeLink.title);
       }
     }
-  }, [location]);
+  }, [location, isAdminPath]);
 
+  // Modified to only handle dropdown toggling, not navigation or modal closing
   const handleSideItemClick = (link) => {
-    // if (session) {
-    setActive(link.title);
-    navigate(link.route);
-    // }
+    if (link.hasDropdown) {
+      setOpenDropdown(openDropdown === link.id ? null : link.id);
+    } else {
+      setActive(link.title);
+      navigate(link.route);
+      setToggle(false); // Close the modal only for non-dropdown items
+    }
+  };
+
+  // This will handle navigation and modal closing when a dropdown item is clicked
+  const handleDropdownItemClick = (parentLink, item) => {
+    setActive(item.title);
+    navigate(item.route);
+    setToggle(false); // Close the modal when dropdown item is clicked
   };
 
   const disableScroll = () => {
@@ -113,9 +148,7 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleSearchClickOutside);
     };
   }, []);
-
-  const links = currentPath.startsWith("/admin/") ? adminSideLinks : sideLinks;
-
+  
   return (
     <section className="w-full flex items-center border-b border-b-main7">
       <div
@@ -157,8 +190,9 @@ const Navbar = () => {
                 : "menu-slide-exit2 menu-slide-exit-active2"
             }`}
           >
-            <div
-              className="w-full flex items-center justify-between"
+           <div className="w-full flex items-center justify-between"
+           >
+           <div
               onClick={() => {
                 navigate("/");
               }}
@@ -168,8 +202,8 @@ const Navbar = () => {
                 alt="logo"
                 className="ss:h-[2.5rem] h-[2.2rem] w-auto"
               />
-
-              {toggle && (
+            </div>
+            {toggle && (
                 <BsX
                   size={40}
                   style={{ color: "#DE2323" }}
@@ -179,32 +213,83 @@ const Navbar = () => {
                   }}
                 />
               )}
-            </div>
+              </div>
 
             <ul className="list-none flex flex-col gap-2 mt-12 w-full">
-              {links.map((link) => (
-                <li
-                  key={link.id}
-                  className={`${
-                    active === link.title
-                      ? "bg-primary rounded-lg text-white font-bold"
-                      : "bg-none text-main2 font-semibold"
-                  } ss:text-[16px] text-[15px] tracking-tight`}
-                  onClick={() => {
-                    handleSideItemClick(link);
-                    setToggle(!toggle);
-                  }}
-                >
-                  <div className={`p-3 flex ss:gap-4 gap-3 items-center`}>
-                    <img
-                      src={link.Icon}
-                      alt={link.id}
-                      className={`ss:w-[1.5rem] w-[1.4rem] h-auto ${
-                        active === link.title ? "s-white" : "s-main2"
-                      }`}
-                    />
-                    {link.title}
+              {currentLinks.map((link) => (
+                <li key={link.id}>
+                  <div
+                    className={`${
+                      (active === link.title || openDropdown === link.id) &&
+                      !link.hasDropdown
+                        ? "bg-primary rounded-lg text-white font-bold"
+                        : "bg-none text-main2 grow4 font-semibold"
+                    } cursor-pointer text-[16px] tracking-tight`}
+                    onClick={() => {
+                      handleSideItemClick(link);
+                      // We only close the toggle if it's not a dropdown
+                      if (!link.hasDropdown) {
+                        setToggle(false);
+                      }
+                    }}
+                  >
+                    <div
+                      className={`p-3 flex gap-4 items-center justify-between`}
+                    >
+                      <div className="flex gap-4 items-center">
+                        <img
+                          src={link.Icon}
+                          alt={link.id}
+                          className={`w-[1.5rem] h-auto ${
+                            active === link.title || openDropdown === link.id
+                              ? "text-black"
+                              : "text-black"
+                          }`}
+                        />
+                        {link.title}
+                      </div>
+                      {link.hasDropdown && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-4 w-4 transition-transform ${
+                            openDropdown === link.id ? "rotate-180" : ""
+                          }`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      )}
+                    </div>
                   </div>
+
+                  {link.hasDropdown && openDropdown === link.id && (
+                    <ul className="pl-10 mt-1 space-y-1">
+                      {link.dropdownItems.map((item) => (
+                        <li
+                          key={item.id}
+                          className={`${
+                            active === item.title
+                              ? "text-primary font-bold"
+                              : "text-main2 font-semibold"
+                          } cursor-pointer text-[14px] tracking-tight py-2`}
+                          onClick={() => {
+                            handleDropdownItemClick(link, item);
+                            // Close the modal when dropdown item is clicked
+                            setToggle(false);
+                          }}
+                        >
+                          {item.title}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
@@ -213,20 +298,6 @@ const Navbar = () => {
               className="list-none flex flex-col gap-2 mt-auto w-full 
                 border-t border-t-main7 pt-8"
             >
-              {/* <li
-                  className="text-main2 font-semibold ss:text-[16px] 
-                  text-[15px] tracking-tight"
-                >
-                  <div className={`flex p-3 ss:gap-4 gap-3 items-center`}>
-                    <img
-                      src={help}
-                      alt="helpcentre"
-                      className="ss:w-[1.5rem] w-[1.4rem] h-auto"
-                    />
-                    Help Centre
-                  </div>
-                </li> */}
-
               <li
                 onClick={() => {
                   navigate(
@@ -236,7 +307,7 @@ const Navbar = () => {
                         : "/user/settings"
                     }`
                   );
-                  setToggle(!toggle);
+                  setToggle(false);
                 }}
                 className="text-main2 font-semibold cursor-pointer ss:text-[16px] 
                   text-[15px] tracking-tight"
@@ -280,7 +351,7 @@ const Navbar = () => {
         {/* mobile top */}
         <div className="flex items-center md:gap-x-7 ss:gap-x-7 gap-x-4">
           {/* notification */}
-          <div
+          {/* <div
             className={`rounded-full relative flex`}
             onClick={(e) => {
               e.preventDefault();
@@ -366,7 +437,7 @@ const Navbar = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* settings profile image */}
           <div className="relative">
@@ -415,8 +486,7 @@ const Navbar = () => {
                 </a>
                 <a
                   href={`${
-                    currentPath.startsWith("/admin") ||
-                    currentPath.startsWith("/admin/")
+                    isAdminPath
                       ? "/admin/settings"
                       : "/user/settings"
                   }`}

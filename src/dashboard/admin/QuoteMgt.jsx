@@ -875,7 +875,10 @@ const QuoteMgt = ({ onBack }) => {
           <button
             onClick={addDeliveryOption}
             disabled={savingDeliveryOption || isSubmitting}
-            className="mt-4 flex items-center justify-center px-6 py-2 bg-primary text-white rounded-lg hover:bg-lime-950 transition-colors"
+
+
+            className="mt-4 flex items-center justify-center px-6 py-2 bg-primary text-white rounded-lg  transition-colors"
+
           >
             {savingDeliveryOption ? (
               "Adding..."

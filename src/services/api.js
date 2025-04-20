@@ -382,6 +382,18 @@ export const shipments = {
       throw new Error(err.response?.data?.error || "Failed to fetch shipments");
     }
   },
+  updateShipmentStatus: async (shipmentId, statusData) => {
+    try {
+      const response = await api.put(`/admin/shipments/${shipmentId}/status`, statusData);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(err.response?.data?.error || "Failed to update shipment status");
+    }
+  },
+
 
   // Get all shipments
   getAllDrafts: async () => {
@@ -741,5 +753,6 @@ export const pickup = {
     }
   },
 };
+
 
 export default api;

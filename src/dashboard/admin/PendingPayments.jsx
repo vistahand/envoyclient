@@ -1,5 +1,3 @@
-// Create a new component for admin to manage pending payments
-
 import { useState, useEffect } from "react";
 import { shipments } from "../../services/api";
 import { format } from "date-fns";
@@ -100,72 +98,74 @@ const PendingPayments = () => {
         </div>
       ) : (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tracking ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Customer
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Payment Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Amount
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {pendingPayments.map((shipment) => (
-                <tr key={shipment._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
-                    {shipment.trackingNumber}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {shipment.sender?.name ||
-                      shipment.sender?.businessName ||
-                      "N/A"}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {shipment.payment?.method === "cash_on_delivery"
-                      ? "Cash on Delivery"
-                      : "Cash on Pickup"}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {formatCurrency(
-                      shipment.cost?.total,
-                      shipment.cost?.currency
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {format(new Date(shipment.createdAt), "dd MMM yyyy")}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      onClick={() => handleApprove(shipment)}
-                      className="text-primary hover:text-primary-dark mr-3"
-                    >
-                      Approve
-                    </button>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Tracking ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Customer
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Payment Type
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Created Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {pendingPayments.map((shipment) => (
+                  <tr key={shipment._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                      {shipment.trackingNumber}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {shipment.sender?.name ||
+                        shipment.sender?.businessName ||
+                        "N/A"}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {shipment.payment?.method === "cash_on_delivery"
+                        ? "Cash on Delivery"
+                        : "Cash on Pickup"}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {formatCurrency(
+                        shipment.cost?.total,
+                        shipment.cost?.currency
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {format(new Date(shipment.createdAt), "dd MMM yyyy")}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <button
+                        onClick={() => handleApprove(shipment)}
+                        className="text-primary hover:text-primary-dark mr-3"
+                      >
+                        Approve
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
       {/* Approval Modal */}
       {isApproving && selectedShipment && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
             <h2 className="text-xl font-bold mb-4">Confirm Payment</h2>
             <p className="mb-4">
@@ -196,7 +196,7 @@ const PendingPayments = () => {
               />
             </div>
 
-            <div className="flex justify-end space-x-3">
+            <div className="flex flex-wrap justify-end gap-3">
               <button
                 onClick={() => {
                   setSelectedShipment(null);
@@ -209,7 +209,7 @@ const PendingPayments = () => {
               </button>
               <button
                 onClick={() => submitApproval(true)}
-                className="px-4 py-2 bg-green text-white rounded-md flex items-center"
+                className="px-4 py-2 bg-green-500 text-white rounded-md flex items-center"
                 disabled={!adminPassword}
               >
                 <MdCheck className="mr-1" /> Approve

@@ -149,12 +149,10 @@ export const AuthProvider = ({ children }) => {
         firstName,
         lastName,
         phone,
-        country
+        country,
       });
 
       const response = await apiUpdateProfile({
-        firstName,
-        lastName,
         phone,
         country
       });
