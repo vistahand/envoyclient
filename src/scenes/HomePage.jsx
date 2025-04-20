@@ -12,9 +12,9 @@ import {
 } from '../components';
 
 import { Helmet } from 'react-helmet';
+import VideoLoader from '../components/VideoLoader'; // Import the new component
 
 const HomePage = () => {
-
     return (
         <div className='font-manrope'>
             <Helmet>
@@ -22,6 +22,9 @@ const HomePage = () => {
                 <meta name="description" content="Content" />
             </Helmet>
 
+            {/* Video Modal will appear automatically based on localStorage status */}
+            <VideoLoader />
+            
             <Navbar />
             <Hero />
             <Cards />

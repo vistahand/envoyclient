@@ -88,7 +88,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`w-full flex items-center fixed top-0 z-50 navsmooth
+      className={`w-full flex items-center fixed top-0 z-40 navsmooth
     ${isScrolled ? "shadow-lg" : ""}`}
     >
       <div className={`w-full flex bg-white ${styles.paddingX}`}>
