@@ -48,9 +48,7 @@ const ShipmentSuccessPage = () => {
   };
 
   const getMethodText = () => {
-    if (paymentMethod === "cash_on_delivery") {
-      return "Cash on Delivery";
-    } else if (paymentMethod === "cash_on_pickup") {
+    if (paymentMethod === "cash_on_pickup") {
       return "Cash on Pickup";
     }
     return "Cash payment";
@@ -88,9 +86,8 @@ const ShipmentSuccessPage = () => {
             <p className="md:text-[16px] ss:text-[16px] text-[15px] tracking-tight font-medium text-main2">
               Your shipment has been successfully created with {getMethodText()}{" "}
               payment option.
-              {paymentMethod === "cash_on_delivery"
-                ? " Payment will be collected when your package is delivered."
-                : " Payment will be collected when you drop off your package."}
+              {paymentMethod === "cash_on_pickup" ??
+                " Payment will be collected when you drop off your package."}
             </p>
 
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-2">

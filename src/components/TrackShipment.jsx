@@ -119,7 +119,6 @@ const TrackShipment = () => {
     const paymentMethod = shipmentData.payment?.method;
     const paymentStatus = shipmentData.payment?.status;
     const isPaid = paymentStatus === "completed";
-    const isCashOnDelivery = paymentMethod === "cash_on_delivery";
     const isCashOnPickup = paymentMethod === "cash_on_pickup";
 
     // Default steps with base data
@@ -135,49 +134,7 @@ const TrackShipment = () => {
     ];
 
     // Handle different payment methods with different timeline steps
-    if (isCashOnDelivery) {
-      // For Cash on Delivery method
-      steps = [
-        ...steps,
-        {
-          title: "Awaiting Pickup",
-          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
-          isCompleted: !!latestStatusEvents["awaiting_pickup"],
-          details: `Pickup scheduled at: ${
-            shipmentData.pickup?.location?.street || ""
-          }, ${shipmentData.pickup?.location?.city || ""}`,
-        },
-        {
-          title: "Package Shipping",
-          date:
-            shipmentData.pickup?.date ||
-            latestStatusEvents["in_transit"]?.timestamp,
-          isCompleted: !!latestStatusEvents["in_transit"],
-          details: "Payment will be collected upon delivery",
-          isEstimated: !latestStatusEvents["in_transit"],
-        },
-        {
-          title: "Payment on Delivery",
-          date: isPaid
-            ? shipmentData.payment?.paidAt
-            : shipmentData.delivery?.estimatedDate,
-          isCompleted: isPaid,
-          details: isPaid
-            ? "Payment has been collected and confirmed"
-            : "Payment to be collected upon delivery",
-          isEstimated: !isPaid,
-        },
-        {
-          title: "Shipment Arrival",
-          date:
-            shipmentData.delivery?.actualDate ||
-            shipmentData.delivery?.estimatedDate,
-          isCompleted: !!latestStatusEvents["delivered"],
-          details: null,
-          isEstimated: !latestStatusEvents["delivered"],
-        },
-      ];
-    } else if (isCashOnPickup) {
+    if (isCashOnPickup) {
       // For Cash on Pickup method
       steps = [
         ...steps,
@@ -353,8 +310,8 @@ const TrackShipment = () => {
         }
         return "Your shipment is awaiting pickup";
       case "in_transit":
-        if (paymentMethod === "cash_on_delivery" && !isPaid) {
-          return "Your package is on its way - payment due on delivery";
+        if (paymentMethod === "cash_on_pickup" && !isPaid) {
+          return "Your package is on its way - payment due on pickup";
         }
         return "Your package is on its way!";
       case "delivered":
@@ -390,9 +347,8 @@ const TrackShipment = () => {
     const isPaid = paymentStatus === "completed";
 
     let paymentInfo = "";
-    if (paymentMethod === "cash_on_delivery" && !isPaid) {
-      paymentInfo = " Payment will be collected upon delivery.";
-    } else if (paymentMethod === "cash_on_pickup" && !isPaid) {
+
+    if (paymentMethod === "cash_on_pickup" && !isPaid) {
       paymentInfo = " Payment will be collected during package drop-off.";
     }
 

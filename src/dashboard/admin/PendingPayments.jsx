@@ -134,9 +134,8 @@ const PendingPayments = () => {
                         "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {shipment.payment?.method === "cash_on_delivery"
-                        ? "Cash on Delivery"
-                        : "Cash on Pickup"}
+                      {shipment.payment?.method === "cash_on_pickup" ??
+                        "Cash on Pickup"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {formatCurrency(

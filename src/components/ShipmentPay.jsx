@@ -88,9 +88,7 @@ const ShipmentPay = ({ onPrev, shipment }) => {
       });
 
       // Step 4: Navigate to success page
-      if (paymentMethod === "cash_on_delivery") {
-        navigate("/shipment-success");
-      } else if (paymentMethod === "cash_on_pickup") {
+      if (paymentMethod === "cash_on_pickup") {
         navigate("/shipment-success");
       } else if (paymentMethod === "immediate") {
         navigate(`/createshipment-payment/success`);
@@ -292,9 +290,8 @@ const ShipmentPay = ({ onPrev, shipment }) => {
                   <p className="text-[12px]">
                     {paymentMethod === "immediate"
                       ? "Pay Now"
-                      : paymentMethod === "cash_on_delivery"
-                      ? "Confirm Pay on Delivery"
-                      : "Confirm Pay on Pickup"}
+                      : paymentMethod === "cash_on_pickup" ??
+                        "Confirm Pay on Pickup"}
                   </p>
                   <HiOutlineArrowRight className="text-[14px]" />
                 </div>
