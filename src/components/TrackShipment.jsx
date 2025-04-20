@@ -10,6 +10,45 @@ import {
 } from "../utils/shipmentStorage";
 import { format, parseISO } from "date-fns";
 
+// Helper function to determine valid status transitions based on current status and payment method
+function getValidStatusTransitions(currentStatus, paymentMethod) {
+  // Common transitions that apply to both payment methods
+  const commonTransitions = {
+    awaiting_processing: ["processed", "cancelled"],
+    processed: ["awaiting_pickup", "cancelled"],
+    awaiting_pickup: ["picked_up", "cancelled"],
+    picked_up: ["in_transit", "cancelled"],
+    in_transit: ["out_for_delivery", "cancelled"],
+    out_for_delivery: ["delivered", "in_transit", "cancelled"],
+    delivered: [],
+    cancelled: [],
+  };
+
+  // Stripe-specific transitions
+  if (paymentMethod === "stripe") {
+    return (
+      {
+        pending: ["payment_confirmed", "payment_failed", "cancelled"],
+        payment_confirmed: ["awaiting_processing", "cancelled"],
+        payment_failed: ["pending", "cancelled"],
+        ...commonTransitions,
+      }[currentStatus] || []
+    );
+  }
+  // Cash on pickup specific transitions
+  else if (paymentMethod === "cash_on_pickup") {
+    return (
+      {
+        pending: ["awaiting_processing", "cancelled"],
+        ...commonTransitions,
+      }[currentStatus] || []
+    );
+  }
+
+  // Default transitions if payment method is not specified
+  return commonTransitions[currentStatus] || [];
+}
+
 const TrackShipment = () => {
   const [copyButtonText, setCopyButtonText] = useState("Copy");
   const navigate = useNavigate();
@@ -17,8 +56,8 @@ const TrackShipment = () => {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [shipmentData, setShipmentData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [lastRefresh, setLastRefresh] = useState(Date.now());
+  const [nextPossibleStatuses, setNextPossibleStatuses] = useState([]);
 
   // Add refresh interval in milliseconds (e.g., every 60 seconds)
   const REFRESH_INTERVAL = 60000;
@@ -62,8 +101,12 @@ const TrackShipment = () => {
         const responseTrackingNumber =
           response.data.shipment.trackingNumber || trackingId;
 
+        // Get payment method
+        const paymentMethod =
+          response.data.shipment.payment?.method || "stripe";
+
         // Update the shipment data, combining stored and fresh data
-        setShipmentData({
+        const updatedShipmentData = {
           ...storedShipment,
           ...response.data.shipment,
           trackingNumber: responseTrackingNumber,
@@ -74,7 +117,14 @@ const TrackShipment = () => {
           destination: response.data.shipment.recipient?.address?.country
             ? { country: response.data.shipment.recipient.address.country }
             : storedShipment?.destination,
-        });
+        };
+
+        setShipmentData(updatedShipmentData);
+
+        // Update next possible statuses based on current status and payment method
+        setNextPossibleStatuses(
+          getValidStatusTransitions(updatedShipmentData.status, paymentMethod)
+        );
 
         // If tracking number has changed, update in the UI
         if (responseTrackingNumber !== trackingId) {
@@ -139,14 +189,6 @@ const TrackShipment = () => {
       steps = [
         ...steps,
         {
-          title: "Awaiting Pickup",
-          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
-          isCompleted: !!latestStatusEvents["awaiting_pickup"],
-          details: `Pickup scheduled at: ${
-            shipmentData.pickup?.location?.street || ""
-          }, ${shipmentData.pickup?.location?.city || ""}`,
-        },
-        {
           title: "Payment at Pickup",
           date: isPaid ? shipmentData.payment?.paidAt : getAwaitingPickupDate(),
           isCompleted: isPaid,
@@ -156,13 +198,33 @@ const TrackShipment = () => {
           isEstimated: !isPaid,
         },
         {
+          title: "Awaiting Pickup",
+          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
+          isCompleted: !!latestStatusEvents["awaiting_pickup"],
+          details: `Pickup scheduled at: ${
+            shipmentData.pickup?.address?.street || ""
+          }, ${shipmentData.pickup?.address?.city || ""}`,
+        },
+        {
+          title: "Package Pickup",
+          date: latestStatusEvents["picked_up"]?.timestamp,
+          isCompleted: !!latestStatusEvents["picked_up"],
+          details: null,
+          isEstimated: !latestStatusEvents["picked_up"],
+        },
+        {
           title: "Package Shipping",
-          date:
-            shipmentData.pickup?.date ||
-            latestStatusEvents["in_transit"]?.timestamp,
+          date: latestStatusEvents["in_transit"]?.timestamp,
           isCompleted: !!latestStatusEvents["in_transit"] && isPaid,
           details: null,
           isEstimated: !latestStatusEvents["in_transit"],
+        },
+        {
+          title: "Out for Delivery",
+          date: latestStatusEvents["out_for_delivery"]?.timestamp,
+          isCompleted: !!latestStatusEvents["out_for_delivery"],
+          details: null,
+          isEstimated: !latestStatusEvents["out_for_delivery"],
         },
         {
           title: "Shipment Arrival",
@@ -185,29 +247,46 @@ const TrackShipment = () => {
           details: null,
         },
         {
+          title: "Shipment Processed",
+          date: latestStatusEvents["processed"]?.timestamp,
+          isCompleted: !!latestStatusEvents["processed"],
+          details: null,
+        },
+        {
           title: "Awaiting Pickup",
           date: latestStatusEvents["awaiting_pickup"]?.timestamp,
           isCompleted: !!latestStatusEvents["awaiting_pickup"],
-          details: shipmentData.pickup?.location
+          details: shipmentData.pickup?.address
             ? `Pickup scheduled at: ${
                 shipmentData.pickup.address.street || ""
               }, ${shipmentData.pickup.address.city || ""}`
             : null,
         },
         {
+          title: "Package Pickup",
+          date: latestStatusEvents["picked_up"]?.timestamp,
+          isCompleted: !!latestStatusEvents["picked_up"],
+          details: null,
+        },
+        {
           title: "Package Shipping",
-          date:
-            shipmentData.pickup?.date ||
-            latestStatusEvents["in_transit"]?.timestamp,
+          date: latestStatusEvents["in_transit"]?.timestamp,
           isCompleted: !!latestStatusEvents["in_transit"],
           details: null,
           isEstimated: !latestStatusEvents["in_transit"],
         },
         {
+          title: "Out for Delivery",
+          date: latestStatusEvents["out_for_delivery"]?.timestamp,
+          isCompleted: !!latestStatusEvents["out_for_delivery"],
+          details: null,
+          isEstimated: !latestStatusEvents["out_for_delivery"],
+        },
+        {
           title: "Shipment Arrival",
           date:
-            shipmentData.delivery?.estimatedDate ||
-            shipmentData.delivery?.actualDate,
+            shipmentData.delivery?.actualDate ||
+            shipmentData.delivery?.estimatedDate,
           isCompleted: !!latestStatusEvents["delivered"],
           details: null,
           isEstimated: !latestStatusEvents["delivered"],
@@ -230,25 +309,44 @@ const TrackShipment = () => {
     return pickupEvents.length > 0 ? pickupEvents[0].timestamp : null;
   };
 
+  // Monitor for timeline changes
+  useEffect(() => {
+    if (shipmentData && shipmentData.timeline) {
+      const paymentMethod = shipmentData.payment?.method || "stripe";
+
+      // Update next possible statuses whenever shipment data changes
+      setNextPossibleStatuses(
+        getValidStatusTransitions(shipmentData.status, paymentMethod)
+      );
+
+      setLoading(false);
+    }
+  }, [shipmentData]);
+
   // Initial data load
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     const trackingParam = query.get("tracking");
+    setLoading(true);
 
     if (trackingParam) {
       setTrackingNumber(trackingParam);
-      fetchTrackingData(trackingParam);
+      fetchTrackingData(trackingParam).finally(() => setLoading(false));
     } else {
       // Get from local storage if no URL parameter
       const currentShipment = getCurrentShipment();
       if (currentShipment?.trackingNumber) {
         setTrackingNumber(currentShipment.trackingNumber);
-        fetchTrackingData(currentShipment.trackingNumber);
+        fetchTrackingData(currentShipment.trackingNumber).finally(() =>
+          setLoading(false)
+        );
+      } else {
+        setLoading(false);
       }
     }
 
     setLastRefresh(Date.now());
-  }, [location.search]);
+  }, [location.search, fetchTrackingData]);
 
   // Set up polling for updates
   useEffect(() => {
@@ -304,31 +402,32 @@ const TrackShipment = () => {
     switch (shipmentData.status) {
       case "pending":
         return "Your shipment is pending";
+      case "awaiting_processing":
+        return "Your shipment is being processed";
+      case "processed":
+        return "Your shipment has been processed";
       case "awaiting_pickup":
         if (paymentMethod === "cash_on_pickup" && !isPaid) {
           return "Your shipment is awaiting pickup & payment";
         }
         return "Your shipment is awaiting pickup";
+      case "picked_up":
+        if (paymentMethod === "cash_on_pickup" && !isPaid) {
+          return "Your package has been picked up - payment pending";
+        }
+        return "Your package has been picked up";
       case "in_transit":
         if (paymentMethod === "cash_on_pickup" && !isPaid) {
-          return "Your package is on its way - payment due on pickup";
+          return "Your package is on its way - payment due on delivery";
         }
         return "Your package is on its way!";
+      case "out_for_delivery":
+        return "Your package is out for delivery";
       case "delivered":
         return "Your package has been delivered";
       default:
         return "Tracking your shipment";
     }
-  };
-
-  // Get the latest timeline event
-  const getLatestEvent = () => {
-    if (!shipmentData?.timeline || !shipmentData.timeline.length) {
-      return null;
-    }
-    return shipmentData.timeline.sort(
-      (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
-    )[0];
   };
 
   // Generate location text
@@ -354,14 +453,35 @@ const TrackShipment = () => {
 
     if (
       shipmentData?.status === "pending" ||
+      shipmentData?.status === "awaiting_processing" ||
+      shipmentData?.status === "processed" ||
       shipmentData?.status === "awaiting_pickup"
     ) {
       return `Your shipment will travel from ${origin} to ${destination} once picked up.${paymentInfo}`;
-    } else if (shipmentData?.status === "in_transit") {
+    } else if (
+      shipmentData?.status === "picked_up" ||
+      shipmentData?.status === "in_transit" ||
+      shipmentData?.status === "out_for_delivery"
+    ) {
       return `The package is on its way from ${origin} to ${destination}.${paymentInfo}`;
     }
 
     return `This shipment is from ${origin} to ${destination}.${paymentInfo}`;
+  };
+
+  // Debug function to show current status and next possible transitions
+  const getStatusInfo = () => {
+    if (!shipmentData) return null;
+
+    return (
+      <div className="mt-2 text-sm text-main4">
+        <p>Current status: {shipmentData.status}</p>
+        <p>Payment method: {shipmentData.payment?.method || "Not specified"}</p>
+        <p>
+          Next possible statuses: {nextPossibleStatuses.join(", ") || "None"}
+        </p>
+      </div>
+    );
   };
 
   return (
@@ -418,27 +538,16 @@ const TrackShipment = () => {
                 <span className="font-extrabold">
                   {shipmentData?.status === "awaiting_pickup"
                     ? "The shipment is ready for pickup."
-                    : shipmentData?.status === "pending"
+                    : shipmentData?.status === "pending" ||
+                      shipmentData?.status === "awaiting_processing"
                     ? "Payment has been confirmed and your shipment is being processed."
                     : ""}
                 </span>
               </p>
             </div>
 
-            {/* <div>
-              <p
-                className="md:text-[14px] ss:text-[14px] text-[13px] tracking-tight font-semibold 
-                            text-primary underline hover:text-secondary cursor-pointer 
-                            inline-flex navsmooth"
-                onClick={() => {
-                  navigate(
-                    `/user/shipments/details?shipmentId=${shipmentData._id}`
-                  );
-                }}
-              >
-                See full package details
-              </p>
-            </div> */}
+            {/* Uncomment this if you want to show debug info */}
+            {getStatusInfo()}
           </div>
 
           {/* Shipment trail section */}

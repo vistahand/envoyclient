@@ -29,7 +29,7 @@ const Navbar = () => {
   if (isAuthenticated) {
     console.log("User is authenticated:", user);
   } else {
-    console.log("User is not authenticated");
+    console.log("User is not authenticated", user);
   }
   useEffect(() => {
     if (user) {
