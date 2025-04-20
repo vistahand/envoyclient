@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, X, Search, Filter, Loader2 } from "lucide-react";
 
-// Helper function to get authentication token
-const getAuthToken = () => {
-  return localStorage.getItem("authToken");
-};
 
-const LocationSelectorFilter = ({ onFilterChange }) => {
+const LocationSelectorFilter = ({ onFilterChange, shipments }) => {
   // Filter states
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState("");
@@ -40,7 +36,33 @@ const LocationSelectorFilter = ({ onFilterChange }) => {
   const stateDropdownRef = useRef(null);
   const pickupDropdownRef = useRef(null);
 
-  const apiUrl = import.meta.env.VITE_API_URL ;
+  // Extract available countries, states, and pickup locations from shipments data
+  useEffect(() => {
+    console.log(shipments)
+    if (!shipments || !Array.isArray(shipments)) {
+      console.log("here is the issue")
+    };
+    
+    // Extract unique countries from shipments
+    const extractedCountries = new Map();
+    
+    shipments.forEach(shipment => {
+      const country = shipment.origin?.country;
+      if (country && !extractedCountries.has(country)) {
+        extractedCountries.set(country, {
+          code: country,
+          name: country,
+          flag: `https://flagcdn.com/w20/${country.toLowerCase()}.png`
+        });
+      }
+    });
+    console.log("commencing")
+    
+    const countryList = Array.from(extractedCountries.values());
+    setCountries(countryList.sort((a, b) => a.name.localeCompare(b.name)));
+    console.log("extracted")
+    setLoadingCountries(false);
+  }, [shipments]);
 
   // Handle click outside to close dropdowns
   useEffect(() => {
@@ -62,200 +84,96 @@ const LocationSelectorFilter = ({ onFilterChange }) => {
     };
   }, []);
 
-  // Fetch countries on component mount
+  // Extract states when a country is selected using shipments data
   useEffect(() => {
-    const fetchCountries = async () => {
-      setLoadingCountries(true);
-      try {
-        const token = getAuthToken();
-        
-        if (!token) {
-          throw new Error("Authentication token not found");
-        }
-        
-        // Try to fetch from our API first
-        try {
-          const response = await fetch(`${apiUrl}/api/admin/countries`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            if (data && Array.isArray(data.items)) {
-              // Format countries for internal use
-              const formattedCountries = data.items.map(country => ({
-                code: country.code,
-                name: country.name,
-                flag: country.flagUrl || `https://flagcdn.com/w20/${country.code.toLowerCase()}.png`
-              }));
-              
-              setCountries(formattedCountries.sort((a, b) => a.name.localeCompare(b.name)));
-              setError(null);
-              return;
-            }
-          }
-        } catch (apiError) {
-          console.warn("Failed to fetch countries from API, falling back to backup source");
-        }
-        
-        // Fallback to RestCountries API
-        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2,flags');
-        const data = await response.json();
-        
-        const formattedCountries = data.map(country => ({
-          code: country.cca2,
-          name: country.name.common,
-          flag: country.flags.png
-        }));
-        
-        setCountries(formattedCountries.sort((a, b) => a.name.localeCompare(b.name)));
-        setError(null);
-        
-      } catch (err) {
-        console.error("Error fetching countries:", err);
-        setError("Failed to load countries. Please try again later.");
-      } finally {
-        setLoadingCountries(false);
-      }
-    };
+    if (!selectedCountry || !shipments || !Array.isArray(shipments)) return;
+
+    setLoadingStates(true);
     
-    fetchCountries();
-  }, [apiUrl]);
-
-  // Fetch states when a country is selected
-  useEffect(() => {
-    if (!selectedCountry) return;
-
-    const fetchStates = async () => {
-      setLoadingStates(true);
-      try {
-        const token = getAuthToken();
-        
-        if (!token) {
-          throw new Error("Authentication token not found");
+    try {
+      // Extract unique states for the selected country
+      const stateSet = new Set();
+      
+      shipments.forEach(shipment => {
+        if (shipment.origin?.country === selectedCountry.code && 
+            shipment.pickup?.address?.state) {
+          stateSet.add(shipment.pickup.address.state);
         }
-        
-        // Try API endpoint first
-        try {
-          const response = await fetch(`${apiUrl}/api/admin/states`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ countryCode: selectedCountry.code })
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            if (data && Array.isArray(data.items)) {
-              setStates(data.items.map(state => ({
-                name: state.name,
-                code: state.code
-              })));
-              return;
-            }
-          }
-        } catch (apiError) {
-          console.warn("Failed to fetch states from API, using fallback");
-        }
-        
-        // Fallback to CountriesNow API
-        const response = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ country: selectedCountry.name })
-        });
-        
-        const data = await response.json();
-        
-        if (data.error === false && data.data && Array.isArray(data.data.states)) {
-          setStates(data.data.states);
-        } else {
-          // If that fails too, use sample data based on common states
-          const sampleStates = getSampleStatesForCountry(selectedCountry.code);
-          setStates(sampleStates);
-        }
-        
-      } catch (err) {
-        console.error("Error fetching states:", err);
-        // Provide sample states as fallback
+      });
+      
+      const extractedStates = Array.from(stateSet).map(state => ({
+        name: state,
+        code: state.replace(/\s+/g, '').substring(0, 3).toUpperCase()
+      }));
+      
+      if (extractedStates.length > 0) {
+        setStates(extractedStates.sort((a, b) => a.name.localeCompare(b.name)));
+      } else {
+        // Fallback to sample states if no states found in shipments
         const sampleStates = getSampleStatesForCountry(selectedCountry.code);
         setStates(sampleStates);
-      } finally {
-        setLoadingStates(false);
       }
-    };
-    
-    fetchStates();
-  }, [selectedCountry, apiUrl]);
+    } catch (err) {
+      console.error("Error extracting states:", err);
+      const sampleStates = getSampleStatesForCountry(selectedCountry.code);
+      setStates(sampleStates);
+    } finally {
+      setLoadingStates(false);
+    }
+  }, [selectedCountry, shipments]);
 
-  // Fetch pickup locations when a state is selected
+  // Extract pickup locations when a state is selected using shipments data
   useEffect(() => {
-    if (!selectedCountry || !selectedState) return;
+    if (!selectedCountry || !selectedState || !shipments || !Array.isArray(shipments)) return;
 
-    const fetchPickupLocations = async () => {
-      setLoadingPickups(true);
-      try {
-        const token = getAuthToken();
-        
-        if (!token) {
-          throw new Error("Authentication token not found");
-        }
-        
-        // Try API endpoint
-        try {
-          const response = await fetch(`${apiUrl}/api/admin/pickup-cities`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-              country: selectedCountry.code,
-              state: typeof selectedState === 'object' ? selectedState.name : selectedState
-            })
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            if (data && Array.isArray(data.cities)) {
-              setPickupLocations(data.cities);
-              return;
-            }
-          }
-        } catch (apiError) {
-          console.warn("Failed to fetch pickup locations from API, using fallback");
-        }
-        
-        // Fallback to sample data
-        const sampleLocations = getSamplePickupLocations(
-          selectedCountry.code, 
-          typeof selectedState === 'object' ? selectedState.name : selectedState
-        );
-        setPickupLocations(sampleLocations);
-        
-      } catch (err) {
-        console.error("Error fetching pickup locations:", err);
-        const sampleLocations = getSamplePickupLocations(
-          selectedCountry.code, 
-          typeof selectedState === 'object' ? selectedState.name : selectedState
-        );
-        setPickupLocations(sampleLocations);
-      } finally {
-        setLoadingPickups(false);
-      }
-    };
+    setLoadingPickups(true);
     
-    fetchPickupLocations();
-  }, [selectedCountry, selectedState, apiUrl]);
+    try {
+      const stateName = typeof selectedState === 'object' ? selectedState.name : selectedState;
+      
+      // Find unique pickup locations for the selected country and state
+      const pickupSet = new Set();
+      
+      shipments.forEach(shipment => {
+        if (shipment.origin?.country === selectedCountry.code && 
+            shipment.pickup?.address?.state === stateName &&
+            shipment.pickup?.address?.city) {
+          pickupSet.add(shipment.pickup.address.city);
+        }
+        
+        // Also check pickup name if available
+        if (shipment.origin?.country === selectedCountry.code && 
+            shipment.pickup?.address?.state === stateName &&
+            shipment.pickup?.name) {
+          pickupSet.add(shipment.pickup.name);
+        }
+      });
+      
+      const extractedPickups = Array.from(pickupSet);
+      
+      if (extractedPickups.length > 0) {
+        setPickupLocations(extractedPickups.sort());
+      } else {
+        // Fallback to sample pickup locations if none found in shipments
+        const sampleLocations = getSamplePickupLocations(
+          selectedCountry.code, 
+          stateName
+        );
+        setPickupLocations(sampleLocations);
+      }
+    } catch (err) {
+      console.error("Error extracting pickup locations:", err);
+      const sampleLocations = getSamplePickupLocations(
+        selectedCountry.code, 
+        typeof selectedState === 'object' ? selectedState.name : selectedState
+      );
+      setPickupLocations(sampleLocations);
+    } finally {
+      setLoadingPickups(false);
+    }
+  }, [selectedCountry, selectedState, shipments]);
 
-  // Helper function for sample states data
+  // Helper function for sample states data (unchanged)
   const getSampleStatesForCountry = (countryCode) => {
     const statesByCountry = {
       'NG': [
@@ -292,7 +210,7 @@ const LocationSelectorFilter = ({ onFilterChange }) => {
       [{ name: 'State 1', code: 'S1' }, { name: 'State 2', code: 'S2' }, { name: 'State 3', code: 'S3' }];
   };
 
-  // Helper function for sample pickup locations
+  // Helper function for sample pickup locations (unchanged)
   const getSamplePickupLocations = (countryCode, stateName) => {
     const normalizedStateName = typeof stateName === 'string' ? 
       stateName.toLowerCase().replace(/\s+/g, '') : '';

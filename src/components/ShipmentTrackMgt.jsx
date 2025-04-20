@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { HiOutlineDotsHorizontal, HiOutlineSearch } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { shipments as shipmentEndpoint } from "../services/api";
 import Modal from "../components/Modal";
 
 // Helper function to format date
@@ -26,65 +25,73 @@ const statusProgression = [
   "picked_up",
   "in_transit",
   "out_for_delivery",
-  "delivered"
+  "delivered",
 ];
 
 // Get valid next statuses based on backend logic
 const getValidStatusTransitions = (currentStatus, paymentMethod) => {
   const commonTransitions = {
-    picked_up: ['in_transit', 'cancelled'],
-    in_transit: ['out_for_delivery', 'cancelled'],
-    out_for_delivery: ['delivered', 'in_transit', 'cancelled'],
+    picked_up: ["in_transit", "cancelled"],
+    in_transit: ["out_for_delivery", "cancelled"],
+    out_for_delivery: ["delivered", "in_transit", "cancelled"],
     delivered: [],
     cancelled: [],
   };
 
   // Stripe-specific transitions
-  if (paymentMethod === 'stripe') {
-    return {
-      pending: ['payment_confirmed', 'payment_failed', 'cancelled'],
-      payment_confirmed: ['awaiting_processing', 'cancelled'],
-      payment_failed: ['pending', 'cancelled'],
-      awaiting_processing: ['processed', 'cancelled'],
-      processed: ['awaiting_pickup', 'cancelled'],
-      awaiting_pickup: ['picked_up', 'cancelled'],
-      ...commonTransitions
-    }[currentStatus] || [];
-  } 
-  // Cash on pickup transitions
-  else if (paymentMethod === 'cash_on_pickup') {
-    return {
-      pending: ['awaiting_processing', 'cancelled'],
-      awaiting_processing: ['processed', 'cancelled'],
-      processed: ['awaiting_pickup', 'cancelled'],
-      awaiting_pickup: ['picked_up', 'cancelled'],
-      ...commonTransitions
-    }[currentStatus] || [];
+  if (paymentMethod === "stripe") {
+    return (
+      {
+        pending: ["payment_confirmed", "payment_failed", "cancelled"],
+        payment_confirmed: ["awaiting_processing", "cancelled"],
+        payment_failed: ["pending", "cancelled"],
+        awaiting_processing: ["processed", "cancelled"],
+        processed: ["awaiting_pickup", "cancelled"],
+        awaiting_pickup: ["picked_up", "cancelled"],
+        ...commonTransitions,
+      }[currentStatus] || []
+    );
   }
-  
+  // Cash on pickup transitions
+  else if (paymentMethod === "cash_on_pickup") {
+    return (
+      {
+        pending: ["awaiting_processing", "cancelled"],
+        awaiting_processing: ["processed", "cancelled"],
+        processed: ["awaiting_pickup", "cancelled"],
+        awaiting_pickup: ["picked_up", "cancelled"],
+        ...commonTransitions,
+      }[currentStatus] || []
+    );
+  }
+
   // Default transitions if no payment method specified
   return commonTransitions[currentStatus] || [];
 };
 
 // Optimized ShipmentTrackMgt component with improved API integration
-const ShipmentTrackMgt = ({ locationFilter }) => {
+const ShipmentTrackMgt = ({
+  locationFilter,
+  shipments,
+  loading,
+  error,
+  filteredShipment,
+}) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
-  const [shipments, setShipments] = useState([]);
-  const [filteredShipments, setFilteredShipments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [filteredShipments, setFilteredShipments] = useState(filteredShipment);
 
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedShipments, setSelectedShipments] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // Status update modal state
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [selectedShipment, setSelectedShipment] = useState(null);
   const [newStatus, setNewStatus] = useState("");
   const [updateStatusLoading, setUpdateStatusLoading] = useState(false);
+  const [isPendingPayment, setIsPendingPayment] = useState(false);
 
   // Status mapping for tabs
   const statusMappings = {
@@ -99,34 +106,6 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
     delivered: ["delivered"],
     pending: ["awaiting_processing", "draft", "pending"],
   };
-
-  // Fetch shipments from API
-  const fetchShipments = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const res = await shipmentEndpoint.getAll();
-      const data = res.data.shipments;
-      console.log(res);
-      if (data && Array.isArray(data)) {
-        setShipments(data);
-        setFilteredShipments(data);
-      } else {
-        setShipments([]);
-        setFilteredShipments([]);
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Initial fetch of shipments
-  useEffect(() => {
-    fetchShipments();
-  }, []);
 
   // Apply filters whenever shipments data, active tab, location filter, or search query changes
   useEffect(() => {
@@ -289,7 +268,7 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   const getShippingType = (shipment) => {
     return shipment.delivery?.options?.deliveryOption || "Standard";
   };
-  
+
   // Get shipping status with better formatting
   const getFormattedStatus = (status) => {
     if (!status) return "Unknown";
@@ -317,10 +296,10 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   // Get the next available status options for a shipment
   const getNextStatusOptions = (shipment) => {
     if (!shipment || !shipment.status) return [];
-    
+
     const currentStatus = shipment.status;
-    const paymentMethod = shipment.payment?.method || 'stripe'; // Default to stripe if not specified
-    
+    const paymentMethod = shipment.payment?.method || "stripe"; // Default to stripe if not specified
+
     return getValidStatusTransitions(currentStatus, paymentMethod);
   };
 
@@ -328,31 +307,41 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   const handleUpdateStatusClick = (shipment) => {
     setSelectedShipment(shipment);
     setNewStatus("");
-    setIsStatusModalOpen(true);
+    if (shipment.payment.method === "cash_on_pickup") {
+      if (!shipment.payment.paidAt) {
+        setIsPendingPayment(true);
+      } else {
+        setIsStatusModalOpen(true);
+      }
+    } else {
+      setIsStatusModalOpen(true);
+    }
   };
 
   // Handle updating the shipment status - UPDATED to use the API service
   const handleUpdateStatus = async () => {
     if (!selectedShipment || !newStatus) return;
-    
+
     setUpdateStatusLoading(true);
-    
+
     try {
       // Use the shipments API endpoint instead of direct fetch
-      await shipmentEndpoint.updateShipmentStatus(selectedShipment._id, { status: newStatus });
-      
+      await shipmentEndpoint.updateShipmentStatus(selectedShipment._id, {
+        status: newStatus,
+      });
+
       // Update local state
-      const updatedShipments = shipments.map(shipment => {
+      const updatedShipments = shipments.map((shipment) => {
         if (shipment._id === selectedShipment._id) {
           return { ...shipment, status: newStatus };
         }
         return shipment;
       });
-      
+
       setShipments(updatedShipments);
       setIsStatusModalOpen(false);
       setSelectedShipment(null);
-      
+
       // Log success
       console.log(`Status updated to ${getFormattedStatus(newStatus)}`);
     } catch (err) {
@@ -366,9 +355,9 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
   // Status selection component for the modal
   const StatusSelector = () => {
     if (!selectedShipment) return null;
-    
+
     const validNextStatuses = getNextStatusOptions(selectedShipment);
-    
+
     if (validNextStatuses.length === 0) {
       return (
         <div className="mt-4 text-sm text-gray-700">
@@ -376,7 +365,7 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
         </div>
       );
     }
-    
+
     return (
       <div className="mt-4">
         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -394,13 +383,19 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
             </option>
           ))}
         </select>
-        
+
         <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-700">Current Status Flow:</h4>
+          <h4 className="text-sm font-medium text-gray-700">
+            Current Status Flow:
+          </h4>
           <div className="flex items-center mt-2 text-sm text-gray-600">
-            <span className="font-medium">{getFormattedStatus(selectedShipment.status)}</span>
+            <span className="font-medium">
+              {getFormattedStatus(selectedShipment.status)}
+            </span>
             <span className="mx-2">→</span>
-            <span className="text-primary">{newStatus ? getFormattedStatus(newStatus) : "Select next status"}</span>
+            <span className="text-primary">
+              {newStatus ? getFormattedStatus(newStatus) : "Select next status"}
+            </span>
           </div>
         </div>
       </div>
@@ -553,7 +548,10 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
                   <th className="p-4 text-left text-gray-500 font-medium">
                     Recipient
                   </th>
-                  <th className="p-4 text-left text-gray-500 font-medium" colSpan="2">
+                  <th
+                    className="p-4 text-left text-gray-500 font-medium"
+                    colSpan="2"
+                  >
                     Status
                   </th>
                   <th className="p-4"></th>
@@ -599,6 +597,7 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
                         {/* Update Status Button - Only show if valid next statuses exist */}
                         {getNextStatusOptions(shipment).length > 0 && (
                           <button
+                            // disabled={isPendingPayment}
                             onClick={() => handleUpdateStatusClick(shipment)}
                             className="text-primary hover:text-primary-dark hover:underline"
                           >
@@ -688,18 +687,34 @@ const ShipmentTrackMgt = ({ locationFilter }) => {
             {
               label: "Cancel",
               onClick: () => setIsStatusModalOpen(false),
-              variant: "secondary"
+              variant: "secondary",
             },
             {
               label: updateStatusLoading ? "Updating..." : "Update Status",
               onClick: handleUpdateStatus,
               variant: "primary",
-              disabled: !newStatus || updateStatusLoading
-            }
+              disabled: !newStatus || updateStatusLoading,
+            },
           ]}
         >
           <StatusSelector />
         </Modal>
+      )}
+      {isPendingPayment && (
+        <Modal
+          isOpen={isPendingPayment}
+          onClose={() => setIsPendingPayment(false)}
+          type="warning"
+          title="Sorry, missed Your way"
+          message={`Please approve this cash payment first before proceeding with updating status`}
+          buttons={[
+            {
+              label: "Go to Pending Payments",
+              onClick: () => navigate("/admin/pending-payments"),
+              variant: "primary",
+            },
+          ]}
+        />
       )}
     </div>
   );

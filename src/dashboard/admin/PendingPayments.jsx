@@ -195,7 +195,7 @@ const PendingPayments = () => {
               />
             </div>
 
-            <div className="flex flex-wrap justify-end gap-3">
+            <div className="flex flex-wrap justify-between gap-3">
               <button
                 onClick={() => {
                   setSelectedShipment(null);
@@ -208,18 +208,18 @@ const PendingPayments = () => {
               </button>
               <button
                 onClick={() => submitApproval(true)}
-                className="px-4 py-2 bg-green-500 text-white rounded-md flex items-center"
+                className="px-4 py-2 bg-green text-white rounded-md flex items-center"
                 disabled={!adminPassword}
               >
                 <MdCheck className="mr-1" /> Approve
               </button>
-              <button
+              {/* <button
                 onClick={() => submitApproval(false)}
                 className="px-4 py-2 bg-red-600 text-white rounded-md flex items-center"
                 disabled={!adminPassword}
               >
                 <MdClose className="mr-1" /> Reject
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
