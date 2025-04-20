@@ -190,8 +190,9 @@ const Navbar = () => {
                 : "menu-slide-exit2 menu-slide-exit-active2"
             }`}
           >
-            <div
-              className="w-full flex items-center justify-between"
+           <div className="w-full flex items-center justify-between"
+           >
+           <div
               onClick={() => {
                 navigate("/");
               }}
@@ -201,8 +202,8 @@ const Navbar = () => {
                 alt="logo"
                 className="ss:h-[2.5rem] h-[2.2rem] w-auto"
               />
-
-              {toggle && (
+            </div>
+            {toggle && (
                 <BsX
                   size={40}
                   style={{ color: "#DE2323" }}
@@ -212,7 +213,7 @@ const Navbar = () => {
                   }}
                 />
               )}
-            </div>
+              </div>
 
             <ul className="list-none flex flex-col gap-2 mt-12 w-full">
               {currentLinks.map((link) => (

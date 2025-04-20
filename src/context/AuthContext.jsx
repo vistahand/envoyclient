@@ -149,9 +149,7 @@ export const AuthProvider = ({ children }) => {
         firstName,
         lastName,
         phone,
-        address,
         country,
-        profileImage,
       });
 
       const response = await apiUpdateProfile({
