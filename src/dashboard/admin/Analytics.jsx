@@ -14,15 +14,6 @@ import { HiOutlineRefresh, HiOutlineDownload } from "react-icons/hi";
 import RecentActivities from "../../components/recentActivities";
 import SecondaryCharts from "../../components/SecondaryCharts";
 
-// // Customer satisfaction data (last 6 months)
-// const satisfactionData = [
-//   { month: 'Nov', rating: 4.2 },
-//   { month: 'Dec', rating: 4.3 },
-//   { month: 'Jan', rating: 4.1 },
-//   { month: 'Feb', rating: 4.4 },
-//   { month: 'Mar', rating: 4.5 },
-//   { month: 'Apr', rating: 4.6 }
-// ];
 
 const Analytics = () => {
   const [shipmentFilter, setShipmentFilter] = useState("weekly");
@@ -48,7 +39,7 @@ const Analytics = () => {
 
   // API base URL from environment variable
   const API_URL =
-    import.meta.env.VITE_API_URL || "https://envoyserver-pyxd.onrender.com";
+    import.meta.env.VITE_API_URL;
 
   // Get auth token safely
   const getAuthToken = () => {
@@ -266,7 +257,7 @@ const Analytics = () => {
       */}
 
       {/* Quick Stats Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6">
         {/* Active Shipments Card */}
         <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
           <div className="flex justify-between">

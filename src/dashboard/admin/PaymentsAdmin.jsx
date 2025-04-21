@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { BsThreeDots } from "react-icons/bs";
-import { FaCircle } from "react-icons/fa";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
-import { FaSync } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import {
+  HiDotsHorizontal,
+  HiRefresh,
+  HiChevronLeft,
+  HiChevronRight,
+  HiChevronDoubleLeft,
+  HiChevronDoubleRight,
+} from "react-icons/hi";
 import { admin } from "../../services/api";
+import { getFormattedStatus } from "../../utils";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const PaymentsAdmin = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
   const [payments, setPayments] = useState([]);
   const [filteredPayments, setFilteredPayments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,125 +21,121 @@ const PaymentsAdmin = () => {
   const [masterChecked, setMasterChecked] = useState(true);
   const [selectedPayments, setSelectedPayments] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  
+
   // Pagination state
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
-  
+
   // Filter state
   const [statusFilter, setStatusFilter] = useState("");
-  const [methodFilter, setMethodFilter] = useState(""); // New filter for payment method
+  const [methodFilter, setMethodFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchPayments();
-  }, [page, limit]); // Remove filters from dependency as we'll handle filtering client-side
+  }, []);
 
   useEffect(() => {
-    // Apply filters client-side
     applyFilters();
-  }, [statusFilter, methodFilter, payments]);
+  }, [statusFilter, methodFilter, searchQuery, payments]);
 
   const applyFilters = () => {
     let result = [...payments];
-    
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (payment) =>
+          payment.transactionId.toLowerCase().includes(query) ||
+          payment.purpose.toLowerCase().includes(query) ||
+          payment.rawMethod.toLowerCase().includes(query)
+      );
+    }
+
     // Apply status filter
     if (statusFilter) {
       const statusMap = {
-        "completed": "Successful",
-        "pending": "Pending",
-        "failed": "Unsuccessful"
+        completed: "Successful",
+        pending: "Pending",
+        failed: "Unsuccessful",
       };
-      result = result.filter(payment => payment.status === statusMap[statusFilter]);
+      result = result.filter(
+        (payment) => payment.status === statusMap[statusFilter]
+      );
     }
-    
+
     // Apply method filter
     if (methodFilter) {
-      result = result.filter(payment => payment.rawMethod === methodFilter);
+      result = result.filter((payment) => payment.rawMethod === methodFilter);
     }
-    
+
     setFilteredPayments(result);
     setTotalItems(result.length);
     setSelectedPayments(Array(result.length).fill(true));
     setMasterChecked(true);
-  };
 
-  const getAuthToken = () => {
-    // Get token from localStorage or wherever it's stored
-    const token = localStorage.getItem("token");
-    // Remove quotes if they exist
-    return token ? token.replace(/^"|"$/g, '') : '';
+    // Reset to first page when filters change
+    setPage(1);
   };
 
   const fetchPayments = async () => {
     try {
       setLoading(true);
       const response = await admin.payments.getAll();
-      console.log(response)
-      const data = response
-      
-      // Transform the incoming data to match expected format
-      if (data && data.items && Array.isArray(data.items)) {
-        const transformedPayments = data.items.map(item => ({
+
+      if (response && response.items && Array.isArray(response.items)) {
+        const transformedPayments = response.items.map((item) => ({
           amount: item.amount || 0,
           currency: item.currency || "USD",
-          transactionId: item.transactionId || 'Nil', 
-          date: new Date(item.createdAt).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: 'numeric'}),
-          purpose: item.trackingNumber ? `Shipping (${item.trackingNumber})` : "Payment Processing",
-          rawMethod: item.method, // Store raw method for filtering
-          status: item.status === "completed" ? "Successful" : item.status === 'pending' ? 'Pending' : "Unsuccessful",
-          _id: item._id // Keep original ID for reference
+          transactionId: item.transactionId || "Nil",
+          date: new Date(item.createdAt).toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }),
+          purpose: item.trackingNumber
+            ? `Shipping (${item.trackingNumber})`
+            : "Payment Processing",
+          rawMethod: getFormattedStatus(item.method),
+          status:
+            item.status === "completed"
+              ? "Successful"
+              : item.status === "awaiting_confirmation"
+              ? "Pending"
+              : "Unsuccessful",
+          _id: item._id,
         }));
-        
+
         setPayments(transformedPayments);
-        // Filtered payments will be set by the useEffect that watches for filter changes
-      } else {
-        console.warn("Unexpected API response format:", data);
-        // Fallback to using mock data temporarily
-        const mockData = [
-          { _id: "67fe68624cfa00255e46ea7e", amount: 250000.00, currency: "USD", transactionId: "TRX-18084578123", date: "28 Oct 2024", purpose: "Standard Shipping, Basic Insurance", rawMethod: "Paystack", status: "Successful" },
-          { _id: "67fe68624cfa00255e46ea7f", amount: 250000.00, currency: "USD", transactionId: "TRX-18084578124", date: "28 Oct 2024", purpose: "Standard Shipping, Basic Insurance", rawMethod: "Paystack", status: "Unsuccessful" },
-          { _id: "67fe68624cfa00255e46ea80", amount: 250000.00, currency: "USD", transactionId: "TRX-18084578125", date: "12 Oct 2024", purpose: "QuickWing, Basic Insurance", rawMethod: "Cash on Delivery", status: "Successful" }
-        ];
-        setPayments(mockData);
       }
     } catch (err) {
       console.error("Error fetching payments:", err);
       setError(err.message);
-      
-      // If there's an authentication error, redirect to login
-      if (err.message.includes("session has expired") || err.message.includes("log in again")) {
-        // You might want to redirect to login page here
-        // For example: window.location.href = "/login";
-      }
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
   };
-  
+
   const handleRefresh = () => {
     setRefreshing(true);
     fetchPayments();
   };
-  
+
   const handleMasterCheckboxChange = () => {
     const newCheckedState = !masterChecked;
     setMasterChecked(newCheckedState);
-    setSelectedPayments(filteredPayments.map(() => newCheckedState));
+    setSelectedPayments(Array(filteredPayments.length).fill(newCheckedState));
   };
-  
+
   const handlePaymentCheckboxChange = (index) => {
     const newSelectedPayments = [...selectedPayments];
     newSelectedPayments[index] = !newSelectedPayments[index];
     setSelectedPayments(newSelectedPayments);
-    
-    // Update master checkbox based on individual selections
-    if (newSelectedPayments.every(item => item)) {
-      setMasterChecked(true);
-    } else if (newSelectedPayments.every(item => !item)) {
-      setMasterChecked(false);
-    }
+
+    setMasterChecked(newSelectedPayments.every((item) => item));
   };
 
   const handlePageChange = (newPage) => {
@@ -143,52 +144,54 @@ const PaymentsAdmin = () => {
 
   const handleLimitChange = (e) => {
     setLimit(parseInt(e.target.value));
-    setPage(1); // Reset to first page when changing limit
+    setPage(1);
   };
 
-  const handleStatusFilterChange = (e) => {
-    setStatusFilter(e.target.value);
-    setPage(1); // Reset to first page when applying filter
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
-  const handleMethodFilterChange = (e) => {
-    setMethodFilter(e.target.value);
-    setPage(1); // Reset to first page when applying filter
-  };
-
-  // Get unique payment methods for filter dropdown
   const getUniquePaymentMethods = () => {
     if (!payments || payments.length === 0) return [];
-    const methods = [...new Set(payments.map(payment => payment.rawMethod))];
-    return methods;
+    return [...new Set(payments.map((payment) => payment.rawMethod))];
   };
 
-  // Format currency display
   const formatCurrency = (amount, currency) => {
-    if (currency === "eur" || currency === "EUR") {
-      return `€${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    } else if (currency === "USD") {
-      return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    } else {
-      return `${currency.toUpperCase()} ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currency || "USD",
+      minimumFractionDigits: 2,
+    });
+
+    return formatter.format(amount);
   };
 
-  // Format payment method for display
   const formatPaymentMethod = (method) => {
-    return method === "Cash on Delivery" ? method : `Online (${method})`;
+    return method === "cash_on_pickup"
+      ? "Cash on Pickup"
+      : `${method.charAt(0).toUpperCase() + method.slice(1)}`;
   };
 
-  // Navigate to payment detail page
   const handlePaymentClick = (paymentId) => {
     navigate(`/admin/payments/${paymentId}`);
-  }
+  };
 
-  // Handle action menu click
   const handleActionClick = (e, paymentId) => {
-    e.stopPropagation(); // Prevent row click event
-    // Implement action menu functionality here
+    e.stopPropagation();
     navigate(`/admin/payments/${paymentId}`);
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Successful":
+        return "bg-green text-white";
+      case "Pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "Unsuccessful":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
   };
 
   // Calculate pagination info
@@ -204,31 +207,46 @@ const PaymentsAdmin = () => {
   };
 
   return (
-    <div className="w-full bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-xl shadow-lg p-6 w-full">
       <div className="mb-6 flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-semibold text-primary">Payments History</h2>
-          <p className="text-primary mt-1">View and manage all your transaction records</p>
+          <h2 className="text-2xl font-bold text-gray-800">Payments History</h2>
+          <p className="text-gray-500 mt-1">
+            View and manage all transaction records
+          </p>
         </div>
-        <button 
-          onClick={handleRefresh} 
-          className="p-2 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center"
+        <button
+          onClick={handleRefresh}
+          className="p-2 rounded-full hover:bg-gray-100 transition-all flex items-center justify-center"
           disabled={loading || refreshing}
           title="Refresh payments"
         >
-          <FaSync className={`text-primary text-lg ${refreshing ? 'animate-spin' : ''}`} />
+          <HiRefresh
+            className={`text-gray-700 text-xl ${
+              refreshing ? "animate-spin" : ""
+            }`}
+          />
         </button>
       </div>
-      
-      {/* Filter controls */}
-      <div className="mb-4 flex items-center flex-wrap gap-4">
-        <div className="flex items-center">
-          <label htmlFor="statusFilter" className="mr-2">Filter by status:</label>
-          <select 
+
+      {/* Search and filters */}
+      <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="col-span-1 md:col-span-1">
+          <input
+            type="text"
+            placeholder="Search transactions..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+          />
+        </div>
+
+        <div className="col-span-1 md:col-span-1">
+          <select
             id="statusFilter"
             value={statusFilter}
-            onChange={handleStatusFilterChange}
-            className="border rounded px-2 py-1"
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white"
           >
             <option value="">All Statuses</option>
             <option value="completed">Successful</option>
@@ -236,17 +254,16 @@ const PaymentsAdmin = () => {
             <option value="failed">Unsuccessful</option>
           </select>
         </div>
-        
-        <div className="flex items-center">
-          <label htmlFor="methodFilter" className="mr-2">Filter by payment method:</label>
-          <select 
+
+        <div className="col-span-1 md:col-span-1">
+          <select
             id="methodFilter"
             value={methodFilter}
-            onChange={handleMethodFilterChange}
-            className="border rounded px-2 py-1"
+            onChange={(e) => setMethodFilter(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white"
           >
             <option value="">All Payment Methods</option>
-            {getUniquePaymentMethods().map(method => (
+            {getUniquePaymentMethods().map((method) => (
               <option key={method} value={method}>
                 {formatPaymentMethod(method)}
               </option>
@@ -254,16 +271,16 @@ const PaymentsAdmin = () => {
           </select>
         </div>
       </div>
-      
+
       {loading && !refreshing ? (
-        <div className="text-center py-4">Loading payments...</div>
+        <LoadingScreen />
       ) : error ? (
-        <div className="text-center py-4 text-red-500">
-          <p>{error}</p>
+        <div className="bg-red-50 text-red-700 p-4 rounded-lg text-center my-4">
+          <p className="font-medium">{error}</p>
           {error.includes("session has expired") && (
-            <button 
-              className="mt-2 px-4 py-2 bg-primary text-white rounded hover:bg-opacity-90"
-              onClick={() => window.location.href = "/login"}
+            <button
+              className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              onClick={() => (window.location.href = "/login")}
             >
               Log in again
             </button>
@@ -271,74 +288,104 @@ const PaymentsAdmin = () => {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left min-w-full">
-              <thead className="text-primary border-b">
-                <tr>
-                  <th className="py-3 px-2">
-                    <input 
-                      type="checkbox" 
-                      className="form-checkbox h-4 w-4 accent-primary" 
-                      checked={masterChecked}
-                      onChange={handleMasterCheckboxChange}
-                    />
-                  </th>
-                  <th className="py-3 px-4">Amount</th>
-                  <th className="py-3 px-4">Transaction ID</th>
-                  <th className="py-3 px-4">
-                    Date Initiated
-                    <span className="inline-block ml-1">↕</span>
-                  </th>
-                  <th className="py-3 px-4">Payment Purpose</th>
-                  <th className="py-3 px-4">Payment Method</th>
-                  <th className="py-3 px-4">Payment Status</th>
-                  <th className="py-3 px-4"></th>
-                </tr>
-              </thead>
-              <tbody className="text-gray-800">
-                {getCurrentPagePayments().length === 0 ? (
+          <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left min-w-full">
+                <thead className="bg-gray-50 text-gray-700 uppercase text-xs tracking-wider">
                   <tr>
-                    <td colSpan="8" className="py-4 px-4 text-center">No payments found</td>
+                    <th className="py-3 px-3">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        checked={masterChecked}
+                        onChange={handleMasterCheckboxChange}
+                      />
+                    </th>
+                    <th className="py-3 px-4 font-medium">Amount</th>
+                    <th className="py-3 px-4 font-medium">Transaction ID</th>
+                    <th className="py-3 px-4 font-medium w-3/6">Date</th>
+                    <th className="py-3 px-4 font-medium text-center">Purpose</th>
+                    <th className="py-3 px-4 font-medium">Method</th>
+                    <th className="py-3 px-4 font-medium text-center">Status</th>
+                    <th className="py-3 px-4 font-medium text-center">
+                      Actions
+                    </th>
                   </tr>
-                ) : (
-                  getCurrentPagePayments().map((payment, index) => (
-                    <tr 
-                      key={payment._id || payment.transactionId || index} 
-                      className="border-b hover:bg-gray-50 cursor-pointer"
-                      onClick={() => handlePaymentClick(payment._id)}
-                    >
-                      <td className="py-4 px-2" onClick={(e) => e.stopPropagation()}>
-                        <input 
-                          type="checkbox" 
-                          className="form-checkbox h-4 w-4 accent-primary" 
-                          checked={selectedPayments[index]}
-                          onChange={() => handlePaymentCheckboxChange(index)}
-                        />
-                      </td>
-                      <td className="py-4 px-4">{formatCurrency(payment.amount, payment.currency)}</td>
-                      <td className="py-4 px-4">{payment.transactionId}</td>
-                      <td className="py-4 px-4">{payment.date}</td>
-                      <td className="py-4 px-4">{payment.purpose}</td>
-                      <td className="py-4 px-4">{formatPaymentMethod(payment.rawMethod)}</td>
-                      <td className="py-4 px-4 flex items-center">
-                        <FaCircle className={`text-xs mr-2 ${payment.status === "Successful" ? "text-green" : payment.status === "Pending" ? "text-yellow-500" : "text-red-500"}`} />
-                        {payment.status}
-                      </td>
-                      <td className="py-4 px-4 text-center" onClick={(e) => handleActionClick(e, payment._id)}>
-                        <BsThreeDots className="cursor-pointer text-lg text-primary" />
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {getCurrentPagePayments().length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="8"
+                        className="py-8 px-4 text-center text-gray-500"
+                      >
+                        No payments found matching your criteria
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    getCurrentPagePayments().map((payment, index) => (
+                      <tr
+                        key={payment._id || payment.transactionId || index}
+                        className="hover:bg-gray-50 transition-colors cursor-pointer"
+                        onClick={() => handlePaymentClick(payment._id)}
+                      >
+                        <td
+                          className="py-4 px-3"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <input
+                            type="checkbox"
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            checked={selectedPayments[index]}
+                            onChange={() => handlePaymentCheckboxChange(index)}
+                          />
+                        </td>
+                        <td className="py-4 px-4 font-medium">
+                          {formatCurrency(payment.amount, payment.currency)}
+                        </td>
+                        <td className="py-4 px-4 font-mono text-gray-600">
+                          {payment.transactionId}
+                        </td>
+                        <td className="py-4 px-4 text-gray-600 w-3/6">
+                          {payment.date}
+                        </td>
+                        <td className="py-4 px-4 max-w-xs truncate">
+                          {payment.purpose}
+                        </td>
+                        <td className="py-4 px-4">
+                          {formatPaymentMethod(payment.rawMethod)}
+                        </td>
+                        <td className="py-4 px-4">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                              payment.status
+                            )}`}
+                          >
+                            {payment.status}
+                          </span>
+                        </td>
+                        <td
+                          className="py-4 px-4 text-center"
+                          onClick={(e) => handleActionClick(e, payment._id)}
+                        >
+                          <button className="p-1 rounded-full hover:bg-gray-200 transition-colors">
+                            <HiDotsHorizontal className="text-gray-600 text-lg" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-          
-          <div className="mt-4 flex justify-between items-center text-sm text-primary">
-            <div>
-              <span>Rows per page: </span>
-              <select 
-                className="border-none bg-transparent px-1"
+
+          {/* Pagination */}
+          <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center space-x-2">
+              <span>Show</span>
+              <select
+                className="mx-1 px-2 py-1 border border-gray-300 rounded bg-white"
                 value={limit}
                 onChange={handleLimitChange}
               >
@@ -346,39 +393,67 @@ const PaymentsAdmin = () => {
                 <option value={20}>20</option>
                 <option value={50}>50</option>
               </select>
+              <span>entries</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <div>{totalItems > 0 ? `${startItem}-${endItem} of ${totalItems}` : '0 items'}</div>
-              <div className="flex space-x-1">
-                <button 
-                  className="p-1" 
-                  disabled={page === 1}
-                  onClick={() => handlePageChange(1)}
-                >
-                  <FaAngleDoubleLeft className={page === 1 ? "text-gray-400" : "text-primary"} />
-                </button>
-                <button 
-                  className="p-1"
-                  disabled={page === 1}
-                  onClick={() => handlePageChange(page - 1)}
-                >
-                  <FaChevronLeft className={page === 1 ? "text-gray-400" : "text-primary"} />
-                </button>
-                <button 
-                  className="p-1"
-                  disabled={page === totalPages}
-                  onClick={() => handlePageChange(page + 1)}
-                >
-                  <FaChevronRight className={page === totalPages ? "text-gray-400" : "text-primary"} />
-                </button>
-                <button 
-                  className="p-1"
-                  disabled={page === totalPages}
-                  onClick={() => handlePageChange(totalPages)}
-                >
-                  <FaAngleDoubleRight className={page === totalPages ? "text-gray-400" : "text-primary"} />
-                </button>
+
+            <div className="text-gray-500">
+              {totalItems > 0
+                ? `Showing ${startItem}-${endItem} of ${totalItems} entries`
+                : "No entries to show"}
+            </div>
+
+            <div className="flex items-center space-x-1">
+              <button
+                className={`p-1 rounded ${
+                  page === 1
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                disabled={page === 1}
+                onClick={() => handlePageChange(1)}
+              >
+                <HiChevronDoubleLeft className="text-lg" />
+              </button>
+              <button
+                className={`p-1 rounded ${
+                  page === 1
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                disabled={page === 1}
+                onClick={() => handlePageChange(page - 1)}
+              >
+                <HiChevronLeft className="text-lg" />
+              </button>
+
+              <div className="flex items-center px-2">
+                <span>{page}</span>
+                <span className="mx-1">/</span>
+                <span>{totalPages || 1}</span>
               </div>
+
+              <button
+                className={`p-1 rounded ${
+                  page >= totalPages
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                disabled={page >= totalPages}
+                onClick={() => handlePageChange(page + 1)}
+              >
+                <HiChevronRight className="text-lg" />
+              </button>
+              <button
+                className={`p-1 rounded ${
+                  page >= totalPages
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                disabled={page >= totalPages}
+                onClick={() => handlePageChange(totalPages)}
+              >
+                <HiChevronDoubleRight className="text-lg" />
+              </button>
             </div>
           </div>
         </>
