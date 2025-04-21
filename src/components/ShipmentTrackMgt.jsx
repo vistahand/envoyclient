@@ -623,7 +623,7 @@ const ShipmentTrackMgt = ({
           transition={{ duration: 0.5 }}
           className="border border-gray-200 rounded-lg mx-4 overflow-hidden"
         >
-          <div className="overflow-x-auto">
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
