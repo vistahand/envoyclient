@@ -638,10 +638,10 @@ const ShipmentTrackMgt = ({
                     />
                   </th>
                   <th
-                    className="py-4 text-center text-gray-500 font-medium"
+                    className="p-4 text-left  text-gray-500 font-medium"
                     colSpan="2"
                   >
-                    Tracking ID
+                    Name
                   </th>
 
                   <th className="p-4 text-left text-gray-500 font-medium">
