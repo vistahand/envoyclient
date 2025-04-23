@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FiPlus, FiSearch } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import CreatePickupLocation from "./CreatePickupLocation";
 import PickupLocationCard from "../../components/PickupLocationCard";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../components/Modal"; // Using the Modal component you provided
+import Modal from "../../components/Modal";
 
 const TabsAndSearch = ({ activeTab, setActiveTab, searchQuery, setSearchQuery }) => {
   return (
@@ -160,12 +160,17 @@ const PickupLoc = () => {
   // Handle navigation to view a specific location
   const handleNavigateToView = (locationId) => {
     navigate(`/admin/pickup-locations/${locationId}`);
-    setCreating(false);
   };
 
   // Handle back button click - This is the function we pass to the CreatePickupLocation component
-  const handleBack = () => {
+  // Added shouldRefresh parameter to determine if we need to refresh the list
+  const handleBack = (shouldRefresh = false) => {
     setCreating(false); // This changes the view back to the main page
+    
+    // If shouldRefresh is true, fetch locations again
+    if (shouldRefresh) {
+      fetchPickupLocations();
+    }
   };
 
   // Placeholder for when we have no results or are loading

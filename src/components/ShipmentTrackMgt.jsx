@@ -70,6 +70,7 @@ const ShipmentTrackMgt = ({
   loading,
   error,
   filteredShipment,
+  fetchShipments,
 }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
@@ -385,6 +386,7 @@ const ShipmentTrackMgt = ({
 
       setIsStatusModalOpen(false);
       setSelectedShipment(null);
+      fetchShipments(); // Refresh shipments after update
 
       // Log success
       console.log(`Status updated to ${getFormattedStatus(newStatus)}`);
@@ -683,7 +685,7 @@ const ShipmentTrackMgt = ({
                         className="p-4 text-sm font-semibold text-left text-gray-800"
                         colSpan="2"
                       >
-                        {shipment.trackingNumber}
+                        {shipment.sender.name}
                       </td>
 
                       <td className="p-4 text-sm font-semibold text-black">
