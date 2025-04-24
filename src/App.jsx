@@ -49,6 +49,7 @@ import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
 import AdminPaymentDetail from "./components/AdminPaymentDtl";
 import { Toaster } from "react-hot-toast";
 import AdminUserDetail from "./components/AdminUsersDetail";
+import TidioChat from "./components/TidioChat";
 
 const App = () => {
   return (
@@ -184,6 +185,7 @@ const App = () => {
 
               <NotificationToast />
               <ScrollToTopButton />
+              <TidioChat />
             </div>
           </BrowserRouter>
         </ShipmentProvider>
