@@ -148,11 +148,11 @@ export const auth = {
     }
   },
 
-  resetPassword: async (token, password) => {
+  resetPassword: async (token, password, email) => {
     try {
-      const response = await api.post("/auth/reset-password", {
-        token,
+      const response = await api.put(`/auth/reset-password/${token}`, {
         password,
+        email
       });
       return response.data;
     } catch (err) {
@@ -602,35 +602,6 @@ export const deliveryOptions = {
     } catch (err) {
       toast.error("Error fetching delivery options from server");
 
-      // // Return mocked delivery options in the expected format in case the endpoint isn't ready
-      // return {
-      //   success: true,
-      //   message: "Mocked delivery options (no server endpoint)",
-      //   data: {
-      //     deliveryOptions: [
-      //       {
-      //         _id: "mock-option-1",
-      //         name: "QuickWing",
-      //         description: "Enjoy fast, priority shipping",
-      //         estimatedDeliveryTime: "2PM at the earliest",
-      //         percentageMarkup: 20,
-      //         isExpress: true,
-      //         daysToAdd: 1,
-      //         active: true,
-      //       },
-      //       {
-      //         _id: "mock-option-2",
-      //         name: "Standard",
-      //         description: "Regular shipping option",
-      //         estimatedDeliveryTime: "Within 3 days",
-      //         percentageMarkup: 0,
-      //         isExpress: false,
-      //         daysToAdd: 3,
-      //         active: true,
-      //       },
-      //     ],
-      //   },
-      // };
     }
   },
 
