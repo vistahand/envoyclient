@@ -490,6 +490,12 @@ export const adminSideLinks = [
 //       route: '/admin/users',
 //       Icon: users,
 //   },
+{
+    id: 'careers',
+    title: 'Careers',
+    route: '/admin/careers',
+    Icon: mapsearch,
+},
 ];
 
 export const shipmentHead = [

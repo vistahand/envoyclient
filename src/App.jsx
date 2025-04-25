@@ -49,6 +49,13 @@ import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
 import AdminPaymentDetail from "./components/AdminPaymentDtl";
 import { Toaster } from "react-hot-toast";
 import AdminUserDetail from "./components/AdminUsersDetail";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
+import ContactPage from "./scenes/ContactPage";
+import BlogPage from "./scenes/Blogpage";
+import FaqsPage from "./scenes/FaqsPage";
+import CareersPage from "./scenes/CareersPage";
+import CareerPage from "./dashboard/admin/CareerPage";
 
 const App = () => {
   return (
@@ -59,10 +66,21 @@ const App = () => {
             <Toaster />
             <div>
               <Routes>
+              <Route path="/forgot-password"
+               element={<ForgotPassword />} />
+              <Route path="/reset-password" 
+              element={<ResetPassword />} />
+
+
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/termsofusage" element={<TermsPage />} />
                 <Route path="/privacypolicy" element={<PrivacyPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/faqs" element={<FaqsPage />} />
+                <Route path="/careers" element={<CareersPage/>} />
+
                 <Route
                   path="/createshipment"
                   element={<CreateShipmentPage />}
@@ -102,6 +120,7 @@ const App = () => {
                     </GuestRoute>
                   }
                 />
+             
 
                 <Route
                   path="/user"
@@ -174,6 +193,7 @@ const App = () => {
                   <Route path="users" element={<Users />} />
                   <Route path="users/:userId" element={<AdminUserDetail />} />
                   <Route path="settings" element={<SettingsPage />} />
+                  <Route path="careers" element={<CareerPage />} />
                 </Route>
 
                 <Route
