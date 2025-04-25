@@ -148,11 +148,11 @@ export const auth = {
     }
   },
 
-  resetPassword: async (token, password) => {
+  resetPassword: async (token, password, email) => {
     try {
-      const response = await api.post("/auth/reset-password", {
-        token,
+      const response = await api.put(`/auth/reset-password/${token}`, {
         password,
+        email
       });
       return response.data;
     } catch (err) {
@@ -384,16 +384,20 @@ export const shipments = {
   },
   updateShipmentStatus: async (shipmentId, statusData) => {
     try {
-      const response = await api.put(`/admin/shipments/${shipmentId}/status`, statusData);
+      const response = await api.put(
+        `/admin/shipments/${shipmentId}/status`,
+        statusData
+      );
       return response.data;
     } catch (err) {
       if (!err.response) {
         throw new Error("Network error. Please check your connection.");
       }
-      throw new Error(err.response?.data?.error || "Failed to update shipment status");
+      throw new Error(
+        err.response?.data?.error || "Failed to update shipment status"
+      );
     }
   },
-
 
   // Get all shipments
   getAllDrafts: async () => {
@@ -598,35 +602,6 @@ export const deliveryOptions = {
     } catch (err) {
       toast.error("Error fetching delivery options from server");
 
-      // // Return mocked delivery options in the expected format in case the endpoint isn't ready
-      // return {
-      //   success: true,
-      //   message: "Mocked delivery options (no server endpoint)",
-      //   data: {
-      //     deliveryOptions: [
-      //       {
-      //         _id: "mock-option-1",
-      //         name: "QuickWing",
-      //         description: "Enjoy fast, priority shipping",
-      //         estimatedDeliveryTime: "2PM at the earliest",
-      //         percentageMarkup: 20,
-      //         isExpress: true,
-      //         daysToAdd: 1,
-      //         active: true,
-      //       },
-      //       {
-      //         _id: "mock-option-2",
-      //         name: "Standard",
-      //         description: "Regular shipping option",
-      //         estimatedDeliveryTime: "Within 3 days",
-      //         percentageMarkup: 0,
-      //         isExpress: false,
-      //         daysToAdd: 3,
-      //         active: true,
-      //       },
-      //     ],
-      //   },
-      // };
     }
   },
 
@@ -713,9 +688,11 @@ export const updateProfileImage = async (file) => {
 
 export const admin = {
   payments: {
-    getAll: async () => {
+    getAll: async ({ page = 1, limit = 10 }) => {
       try {
-        const response = await api.get(`/admin/payments`);
+        const response = await api.get(
+          `/admin/payments?page=${page}&limit=${limit}`
+        );
         return response.data;
       } catch (err) {
         if (!err.response) {
@@ -753,6 +730,5 @@ export const pickup = {
     }
   },
 };
-
 
 export default api;

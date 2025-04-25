@@ -184,6 +184,17 @@ const Footer = () => {
             2025 Envoy Angel Shipping and Logistics Ltd. All Rights Reserved.
           </p>
         </div>
+
+        <p className='text-main4 md:text-[13px] ss:text-[14px] 
+            text-[12px] md:mt-0 ss:mt-8 mt-6'>
+                Designed and Developed by <span className='font-bold'>
+                    <a href='https://vistahand.com/'
+                    rel="noreferrer" target='_blank'
+                    >
+                        Vista Hand
+                    </a>
+                </span>
+            </p>
       </motion.div>
       {isTrackModalOpen && (
         <TrackModal

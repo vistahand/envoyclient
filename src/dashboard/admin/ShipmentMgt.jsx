@@ -99,6 +99,7 @@ const ShipmentMgt = () => {
           error={error}
           loading={loading}
           filteredShipment={filteredShipments}
+          fetchShipments={fetchShipments}
         />
       </div>
     </div>

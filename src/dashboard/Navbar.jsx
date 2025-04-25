@@ -449,11 +449,17 @@ const Navbar = () => {
             >
               {user?.profileImage !== "default.jpg" ? (
                 <div className="rounded-full overflow-hidden">
-                  <img
-                    src={user.profileImage}
-                    alt="User Profile"
-                    className="w-[40px] h-[40px] rounded-full object-cover"
-                  />
+                 {user?.profileImage ? (
+                   <img
+                   src={user.profileImage}
+                   alt="User Profile"
+                   className="w-[40px] h-[40px] rounded-full object-cover"
+                 />
+                 ) : (
+                  <div className="w-[40px] h-[40px] rounded-full bg-gray-200 flex items-center justify-center">
+                    <GoPerson className="w-5 h-5 text-gray-500" />
+                  </div>
+                 )}
                 </div>
               ) : (
                 <div className="w-[40px] h-[40px] rounded-full bg-gray-200 flex items-center justify-center">

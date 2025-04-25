@@ -4,9 +4,10 @@ import { useAuth } from "../context/AuthContext";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { SectionWrapperApp } from "../hoc";
-import { apple, facebook, google, login as loginImage } from "../assets";
-import { HiOutlineArrowRight } from "react-icons/hi";
+import { login as loginImage } from "../assets";
+import { HiOutlineArrowRight, HiOutlineArrowLeft } from "react-icons/hi";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,6 +16,10 @@ const Login = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleBackToHome = () => {
+    navigate("/");
   };
 
   const { login } = useAuth();
@@ -33,10 +38,6 @@ const Login = () => {
         .required("Email is required."),
       password: Yup.string()
         .min(8, "Password must be at least 8 characters.")
-        // .matches(
-        //   /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$/,
-        //   "Password must contain alphanumeric characters and at least one special character."
-        // )
         .required("Password is required"),
     }),
 
@@ -72,11 +73,30 @@ const Login = () => {
             className="w-full flex flex-col h-full justify-between md:gap-6 ss:gap-6 
           gap-5"
           >
+            {/* Back Button */}
+            <motion.button
+              onClick={handleBackToHome}
+              className="flex items-center gap-2 text-primary font-medium mb-4 w-fit"
+              whileHover={{ x: -5 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <HiOutlineArrowLeft className="text-[18px]" />
+              <span className="md:text-[15px] ss:text-[14px] text-[13px]">Back to Home</span>
+            </motion.button>
+
             <div
               className="w-full flex flex-col h-full md:gap-6 ss:gap-6 
             gap-5"
             >
-              <div className="flex flex-col gap-1 w-full">
+              <motion.div 
+                className="flex flex-col gap-1 w-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 <h1
                   className="text-primary font-semibold md:text-[37px]
                 ss:text-[35px] text-[32px] tracking-tight mobline"
@@ -104,84 +124,20 @@ const Login = () => {
                     Create an account here
                   </a>
                 </h2>
-              </div>
+              </motion.div>
 
               <div
                 className="flex md:justify-between items-center w-full 
               md:gap-5 ss:gap-5 gap-3 mobauth"
               >
-                {/* <div
-                  className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
-                rounded-full border border-main7 cursor-pointer grow4"
-                >
-                  <img
-                    src={google}
-                    alt="Google"
-                    className="w-[1.2rem] h-auto"
-                  />
-
-                  <h4
-                    className="md:text-[12px] ss:text-[13px] text-[12px]  
-                  tracking-tight font-semibold text-main2"
-                  >
-                    Continue with Google
-                  </h4>
-                </div> */}
-
-                {/* <div
-                  className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
-                rounded-full border border-main7 cursor-pointer grow4"
-                >
-                  <img src={apple} alt="Apple" className="w-[1.2rem] h-auto" />
-
-                  <h4
-                    className="md:text-[12px] ss:text-[13px] text-[12px]  
-                  tracking-tight font-semibold text-main2"
-                  >
-                    Continue with Apple
-                  </h4>
-                </div>
-
-                <div
-                  className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
-                rounded-full border border-main7 cursor-pointer grow4"
-                >
-                  <img
-                    src={facebook}
-                    alt="Facebook"
-                    className="w-[1.2rem] h-auto"
-                  />
-
-                  <h4
-                    className="md:text-[12px] ss:text-[13px] text-[12px]  
-                  tracking-tight font-semibold text-main2"
-                  >
-                    Continue with Facebook
-                  </h4>
-                </div> */}
               </div>
 
-              {/* <div
-                className="flex justify-between items-center w-full 
-              gap-4"
+              <motion.div 
+                className="w-full"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="flex-grow">
-                  <div className="bg-main7 w-full h-[1px]" />
-                </div>
-
-                <h1
-                  className="md:text-[15px] ss:text-[15px] text-[14px] 
-                text-main5"
-                >
-                  or
-                </h1>
-
-                <div className="flex-grow">
-                  <div className="bg-main7 w-full h-[1px]" />
-                </div>
-              </div> */}
-
-              <div className="w-full">
                 <form
                   ref={formRef}
                   onSubmit={formik.handleSubmit}
@@ -300,22 +256,35 @@ const Login = () => {
                       </p>
                     </div>
                   </div>
+                  
+                  <div className="flex justify-end w-full md:w-[80%] ss:w-[80%]">
+                    <a
+                      href="/forgot-password"
+                      className="text-primary md:text-[13px] ss:text-[13px] text-[12px] 
+                      font-medium hover:text-secondary navsmooth"
+                    >
+                      Forgot Password?
+                    </a>
+                  </div>
 
                   <div className="w-full">
-                    <button
+                    <motion.button
                       type="submit"
                       disabled={isLoading}
                       className={`bg-primary text-[13px] py-3.5 px-14
                       flex text-white rounded-full grow4 cursor-pointer
                       items-center justify-center gap-3 mobbut
                       ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                      whileHover={{ scale: isLoading ? 1 : 1.03 }}
+                      whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <p>{isLoading ? "Logging in..." : "Login"}</p>
 
                       {!isLoading && (
                         <HiOutlineArrowRight className="text-[14px]" />
                       )}
-                    </button>
+                    </motion.button>
 
                     {loginError && (
                       <p
@@ -327,10 +296,15 @@ const Login = () => {
                     )}
                   </div>
                 </form>
-              </div>
+              </motion.div>
             </div>
 
-            <div className="flex relative w-full md:mt-12 justify-end">
+            <motion.div 
+              className="flex relative w-full md:mt-12 justify-end"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
               <div className="w-full">
                 <p
                   className="md:text-[13px] ss:text-[13px] text-[11px] 
@@ -340,11 +314,16 @@ const Login = () => {
                   Reserved.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
-        <div className="w-[50%] md:flex hidden">
+        <motion.div 
+          className="w-[50%] md:flex hidden"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <div className="w-full relative rounded-2xl">
             <img
               src={loginImage}
@@ -352,7 +331,7 @@ const Login = () => {
               className="h-full w-auto object-cover rounded-2xl"
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

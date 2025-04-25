@@ -53,7 +53,6 @@ import login from "./login.jpg";
 import quote from "./quote.svg";
 import analytics from "./analytics.svg";
 import users from "./users.svg";
-
 export {
   logo,
   websearch,
@@ -110,6 +109,7 @@ export {
   quote,
   analytics,
   users,
+
 };
 
 export const heroImages = [frame1, frame2, frame3, frame1, frame2];
