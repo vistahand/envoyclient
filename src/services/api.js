@@ -384,16 +384,20 @@ export const shipments = {
   },
   updateShipmentStatus: async (shipmentId, statusData) => {
     try {
-      const response = await api.put(`/admin/shipments/${shipmentId}/status`, statusData);
+      const response = await api.put(
+        `/admin/shipments/${shipmentId}/status`,
+        statusData
+      );
       return response.data;
     } catch (err) {
       if (!err.response) {
         throw new Error("Network error. Please check your connection.");
       }
-      throw new Error(err.response?.data?.error || "Failed to update shipment status");
+      throw new Error(
+        err.response?.data?.error || "Failed to update shipment status"
+      );
     }
   },
-
 
   // Get all shipments
   getAllDrafts: async () => {
@@ -713,9 +717,11 @@ export const updateProfileImage = async (file) => {
 
 export const admin = {
   payments: {
-    getAll: async () => {
+    getAll: async ({ page = 1, limit = 10 }) => {
       try {
-        const response = await api.get(`/admin/payments`);
+        const response = await api.get(
+          `/admin/payments?page=${page}&limit=${limit}`
+        );
         return response.data;
       } catch (err) {
         if (!err.response) {
@@ -753,6 +759,5 @@ export const pickup = {
     }
   },
 };
-
 
 export default api;

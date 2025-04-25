@@ -110,76 +110,8 @@ const Login = () => {
                 className="flex md:justify-between items-center w-full 
               md:gap-5 ss:gap-5 gap-3 mobauth"
               >
-                {/* <div
-                  className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
-                rounded-full border border-main7 cursor-pointer grow4"
-                >
-                  <img
-                    src={google}
-                    alt="Google"
-                    className="w-[1.2rem] h-auto"
-                  />
-
-                  <h4
-                    className="md:text-[12px] ss:text-[13px] text-[12px]  
-                  tracking-tight font-semibold text-main2"
-                  >
-                    Continue with Google
-                  </h4>
-                </div> */}
-
-                {/* <div
-                  className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
-                rounded-full border border-main7 cursor-pointer grow4"
-                >
-                  <img src={apple} alt="Apple" className="w-[1.2rem] h-auto" />
-
-                  <h4
-                    className="md:text-[12px] ss:text-[13px] text-[12px]  
-                  tracking-tight font-semibold text-main2"
-                  >
-                    Continue with Apple
-                  </h4>
-                </div>
-
-                <div
-                  className="flex items-center gap-2 md:p-3.5 ss:p-3.5 p-3 
-                rounded-full border border-main7 cursor-pointer grow4"
-                >
-                  <img
-                    src={facebook}
-                    alt="Facebook"
-                    className="w-[1.2rem] h-auto"
-                  />
-
-                  <h4
-                    className="md:text-[12px] ss:text-[13px] text-[12px]  
-                  tracking-tight font-semibold text-main2"
-                  >
-                    Continue with Facebook
-                  </h4>
-                </div> */}
               </div>
 
-              {/* <div
-                className="flex justify-between items-center w-full 
-              gap-4"
-              >
-                <div className="flex-grow">
-                  <div className="bg-main7 w-full h-[1px]" />
-                </div>
-
-                <h1
-                  className="md:text-[15px] ss:text-[15px] text-[14px] 
-                text-main5"
-                >
-                  or
-                </h1>
-
-                <div className="flex-grow">
-                  <div className="bg-main7 w-full h-[1px]" />
-                </div>
-              </div> */}
 
               <div className="w-full">
                 <form

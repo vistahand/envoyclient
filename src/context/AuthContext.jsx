@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   // ✅ Function to clear auth data and log out the user
   const logoutUser = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     setUser(null);
   };
@@ -43,16 +43,23 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const verifyAuth = async () => {
-      try {
-        // Verify token with API
-        const response = await auth.getMe();
-        if (response?.success) {
-          setUser(response.data.user);
-        } else {
-          logoutUser(); // 🔥 Call logoutUser() if verification fails
+      const storedToken = localStorage.getItem("authToken");
+      const storedUser = localStorage.getItem("user");
+
+      if (storedToken && storedUser) {
+        try {
+          // Verify token with API
+          const response = await auth.getMe();
+          if (response?.success) {
+            setUser(response.data.user);
+          } else {
+            logoutUser(); // 🔥 Call logoutUser() if verification fails
+          }
+        } catch (err) {
+          logoutUser(); // 🔥 Logout if API request fails
         }
-      } catch (err) {
-        logoutUser(); // 🔥 Logout if API request fails
+      } else {
+        logoutUser(); // 🔥 Logout if no stored token/user
       }
 
       setLoading(false);
@@ -66,7 +73,7 @@ export const AuthProvider = ({ children }) => {
       async () => {
         const response = await auth.login(credentials);
         if (response.success) {
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("authToken", response.data.token);
           localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user data
           setUser(response.data.user);
         }
@@ -99,7 +106,7 @@ export const AuthProvider = ({ children }) => {
       const response = await apiUpdatePassword(currentPassword, newPassword);
       if (response.success) {
         if (response.data?.token) {
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("authToken", response.data.token);
         }
         if (response.data?.user) {
           updateUser(response.data.user);
@@ -147,7 +154,9 @@ export const AuthProvider = ({ children }) => {
 
       const response = await apiUpdateProfile({
         phone,
-        country
+        country,
+        firstName,
+        lastName,
       });
 
       console.log("API response:", response);

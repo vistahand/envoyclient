@@ -4,7 +4,7 @@ import LocationSelector from "../../components/LocationSelector";
 import { toast } from "react-hot-toast";
 import Modal from "../../components/Modal";
 
-const CreatePickupLocation = ({ onBack }) => {
+const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
   const [formData, setFormData] = useState({
     name: "",
     address: {
@@ -56,6 +56,7 @@ const CreatePickupLocation = ({ onBack }) => {
   const [error, setError] = useState(null);
   const [locationSelected, setLocationSelected] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdLocationId, setCreatedLocationId] = useState(null);
 
   // Get token from localStorage and remove quotes if they exist
   const getAuthToken = () => {
@@ -136,7 +137,6 @@ const CreatePickupLocation = ({ onBack }) => {
     e.preventDefault();
 
     // Check if state is selected
-
     if (!formData.address.state) {
       setError("State is required");
       return;
@@ -198,7 +198,12 @@ const CreatePickupLocation = ({ onBack }) => {
         );
       }
 
-      await response.json();
+      const result = await response.json();
+      // Store the created location ID if available
+      if (result && result._id) {
+        setCreatedLocationId(result._id);
+      }
+      
       setShowSuccessModal(true);
       setFormData({
         name: "",
@@ -247,7 +252,6 @@ const CreatePickupLocation = ({ onBack }) => {
         notes: "",
       });
       toast.success("Pickup Location created");
-      // Reset form or redirect if needed
     } catch (err) {
       setError(
         err.message || "An error occurred while creating the pickup location"
@@ -260,14 +264,23 @@ const CreatePickupLocation = ({ onBack }) => {
   const handleBackClick = (e) => {
     e.preventDefault();
     if (typeof onBack === "function") {
-      onBack();
+      // Call onBack with a refresh flag set to true
+      onBack(true);
     }
   };
 
   const handleBackToList = () => {
     setShowSuccessModal(false);
     if (typeof onBack === "function") {
-      onBack();
+      // Call onBack with a refresh flag set to true
+      onBack(true);
+    }
+  };
+
+  const handleViewDetails = () => {
+    setShowSuccessModal(false);
+    if (typeof onNavigateToView === "function" && createdLocationId) {
+      onNavigateToView(createdLocationId);
     }
   };
 
@@ -481,9 +494,9 @@ const CreatePickupLocation = ({ onBack }) => {
         message={`A new Pickup Location has been successfully created and is now available in the system.`}
         buttons={[
           {
-            label: "Close",
-            onClick: () => setShowSuccessModal(false),
-            variant: "secondary",
+            label: "View Details",
+            onClick: handleViewDetails,
+            variant: "primary",
           },
           {
             label: "Back to List",

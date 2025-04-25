@@ -29,10 +29,6 @@ export const navLinks = [
                 name: "Track Shipment",
                 route: "",
             },
-            {
-                name: "Get a Quote",
-                route: "/getaquote",
-            },
         ],
     },
     {
@@ -47,10 +43,10 @@ export const navLinks = [
                 name: "Careers",
                 route: "/careers",
             },
-            {
-                name: "Terms of Usage",
-                route: "/termsofusage",
-            },
+            // {
+            //     name: "Terms of Usage",
+            //     route: "/termsofusage",
+            // },
             {
                 name: "Privacy Policy",
                 route: "/privacypolicy",
@@ -64,14 +60,6 @@ export const navLinks = [
             {
                 name: "Blog",
                 route: "/blog",
-            },
-            {
-                name: "Shipping Guides",
-                route: "/shippingguides",
-            },
-            {
-                name: "How to",
-                route: "/howto",
             },
         ],
     },
@@ -87,10 +75,10 @@ export const navLinks = [
                 name: "FAQs",
                 route: "/faqs",
             },
-            {
-                name: "Live Chat",
-                route: "/livechat",
-            },
+            // {
+            //     name: "Live Chat",
+            //     route: "/livechat",
+            // },
         ],
     },
 ];
@@ -348,10 +336,6 @@ export const footerLinks = [
                 name: "Track Shipment",
                 route: "",
             },
-            {
-                name: "Get a Quote",
-                route: "/getaquote",
-            },
         ],
     },
     {
@@ -360,14 +344,6 @@ export const footerLinks = [
                 {
                     name: "Blog",
                     route: "/blog",
-                },
-                {
-                    name: "Shipping Guides",
-                    route: "/shippingguides",
-                },
-                {
-                    name: "How to",
-                    route: "/howto",
                 },
             ],
     },
@@ -392,10 +368,6 @@ export const footerLinks = [
     {
       title: "LEGAL",
         links: [
-            {
-                name: "Cookies",
-                route: "/cookies",
-            },
             {
                 name: "Privacy Policy",
                 route: "/privacypolicy",

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import LocationSelectorMgt from "../../components/LocationSelectorMgt";
+import React, { useState, useEffect } from "react";
+import LocationSelectorFilter from "../../components/LocationSelectorMgt";
 import { ShipmentTrackMgt } from "../../components/ShipmentTrackMgt";
-
+import { shipments as shipmentEndpoint } from "../../services/api";
 // Updated main ShipmentMgt component
 const ShipmentMgt = () => {
-  const navigate = useNavigate();
+  const [shipments, setShipments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filteredShipments, setFilteredShipments] = useState([]);
+
   const [locationFilter, setLocationFilter] = useState({
     country: "",
     state: "",
@@ -17,6 +20,33 @@ const ShipmentMgt = () => {
     console.log("Filter changed in parent:", filter);
     setLocationFilter(filter);
   };
+
+  // Fetch shipments from API
+  const fetchShipments = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await shipmentEndpoint.getAll();
+      const data = res.data.shipments;
+      if (data && Array.isArray(data)) {
+        setShipments(data);
+        setFilteredShipments(data);
+      } else {
+        setShipments([]);
+        setFilteredShipments([]);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Initial fetch of shipments
+  useEffect(() => {
+    fetchShipments();
+  }, []);
 
   // Handler to reset filters
   const handleResetFilters = () => {
@@ -55,12 +85,22 @@ const ShipmentMgt = () => {
             </button>
           )}
         </div>
-        <LocationSelectorMgt onFilterChange={handleFilterChange} />
+        <LocationSelectorFilter
+          onFilterChange={handleFilterChange}
+          shipments={shipments}
+        />
       </div>
 
       {/* Shipment Table with location filtering */}
       <div>
-        <ShipmentTrackMgt locationFilter={locationFilter} />
+        <ShipmentTrackMgt
+          locationFilter={locationFilter}
+          shipments={shipments}
+          error={error}
+          loading={loading}
+          filteredShipment={filteredShipments}
+          fetchShipments={fetchShipments}
+        />
       </div>
     </div>
   );
