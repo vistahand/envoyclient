@@ -189,6 +189,7 @@ const App = () => {
                     path="pickuplocations/create"
                     element={<CreatePickupLocation />}
                   />
+                  
                   <Route path="quotemanagement" element={<QuoteMgt />} />
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />
