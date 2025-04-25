@@ -15,17 +15,16 @@ import LoadingScreen from "../../components/LoadingScreen";
 const PaymentsAdmin = () => {
   const navigate = useNavigate();
   const [payments, setPayments] = useState([]);
-  const [filteredPayments, setFilteredPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [masterChecked, setMasterChecked] = useState(true);
-  const [selectedPayments, setSelectedPayments] = useState([]);
+  const [filteredPayments, setFilteredPayments] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   // Pagination state
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   // Filter state
   const [statusFilter, setStatusFilter] = useState("");
@@ -34,7 +33,64 @@ const PaymentsAdmin = () => {
 
   useEffect(() => {
     fetchPayments();
-  }, []);
+  }, [page, limit]);
+
+  const fetchPayments = async () => {
+    try {
+      setLoading(true);
+      const response = await admin.payments.getAll({
+        page: page,
+        limit: limit,
+      });
+
+      if (response && response.items && Array.isArray(response.items)) {
+        const transformedPayments = response.items.map((item) => ({
+          amount: item.amount || 0,
+          currency: item.currency || "USD",
+          transactionId: item.transactionId || "Nil",
+          date: new Date(item.createdAt).toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }),
+          name: item.name,
+          purpose: item.trackingNumber
+            ? `Shipping (${item.trackingNumber})`
+            : "Payment Processing",
+          rawMethod: getFormattedStatus(item.method),
+          status:
+            item.status === "completed"
+              ? "Successful"
+              : item.status === "awaiting_confirmation"
+              ? "Pending"
+              : "Unsuccessful",
+          _id: item._id,
+        }));
+
+        setPayments(transformedPayments);
+        setTotalItems(response.total || transformedPayments.length);
+        setTotalPages(
+          response.pages || Math.ceil(transformedPayments.length / limit)
+        );
+        setPayments(transformedPayments);
+        setTotalItems(response.total || transformedPayments.length);
+        setTotalPages(
+          response.pages || Math.ceil(transformedPayments.length / limit)
+        );
+      }
+    } catch (err) {
+      console.error("Error fetching payments:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchPayments();
+  };
 
   useEffect(() => {
     applyFilters();
@@ -73,69 +129,6 @@ const PaymentsAdmin = () => {
 
     setFilteredPayments(result);
     setTotalItems(result.length);
-    setSelectedPayments(Array(result.length).fill(true));
-    setMasterChecked(true);
-
-    // Reset to first page when filters change
-    setPage(1);
-  };
-
-  const fetchPayments = async () => {
-    try {
-      setLoading(true);
-      const response = await admin.payments.getAll();
-
-      if (response && response.items && Array.isArray(response.items)) {
-        const transformedPayments = response.items.map((item) => ({
-          amount: item.amount || 0,
-          currency: item.currency || "USD",
-          transactionId: item.transactionId || "Nil",
-          date: new Date(item.createdAt).toLocaleDateString("en-US", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          }),
-          purpose: item.trackingNumber
-            ? `Shipping (${item.trackingNumber})`
-            : "Payment Processing",
-          rawMethod: getFormattedStatus(item.method),
-          status:
-            item.status === "completed"
-              ? "Successful"
-              : item.status === "awaiting_confirmation"
-              ? "Pending"
-              : "Unsuccessful",
-          _id: item._id,
-        }));
-
-        setPayments(transformedPayments);
-      }
-    } catch (err) {
-      console.error("Error fetching payments:", err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
-  const handleRefresh = () => {
-    setRefreshing(true);
-    fetchPayments();
-  };
-
-  const handleMasterCheckboxChange = () => {
-    const newCheckedState = !masterChecked;
-    setMasterChecked(newCheckedState);
-    setSelectedPayments(Array(filteredPayments.length).fill(newCheckedState));
-  };
-
-  const handlePaymentCheckboxChange = (index) => {
-    const newSelectedPayments = [...selectedPayments];
-    newSelectedPayments[index] = !newSelectedPayments[index];
-    setSelectedPayments(newSelectedPayments);
-
-    setMasterChecked(newSelectedPayments.every((item) => item));
   };
 
   const handlePageChange = (newPage) => {
@@ -197,13 +190,12 @@ const PaymentsAdmin = () => {
   // Calculate pagination info
   const startItem = (page - 1) * limit + 1;
   const endItem = Math.min(page * limit, totalItems);
-  const totalPages = Math.ceil(totalItems / limit);
 
   // Get the current page of payments
   const getCurrentPagePayments = () => {
-    const start = (page - 1) * limit;
-    const end = page * limit;
-    return filteredPayments.slice(start, end);
+    const start = startItem;
+    const end = endItem;
+    return filteredPayments;
   };
 
   return (
@@ -293,20 +285,16 @@ const PaymentsAdmin = () => {
               <table className="w-full text-sm text-left min-w-full">
                 <thead className="bg-gray-50 text-gray-700 uppercase text-xs tracking-wider">
                   <tr>
-                    <th className="py-3 px-3">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        checked={masterChecked}
-                        onChange={handleMasterCheckboxChange}
-                      />
-                    </th>
                     <th className="py-3 px-4 font-medium">Amount</th>
-                    <th className="py-3 px-4 font-medium">Transaction ID</th>
-                    <th className="py-3 px-4 font-medium w-3/6">Date</th>
-                    <th className="py-3 px-4 font-medium text-center">Purpose</th>
+                    <th className="py-3 px-4 font-medium">Sender</th>
+                    <th className="py-3 px-4 font-medium">Date</th>
+                    <th className="py-3 px-4 font-medium text-center">
+                      Purpose
+                    </th>
                     <th className="py-3 px-4 font-medium">Method</th>
-                    <th className="py-3 px-4 font-medium text-center">Status</th>
+                    <th className="py-3 px-4 font-medium text-center">
+                      Status
+                    </th>
                     <th className="py-3 px-4 font-medium text-center">
                       Actions
                     </th>
@@ -329,24 +317,13 @@ const PaymentsAdmin = () => {
                         className="hover:bg-gray-50 transition-colors cursor-pointer"
                         onClick={() => handlePaymentClick(payment._id)}
                       >
-                        <td
-                          className="py-4 px-3"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <input
-                            type="checkbox"
-                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                            checked={selectedPayments[index]}
-                            onChange={() => handlePaymentCheckboxChange(index)}
-                          />
-                        </td>
                         <td className="py-4 px-4 font-medium">
                           {formatCurrency(payment.amount, payment.currency)}
                         </td>
                         <td className="py-4 px-4 font-mono text-gray-600">
-                          {payment.transactionId}
+                          {payment.name}
                         </td>
-                        <td className="py-4 px-4 text-gray-600 w-3/6">
+                        <td className="py-4 px-4 text-gray-600">
                           {payment.date}
                         </td>
                         <td className="py-4 px-4 max-w-xs truncate">

@@ -49,6 +49,7 @@ import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
 import AdminPaymentDetail from "./components/AdminPaymentDtl";
 import { Toaster } from "react-hot-toast";
 import AdminUserDetail from "./components/AdminUsersDetail";
+// import TidioChat from "./components/TidioChat";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import ContactPage from "./scenes/ContactPage";
@@ -188,6 +189,7 @@ const App = () => {
                     path="pickuplocations/create"
                     element={<CreatePickupLocation />}
                   />
+                  
                   <Route path="quotemanagement" element={<QuoteMgt />} />
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />
@@ -204,6 +206,7 @@ const App = () => {
 
               <NotificationToast />
               <ScrollToTopButton />
+              {/* <TidioChat /> */}
             </div>
           </BrowserRouter>
         </ShipmentProvider>
