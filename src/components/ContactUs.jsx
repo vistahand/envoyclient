@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FiMail, FiPhone } from 'react-icons/fi';
 import { SectionWrapperApp } from "../hoc";
 import Modal from '../components/Modal'; // Make sure the path is correct based on your file structure
+import { motion } from 'framer-motion'; // Import framer-motion
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -109,6 +110,31 @@ const ContactUs = () => {
     }
   };
   
+  // Animation variants for contact info
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { x: 100, opacity: 0 },
+    visible: { 
+      x: 0, 
+      opacity: 1,
+      transition: { 
+        type: "spring",
+        stiffness: 100,
+        damping: 15
+      }
+    }
+  };
+  
   return (
     <section className="relative w-full font-manrope">
       {/* Modal for form submission feedback */}
@@ -203,34 +229,28 @@ const ContactUs = () => {
               </div>
 
               <div className="mb-4 relative">
-                <div className="flex items-center">
-                  <div className="relative flex-1">
-                    <div className="absolute left-0 inset-y-0 flex pl-3.5 items-center pointer-events-none">
-                    </div>
-                    <input
-                      type="tel"
-                      name="phoneNumber"
-                      value={formData.phoneNumber}
-                      onChange={handleChange}
-                      placeholder=" "
-                      required
-                      className="md:py-3.5 py-3 pl-12 md:px-3.5 px-3 peer outline text-black md:rounded-lg rounded-md 
-                      md:text-[14px] ss:text-[14px] text-[12px] outline-[1px] bg-transparent w-full focus:outline-primary outline-main6"
-                    />
-                    <label
-                      htmlFor="phoneNumber"
-                      className="absolute md:left-12 left-12 md:top-3.5 top-3 origin-[0] 
-                      md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform
-                      md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
-                      duration-300 peer-placeholder-shown:translate-y-0 text-main6
-                      peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
-                      ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
-                      peer-focus:scale-75 peer-focus:text-main6 pointer-events-none z-10 px-2"
-                    >
-                      Enter your phone number
-                    </label>
-                  </div>
-                </div>
+                <input
+                  type="tel"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  placeholder=" "
+                  required
+                  className="md:py-3.5 py-3 md:px-3.5 px-3 peer outline text-black md:rounded-lg rounded-md 
+                  md:text-[14px] ss:text-[14px] text-[12px] outline-[1px] bg-transparent w-full focus:outline-primary outline-main6"
+                />
+                <label
+                  htmlFor="phoneNumber"
+                  className="absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                  md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform
+                  md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                  duration-300 peer-placeholder-shown:translate-y-0 text-main6
+                  peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                  ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                  peer-focus:scale-75 peer-focus:text-main6 pointer-events-none z-10 px-2"
+                >
+                  Enter your phone number
+                </label>
               </div>
 
               <div className="mb-4 relative">
@@ -299,27 +319,42 @@ const ContactUs = () => {
           <h2 className="text-primary font-semibold md:text-[28px] ss:text-[26px] text-[24px] tracking-tight mb-2">Contact Information</h2>
           <p className="md:text-[15px] ss:text-[14px] text-[13px] text-main4 mb-8">Have questions or assistance? Our team is here to help</p>
           
-          <div className="space-y-8">
-            <div className="flex items-start">
+          <motion.div 
+            className="space-y-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.a 
+              href="mailto:contact@envoyangel.com" 
+              className="flex items-start hover:shadow-md p-3 rounded-lg transition-all duration-300"
+              variants={itemVariants}
+              whileHover={{ scale: 1.03, backgroundColor: "rgba(245, 245, 250, 0.5)" }}
+            >
               <div className="bg-primary bg-opacity-10 p-3 rounded-full mr-4">
                 <FiMail className="text-primary text-xl" />
               </div>
               <div>
                 <h3 className="text-primary font-medium md:text-[16px] ss:text-[15px] text-[14px]">Email Address</h3>
-                <p className="text-main4 md:text-[15px] ss:text-[14px] text-[13px]">mail@gmail.com</p>
+                <p className="text-main4 md:text-[15px] ss:text-[14px] text-[13px]">contact@envoyangel.com</p>
               </div>
-            </div>
+            </motion.a>
             
-            <div className="flex items-start">
+            <motion.a 
+              href="tel:+353877792899" 
+              className="flex items-start hover:shadow-md p-3 rounded-lg transition-all duration-300"
+              variants={itemVariants}
+              whileHover={{ scale: 1.03, backgroundColor: "rgba(245, 245, 250, 0.5)" }}
+            >
               <div className="bg-primary bg-opacity-10 p-3 rounded-full mr-4">
                 <FiPhone className="text-primary text-xl" />
               </div>
               <div>
                 <h3 className="text-primary font-medium md:text-[16px] ss:text-[15px] text-[14px]">Phone Number</h3>
-                <p className="text-main4 md:text-[15px] ss:text-[14px] text-[13px]">+234 123 456 7890</p>
+                <p className="text-main4 md:text-[15px] ss:text-[14px] text-[13px]">+353 87 779 2899</p>
               </div>
-            </div>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
       </div>
       
