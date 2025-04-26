@@ -78,7 +78,7 @@ const Blog = () => {
           Get ready to explore a smarter way to shop, ship, and connect. All in one place. Launching soon!
         </motion.p>
         
-        {/* Signup Form with animation */}
+        {/* Signup Form with animation
         <motion.div 
           className="bg-white rounded-lg p-8 w-full max-w-md shadow-lg"
           variants={formVariants}
@@ -105,7 +105,7 @@ const Blog = () => {
               Notify Me
             </motion.button>
           </div>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
     </div>
   );
