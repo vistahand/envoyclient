@@ -39,8 +39,7 @@ const ContactUs = () => {
     setLoading(true);
 
     try {
-      const apiUrl =
-        import.meta.env.VITE_API_URL || "https://envoyserver-pyxd.onrender.com";
+      const apiUrl = import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/api/contact`, {
         method: "POST",
         headers: {

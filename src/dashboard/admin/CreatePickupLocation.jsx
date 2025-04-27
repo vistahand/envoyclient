@@ -3,6 +3,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import LocationSelector from "../../components/LocationSelector";
 import { toast } from "react-hot-toast";
 import Modal from "../../components/Modal";
+import { pickup } from "../../services/api";
 
 const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
   const [formData, setFormData] = useState({
@@ -173,37 +174,11 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
     setError(null);
 
     try {
-      const token = getAuthToken();
-
-      if (!token) {
-        throw new Error("Authentication token not found. Please log in again.");
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/pickup-locations`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(submissionData),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || "Failed to create pickup location"
-        );
-      }
-
-      const result = await response.json();
-      // Store the created location ID if available
+      const result = await pickup.createPickupLocation(submissionData);
       if (result && result._id) {
         setCreatedLocationId(result._id);
       }
-      
+
       setShowSuccessModal(true);
       setFormData({
         name: "",
@@ -251,7 +226,7 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
         active: true,
         notes: "",
       });
-      toast.success("Pickup Location created");
+      toast.success("Delivery Location created");
     } catch (err) {
       setError(
         err.message || "An error occurred while creating the pickup location"
@@ -289,7 +264,7 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl md:text-2xl font-semibold text-primary">
-          Create Pickup Location
+          Create Delivery Location
         </h2>
         <button
           onClick={handleBackClick}
@@ -299,7 +274,7 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
         </button>
       </div>
       <p className="text-sm md:text-base text-gray-600">
-        Create a new pickup location for users to drop-off parcels and packages.
+        Create a new delivery location for recipients to pick-up parcels and packages.
       </p>
 
       {/* Display success or error messages */}

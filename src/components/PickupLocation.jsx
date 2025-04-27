@@ -336,11 +336,11 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
       <div className="flex items-center w-full flex-col">
         <div className="w-full flex flex-col gap-1.5 items-center">
           <h1 className="text-primary font-bold md:text-[40px] ss:text-[35px] text-[33px] tracking-tighter md:leading-[3.7rem] ss:leading-[3.5rem] leading-[2.5rem] text-center">
-            Select a pickup location
+            Select a delivery location
           </h1>
 
           <p className="text-main6 md:text-[17px] ss:text-[16px] text-[15px] md:leading-[1.4rem] ss:leading-[1.4rem] leading-[1.2rem] tracking-tight font-medium text-center">
-            Choose from our available pickup stations
+            Choose from our available delivery stations
           </p>
         </div>
 

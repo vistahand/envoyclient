@@ -161,7 +161,11 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
         type: currentTab,
         packages: formik.values.packages.map((packageItem) => {
           return {
-            packageType: packageItem.packageType,
+            packageType:
+              packageItem.packageType === "other" &&
+              packageItem.customPackageType
+                ? packageItem.customPackageType
+                : packageItem.packageType,
             weight: packageItem.weight,
             dimensions: {
               length: packageItem.length,
@@ -246,6 +250,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       packages: [
         {
           packageType: "",
+          customPackageType: "", // Add this new field
           weight: "",
           length: "",
           width: "",
@@ -257,27 +262,39 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       ],
     },
 
-    validationSchema: Yup.lazy((values) =>
-      Yup.object().shape({
-        packages: Yup.array().of(
-          Yup.object().shape({
-            packageType: Yup.string().required("Package type is required"),
-            weight: Yup.number()
-              .typeError("Package weight must be a number")
-              .required("Package weight is required"),
-            length: Yup.number()
-              .typeError("Package length must be a number")
-              .required("Package length is required"),
-            width: Yup.number()
-              .typeError("Package width must be a number")
-              .required("Package width is required"),
-            height: Yup.number()
-              .typeError("Package height must be a number")
-              .required("Package height is required"),
-          })
-        ),
-      })
-    ),
+    // Update the validationSchema in the formik configuration
+    validationSchema: Yup.object().shape({
+      packages: Yup.array().of(
+        Yup.object().shape({
+          packageType: Yup.string().required("Package type is required"),
+          customPackageType: Yup.string().when("packageType", {
+            is: "other",
+            then: () =>
+              Yup.string().required("Please specify the package type"),
+            otherwise: () => Yup.string(),
+          }),
+          weight: Yup.number()
+            .typeError("Package weight must be a number")
+            .required("Package weight is required")
+            .positive("Weight must be greater than 0"),
+          length: Yup.number()
+            .typeError("Package length must be a number")
+            .required("Package length is required")
+            .positive("Length must be greater than 0"),
+          width: Yup.number()
+            .typeError("Package width must be a number")
+            .required("Package width is required")
+            .positive("Width must be greater than 0"),
+          height: Yup.number()
+            .typeError("Package height must be a number")
+            .required("Package height is required")
+            .positive("Height must be greater than 0"),
+          isFragile: Yup.boolean(),
+          isPerishable: Yup.boolean(),
+          isHazardous: Yup.boolean(),
+        })
+      ),
+    }),
     validateOnMount: true,
     onSubmit: async (values) => {
       try {
@@ -295,7 +312,11 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
         const data = {
           packages: values.packages.map((packageItem) => {
             return {
-              packageType: packageItem.packageType,
+              packageType:
+                packageItem.packageType === "other" &&
+                packageItem.customPackageType
+                  ? packageItem.customPackageType
+                  : packageItem.packageType,
               weight: packageItem.weight,
               dimensions: {
                 length: packageItem.length,
@@ -343,6 +364,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
       ...formik.values.packages,
       {
         packageType: "",
+        customPackageType: "",
         weight: "",
         length: "",
         width: "",
@@ -406,6 +428,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
     options,
     placeholder,
     error,
+    index,
   }) => {
     const [showOptions, setShowOptions] = useState(false);
     const [selectedValue, setSelectedValue] = useState(value);
@@ -444,7 +467,12 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
           tabIndex={0}
         >
           {selectedValue ? (
-            <>{options.find((option) => option.value === value).label}</>
+            <>
+              {value === "other" &&
+              formik.values.packages[index].customPackageType
+                ? formik.values.packages[index].customPackageType
+                : options.find((option) => option.value === value).label}
+            </>
           ) : (
             <span className="text-main6">{placeholder}</span>
           )}
@@ -453,22 +481,22 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
         {showOptions && (
           <div
             className="absolute z-20 w-full bg-white rounded-md mt-2 
-                    shadow-[0px_5px_15px_rgba(0,0,0,0.25)]"
+                  shadow-[0px_5px_15px_rgba(0,0,0,0.25)]"
           >
             {options.map((option, optionIndex) => (
               <div
                 key={optionIndex}
                 className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
-                            hover:bg-primary flex items-center hover:text-white 
-                            md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
-                            ${
-                              optionIndex === 0
-                                ? "rounded-t-md"
-                                : optionIndex === options.length - 1
-                                ? "rounded-b-md"
-                                : ""
-                            }
-                            `}
+                          hover:bg-primary flex items-center hover:text-white 
+                          md:text-[14px] ss:text-[14px] text-[12px] text-main2 font-medium
+                          ${
+                            optionIndex === 0
+                              ? "rounded-t-md"
+                              : optionIndex === options.length - 1
+                              ? "rounded-b-md"
+                              : ""
+                          }
+                          `}
                 onClick={() => handleChange(option.value)}
               >
                 {option.icon} {option.label}
@@ -652,6 +680,7 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                           onBlur={formik.handleBlur}
                           options={packageTypeOptions}
                           placeholder="Select the type of package"
+                          index={index}
                           error={
                             formik.touched.packages &&
                             formik.errors.packages &&
@@ -666,14 +695,14 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                       <div className="absolute md:right-3.5 right-3">
                         <TiArrowSortedDown
                           className="text-main md:text-[16px]
-                                                ss:text-[18px] text-[16px]"
+                            ss:text-[18px] text-[16px]"
                         />
                       </div>
                     </div>
 
                     <p
                       className="text-mainRed md:text-[12px] flex justify-end
-                                    ss:text-[12px] text-[11px] mt-1 font-medium"
+                ss:text-[12px] text-[11px] mt-1 font-medium"
                     >
                       {formik.touched.packages &&
                         formik.errors.packages &&
@@ -683,6 +712,40 @@ const PackageDescribe = ({ onPrev, onNext, selectedTab }) => {
                         formik.errors.packages[index].packageType}
                     </p>
                   </div>
+
+                  {/* Add this conditional rendering for the custom package type input */}
+                  {pkg.packageType === "other" && (
+                    <div className="relative flex flex-col col-span-2">
+                      <div className="relative z-10">
+                        <input
+                          type="text"
+                          name={`packages[${index}].customPackageType`}
+                          placeholder=" "
+                          value={pkg.customPackageType || ""}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={`md:py-3.5 py-3 md:px-3.5 px-3 
+                  peer outline-[1px] outline-main6 outline
+                  text-black md:rounded-lg rounded-md md:text-[14px]
+                  ss:text-[14px] text-[12px] focus:outline-primary
+                  bg-transparent w-full`}
+                        />
+                        <label
+                          htmlFor="customPackageType"
+                          className={`absolute md:left-3.5 left-3 md:top-3.5 top-3 origin-[0] 
+                  md:-translate-y-6 ss:-translate-y-5 -translate-y-5 scale-75 transform text-main6 
+                  md:text-[14px] ss:text-[14px] text-[12px] bg-white peer-focus:px-2
+                  duration-300 peer-placeholder-shown:translate-y-0 
+                  peer-placeholder-shown:scale-100 md:peer-focus:-translate-y-6
+                  ss:peer-focus:-translate-y-5 peer-focus:-translate-y-5
+                  peer-focus:scale-75 peer-focus:text-main6 pointer-events-none
+                  ${pkg.customPackageType ? "z-10 px-2" : ""}`}
+                        >
+                          Specify Package Type
+                        </label>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="relative flex flex-col">
                     <div className="relative z-10">
