@@ -43,9 +43,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const verifyAuth = async () => {
-      const storedToken = localStorage.getItem("authToken");
-      const storedUser = localStorage.getItem("user");
-
       try {
         // Verify token with API
         const response = await auth.getMe();
@@ -57,11 +54,6 @@ export const AuthProvider = ({ children }) => {
       } catch (err) {
         logoutUser(); // 🔥 Logout if API request fails
       }
-      // if (storedToken && storedUser) {
-      // } else {
-      //   logoutUser(); // 🔥 Logout if no stored token/user
-      // }
-
       setLoading(false);
     };
 
@@ -73,14 +65,32 @@ export const AuthProvider = ({ children }) => {
       async () => {
         const response = await auth.login(credentials);
         if (response.success) {
+          if (response.data.user.role === "user") {
+            localStorage.setItem("authToken", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            setUser(response.data.user);
+          }
+        }
+        return response;
+      },
+      "login",
+      "Login failed"
+    );
+
+  const adminLogin = async (credentials) =>
+    handleAuthRequest(
+      async () => {
+        const response = await auth.adminLogin(credentials);
+        if (response.success) {
+          // Later on attach sessions to the user object for the admin
           localStorage.setItem("authToken", response.data.token);
           localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user data
           setUser(response.data.user);
         }
         return response;
       },
-      "login",
-      "Login failed"
+      "admin_login",
+      "Admin Login failed"
     );
 
   const logout = async () => {
@@ -228,6 +238,7 @@ export const AuthProvider = ({ children }) => {
     updateProfile,
     forgotPassword,
     resetPassword,
+    adminLogin,
     verifyEmail,
     isAuthenticated: !!user,
     isAdmin: user?.role === "admin",

@@ -57,6 +57,20 @@ export const auth = {
     }
   },
 
+  adminLogin: async ({ email, token }) => {
+    try {
+      const response = await api.post("/auth/verify-admin-login", email, token);
+      localStorage.setItem("user", JSON.stringify(response.data.data.user));
+      localStorage.setItem("token", JSON.stringify(response.data.data.token));
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(err.response?.data?.error || "Login failed");
+    }
+  },
+
   register: async (userData) => {
     try {
       const response = await api.post("/auth/register", userData);

@@ -57,6 +57,7 @@ import BlogPage from "./scenes/Blogpage";
 import FaqsPage from "./scenes/FaqsPage";
 import CareersPage from "./scenes/CareersPage";
 import CareerPage from "./dashboard/admin/CareerPage";
+import AdminVerify from "./dashboard/AdminVerify";
 
 const App = () => {
   return (
@@ -67,11 +68,8 @@ const App = () => {
             <Toaster />
             <div>
               <Routes>
-              <Route path="/forgot-password"
-               element={<ForgotPassword />} />
-              <Route path="/reset-password" 
-              element={<ResetPassword />} />
-
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
@@ -80,7 +78,7 @@ const App = () => {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/faqs" element={<FaqsPage />} />
-                <Route path="/careers" element={<CareersPage/>} />
+                <Route path="/careers" element={<CareersPage />} />
 
                 <Route
                   path="/createshipment"
@@ -121,7 +119,15 @@ const App = () => {
                     </GuestRoute>
                   }
                 />
-             
+
+                <Route
+                  path="/admin-verify"
+                  element={
+                    <GuestRoute>
+                      <AdminVerify />
+                    </GuestRoute>
+                  }
+                />
 
                 <Route
                   path="/user"
@@ -189,7 +195,7 @@ const App = () => {
                     path="pickuplocations/create"
                     element={<CreatePickupLocation />}
                   />
-                  
+
                   <Route path="quotemanagement" element={<QuoteMgt />} />
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />

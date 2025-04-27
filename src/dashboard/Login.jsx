@@ -49,7 +49,9 @@ const Login = () => {
         console.log("response: ", response);
         if (response.success) {
           // Navigate based on user role
-          navigate(response.data.user.role === "admin" ? "/admin" : "/user");
+          navigate(
+            response.data.user.role === "admin" ? "/admin-verify" : "/user"
+          );
         } else {
           setLoginError(response.error || "Login failed");
         }
@@ -84,14 +86,16 @@ const Login = () => {
               transition={{ duration: 0.3 }}
             >
               <HiOutlineArrowLeft className="text-[18px]" />
-              <span className="md:text-[15px] ss:text-[14px] text-[13px]">Back to Home</span>
+              <span className="md:text-[15px] ss:text-[14px] text-[13px]">
+                Back to Home
+              </span>
             </motion.button>
 
             <div
               className="w-full flex flex-col h-full md:gap-6 ss:gap-6 
             gap-5"
             >
-              <motion.div 
+              <motion.div
                 className="flex flex-col gap-1 w-full"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -129,10 +133,9 @@ const Login = () => {
               <div
                 className="flex md:justify-between items-center w-full 
               md:gap-5 ss:gap-5 gap-3 mobauth"
-              >
-              </div>
+              ></div>
 
-              <motion.div 
+              <motion.div
                 className="w-full"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -256,7 +259,7 @@ const Login = () => {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end w-full md:w-[80%] ss:w-[80%]">
                     <a
                       href="/forgot-password"
@@ -299,7 +302,7 @@ const Login = () => {
               </motion.div>
             </div>
 
-            <motion.div 
+            <motion.div
               className="flex relative w-full md:mt-12 justify-end"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -318,7 +321,7 @@ const Login = () => {
           </div>
         </div>
 
-        <motion.div 
+        <motion.div
           className="w-[50%] md:flex hidden"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
