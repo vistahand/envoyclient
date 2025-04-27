@@ -615,7 +615,7 @@ export const deliveryOptions = {
   getAll: async () => {
     try {
       const response = await api.get("/admin/delivery-options");
-      return response;
+      return response.data;
     } catch (err) {
       throw new Error("Error fetching delivery options from server");
     }
