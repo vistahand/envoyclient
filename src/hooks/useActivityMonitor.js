@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
-const ADMIN_TIMEOUT = 30 * 1000; // 30 seconds in milliseconds
+const ADMIN_TIMEOUT = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 export const useActivityMonitor = () => {
   const { user, logout } = useAuth();
@@ -14,18 +14,18 @@ export const useActivityMonitor = () => {
     }
 
     // Only set timeout for admin users
-    // if (user?.role === "admin") {
-    timeoutRef.current = setTimeout(() => {
-      toast.error("Session expired due to inactivity. Please log in again.");
-      setTimeout(() => {
-        logout();
-      }, 2000);
-    }, ADMIN_TIMEOUT);
-    // }
+    if (user?.role === "admin") {
+      timeoutRef.current = setTimeout(() => {
+        toast.error("Session expired due to inactivity. Please log in again.");
+        setTimeout(() => {
+          logout();
+        }, 4000);
+      }, ADMIN_TIMEOUT);
+    }
   };
 
   useEffect(() => {
-    // if (!user || user.role !== "admin") return;
+    if (!user || user.role !== "admin") return;
 
     // Activity events to monitor
     const events = [
