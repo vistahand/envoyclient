@@ -46,21 +46,21 @@ export const AuthProvider = ({ children }) => {
       const storedToken = localStorage.getItem("authToken");
       const storedUser = localStorage.getItem("user");
 
-      if (storedToken && storedUser) {
-        try {
-          // Verify token with API
-          const response = await auth.getMe();
-          if (response?.success) {
-            setUser(response.data.user);
-          } else {
-            logoutUser(); // 🔥 Call logoutUser() if verification fails
-          }
-        } catch (err) {
-          logoutUser(); // 🔥 Logout if API request fails
+      try {
+        // Verify token with API
+        const response = await auth.getMe();
+        if (response?.success) {
+          setUser(response.data.user);
+        } else {
+          logoutUser(); // 🔥 Call logoutUser() if verification fails
         }
-      } else {
-        logoutUser(); // 🔥 Logout if no stored token/user
+      } catch (err) {
+        logoutUser(); // 🔥 Logout if API request fails
       }
+      // if (storedToken && storedUser) {
+      // } else {
+      //   logoutUser(); // 🔥 Logout if no stored token/user
+      // }
 
       setLoading(false);
     };

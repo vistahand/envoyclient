@@ -26,8 +26,8 @@ const formatDate = (dateString) => {
 const getValidStatusTransitions = (currentStatus, paymentMethod) => {
   const commonTransitions = {
     picked_up: ["in_transit", "cancelled"],
-    in_transit: ["out_for_delivery", "cancelled"],
-    out_for_delivery: ["delivered", "in_transit", "cancelled"],
+    in_transit: ["out_for_delivery"],
+    out_for_delivery: ["delivered"],
     delivered: [],
     cancelled: [],
   };
@@ -51,9 +51,8 @@ const getValidStatusTransitions = (currentStatus, paymentMethod) => {
     return (
       {
         pending: ["awaiting_processing", "cancelled"],
-        awaiting_processing: ["processed", "cancelled"],
-        processed: ["awaiting_pickup", "cancelled"],
-        awaiting_pickup: ["picked_up", "cancelled"],
+        awaiting_pickup: [],
+        processed: ["picked_up", "cancelled"],
         ...commonTransitions,
       }[currentStatus] || []
     );
