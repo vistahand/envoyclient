@@ -46,8 +46,10 @@ export const auth = {
   login: async (credentials) => {
     try {
       const response = await api.post("/auth/login", credentials);
-      localStorage.setItem("user", JSON.stringify(response.data.data.user));
-      localStorage.setItem("token", JSON.stringify(response.data.data.token));
+      if (response.data.data.user.role === "user") {
+        localStorage.setItem("user", JSON.stringify(response.data.data.user));
+        localStorage.setItem("token", JSON.stringify(response.data.data.token));
+      }
       return response.data;
     } catch (err) {
       if (!err.response) {
