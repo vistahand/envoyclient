@@ -6,8 +6,10 @@ import {
 
 import { Helmet } from 'react-helmet';
 import { Outlet} from 'react-router-dom';
+import { useActivityMonitor } from '../hooks/useActivityMonitor';
 
 const UserDashHome = () => {
+   useActivityMonitor();
  
   return (
     <div className={`${styles.padding1} font-manrope`}>
