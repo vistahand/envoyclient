@@ -92,7 +92,7 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
       setLoading(true);
       try {
         console.log("Starting");
-        pickup.fetchPickupLocation().then((response) => {
+        await pickup.fetchPickupLocation().then((response) => {
           console.log("Pickup locations response:", response);
           if (response && response.items) {
             // Transform the data structure to match component expectations
@@ -125,7 +125,7 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
     };
 
     fetchPickupLocations();
-  }, []); // Remove locations dependency to prevent infinite loop
+  }, []);
 
   // Format operating hours for display
   const formatOperatingHours = (hours) => {

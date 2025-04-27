@@ -853,17 +853,18 @@ export const pickup = {
   },
 
   fetchPickupLocation: async ({
-    pagination = { page: 1, limit: 10 },
+    page = 1,
+    limit = 10,
     activeTab = "active",
     searchQuery = "",
-  }) => {
+  } = {}) => {
     try {
       const response = await api.get(
-        `/admin/pickup-locations?page=${pagination.page}&limit=${
-          pagination.limit
-        }&status=${activeTab}${searchQuery ? `&search=${searchQuery}` : ""}`
+        `/admin/pickup-locations?page=${page}&limit=${limit}&status=${activeTab}${
+          searchQuery ? `&search=${searchQuery}` : ""
+        }`
       );
-      return response;
+      return response.data;
     } catch (err) {
       throw new Error("Failed to fetch pickup locations");
     }

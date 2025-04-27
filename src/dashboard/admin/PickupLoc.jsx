@@ -125,14 +125,12 @@ const PickupLoc = () => {
         return;
       }
 
-      const data = await pickup.fetchPickupLocation({
-        pagination: {
-          page: pagination.page,
-          limit: pagination.limit,
-        },
+      const data = await pickup.fetchPickupLocation(
+        pagination.page,
+        pagination.limit,
         activeTab,
-        searchQuery,
-      });
+        searchQuery
+      );
 
       setLocations(data.items || []);
       setPagination({
