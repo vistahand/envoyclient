@@ -45,13 +45,18 @@ const Login = () => {
       try {
         setIsLoading(true);
         setLoginError("");
+ 
+        
         const response = await login(values);
-        console.log("response: ", response);
+        
         if (response.success) {
-          // Navigate based on user role
-          navigate(
-            response.data.user.role === "admin" ? "/admin-verify" : "/user"
-          );
+          // For admin users, always navigate to the verification page
+          if (response.data.user.role === "admin") {
+            navigate(`/admin-verify?email=${response.data.user.email}`);
+          } else {
+            // For regular users, navigate to their dashboard
+            navigate("/user");
+          }
         } else {
           setLoginError(response.error || "Login failed");
         }
@@ -69,6 +74,7 @@ const Login = () => {
       className="relative w-full flex md:items-center md:min-h-auto font-manrope
     ss:min-h-[80vh] min-h-[90vh]"
     >
+      {/* Rest of the component remains the same */}
       <div className="flex flex-row w-full justify-between md:gap-20">
         <div className="md:w-[50%] w-full flex flex-col md:py-10">
           <div

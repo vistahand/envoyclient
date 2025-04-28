@@ -61,7 +61,7 @@ export const auth = {
 
   adminLogin: async ({ email, token }) => {
     try {
-      const response = await api.post("/auth/verify-admin-login", email, token);
+      const response = await api.post("/auth/verify-admin-login",  {email, token});
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
       localStorage.setItem("token", JSON.stringify(response.data.data.token));
       return response.data;
@@ -96,6 +96,7 @@ export const auth = {
       throw new Error(err.response?.data?.error || "Email verification failed");
     }
   },
+  
 
   completeRegistration: async (userData) => {
     try {
@@ -772,13 +773,13 @@ export const admin = {
   },
 
   payments: {
-    getAll: async ({ page = 1, limit = 10 }) => {
+    getAll: async ({ page = 1, limit = 10 } = {}) => {
       try {
         const response = await api.get(
           `/admin/payments?page=${page}&limit=${limit}`
         );
         return response.data;
-      } catch (err) {
+      } catch (err) { 
         if (!err.response) {
           throw new Error("Network error. Please check your connection.");
         }
