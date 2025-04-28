@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
-const ADMIN_TIMEOUT = 5 * 60 * 1000; // 5 minutes in milliseconds
+const ADMIN_TIMEOUT = 60 * 60 * 1000; // 5 seconds
 
 export const useActivityMonitor = () => {
   const { user, logout } = useAuth();
