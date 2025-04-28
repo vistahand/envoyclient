@@ -245,13 +245,13 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-6">
               <h1
                 className="text-primary cursor-pointer ss:text-[20px] 
-                            text-[16px] font-[600]"
+                            text-[8px] font-[600]"
                 onClick={(e) => {
                   e.preventDefault();
                   navigate("/login");
                 }}
               >
-                Log In
+                Login
               </h1>
 
               <a
@@ -463,13 +463,13 @@ const Navbar = () => {
                 <div className="flex items-center gap-6">
                   <h1
                     className="text-primary cursor-pointer ss:text-[20px] 
-                            text-[16px] font-[600]"
+                            text-[8px]"
                     onClick={(e) => {
                       e.preventDefault();
                       navigate("/login");
                     }}
                   >
-                    Log In
+                    Login
                   </h1>
 
                   <a
