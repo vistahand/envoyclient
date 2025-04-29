@@ -19,7 +19,7 @@ export const useActivityMonitor = () => {
         toast.error("Session expired due to inactivity. Please log in again.");
         setTimeout(() => {
           logout();
-        }, 4000);
+        }, 2000);
       }, ADMIN_TIMEOUT);
     }
   };
