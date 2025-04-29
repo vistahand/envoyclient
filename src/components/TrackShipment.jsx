@@ -219,21 +219,21 @@ const TrackShipment = () => {
           isEstimated: !latestStatusEvents["picked_up"],
         },
         {
-          title: "Package Shipping",
+          title: "Package on Transit",
           date: latestStatusEvents["in_transit"]?.timestamp,
           isCompleted: !!latestStatusEvents["in_transit"] && isPaid,
           details: null,
           isEstimated: !latestStatusEvents["in_transit"],
         },
         {
-          title: "Out for Delivery",
+          title: "Shipment Arrival & Available for Pickup by Recipient",
           date: latestStatusEvents["out_for_delivery"]?.timestamp,
           isCompleted: !!latestStatusEvents["out_for_delivery"],
           details: null,
           isEstimated: !latestStatusEvents["out_for_delivery"],
         },
         {
-          title: "Shipment Arrival",
+          title: "Shipment Delivered",
           date:
             shipmentData.delivery?.actualDate ||
             shipmentData.delivery?.estimatedDate,
@@ -269,21 +269,21 @@ const TrackShipment = () => {
           details: null,
         },
         {
-          title: "Package Shipping",
+          title: "Package on Transit",
           date: latestStatusEvents["in_transit"]?.timestamp,
           isCompleted: !!latestStatusEvents["in_transit"],
           details: null,
           isEstimated: !latestStatusEvents["in_transit"],
         },
         {
-          title: "Out for Delivery",
+          title: "Shipment Arrival & Available for Pickup by Recipient",
           date: latestStatusEvents["out_for_delivery"]?.timestamp,
           isCompleted: !!latestStatusEvents["out_for_delivery"],
           details: null,
           isEstimated: !latestStatusEvents["out_for_delivery"],
         },
         {
-          title: "Shipment Arrival",
+          title: "Shipment Delivered",
           date:
             shipmentData.delivery?.actualDate ||
             shipmentData.delivery?.estimatedDate,
