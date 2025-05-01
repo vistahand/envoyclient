@@ -9,9 +9,9 @@ import { internationalIcon } from "../assets";
 import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
 
-const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
+const GetStartedForm = ({ onNext, initialData }) => {
   const formRef = useRef();
-  const [currentTab, setCurrentTab] = useState(selectedTab || "international");
+  const [currentTab, setCurrentTab] = useState("international");
   const [countries, setCountries] = useState([]);
   const { initializeShipment, loading, error, shipmentData } = useShipment();
   const { addNotification } = useNotifications();
@@ -26,15 +26,18 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
       if (isInternational) {
         formik.setValues({
           ...formik.values,
-          countryFromInt: initialData.origin?.country || "IE",
+          // countryFromInt: initialData.origin?.country || "IE",
+          countryFromInt: "IE",
           cityFromInt: initialData.origin?.city || "",
-          countryTo: initialData.destination?.country || "NG",
+          // countryTo: initialData.destination?.country || "NG",
+          countryTo: "NG",
           cityToInt: initialData.destination?.city || "",
         });
       } else {
         formik.setValues({
           ...formik.values,
-          countryFromLoc: initialData.origin?.country || "NG",
+          // countryFromLoc: initialData.origin?.country || "NG",
+          countryFromLoc: "NG",
           cityFromLoc: initialData.origin?.city || "",
           cityToLoc: initialData.destination?.city || "",
         });
@@ -95,9 +98,6 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
     onSubmit: async (values) => {
       try {
         setSubmitting(true);
-
-        // Use existing shipment ID if available
-        const existingShipmentId = shipmentData?.id;
 
         // Validate international/local shipment type against countries
         if (currentTab === "international") {
@@ -175,10 +175,12 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
     },
   });
 
-  const handleTabChange = (tab) => {
-    setCurrentTab(tab);
-    formik.resetForm();
-  };
+  // const handleTabChange = (tab) => {
+  //   if (tab === "international") {
+  //     setCurrentTab(tab);
+  //     formik.resetForm();
+  //   }
+  // };
 
   return (
     <section
@@ -212,16 +214,18 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
             ss:gap-3 gap-2.5 md:w-[43%] ss:w-[70%] w-full mt-3"
         >
           <div
-            className={`py-3.5 px-4 flex items-center mobship
-                ${
-                  currentTab === "international"
-                    ? "bg-primary text-white"
-                    : "border-main5 border-[1px] text-primary grow4"
-                }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full 
-                gap-2 transition-all duration-300 ease-in-out`}
-            onClick={() => handleTabChange("international")}
+            // className={`py-3.5 px-4 flex items-center mobship
+            //     ${
+            //       currentTab === "international"
+            //         ? "bg-primary text-white"
+            //         : "border-main5 border-[1px] text-primary grow4"
+            //     }  rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full
+            //     gap-2 transition-all duration-300 ease-in-out`}
+            // onClick={() => handleTabChange("international")}
+
+            className="py-3.5 px-4 flex items-center mobship bg-primary text-white rounded-lg cursor-pointer md:w-1/2 ss:w-1/2 w-full gap-2"
           >
-            <img
+            {/* <img
               src={internationalIcon}
               className={`w-[2.3rem] h-auto object-contain
                             ${
@@ -230,6 +234,11 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                                 : "stroke-primary"
                             }
                         `}
+              alt="International Shipping"
+            /> */}
+            <img
+              src={internationalIcon}
+              className="w-[2.3rem] h-auto object-contain stroke-white"
               alt="International Shipping"
             />
 
@@ -241,18 +250,19 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                 International Shipping
               </h2>
 
-              <p
+              {/* <p
                 className={`${
                   currentTab === "local" ? "text-main4" : "font-light"
                 } md:text-[11px] ss:text-[11px] text-[10px]
                         `}
-              >
+              > */}
+              <p className="font-light md:text-[11px] ss:text-[11px] text-[10px]">
                 Ship between countries
               </p>
             </div>
           </div>
 
-          <div
+          {/* <div
             className={`py-3.5 px-4 flex items-center mobship
                 ${
                   currentTab === "local"
@@ -290,6 +300,21 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                 Ship within your country
               </p>
             </div>
+          </div> */}
+          <div className="py-3.5 px-4 flex items-center mobship border-main5 border-[1px] text-gray-400 rounded-lg md:w-1/2 ss:w-1/2 w-full gap-2 opacity-50 cursor-not-allowed">
+            <img
+              src={localIcon}
+              className="w-[2.3rem] h-auto object-contain stroke-gray-400"
+              alt="Local Shipping"
+            />
+            <div className="flex flex-col">
+              <h2 className="md:text-[13px] ss:text-[13px] text-[12px] font-bold">
+                Local Shipping
+              </h2>
+              <p className="md:text-[11px] ss:text-[11px] text-[10px]">
+                Coming Soon
+              </p>
+            </div>
           </div>
         </div>
 
@@ -312,7 +337,7 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                   className="grid md:grid-cols-2 ss:grid-cols-2
                             gap-3.5 mt-3.5"
                 >
-                  <div className="relative flex flex-col">
+                  {/* <div className="relative flex flex-col">
                     <div className="relative flex items-center">
                       {formik.values.countryFromInt && (
                         <img
@@ -378,8 +403,25 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                     >
                       This is your billing country/region
                     </p>
+                  </div> */}
+                  <div className="relative flex flex-col">
+                    <div className="relative flex items-center">
+                      <img
+                        src={
+                          countries.find((country) => country.cca2 === "IE")
+                            ?.flags?.png
+                        }
+                        alt="Ireland flag"
+                        className="absolute md:left-3.5 left-3 w-10 h-[1.4rem] rounded-sm"
+                      />
+                      <input
+                        type="text"
+                        value="Ireland"
+                        disabled
+                        className="md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem] px-3 outline text-main2 md:rounded-lg rounded-md md:text-[14px] font-bold pl-[3.6rem] ss:text-[14px] text-[12px] bg-transparent w-full outline-[1px] outline-main6 cursor-not-allowed"
+                      />
+                    </div>
                   </div>
-
                   <div className="relative z-10">
                     <input
                       type="text"
@@ -443,7 +485,7 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                   className="grid md:grid-cols-2 ss:grid-cols-2
                             gap-3.5 mt-3.5"
                 >
-                  <div className="relative flex flex-col">
+                  {/* <div className="relative flex flex-col">
                     <div className="relative flex items-center">
                       {formik.values.countryTo && (
                         <img
@@ -508,6 +550,24 @@ const GetStartedForm = ({ onNext, selectedTab, initialData }) => {
                     >
                       This is the country/region we'll be shipping to
                     </p>
+                  </div> */}
+                  <div className="relative flex flex-col">
+                    <div className="relative flex items-center">
+                      <img
+                        src={
+                          countries.find((country) => country.cca2 === "NG")
+                            ?.flags?.png
+                        }
+                        alt="Nigeria flag"
+                        className="absolute md:left-3.5 left-3 w-10 h-[1.4rem] rounded-sm"
+                      />
+                      <input
+                        type="text"
+                        value="Nigeria"
+                        disabled
+                        className="md:py-3.5 py-3 md:px-3.5 md:pl-[3.8rem] px-3 outline text-main2 md:rounded-lg rounded-md md:text-[14px] font-bold pl-[3.6rem] ss:text-[14px] text-[12px] bg-transparent w-full outline-[1px] outline-main6 cursor-not-allowed"
+                      />
+                    </div>
                   </div>
 
                   <div className="relative z-10">

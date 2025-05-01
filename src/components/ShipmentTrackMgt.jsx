@@ -26,8 +26,8 @@ const formatDate = (dateString) => {
 const getValidStatusTransitions = (currentStatus, paymentMethod) => {
   const commonTransitions = {
     picked_up: ["in_transit", "cancelled"],
-    in_transit: ["out_for_delivery", "cancelled"],
-    out_for_delivery: ["delivered", "in_transit", "cancelled"],
+    in_transit: ["out_for_delivery"],
+    out_for_delivery: ["delivered"],
     delivered: [],
     cancelled: [],
   };
@@ -51,9 +51,8 @@ const getValidStatusTransitions = (currentStatus, paymentMethod) => {
     return (
       {
         pending: ["awaiting_processing", "cancelled"],
-        awaiting_processing: ["processed", "cancelled"],
-        processed: ["awaiting_pickup", "cancelled"],
-        awaiting_pickup: ["picked_up", "cancelled"],
+        awaiting_pickup: [],
+        processed: ["picked_up", "cancelled"],
         ...commonTransitions,
       }[currentStatus] || []
     );
@@ -712,7 +711,10 @@ const ShipmentTrackMgt = ({
                               : "text-blue-800"
                           }`}
                         >
-                          {getFormattedStatus(shipment.status)}
+                          {shipment.status === "awaiting_pickup" &&
+                          shipment.payment?.method === "cash_on_pickup"
+                            ? "Pending Payment Approval"
+                            : getFormattedStatus(shipment.status)}
                         </span>
                       </td>
                       <td className="p-0 text-xs">
@@ -956,7 +958,10 @@ const ShipmentTrackMgt = ({
                               : "bg-blue-100 text-blue-800"
                           }`}
                         >
-                          {getFormattedStatus(shipment.status)}
+                          {shipment.status === "awaiting_pickup" &&
+                          shipment.payment?.method === "cash_on_pickup"
+                            ? "Pending Payment Approval"
+                            : getFormattedStatus(shipment.status)}
                         </span>
                       </div>
                       <div>

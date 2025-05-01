@@ -414,11 +414,28 @@ export const adminSideLinks = [
       Icon: shome,
   },
   {
-      id: 'shipmentMgt',
-      title: 'Shipment Management',
-      route: '/admin/shipmentmanagement',
-      Icon: packagex,
-  },
+    id: 'shipmentMgt',
+    title: 'Shipment Mgt',
+    Icon: packagex,
+    hasDropdown: true,
+      dropdownItems: [
+          {
+              id: 'shipmentMgt',
+              title: 'Shipment',
+              route: '/admin/shipmentmanagement',
+          },
+          {
+              id: 'createShipment',
+              title: 'Create shipment package',
+              route: '/admin/createshipment-package',
+          },
+          {
+              id: 'approvePendingShipment',
+              title: 'Approve pending shipment',
+              route: '/admin/approve-pending-shipment',
+          },
+      ]
+},
   {
       id: 'payments',
       title: 'Payments',
@@ -468,6 +485,7 @@ export const adminSideLinks = [
     route: '/admin/careers',
     Icon: mapsearch,
 },
+
 ];
 
 export const shipmentHead = [

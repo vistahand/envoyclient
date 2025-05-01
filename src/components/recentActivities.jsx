@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { HiOutlineClock, HiOutlineRefresh, HiOutlineUserCircle, HiOutlineTruck, HiOutlineCash } from "react-icons/hi";
+import {
+  HiOutlineClock,
+  HiOutlineRefresh,
+  HiOutlineUserCircle,
+  HiOutlineTruck,
+  HiOutlineCash,
+} from "react-icons/hi";
 import { format, formatDistanceToNow } from "date-fns";
 
 const RecentActivities = () => {
@@ -12,27 +18,27 @@ const RecentActivities = () => {
     try {
       // Get token from local storage or context
       let token = localStorage.getItem("token"); // Adjust based on how you store tokens
-      
+
       if (!token) {
         throw new Error("Authentication token not found");
       }
-      
+
       // Fix: Remove quotes if they exist around the token
       if (token.startsWith('"') && token.endsWith('"')) {
         token = token.slice(1, -1);
         console.log("Removed quotes from token");
       }
-      
+
       // Log token info (first few characters) for debugging
       const tokenStart = token.substring(0, 15) + "...";
       console.log(`Using token beginning with: ${tokenStart}`);
-      
+
       // Use environment variable for API URL
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://envoyserver-pyxd.onrender.com';
+      const apiUrl = import.meta.env.VITE_API_URL;
       const endpoint = `${apiUrl}/api/admin/recent-activity`;
-      
+
       console.log(`Attempting to fetch from: ${endpoint}`);
-      
+
       const response = await fetch(endpoint, {
         method: "GET",
         headers: {
@@ -43,25 +49,31 @@ const RecentActivities = () => {
 
       console.log(`Response status: ${response.status}`);
       const responseText = await response.text();
-      
+
       try {
         // Try to parse as JSON
         const responseData = responseText ? JSON.parse(responseText) : [];
         console.log("Response data:", responseData);
-        
+
         if (!response.ok) {
           if (response.status === 401) {
-            throw new Error(`Unauthorized: ${responseData.message || "Please log in again"}`);
+            throw new Error(
+              `Unauthorized: ${responseData.message || "Please log in again"}`
+            );
           }
-          throw new Error(`Error ${response.status}: ${responseData.message || response.statusText}`);
+          throw new Error(
+            `Error ${response.status}: ${
+              responseData.message || response.statusText
+            }`
+          );
         }
-        
+
         setActivities(responseData);
         setError(null);
       } catch (jsonError) {
         // Handle non-JSON responses
         console.log("Non-JSON response:", responseText);
-        
+
         if (!response.ok) {
           if (response.status === 401) {
             throw new Error("Unauthorized: Please log in again");
@@ -71,8 +83,11 @@ const RecentActivities = () => {
       }
     } catch (err) {
       console.error("Failed to fetch recent activities:", err);
-      setError(err.message || "Failed to load recent activities. Please try again later.");
-      
+      setError(
+        err.message ||
+          "Failed to load recent activities. Please try again later."
+      );
+
       // Fallback: Display dummy data if in development mode
       if (import.meta.env.DEV) {
         console.log("Using fallback data in development mode");
@@ -82,8 +97,6 @@ const RecentActivities = () => {
       setLoading(false);
     }
   };
-
-
 
   useEffect(() => {
     fetchActivities();
@@ -109,7 +122,7 @@ const RecentActivities = () => {
       const date = new Date(timestamp);
       return {
         relative: formatDistanceToNow(date, { addSuffix: true }),
-        full: format(date, "MMM d, yyyy 'at' h:mm a")
+        full: format(date, "MMM d, yyyy 'at' h:mm a"),
       };
     } catch (err) {
       return { relative: "Unknown date", full: "Unknown date" };
@@ -147,12 +160,16 @@ const RecentActivities = () => {
   return (
     <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
       <div className="flex justify-between items-center mb-4 sm:mb-6">
-        <h2 className="font-semibold text-sm sm:text-base text-gray-700">Recent Activities</h2>
-        <button 
+        <h2 className="font-semibold text-sm sm:text-base text-gray-700">
+          Recent Activities
+        </h2>
+        <button
           onClick={fetchActivities}
           className="text-xs sm:text-sm text-blue-600 font-medium flex items-center gap-1"
         >
-          <HiOutlineRefresh className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? "animate-spin" : ""}`} />
+          <HiOutlineRefresh
+            className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? "animate-spin" : ""}`}
+          />
           Refresh
         </button>
       </div>
@@ -161,7 +178,9 @@ const RecentActivities = () => {
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 text-xs sm:text-sm">
           {error}
           {import.meta.env.DEV && activities.length > 0 && (
-            <div className="mt-1 text-xs">Using fallback data for development</div>
+            <div className="mt-1 text-xs">
+              Using fallback data for development
+            </div>
           )}
         </div>
       )}
@@ -169,18 +188,29 @@ const RecentActivities = () => {
       <div className="overflow-y-auto max-h-80 pr-1">
         {loading && activities.length === 0 ? (
           <div className="flex justify-center items-center py-8">
-            <div className="animate-pulse text-gray-400 text-sm">Loading activities...</div>
+            <div className="animate-pulse text-gray-400 text-sm">
+              Loading activities...
+            </div>
           </div>
         ) : activities.length === 0 ? (
-          <div className="text-center py-8 text-gray-500 text-sm">No recent activities found</div>
+          <div className="text-center py-8 text-gray-500 text-sm">
+            No recent activities found
+          </div>
         ) : (
           <ul className="divide-y divide-gray-100">
             {activities.map((activity) => {
               const dateInfo = formatActivityDate(activity.timestamp);
               return (
-                <li key={`${activity.type}-${activity.id}`} className="py-3 sm:py-4">
+                <li
+                  key={`${activity.type}-${activity.id}`}
+                  className="py-3 sm:py-4"
+                >
                   <div className="flex items-start gap-3">
-                    <div className={`flex-shrink-0 rounded-full p-2 ${getActivityBgColor(activity.type)} ${getActivityTextColor(activity.type)}`}>
+                    <div
+                      className={`flex-shrink-0 rounded-full p-2 ${getActivityBgColor(
+                        activity.type
+                      )} ${getActivityTextColor(activity.type)}`}
+                    >
                       {getActivityIcon(activity.type)}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -190,12 +220,19 @@ const RecentActivities = () => {
                       <p className="text-xs text-gray-500 mt-1">
                         by <span className="font-medium">{activity.user}</span>
                       </p>
-                      <p className="text-xs text-gray-400 mt-1" title={dateInfo.full}>
+                      <p
+                        className="text-xs text-gray-400 mt-1"
+                        title={dateInfo.full}
+                      >
                         {dateInfo.relative}
                       </p>
                     </div>
                     <div>
-                      <span className={`inline-flex items-center px-2 py-1 text-xxs sm:text-xs font-medium rounded-full ${getActivityBgColor(activity.type)} ${getActivityTextColor(activity.type)} capitalize`}>
+                      <span
+                        className={`inline-flex items-center px-2 py-1 text-xxs sm:text-xs font-medium rounded-full ${getActivityBgColor(
+                          activity.type
+                        )} ${getActivityTextColor(activity.type)} capitalize`}
+                      >
                         {activity.type}
                       </span>
                     </div>

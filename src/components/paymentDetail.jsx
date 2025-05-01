@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaCircle, FaSyncAlt, FaPrint, FaFileDownload } from "react-icons/fa";
+import { admin } from "../services/api";
 
 const PaymentDetail = () => {
   const { id } = useParams();
@@ -26,40 +27,9 @@ const PaymentDetail = () => {
 
   const fetchPaymentDetail = async () => {
     try {
-      setLoading(true);
-      const token = getAuthToken();
-      
-      if (!token) {
-        throw new Error("Authentication token not found. Please log in again.");
-      }
-      
-      console.log("Fetching payment with ID:", id);
-      console.log("Using auth token:", token.substring(0, 10) + "...");
-      
-      fetch('https://envoyserver-pyxd.onrender.com/api/admin/payments/67fe68624cfa00255e46ea7e', {
-        headers: {
-          'Authorization': 'Bearer YOUR_TOKEN_HERE'
-        }
-      })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
-
-      console.log("API Response status:", response.status);
-      
-      if (response.status === 401) {
-        throw new Error("Your session has expired. Please log in again.");
-      }
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("API error response:", response.status, errorText);
-        throw new Error(`Failed to fetch payment details: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      console.log("Raw API Response data:", data);
-      
+      const response = await admin.payments.getById(String(id));
+      console.log(response);
+      const data = response;
       // Transform the payment data
       if (data) {
         try {

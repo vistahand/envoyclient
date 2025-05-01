@@ -7,8 +7,7 @@ import {
 import { Helmet } from 'react-helmet';
 import { Outlet} from 'react-router-dom';
 
-const UserDashHome = () => {
- 
+const UserDashHome = () => { 
   return (
     <div className={`${styles.padding1} font-manrope`}>
       <Helmet>

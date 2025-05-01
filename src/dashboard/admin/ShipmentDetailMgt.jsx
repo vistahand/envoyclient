@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { HiOutlineArrowLeft, HiOutlineTrash, HiOutlineSearch } from 'react-icons/hi';
 import { TbWorldShare } from "react-icons/tb";
 import { format } from 'date-fns';
+import { admin } from '../../services/api';
 
 // Helper function to get authentication token
 const getAuthToken = () => {
@@ -85,28 +86,16 @@ const ShipmentDetailMgt = () => {
     const fetchShipmentDetails = async () => {
       setLoading(true);
       try {
-        const token = getAuthToken();
-        
-        if (!token) {
-          throw new Error("Authentication token not found. Please log in again.");
+         // Fetch shipment details
+        const response = await admin.shipments.getById(String(shipmentId));
+
+        if (response.success) {
+          setShipment(response.data.shipment);
+        } else {
+          throw new Error(
+            response.message || "Failed to fetch shipment details"
+          );
         }
-        
-        // Direct API call to your endpoint with the shipmentId
-        const response = await fetch(`https://envoyserver-pyxd.onrender.com/api/admin/shipments/${shipmentId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log("Shipment Details:", data);
-        setShipment(data);
       } catch (err) {
         console.error("Error fetching shipment details:", err);
         setError(err.message);

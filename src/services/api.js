@@ -46,6 +46,25 @@ export const auth = {
   login: async (credentials) => {
     try {
       const response = await api.post("/auth/login", credentials);
+      if (response.data.data.user.role === "user") {
+        localStorage.setItem("user", JSON.stringify(response.data.data.user));
+        localStorage.setItem("token", JSON.stringify(response.data.data.token));
+      }
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(err.response?.data?.error || "Login failed");
+    }
+  },
+
+  adminLogin: async ({ email, token }) => {
+    try {
+      const response = await api.post("/auth/verify-admin-login", {
+        email,
+        token,
+      });
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
       localStorage.setItem("token", JSON.stringify(response.data.data.token));
       return response.data;
@@ -152,7 +171,7 @@ export const auth = {
     try {
       const response = await api.put(`/auth/reset-password/${token}`, {
         password,
-        email
+        email,
       });
       return response.data;
     } catch (err) {
@@ -535,6 +554,7 @@ export const shipments = {
         params: {
           paymentStatus: "awaiting_confirmation",
           paymentMethod: "cash",
+          removeShipmentsToBeReviewed: true,
         },
       });
       return response.data;
@@ -595,13 +615,29 @@ export const payments = {
 
 // Delivery Options endpoints
 export const deliveryOptions = {
+  create: async (deliveryOptionData) => {
+    try {
+      const response = await api.post(
+        "/admin/delivery-options",
+        deliveryOptionData
+      );
+      return response;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to create delivery option"
+      );
+    }
+  },
+
   getAll: async () => {
     try {
       const response = await api.get("/admin/delivery-options");
       return response.data;
     } catch (err) {
-      toast.error("Error fetching delivery options from server");
-
+      throw new Error("Error fetching delivery options from server");
     }
   },
 
@@ -616,6 +652,41 @@ export const deliveryOptions = {
       throw new Error(
         err.response?.data?.error || "Failed to fetch delivery option details"
       );
+    }
+  },
+
+  update: async (id, deliveryOptionData) => {
+    try {
+      const response = await api.put(
+        `/admin/delivery-options/${id}`,
+        deliveryOptionData
+      );
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to update delivery option"
+      );
+    }
+  },
+
+  delete: async (id) => {
+    try {
+      const response = await api.delete(`/admin/delivery-options/${id}`);
+      return {
+        response,
+        status: true,
+      };
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      return {
+        response: err,
+        status: false,
+      };
     }
   },
 };
@@ -687,8 +758,25 @@ export const updateProfileImage = async (file) => {
 };
 
 export const admin = {
+  shipments: {
+    // Get shipment by ID
+    getById: async (id) => {
+      try {
+        const response = await api.get(`/shipments/${id}`);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to fetch shipment details"
+        );
+      }
+    },
+  },
+
   payments: {
-    getAll: async ({ page = 1, limit = 10 }) => {
+    getAll: async ({ page = 1, limit = 10 } = {}) => {
       try {
         const response = await api.get(
           `/admin/payments?page=${page}&limit=${limit}`
@@ -718,15 +806,133 @@ export const admin = {
       }
     },
   },
+
+  shippingRates: {
+    getAll: async () => {
+      try {
+        const response = await api.get("/admin/shipping-rates");
+        return response;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to fetch shipping rates"
+        );
+      }
+    },
+
+    create: async (shippingRateData) => {
+      try {
+        const response = await api.post(
+          "/admin/shipping-rates",
+          shippingRateData
+        );
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to create shipping rate"
+        );
+      }
+    },
+
+    update: async (shippingRateData) => {
+      try {
+        const response = await api.put(
+          `/admin/shipping-rates`,
+          shippingRateData
+        );
+        return {
+          response,
+          status: true,
+        };
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        return {
+          response: err,
+          status: false,
+        };
+      }
+    },
+  },
+
+  packages: {
+    getAll: async () => {
+      try {
+        const response = await api.get(`/admin/packages`);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        return {
+          response: err,
+          status: false,
+        };
+      }
+    },
+
+    createPackage: async (formData) => {
+      try {
+        const response = await api.post(`/admin/create-package`, formData);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        return {
+          response: err,
+          status: false,
+        };
+      }
+    },
+  },
 };
 
 export const pickup = {
-  fetchPickupLocation: async () => {
+  createPickupLocation: async (pickupData) => {
     try {
-      const response = await api.get(`/admin/pickup-locations`);
-      return response.data;
+      const response = await api.post(`/admin/pickup-locations`, pickupData);
+      return response;
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  fetchPickupLocation: async ({
+    page = 1,
+    limit = 10,
+    activeTab = "active",
+    searchQuery = "",
+  } = {}) => {
+    try {
+      const response = await api.get(
+        `/admin/pickup-locations?page=${page}&limit=${limit}&status=${activeTab}${
+          searchQuery ? `&search=${searchQuery}` : ""
+        }`
+      );
+      return response.data;
+    } catch (err) {
+      throw new Error("Failed to fetch pickup locations");
+    }
+  },
+  deletePickupLocation: async (id) => {
+    try {
+      const response = await api.delete(`/admin/pickup-locations/${id}`);
+      return {
+        data: response,
+        status: true,
+      };
+    } catch (err) {
+      return {
+        data: err,
+        status: false,
+      };
     }
   },
 };

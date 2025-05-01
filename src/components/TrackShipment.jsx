@@ -170,6 +170,12 @@ const TrackShipment = () => {
     const paymentStatus = shipmentData.payment?.status;
     const isPaid = paymentStatus === "completed";
     const isCashOnPickup = paymentMethod === "cash_on_pickup";
+    const isCancelled = shipmentData.status === "cancelled";
+
+    const cancellationEvent = sortedTimeline.find(
+      (event) => event.status === "cancelled"
+    );
+    const cancellationTimestamp = cancellationEvent?.timestamp || null;
 
     // Default steps with base data
     let steps = [
@@ -189,6 +195,14 @@ const TrackShipment = () => {
       steps = [
         ...steps,
         {
+          title: "Awaiting Pickup",
+          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
+          isCompleted: !!latestStatusEvents["awaiting_pickup"],
+          details: `Pickup scheduled at: ${
+            shipmentData.pickup?.address?.street || ""
+          }, ${shipmentData.pickup?.address?.city || ""}`,
+        },
+        {
           title: "Payment at Pickup",
           date: isPaid ? shipmentData.payment?.paidAt : getAwaitingPickupDate(),
           isCompleted: isPaid,
@@ -198,14 +212,6 @@ const TrackShipment = () => {
           isEstimated: !isPaid,
         },
         {
-          title: "Awaiting Pickup",
-          date: latestStatusEvents["awaiting_pickup"]?.timestamp,
-          isCompleted: !!latestStatusEvents["awaiting_pickup"],
-          details: `Pickup scheduled at: ${
-            shipmentData.pickup?.address?.street || ""
-          }, ${shipmentData.pickup?.address?.city || ""}`,
-        },
-        {
           title: "Package Pickup",
           date: latestStatusEvents["picked_up"]?.timestamp,
           isCompleted: !!latestStatusEvents["picked_up"],
@@ -213,21 +219,21 @@ const TrackShipment = () => {
           isEstimated: !latestStatusEvents["picked_up"],
         },
         {
-          title: "Package Shipping",
+          title: "Package on Transit",
           date: latestStatusEvents["in_transit"]?.timestamp,
           isCompleted: !!latestStatusEvents["in_transit"] && isPaid,
           details: null,
           isEstimated: !latestStatusEvents["in_transit"],
         },
         {
-          title: "Out for Delivery",
+          title: "Shipment Arrival & Available for Pickup by Recipient",
           date: latestStatusEvents["out_for_delivery"]?.timestamp,
           isCompleted: !!latestStatusEvents["out_for_delivery"],
           details: null,
           isEstimated: !latestStatusEvents["out_for_delivery"],
         },
         {
-          title: "Shipment Arrival",
+          title: "Shipment Delivered",
           date:
             shipmentData.delivery?.actualDate ||
             shipmentData.delivery?.estimatedDate,
@@ -247,12 +253,6 @@ const TrackShipment = () => {
           details: null,
         },
         {
-          title: "Shipment Processed",
-          date: latestStatusEvents["processed"]?.timestamp,
-          isCompleted: !!latestStatusEvents["processed"],
-          details: null,
-        },
-        {
           title: "Awaiting Pickup",
           date: latestStatusEvents["awaiting_pickup"]?.timestamp,
           isCompleted: !!latestStatusEvents["awaiting_pickup"],
@@ -269,21 +269,21 @@ const TrackShipment = () => {
           details: null,
         },
         {
-          title: "Package Shipping",
+          title: "Package on Transit",
           date: latestStatusEvents["in_transit"]?.timestamp,
           isCompleted: !!latestStatusEvents["in_transit"],
           details: null,
           isEstimated: !latestStatusEvents["in_transit"],
         },
         {
-          title: "Out for Delivery",
+          title: "Shipment Arrival & Available for Pickup by Recipient",
           date: latestStatusEvents["out_for_delivery"]?.timestamp,
           isCompleted: !!latestStatusEvents["out_for_delivery"],
           details: null,
           isEstimated: !latestStatusEvents["out_for_delivery"],
         },
         {
-          title: "Shipment Arrival",
+          title: "Shipment Delivered",
           date:
             shipmentData.delivery?.actualDate ||
             shipmentData.delivery?.estimatedDate,
@@ -292,6 +292,55 @@ const TrackShipment = () => {
           isEstimated: !latestStatusEvents["delivered"],
         },
       ];
+    }
+
+    // If shipment is cancelled, handle cancellation step appropriately
+    if (isCancelled && cancellationTimestamp) {
+      // Create a new array to hold our final steps
+      let finalSteps = [];
+
+      // Find the last completed step's index
+      let lastCompletedIndex = -1;
+      for (let i = steps.length - 1; i >= 0; i--) {
+        if (steps[i].isCompleted) {
+          lastCompletedIndex = i;
+          break;
+        }
+      }
+
+      // If no completed steps were found beyond shipment creation
+      if (lastCompletedIndex <= 0) {
+        lastCompletedIndex = 0;
+      }
+
+      // Find the next uncompleted step after the last completed one
+      let nextUncompletedIndex = steps.findIndex(
+        (step, index) => index > lastCompletedIndex && !step.isCompleted
+      );
+
+      // If no uncompleted step was found, put cancellation at the end
+      if (nextUncompletedIndex === -1) {
+        nextUncompletedIndex = steps.length;
+      }
+
+      // First, add all completed steps
+      for (let i = 0; i <= lastCompletedIndex; i++) {
+        finalSteps.push(steps[i]);
+      }
+
+      // Add the cancellation step right after the last completed step
+      finalSteps.push({
+        title: "Shipment Cancelled",
+        date: cancellationTimestamp,
+        isCompleted: true,
+        details:
+          "This shipment has been cancelled and will not be processed further.",
+        isCancelled: true,
+      });
+
+      // Don't add any future steps that would have occurred after cancellation
+
+      return finalSteps;
     }
 
     return steps;
@@ -425,6 +474,8 @@ const TrackShipment = () => {
         return "Your package is out for delivery";
       case "delivered":
         return "Your package has been delivered";
+      case "cancelled":
+        return "Your shipment has been cancelled";
       default:
         return "Tracking your shipment";
     }
@@ -444,6 +495,7 @@ const TrackShipment = () => {
     const paymentMethod = shipmentData?.payment?.method;
     const paymentStatus = shipmentData?.payment?.status;
     const isPaid = paymentStatus === "completed";
+    const isCancelled = shipmentData?.status === "cancelled";
 
     let paymentInfo = "";
 
@@ -451,7 +503,9 @@ const TrackShipment = () => {
       paymentInfo = " Payment will be collected during package drop-off.";
     }
 
-    if (
+    if (isCancelled) {
+      return `This shipment from ${origin} to ${destination} has been cancelled and will not be processed further.`;
+    } else if (
       shipmentData?.status === "pending" ||
       shipmentData?.status === "awaiting_processing" ||
       shipmentData?.status === "processed" ||
@@ -482,6 +536,109 @@ const TrackShipment = () => {
         </p>
       </div>
     );
+  };
+
+  const renderTimelineSteps = () => {
+    const timelineSteps = getTimelineSteps();
+
+    return timelineSteps.map((step, index) => (
+      <React.Fragment key={step.title}>
+        {/* Timeline step */}
+        <div
+          className={`flex gap-4 items-center ${
+            !step.isCompleted ? "opacity-60" : ""
+          }`}
+        >
+          <div
+            className={`md:w-[4.5rem] w-[4rem] ${
+              step.isCompleted
+                ? step.isCancelled
+                  ? "h-auto bg-red-100" // Red background for cancellation
+                  : "h-auto bg-primary1"
+                : "md:h-[4.5rem] h-[4rem] bg-mainalt items-center justify-center flex"
+            } rounded-full`}
+          >
+            {step.isCompleted ? (
+              step.isCancelled ? (
+                // Using X icon or another appropriate icon for cancellation
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="md:w-[4.5rem] w-[4rem] h-auto text-red-500 md:p-4 p-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <TbCircleCheckFilled className="md:w-[4.5rem] w-[4rem] h-auto text-primary md:p-4 p-3" />
+              )
+            ) : (
+              <div className="md:w-[2.2rem] w-[2rem] md:h-[2.2rem] h-[2rem] bg-main7 md:p-4 p-3 rounded-full" />
+            )}
+          </div>
+
+          <div className="flex flex-col gap-0.5">
+            <h3
+              className={`md:text-[17px] ss:text-[17px] text-[15px] tracking-tight font-bold ${
+                step.isCancelled ? "text-red-500" : "text-main2"
+              } leading-[20px]`}
+            >
+              {step.title}
+            </h3>
+
+            <div className="flex items-center gap-3.5">
+              <p className="font-medium md:text-[14px] ss:text-[14px] text-[13px] tracking-tight text-main4">
+                {step.isEstimated ? "Est.: " : ""}
+                {formatDate(step.date)}
+                {!step.isEstimated && (
+                  <span className="md:hidden ss:hidden">
+                    , {formatTime(step.date)}
+                  </span>
+                )}
+              </p>
+
+              {!step.isEstimated && (
+                <>
+                  <div className="h-[3px] w-[3px] bg-main4 hidden md:flex ss:flex rounded-full" />
+                  <p className="font-medium md:text-[14px] ss:text-[14px] tracking-tight text-main4 hidden md:flex ss:flex">
+                    {formatTime(step.date)}
+                  </p>
+                </>
+              )}
+            </div>
+
+            {step.details && (
+              <p
+                className={`font-medium md:text-[14px] ss:text-[14px] text-[13px] tracking-tight ${
+                  step.isCancelled ? "text-red-400" : "text-main4"
+                }`}
+              >
+                {step.details}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Connector line (if not the last item) */}
+        {index < timelineSteps.length - 1 && (
+          <div
+            className={`md:h-[3rem] ss:h-[3rem] h-[2rem] w-[2px] ${
+              step.isCompleted && timelineSteps[index + 1].isCompleted
+                ? timelineSteps[index + 1].isCancelled
+                  ? "bg-red-300" // Red connector for cancellation path
+                  : "bg-primary"
+                : "bg-main5"
+            } md:ml-[2.2rem] ss:ml-[2rem] ml-[1.95rem]`}
+          />
+        )}
+      </React.Fragment>
+    ));
   };
 
   return (
@@ -547,7 +704,7 @@ const TrackShipment = () => {
             </div>
 
             {/* Uncomment this if you want to show debug info */}
-            {getStatusInfo()}
+            {/* {getStatusInfo()} */}
           </div>
 
           {/* Shipment trail section */}
@@ -558,75 +715,7 @@ const TrackShipment = () => {
 
             {/* Use dynamic timeline rendering */}
             <div className="flex flex-col gap-4 w-full">
-              {getTimelineSteps().map((step, index) => (
-                <React.Fragment key={step.title}>
-                  {/* Timeline step */}
-                  <div
-                    className={`flex gap-4 items-center ${
-                      !step.isCompleted ? "opacity-60" : ""
-                    }`}
-                  >
-                    <div
-                      className={`md:w-[4.5rem] w-[4rem] ${
-                        step.isCompleted
-                          ? "h-auto bg-primary1"
-                          : "md:h-[4.5rem] h-[4rem] bg-mainalt items-center justify-center flex"
-                      } rounded-full`}
-                    >
-                      {step.isCompleted ? (
-                        <TbCircleCheckFilled className="md:w-[4.5rem] w-[4rem] h-auto text-primary md:p-4 p-3" />
-                      ) : (
-                        <div className="md:w-[2.2rem] w-[2rem] md:h-[2.2rem] h-[2rem] bg-main7 md:p-4 p-3 rounded-full" />
-                      )}
-                    </div>
-
-                    <div className="flex flex-col gap-0.5">
-                      <h3 className="md:text-[17px] ss:text-[17px] text-[15px] tracking-tight font-bold text-main2 leading-[20px]">
-                        {step.title}
-                      </h3>
-
-                      <div className="flex items-center gap-3.5">
-                        <p className="font-medium md:text-[14px] ss:text-[14px] text-[13px] tracking-tight text-main4">
-                          {step.isEstimated ? "Est.: " : ""}
-                          {formatDate(step.date) || "Monday 31st March, 2025"}
-                          {!step.isEstimated && (
-                            <span className="md:hidden ss:hidden">
-                              , {formatTime(step.date)}
-                            </span>
-                          )}
-                        </p>
-
-                        {!step.isEstimated && (
-                          <>
-                            <div className="h-[3px] w-[3px] bg-main4 hidden md:flex ss:flex rounded-full" />
-                            <p className="font-medium md:text-[14px] ss:text-[14px] tracking-tight text-main4 hidden md:flex ss:flex">
-                              {formatTime(step.date)}
-                            </p>
-                          </>
-                        )}
-                      </div>
-
-                      {step.details && (
-                        <p className="font-medium md:text-[14px] ss:text-[14px] text-[13px] tracking-tight text-main4">
-                          {step.details}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Connector line (if not the last item) */}
-                  {index < getTimelineSteps().length - 1 && (
-                    <div
-                      className={`md:h-[3rem] ss:h-[3rem] h-[2rem] w-[2px] ${
-                        step.isCompleted &&
-                        getTimelineSteps()[index + 1].isCompleted
-                          ? "bg-primary"
-                          : "bg-main5"
-                      } md:ml-[2.2rem] ss:ml-[2rem] ml-[1.95rem]`}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
+              {renderTimelineSteps()}
             </div>
           </div>
         </div>

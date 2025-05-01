@@ -72,34 +72,7 @@ const AdminHome = () => {
           setPayments(transformedPayments.slice(0, 3));
         } else {
           console.warn("Unexpected API response format:", response);
-          // Fallback to mock data
-          const mockData = [
-            {
-              _id: "1",
-              amount: 199.5,
-              currency: "eur",
-              trackingNumber: "INT-20250415-956",
-              date: "15 Apr 2025",
-              status: "completed",
-            },
-            {
-              _id: "2",
-              amount: 161.25,
-              currency: "eur",
-              trackingNumber: "INT-20250415-912",
-              date: "15 Apr 2025",
-              status: "completed",
-            },
-            {
-              _id: "3",
-              amount: 205.75,
-              currency: "eur",
-              trackingNumber: "INT-20250414-835",
-              date: "14 Apr 2025",
-              status: "pending",
-            },
-          ];
-          setPayments(mockData);
+          //
         }
         setPaymentsLoading(false);
       } catch (error) {
@@ -107,34 +80,7 @@ const AdminHome = () => {
         setPaymentsError(error.message);
         setPaymentsLoading(false);
 
-        // Set fallback mock data even on error
-        const mockData = [
-          {
-            _id: "1",
-            amount: 196.5,
-            currency: "eur",
-            trackingNumber: "INT-20250415-956",
-            date: "15 Apr 2025",
-            status: "completed",
-          },
-          {
-            _id: "2",
-            amount: 161.25,
-            currency: "eur",
-            trackingNumber: "INT-20250415-912",
-            date: "15 Apr 2025",
-            status: "completed",
-          },
-          {
-            _id: "3",
-            amount: 205.75,
-            currency: "eur",
-            trackingNumber: "INT-20250414-835",
-            date: "14 Apr 2025",
-            status: "pending",
-          },
-        ];
-        setPayments(mockData);
+       
       }
     };
 
@@ -202,69 +148,13 @@ const AdminHome = () => {
           setPayments(transformedPayments.slice(0, 3));
         } else {
           console.warn("Unexpected API response format:", response);
-          // Fallback to mock data
-          const mockData = [
-            {
-              _id: "1",
-              amount: 293.5,
-              currency: "eur",
-              trackingNumber: "INT-20250415-956",
-              date: "15 Apr 2025",
-              status: "completed",
-            },
-            {
-              _id: "2",
-              amount: 261.25,
-              currency: "eur",
-              trackingNumber: "INT-20250415-912",
-              date: "15 Apr 2025",
-              status: "completed",
-            },
-            {
-              _id: "3",
-              amount: 205.75,
-              currency: "eur",
-              trackingNumber: "INT-20250414-835",
-              date: "14 Apr 2025",
-              status: "pending",
-            },
-          ];
-          setPayments(mockData);
+          
         }
         setPaymentsError(null);
       })
       .catch((error) => {
         console.error("Error retrying payments fetch:", error);
         setPaymentsError(error.message);
-
-        // Set fallback mock data even on error
-        const mockData = [
-          {
-            _id: "1",
-            amount: 199.5,
-            currency: "eur",
-            trackingNumber: "INT-20250415-956",
-            date: "15 Apr 2025",
-            status: "completed",
-          },
-          {
-            _id: "2",
-            amount: 661.25,
-            currency: "eur",
-            trackingNumber: "INT-20250415-912",
-            date: "15 Apr 2025",
-            status: "completed",
-          },
-          {
-            _id: "3",
-            amount: 205.75,
-            currency: "eur",
-            trackingNumber: "INT-20250414-835",
-            date: "14 Apr 2025",
-            status: "pending",
-          },
-        ];
-        setPayments(mockData);
       })
       .finally(() => {
         setPaymentsLoading(false);
@@ -457,23 +347,8 @@ const AdminHome = () => {
                 </div>
               </div>
 
-              {paymentsLoading ? (
-                <div className="flex justify-center items-center h-24">
-                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-primary"></div>
-                </div>
-              ) : paymentsError ? (
-                <div className="text-main2 text-center py-4">
-                  <p className="mb-2 font-medium text-sm">
-                    Failed to load payment data
-                  </p>
-                  <button
-                    onClick={retryLoadPayments}
-                    className="text-primary text-sm underline hover:opacity-90"
-                  >
-                    Retry
-                  </button>
-                </div>
-              ) : (
+         
+         
                 <table className="w-full">
                   <thead
                     className="md:text-[13px] ss:text-[14px] text-[13px] 
@@ -516,6 +391,25 @@ const AdminHome = () => {
                         </tr>
                       ))
                     ) : (
+
+                     <>
+                      {paymentsLoading ? (
+                        <div className="flex justify-center items-center h-24">
+                          <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-primary"></div>
+                        </div>
+                      ) : paymentsError ? (
+                        <div className="text-main2 text-center py-4">
+                          <p className="mb-2 font-medium text-sm">
+                            Failed to load payment data
+                          </p>
+                          <button
+                            onClick={retryLoadPayments}
+                            className="text-primary text-sm underline hover:opacity-90"
+                          >
+                            Retry
+                          </button>
+                        </div>
+                      ) : (
                       <tr>
                         <td
                           colSpan="3"
@@ -525,9 +419,11 @@ const AdminHome = () => {
                         </td>
                       </tr>
                     )}
+                     </>
+                    )}
                   </tbody>
                 </table>
-              )}
+            
 
               <div>
                 <a

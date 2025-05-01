@@ -101,6 +101,8 @@ export const ShipmentProvider = ({ children }) => {
         packageData
       );
 
+      console.log("Package Data: ", packageData);
+      console.log("Shipment ID: ", shipmentData.id);
       if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"

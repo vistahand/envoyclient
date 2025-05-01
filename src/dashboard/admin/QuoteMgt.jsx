@@ -6,6 +6,11 @@ import {
 } from "react-icons/ai";
 import Modal from "../../components/Modal"; // Update this path based on your project structure
 
+import {
+  admin,
+  deliveryOptions as deliveryOptionsApi,
+} from "../../services/api";
+
 const QuoteMgt = ({ onBack }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -70,29 +75,7 @@ const QuoteMgt = ({ onBack }) => {
     setError(null);
 
     try {
-      const token = getAuthToken();
-
-      if (!token) {
-        throw new Error("Authentication token not found. Please log in again.");
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/shipping-rates`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch shipping rates");
-      }
-
-      const data = await response.json();
+      const data = admin.shippingRates.getAll();
 
       if (data.success && data.data && data.data.rates) {
         const { rates } = data.data;
@@ -115,31 +98,7 @@ const QuoteMgt = ({ onBack }) => {
   // Fetch delivery options from API
   const fetchDeliveryOptions = async () => {
     try {
-      const token = getAuthToken();
-
-      if (!token) {
-        throw new Error("Authentication token not found. Please log in again.");
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/delivery-options`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || "Failed to fetch delivery options"
-        );
-      }
-
-      const data = await response.json();
+      const data = deliveryOptionsApi.getAll();
 
       if (data.success && data.data && data.data.deliveryOptions) {
         setDeliveryOptions(data.data.deliveryOptions);
@@ -226,34 +185,16 @@ const QuoteMgt = ({ onBack }) => {
         description: newOption.description,
         estimatedDeliveryTime: newOption.estimatedDeliveryTime,
         percentageMarkup: newOption.percentageMarkup,
-        isExpress: newOption.isExpress,
+        isExpress: true,
         daysToAdd: newOption.daysToAdd,
-        active: newOption.active,
+        active: true,
       };
 
       console.log("Sending delivery option payload:", payload);
 
       // Send data to API
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/delivery-options`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const responseData = await deliveryOptionsApi.create(payload);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || "Failed to create delivery option"
-        );
-      }
-
-      const responseData = await response.json();
       console.log("Delivery option created successfully:", responseData);
 
       // Refresh delivery options
@@ -384,18 +325,9 @@ const QuoteMgt = ({ onBack }) => {
       );
 
       // Send delete request to API
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/delivery-options/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const responseData = await deliveryOptionsApi.delete(id);
 
-      if (!response.ok) {
+      if (responseData.status === false) {
         // Revert UI if API call fails
         setDeliveryOptions(originalOptions);
         const errorData = await response.json();
@@ -403,6 +335,8 @@ const QuoteMgt = ({ onBack }) => {
           errorData.message || "Failed to delete delivery option"
         );
       }
+
+      console.log("Delivery option deleted successfully:", responseData);
 
       showModal("success", "Success", "Delivery option deleted successfully!", [
         { label: "OK", onClick: closeModal, variant: "primary" },
@@ -441,21 +375,12 @@ const QuoteMgt = ({ onBack }) => {
       };
 
       // Send data to API
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/shipping-rates`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const responseData = await admin.shippingRates.update(payload);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update shipping rates");
+      if (responseData.status === false) {
+        throw new Error(
+          responseData.message || "Failed to update shipping rates"
+        );
       }
 
       // Show success modal instead of alert
@@ -848,37 +773,14 @@ const QuoteMgt = ({ onBack }) => {
             </div>
 
             <div className="flex items-center space-x-4 mt-6">
-              <label className="flex items-center text-gray-700">
-                <input
-                  type="checkbox"
-                  name="isExpress"
-                  checked={newOption.isExpress}
-                  onChange={handleNewOptionChange}
-                  className="mr-2 w-4 h-4"
-                />
-                Express Option
-              </label>
-
-              <label className="flex items-center text-gray-700">
-                <input
-                  type="checkbox"
-                  name="active"
-                  checked={newOption.active}
-                  onChange={handleNewOptionChange}
-                  className="mr-2 w-4 h-4"
-                />
-                Active
-              </label>
+             
             </div>
           </div>
 
           <button
             onClick={addDeliveryOption}
             disabled={savingDeliveryOption || isSubmitting}
-
-
             className="mt-4 flex items-center justify-center px-6 py-2 bg-primary text-white rounded-lg  transition-colors"
-
           >
             {savingDeliveryOption ? (
               "Adding..."

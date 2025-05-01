@@ -5,8 +5,14 @@ import CreatePickupLocation from "./CreatePickupLocation";
 import PickupLocationCard from "../../components/PickupLocationCard";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal";
+import { pickup } from "../../services/api";
 
-const TabsAndSearch = ({ activeTab, setActiveTab, searchQuery, setSearchQuery }) => {
+const TabsAndSearch = ({
+  activeTab,
+  setActiveTab,
+  searchQuery,
+  setSearchQuery,
+}) => {
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
       {/* Tabs Section */}
@@ -49,7 +55,7 @@ const PickupLoc = () => {
     page: 1,
     limit: 10,
     total: 0,
-    pages: 0
+    pages: 0,
   });
 
   // Modal state
@@ -58,11 +64,11 @@ const PickupLoc = () => {
     title: "",
     message: "",
     type: "info", // info, success, error, warning
-    buttons: []
+    buttons: [],
   });
 
   const getAuthToken = () => {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem("authToken");
   };
 
   const showModal = (title, message, type = "info", buttons = []) => {
@@ -71,70 +77,67 @@ const PickupLoc = () => {
       title,
       message,
       type,
-      buttons: buttons.length > 0 ? buttons : [
-        { 
-          label: "OK", 
-          onClick: () => closeModal(), 
-          variant: type === "error" ? "danger" : 
-                   type === "success" ? "success" : "primary" 
-        }
-      ]
+      buttons:
+        buttons.length > 0
+          ? buttons
+          : [
+              {
+                label: "OK",
+                onClick: () => closeModal(),
+                variant:
+                  type === "error"
+                    ? "danger"
+                    : type === "success"
+                    ? "success"
+                    : "primary",
+              },
+            ],
     });
   };
 
   const closeModal = () => {
-    setModal(prev => ({ ...prev, isOpen: false }));
+    setModal((prev) => ({ ...prev, isOpen: false }));
   };
 
   const fetchPickupLocations = async () => {
     setLoading(true);
     try {
       const token = getAuthToken();
-      
+
       if (!token) {
         showModal(
-          "Authentication Error", 
-          "Authentication token not found. Please log in again.", 
+          "Authentication Error",
+          "Authentication token not found. Please log in again.",
           "error",
           [
-            { 
-              label: "Login", 
-              onClick: () => navigate("/login"), 
-              variant: "primary" 
+            {
+              label: "Login",
+              onClick: () => navigate("/login"),
+              variant: "primary",
             },
-            { 
-              label: "Cancel", 
-              onClick: closeModal, 
-              variant: "secondary" 
-            }
+            {
+              label: "Cancel",
+              onClick: closeModal,
+              variant: "secondary",
+            },
           ]
         );
         return;
       }
-      
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/pickup-locations?page=${pagination.page}&limit=${pagination.limit}&status=${activeTab}${searchQuery ? `&search=${searchQuery}` : ''}`, 
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }
+
+      const data = await pickup.fetchPickupLocation(
+        pagination.page,
+        pagination.limit,
+        activeTab,
+        searchQuery
       );
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to fetch pickup locations');
-      }
-      
-      const data = await response.json();
+
       setLocations(data.items || []);
       setPagination({
         page: data.page,
         limit: data.limit,
         total: data.total,
-        pages: data.pages 
+        pages: data.pages,
       });
     } catch (err) {
       console.error("Error fetching pickup locations:", err);
@@ -151,9 +154,9 @@ const PickupLoc = () => {
 
   // Function to handle pagination
   const handlePageChange = (newPage) => {
-    setPagination(prev => ({
+    setPagination((prev) => ({
       ...prev,
-      page: newPage
+      page: newPage,
     }));
   };
 
@@ -166,7 +169,7 @@ const PickupLoc = () => {
   // Added shouldRefresh parameter to determine if we need to refresh the list
   const handleBack = (shouldRefresh = false) => {
     setCreating(false); // This changes the view back to the main page
-    
+
     // If shouldRefresh is true, fetch locations again
     if (shouldRefresh) {
       fetchPickupLocations();
@@ -176,26 +179,30 @@ const PickupLoc = () => {
   // Placeholder for when we have no results or are loading
   const renderContent = () => {
     if (loading) {
-      return <div className="text-center py-8">Loading pickup locations...</div>;
+      return (
+        <div className="text-center py-8">Loading delivery locations...</div>
+      );
     }
-    
+
     if (locations.length === 0) {
       return (
         <div className="text-center py-8 text-gray-500">
-          No {activeTab} pickup locations found.
+          No {activeTab} delivery locations found.
           {searchQuery && " Try adjusting your search query."}
         </div>
       );
     }
-    
+
     return (
       <div className="grid grid-cols-1 gap-4">
         {locations.map((location, index) => (
-          <PickupLocationCard 
-            key={location._id || index} 
-            location={location} 
+          <PickupLocationCard
+            key={location._id || index}
+            location={location}
             onRefresh={fetchPickupLocations}
-            onShowModal={(title, message, type, buttons) => showModal(title, message, type, buttons)}
+            onShowModal={(title, message, type, buttons) =>
+              showModal(title, message, type, buttons)
+            }
           />
         ))}
       </div>
@@ -216,7 +223,7 @@ const PickupLoc = () => {
 
       {creating ? (
         // Show CreatePickupLocation if user is in creation mode
-        <CreatePickupLocation 
+        <CreatePickupLocation
           onBack={handleBack} // Pass the back handler function
           onNavigateToView={handleNavigateToView} // Pass the navigation handler
         />
@@ -228,10 +235,11 @@ const PickupLoc = () => {
             <div>
               <h1 className="text-2xl font-bold mb-2">Pickup Locations</h1>
               <p className="text-gray-500">
-                Manage and update all available and operating pickup stations here
+                Manage and update all available and operating pickup stations
+                here
               </p>
             </div>
-            
+
             {/* Button Section */}
             <button
               onClick={() => setCreating(true)}
@@ -242,45 +250,63 @@ const PickupLoc = () => {
               <span className="sm:inline">Create New</span>
             </button>
           </div>
-          
+
           {/* Tabs and Search Component */}
-          <TabsAndSearch 
-            activeTab={activeTab} 
-            setActiveTab={setActiveTab} 
-            searchQuery={searchQuery} 
-            setSearchQuery={setSearchQuery} 
+          <TabsAndSearch
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
           />
-          
+
           {/* Pickup Locations List */}
           <div className="mt-6">
             {renderContent()}
-            
+
             {/* Pagination */}
             {pagination.pages > 1 && (
               <div className="flex justify-center mt-8">
                 <div className="flex gap-2">
-                  <button 
-                    onClick={() => handlePageChange(Math.max(1, pagination.page - 1))}
+                  <button
+                    onClick={() =>
+                      handlePageChange(Math.max(1, pagination.page - 1))
+                    }
                     disabled={pagination.page === 1}
-                    className={`px-3 py-1 rounded ${pagination.page === 1 ? 'bg-gray-200 text-gray-500' : 'bg-gray-200 hover:bg-gray-300'}`}
+                    className={`px-3 py-1 rounded ${
+                      pagination.page === 1
+                        ? "bg-gray-200 text-gray-500"
+                        : "bg-gray-200 hover:bg-gray-300"
+                    }`}
                   >
                     Previous
                   </button>
-                  
+
                   {[...Array(pagination.pages)].map((_, i) => (
                     <button
                       key={i}
                       onClick={() => handlePageChange(i + 1)}
-                      className={`px-3 py-1 rounded ${pagination.page === i + 1 ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+                      className={`px-3 py-1 rounded ${
+                        pagination.page === i + 1
+                          ? "bg-primary text-white"
+                          : "bg-gray-200 hover:bg-gray-300"
+                      }`}
                     >
                       {i + 1}
                     </button>
                   ))}
-                  
-                  <button 
-                    onClick={() => handlePageChange(Math.min(pagination.pages, pagination.page + 1))}
+
+                  <button
+                    onClick={() =>
+                      handlePageChange(
+                        Math.min(pagination.pages, pagination.page + 1)
+                      )
+                    }
                     disabled={pagination.page === pagination.pages}
-                    className={`px-3 py-1 rounded ${pagination.page === pagination.pages ? 'bg-gray-200 text-gray-500' : 'bg-gray-200 hover:bg-gray-300'}`}
+                    className={`px-3 py-1 rounded ${
+                      pagination.page === pagination.pages
+                        ? "bg-gray-200 text-gray-500"
+                        : "bg-gray-200 hover:bg-gray-300"
+                    }`}
                   >
                     Next
                   </button>

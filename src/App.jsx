@@ -57,6 +57,9 @@ import BlogPage from "./scenes/Blogpage";
 import FaqsPage from "./scenes/FaqsPage";
 import CareersPage from "./scenes/CareersPage";
 import CareerPage from "./dashboard/admin/CareerPage";
+import AdminVerify from "./dashboard/AdminVerify";
+import CreateShipmentPkg from "./dashboard/admin/CreateShipmentPkg";
+import ShipmentApproval from "./dashboard/admin/ShipmentApproval";
 
 const App = () => {
   return (
@@ -67,11 +70,8 @@ const App = () => {
             <Toaster />
             <div>
               <Routes>
-              <Route path="/forgot-password"
-               element={<ForgotPassword />} />
-              <Route path="/reset-password" 
-              element={<ResetPassword />} />
-
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
@@ -80,7 +80,7 @@ const App = () => {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/faqs" element={<FaqsPage />} />
-                <Route path="/careers" element={<CareersPage/>} />
+                <Route path="/careers" element={<CareersPage />} />
 
                 <Route
                   path="/createshipment"
@@ -121,8 +121,16 @@ const App = () => {
                     </GuestRoute>
                   }
                 />
-             
 
+                <Route
+                  path="/admin-verify"
+                  element={
+                    <GuestRoute>
+                      <AdminVerify />
+                    </GuestRoute>
+                  }
+                />
+               
                 <Route
                   path="/user"
                   element={
@@ -169,6 +177,10 @@ const App = () => {
                   <Route index element={<AdminHome />} />
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
+                  <Route path="createshipment-package" element={<CreateShipmentPkg />} />
+                  <Route path="approve-pending-shipment" element={<ShipmentApproval/>} />
+
+
 
                   <Route
                     path="shipmentmanagement/details/:shipmentId"
@@ -189,13 +201,14 @@ const App = () => {
                     path="pickuplocations/create"
                     element={<CreatePickupLocation />}
                   />
-                  
+
                   <Route path="quotemanagement" element={<QuoteMgt />} />
                   <Route path="analytics" element={<Analytics />} />
                   <Route path="users" element={<Users />} />
                   <Route path="users/:userId" element={<AdminUserDetail />} />
                   <Route path="settings" element={<SettingsPage />} />
                   <Route path="careers" element={<CareerPage />} />
+
                 </Route>
 
                 <Route
