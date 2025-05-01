@@ -52,13 +52,15 @@ const Navbar = () => {
       setActive("Dashboard"); // Assuming "Dashboard" is the title for the admin home
     } else if (currentPath.startsWith("/user/") || currentPath.startsWith("/admin/")) {
       const pathSegments = currentPath.split("/");
+      
+      // Fix: Check if the link has route property before accessing includes()
       const activeLink = links.find((link) =>
-        link.route.includes(pathSegments[2])
+        link.route && link.route.includes(pathSegments[2])
       );
 
       // Check for dropdown items
       for (const link of links) {
-        if (link.hasDropdown) {
+        if (link.hasDropdown && link.dropdownItems) {
           for (const item of link.dropdownItems) {
             if (currentPath === item.route) {
               setActive(item.title);
@@ -269,7 +271,7 @@ const Navbar = () => {
                     </div>
                   </div>
 
-                  {link.hasDropdown && openDropdown === link.id && (
+                  {link.hasDropdown && link.dropdownItems && openDropdown === link.id && (
                     <ul className="pl-10 mt-1 space-y-1">
                       {link.dropdownItems.map((item) => (
                         <li
@@ -350,94 +352,7 @@ const Navbar = () => {
 
         {/* mobile top */}
         <div className="flex items-center md:gap-x-7 ss:gap-x-7 gap-x-4">
-          {/* notification */}
-          {/* <div
-            className={`rounded-full relative flex`}
-            onClick={(e) => {
-              e.preventDefault();
-              setNotificationMenu(!notificationMenu);
-            }}
-          >
-            <div className="bg-mainalt grow2 rounded-full md:p-3 ss:p-3 p-2.5 text-main2 cursor-pointer">
-              <PiBell className="text-[19px]" strokeWidth={4} />
-            </div>
-
-            <span
-              className="absolute top-0 right-0 bg-logRed 
-              rounded-full md:w-[12px] ss:w-[12px] w-[10px] md:h-[12px]
-              ss:h-[12px] h-[10px]"
-            />
-
-            {notificationMenu && (
-              <div
-                ref={notificationRef}
-                className="absolute top-[130%] md:right-[-150%] ss:right-[-400%] right-[-210%] bg-white md:rounded-xl 
-              ss:rounded-xl rounded-lg shadow-[0px_5px_15px_rgba(0,0,0,0.20)] z-50 md:w-[450px] 
-              ss:w-[350px] w-[300px] navsmooth md:max-h-auto ss:max-h-auto max-h-screen"
-              >
-                <div className="flex flex-col md:p-5 ss:p-5 p-4 tracking-tight">
-                  <h2 className="pb-4 font-bold md:text-[16px] ss:text-[15px] text-[14px] text-main2 border-b border-main7">
-                    Notifications
-                  </h2>
-
-                  <div className="flex flex-col divide-y divide-main7">
-                    <div className="flex items-center gap-3 py-4">
-                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-secondary flex-shrink-0" />
-
-                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main2 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-semibold">
-                        Your shipment with tracking number 001F5TG8XR4U has been
-                        confirmed and shipped!
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-4">
-                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-secondary flex-shrink-0" />
-
-                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main2 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-semibold">
-                        Your payment was successful! We have sent a receipt to
-                        your email; if you didn't receive any mail, contact us
-                        by clicking here
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-4">
-                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-main4 flex-shrink-0" />
-
-                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main4 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-medium">
-                        Welcome to Envoy Angel Shipping and Logistics! We're
-                        super delighted you chose us to be your premier
-                        logistics partner.
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-4">
-                      <div className="md:w-2.5 w-2 md:h-2.5 h-2 rounded-full bg-main4 flex-shrink-0" />
-
-                      <p className="md:text-[14px] ss:text-[13px] text-[12px] text-main4 md:leading-[1.2rem] ss:leading-[1.2rem] leading-[1.1rem] font-medium">
-                        Endeavour to confirm your email address to unlock all
-                        the features of Envoy Angel
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-main7 pt-3 mt-14">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setNotificationMenu(false);
-                      }}
-                      className="flex items-center gap-2 md:text-[14px] text-[13px] text-logRed font-medium"
-                    >
-                      <div className="md:w-6 w-5 md:h-6 h-5 rounded-full bg-redCircle flex items-center justify-center">
-                        <IoClose className="text-logRed md:text-[14px] text-[13px]" />
-                      </div>
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div> */}
+          {/* notification is commented out in original code */}
 
           {/* settings profile image */}
           <div className="relative">

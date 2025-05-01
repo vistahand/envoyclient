@@ -1174,7 +1174,7 @@ const SenderForm = ({
                                         ${
                                           formik.touched.businessName &&
                                           formik.errors.businessName
-                                            ? "outline-mainRed"
+                       ``                     ? "outline-mainRed"
                                             : "outline-main6"
                                         }
                                         `}

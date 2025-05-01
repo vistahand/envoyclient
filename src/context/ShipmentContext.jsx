@@ -96,11 +96,13 @@ export const ShipmentProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await shipments.updatePackageDetails(
-        shipmentData.id,
-        packageData
-      );
+      // const response = await shipments.updatePackageDetails(
+      //   shipmentData.id,
+      //   packageData
+      // );
 
+      console.log("Package Data: ", packageData);
+      console.log("Shipment ID: ", shipmentData.id);
       if (!response.success) {
         throw new Error(
           response.data?.error || "Server returned unsuccessful response"
