@@ -247,9 +247,16 @@ const CreateShipmentPkg = () => {
       return false;
     }
 
-    if (formData.amount === "" || isNaN(formData.amount)) {
-      toast.error("Please enter a valid amount");
-      return false;
+    // Amount validation for standard packages (not TV or Car)
+    if (formData.packageType !== "TV" && formData.packageType !== "Car") {
+      if (formData.amount === "" || isNaN(formData.amount)) {
+        toast.error("Please enter a valid amount");
+        return false;
+      }
+      if (Number(formData.amount) <= 0) {
+        toast.error("Amount must be greater than 0");
+        return false;
+      }
     }
 
     if (!formData.description) {
@@ -291,7 +298,11 @@ const CreateShipmentPkg = () => {
     setError(null);
 
     try {
-      const result = await admin.packages.createPackage(formData);
+      const formDataToSend = {
+        ...formData,
+        amount: Number(formData.amount),
+      };
+      const result = await admin.packages.createPackage(formDataToSend);
 
       if (result.success) {
         setPackages([...packages, result.data.newPackage]);
