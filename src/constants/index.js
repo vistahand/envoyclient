@@ -415,7 +415,7 @@ export const adminSideLinks = [
   },
   {
     id: 'shipmentMgt',
-    title: 'Shipment Management',
+    title: 'Shipment Mgt',
     Icon: packagex,
     hasDropdown: true,
       dropdownItems: [
