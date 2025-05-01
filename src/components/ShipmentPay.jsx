@@ -305,7 +305,7 @@ const ShipmentPay = ({ onPrev, shipment, hasCustom }) => {
                   <p className="text-[12px]">
                     {paymentMethod === "immediate"
                       ? "Pay Now"
-                      : paymentMethod === "cash_on_pickup" || hasCustom
+                      : paymentMethod === "cash_on_pickup"
                       ? "Confirm Pay on Pickup"
                       : ""}
                   </p>

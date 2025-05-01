@@ -7,6 +7,7 @@ import { SectionWrapper } from "../hoc";
 import { localIcon, internationalIcon, addicon } from "../assets";
 import { useShipment } from "../context/ShipmentContext";
 import { useNotifications } from "../context/NotificationContext";
+import { admin } from "../services/api";
 
 // Reusable components
 const FormField = ({ label, children, error }) => (
@@ -210,55 +211,40 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
 
   // Shipping items from admin panel
   const [packageItems, setPackageItems] = useState([
-    { id: 1, name: "Ghana must go", price: 100, currency: "Euro" },
-    { id: 2, name: "Fridge freezer", price: 250, currency: "Euro" },
-    { id: 3, name: "Box freezer", price: 120, currency: "Euro" },
-    { id: 4, name: "Washing machine", price: 120, currency: "Euro" },
-    { id: 5, name: "Drum", price: 160, currency: "Euro" },
-    {
-      id: 6,
-      name: "TV",
-      price: 0,
-      currency: "Euro",
-      requiresSize: true,
-      tvSize: "32",
-      isCustom: true,
-    },
-    {
-      id: 7,
-      name: "TV",
-      price: 0,
-      currency: "Euro",
-      requiresSize: true,
-      tvSize: "43",
-      isCustom: true,
-    },
-    {
-      id: 8,
-      name: "TV",
-      price: 0,
-      currency: "Euro",
-      requiresSize: true,
-      tvSize: "55",
-      isCustom: true,
-    },
-    {
-      id: 9,
-      name: "Car",
-      price: 0,
-      currency: "Euro",
-      requiresDetails: true,
-      isQuotable: true,
-      carMake: "",
-      carModel: "",
-    },
-    { id: 10, name: "Other", price: 0, currency: "Euro", isCustom: true },
+    { id: 10, packageType: "Other", amount: 0, isCustom: true },
   ]);
+
+  useEffect(() => {
+    // Fetch package items from the server or context
+    const fetchPackageItems = async () => {
+      try {
+        const response = await admin.packages.getAll();
+        if (response?.success) {
+          console.log("response, ", response);
+          setPackageItems(response?.data?.packages || []);
+        } else {
+          addNotification({
+            type: "error",
+            title: "Error",
+            message: response?.error || "Failed to fetch package items",
+          });
+        }
+      } catch (error) {
+        addNotification({
+          type: "error",
+          title: "Error",
+          message: error.message || "Failed to fetch package items",
+        });
+      }
+    };
+
+    fetchPackageItems();
+  }, []);
 
   // Extract TV sizes for dropdown
   const tvSizes = packageItems
     .filter((item) => item.name === "TV")
-    .map((tv) => tv.tvSize)
+    .map((tv) => tv.otherOptions.size)
     .filter(Boolean);
 
   // Form validation
@@ -295,6 +281,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
     ),
   });
 
+  // Ensure the `updatePackageDetails` function is properly awaited and the response is logged for debugging
   const formik = useFormik({
     initialValues: {
       packages: [
@@ -319,62 +306,53 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
           );
         }
 
+        // Calculate baseAmount from package amounts
+        const baseAmount = values.packages.reduce((total, packageItem) => {
+          const packageData = packageItems.find(
+            (item) => item.packageType === packageItem.packageType
+          );
+          return total + (Number(packageData?.amount) || 0);
+        }, 0);
+
+        // Determine currency based on shipment type
+        const currency =
+          shipmentData.shipmentType === "international" ? "eur" : "ngn";
+
         const data = {
           packages: values.packages.map((packageItem) => {
-            // Find the selected item from admin-defined packages
-            const selectedPackage = packageItems.find(
-              (item) => item.name === packageItem.packageType
-            );
-
-            // For TV items, find the specific TV with matching size
-            let matchedItem = selectedPackage;
-            if (packageItem.packageType === "TV" && packageItem.tvSize) {
-              matchedItem =
-                packageItems.find(
-                  (item) =>
-                    item.name === "TV" && item.tvSize === packageItem.tvSize
-                ) || selectedPackage;
-            }
-
-            // Build the package data
+            // Base package data
             const packageData = {
               packageType:
                 packageItem.packageType === "Other" &&
                 packageItem.customPackageType
                   ? packageItem.customPackageType
                   : packageItem.packageType,
-              otherOptions:
-                {
-                  tv:
-                    {
-                      size: packageItem.tvSize || null,
-                    } || {},
-                  car:
-                    {
-                      make: packageItem.carMake || null,
-                      model: packageItem.carModel || null,
-                      year: packageItem.carYear || null,
-                    } || {},
-                } || {},
-              descriptions: matchedItem?.description || "",
+              description: packageItem.customPackageType || "",
             };
 
-            // Add additional fields based on package type
-            // if (packageItem.packageType === "TV" && packageItem.tvSize) {
-            //   packageData.otherOptions.size = packageItem.tvSize;
-            // }
-
-            // if (packageItem.packageType === "Car") {
-            //   packageData.otherOptions.car.make = packageItem.carMake;
-            //   packageData.otherOptions.car.model = packageItem.carModel;
-            //   packageData.otherOptions.car.year = packageItem.carYear;
-            // }
+            // Add otherOptions based on package type
+            if (packageItem.packageType === "TV") {
+              packageData.otherOptions = {
+                size: packageItem.tvSize,
+              };
+            } else if (packageItem.packageType === "Car") {
+              packageData.otherOptions = {
+                make: packageItem.carMake,
+                model: packageItem.carModel,
+                year: packageItem.carYear,
+              };
+            }
 
             return packageData;
           }),
+          cost: { baseAmount: baseAmount, currency }, // Include calculated cost in the payload
         };
 
-        const response = await updatePackageDetails(data);
+        console.log("Submitting data:", data); // Debugging log
+
+        const response = await updatePackageDetails(data); // Ensure this function is awaited
+
+        console.log("Response received:", response); // Debugging log
 
         if (response?.success) {
           onNext(currentTab);
@@ -386,6 +364,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
           });
         }
       } catch (err) {
+        console.error("Error during submission:", err); // Debugging log
         addNotification({
           type: "error",
           title: "Error",
@@ -420,15 +399,16 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
     // For TV items, get price based on size
     if (packageType === "TV" && tvSize) {
       const tvItem = packageItems.find(
-        (item) => item.name === "TV" && item.tvSize === tvSize
+        (item) =>
+          item.packageType === "TV" && item.otherOptions.tv.size === tvSize
       );
-      return tvItem
-        ? `${tvItem.currency} ${tvItem.price}`
-        : "Price will be provided";
+      return tvItem ? `€ ${tvItem.amount}` : "Price will be provided";
     }
 
     // For other items
-    const package1 = packageItems.find((item) => item.name === packageType);
+    const package1 = packageItems.find(
+      (item) => item.packageType === packageType
+    );
     if (!package1) return "";
 
     if (package1.isQuotable) {
@@ -436,7 +416,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
     } else if (package1.isCustom) {
       return "Custom package";
     } else {
-      return `${package1.currency} ${package1.price}`;
+      return `€ ${package1.amount}`;
     }
   };
 
@@ -444,18 +424,21 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
   const getItemOptions = () => {
     const uniqueItems = packageItems.reduce((acc, item) => {
       // For TV, only add it once
-      if (item.name === "TV" && acc.find((i) => i.name === "TV")) {
+      if (
+        item.packageType === "TV" &&
+        acc.find((i) => i.packageType === "TV")
+      ) {
         return acc;
       }
       return [...acc, item];
     }, []);
 
     return uniqueItems.map((item) => ({
-      value: item.name,
+      value: item.packageType,
       currency: item.currency,
-      price:
-        item.price !== 0 && !item.isCustom && !item.isQuotable
-          ? item.price
+      amount:
+        item.amount !== 0 && !item.isCustom && !item.isQuotable
+          ? item.amount
           : undefined,
     }));
   };

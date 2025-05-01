@@ -22,7 +22,7 @@ const PaymentMethodSelector = ({
       setSelectedMethod(defaultMethod);
       onSelect(defaultMethod);
     }
-  }, [hasCustom, defaultMethod, onSelect]);
+  }, [hasCustom]);
 
   return (
     <div className="w-full bg-white rounded-lg p-4 border border-main7">
