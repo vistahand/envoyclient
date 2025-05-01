@@ -151,7 +151,7 @@ const CreateShipmentPkg = () => {
       setFormData((prev) => ({
         ...prev,
         packageType: "TV",
-        amount: 0,
+        amount: "",
         description: "TV Package",
         otherOptions: { tv: { size: [] } },
       }));
@@ -159,7 +159,7 @@ const CreateShipmentPkg = () => {
       setFormData((prev) => ({
         ...prev,
         packageType: "Car",
-        amount: 0,
+        amount: "",
         description: "Car Package",
         otherOptions: { car: { make: "", model: "", year: "" } },
       }));
@@ -459,13 +459,15 @@ const CreateShipmentPkg = () => {
         />
       </FormField>
 
-      <InputField
-        label="Amount"
-        type="number"
-        name="amount"
-        value={formData.amount}
-        onChange={handleInputChange}
-      />
+      {formData.packageType !== "TV" && formData.packageType !== "Car" && (
+        <InputField
+          label="Amount"
+          type="number"
+          name="amount"
+          value={formData.amount}
+          onChange={handleInputChange}
+        />
+      )}
 
       <FormField label="Description">
         <textarea
