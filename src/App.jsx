@@ -58,6 +58,8 @@ import FaqsPage from "./scenes/FaqsPage";
 import CareersPage from "./scenes/CareersPage";
 import CareerPage from "./dashboard/admin/CareerPage";
 import AdminVerify from "./dashboard/AdminVerify";
+import CreateShipmentPkg from "./dashboard/admin/CreateShipmentPkg";
+import ShipmentApproval from "./dashboard/admin/ShipmentApproval";
 
 const App = () => {
   return (
@@ -175,6 +177,10 @@ const App = () => {
                   <Route index element={<AdminHome />} />
 
                   <Route path="shipmentmanagement" element={<ShipmentMgt />} />
+                  <Route path="createshipment-package" element={<CreateShipmentPkg />} />
+                  <Route path="approve-pending-shipment" element={<ShipmentApproval/>} />
+
+
 
                   <Route
                     path="shipmentmanagement/details/:shipmentId"
@@ -202,6 +208,7 @@ const App = () => {
                   <Route path="users/:userId" element={<AdminUserDetail />} />
                   <Route path="settings" element={<SettingsPage />} />
                   <Route path="careers" element={<CareerPage />} />
+
                 </Route>
 
                 <Route

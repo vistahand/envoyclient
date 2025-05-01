@@ -8,7 +8,7 @@ import { shipments } from "../services/api";
 import { saveShipment } from "../utils/shipmentStorage";
 import { useNotifications } from "../context/NotificationContext";
 
-const ShipmentPay = ({ onPrev, shipment }) => {
+const ShipmentPay = ({ onPrev, shipment, hasCustom }) => {
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [isBankTransferModalOpen, setIsBankTransferModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -133,13 +133,28 @@ const ShipmentPay = ({ onPrev, shipment }) => {
     <section className="w-full flex justify-center mt-20">
       <div className="w-full flex md:flex-row flex-col gap-14 md:justify-between">
         <div className="w-full flex flex-col gap-6">
-          <h1
-            className="text-primary font-bold md:text-[30px] 
+          {hasCustom ? (
+            <div>
+              <h1
+                className="text-primary font-bold md:text-[30px] 
                     ss:text-[28px] text-[22px] tracking-tight"
-          >
-            You're about to pay{" "}
-            {formatCurrency(shipment?.cost?.total, shipment?.cost?.currency)}
-          </h1>
+              >
+                Shipment to be reviewed by our team; <br /> Set to pay on pickup
+                <span className="text-main4 font-normal">
+                  {" "}
+                  (Cash on Pickup)
+                </span>
+              </h1>
+            </div>
+          ) : (
+            <h1
+              className="text-primary font-bold md:text-[30px] 
+                    ss:text-[28px] text-[22px] tracking-tight"
+            >
+              You're about to pay{" "}
+              {formatCurrency(shipment?.cost?.total, shipment?.cost?.currency)}
+            </h1>
+          )}
 
           <div className="flex flex-col gap-4 w-full">
             <h2
@@ -313,6 +328,7 @@ const ShipmentPay = ({ onPrev, shipment }) => {
             <PaymentMethodSelector
               onSelect={handlePaymentMethodChange}
               defaultMethod="immediate"
+              hasCustom={hasCustom}
             />
 
             <div

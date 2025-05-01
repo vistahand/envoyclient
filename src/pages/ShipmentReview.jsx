@@ -5,6 +5,7 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
   const [initialLoad, setInitialLoad] = useState(true);
   const sectionRef = useRef(null);
   const [shipment, setShipment] = useState(null); // Initialize shipment state
+  const [hasCustom, setHasCustom] = useState(false); // Initialize hasCustom state
 
   useEffect(() => {
     if (!initialLoad && sectionRef.current) {
@@ -17,11 +18,15 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
     }
   }, [currentStep, initialLoad]);
 
-  const handleNextStep = (shipmentDetails) => {
+  const handleNextStep = ({ shipmentDetails, hasCustom }) => {
     // Store payment details if needed
     if (shipmentDetails) {
       console.log("Shipment Details:", shipmentDetails);
       setShipment(shipmentDetails);
+    }
+
+    if (hasCustom) {
+      setHasCustom(hasCustom);
     }
 
     onStepChange(currentStep + 1);
@@ -37,7 +42,11 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
     <div ref={sectionRef} className="font-manrope">
       {currentStep === 1 && <ShipmentDetails onNext={handleNextStep} />}
       {currentStep === 2 && (
-        <ShipmentPay onPrev={handlePreviousStep} shipment={shipment} />
+        <ShipmentPay
+          onPrev={handlePreviousStep}
+          shipment={shipment}
+          hasCustom={hasCustom}
+        />
       )}
     </div>
   );

@@ -773,27 +773,7 @@ const QuoteMgt = ({ onBack }) => {
             </div>
 
             <div className="flex items-center space-x-4 mt-6">
-              {/* <label className="flex items-center text-gray-700">
-                <input
-                  type="checkbox"
-                  name="isExpress"
-                  checked={newOption.isExpress}
-                  onChange={handleNewOptionChange}
-                  className="mr-2 w-4 h-4"
-                />
-                Express Option
-              </label> */}
-
-              {/* <label className="flex items-center text-gray-700">
-                <input
-                  type="checkbox"
-                  name="active"
-                  checked={newOption.active}
-                  onChange={handleNewOptionChange}
-                  className="mr-2 w-4 h-4"
-                />
-                Active
-              </label> */}
+             
             </div>
           </div>
 
