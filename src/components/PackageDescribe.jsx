@@ -420,7 +420,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
     }
   };
 
-  // Get item options excluding duplicate TV entries (we'll handle TV sizes in a separate dropdown)
+  // Get item options excluding duplicate TV entries and always include "Other" option
   const getItemOptions = () => {
     const uniqueItems = packageItems.reduce((acc, item) => {
       // For TV, only add it once
@@ -433,14 +433,26 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
       return [...acc, item];
     }, []);
 
-    return uniqueItems.map((item) => ({
-      value: item.packageType,
-      currency: item.currency,
-      amount:
-        item.amount !== 0 && !item.isCustom && !item.isQuotable
-          ? item.amount
-          : undefined,
-    }));
+    // Map items and ensure "Other" is always included
+    const options = uniqueItems
+      .filter((item) => item.packageType !== "Other") // Remove any existing "Other" to avoid duplicates
+      .map((item) => ({
+        value: item.packageType,
+        currency: item.currency,
+        amount:
+          item.amount !== 0 && !item.isCustom && !item.isQuotable
+            ? item.amount
+            : undefined,
+      }));
+
+    // Add the "Other" option at the end
+    options.push({
+      value: "Other",
+      currency: null,
+      amount: undefined,
+    });
+
+    return options;
   };
 
   // Helper to get form error at specific path
