@@ -121,10 +121,6 @@ const ShipmentDetails = ({ onNext }) => {
     };
   }, []);
 
-  const handleNext = () => {
-    onNext(shipmentData);
-  };
-
   // Extract details from shipment data
   const {
     origin,
@@ -138,6 +134,17 @@ const ShipmentDetails = ({ onNext }) => {
     type = "international",
     createdAt,
   } = shipmentData;
+
+  const hasCustom = packages.some((pkg) => pkg.isCustom === true)
+    ? true
+    : false;
+
+  const handleNext = () => {
+    onNext({
+      shipmentDetails: shipmentData,
+      hasCustom: hasCustom,
+    });
+  };
 
   if (loading) {
     return (
@@ -525,69 +532,79 @@ const ShipmentDetails = ({ onNext }) => {
               Payment Summary
             </h1>
 
-            <div className="flex flex-col w-full gap-2.5 md:text-[13px] ss:text-[15px] text-[14px] tracking-tight">
-              <div className="flex justify-between items-center w-full text-main2 font-medium">
-                <p>Shipment Cost</p>
-                <p>
-                  {cost?.currency === "eur" ? (
-                    <span>€{cost?.baseAmount?.toFixed(2)}</span>
-                  ) : (
-                    <>
-                      <span className="line-through">N</span>
-                      {cost?.baseAmount?.toFixed(2)}
-                    </>
-                  )}
-                </p>
+            {hasCustom ? (
+              <div className="italic text-gray-400 text-xs justify-center">
+                Custom Packages were selected, hence awaiting admin review.{" "}
+                <br /> <br />
+                Cost analysis will be sent to the client via email
               </div>
+            ) : (
+              <>
+                <div className="flex flex-col w-full gap-2.5 md:text-[13px] ss:text-[15px] text-[14px] tracking-tight">
+                  <div className="flex justify-between items-center w-full text-main2 font-medium">
+                    <p>Shipment Cost</p>
+                    <p>
+                      {cost?.currency === "eur" ? (
+                        <span>€{cost?.baseAmount?.toFixed(2)}</span>
+                      ) : (
+                        <>
+                          <span className="line-through">N</span>
+                          {cost?.baseAmount?.toFixed(2)}
+                        </>
+                      )}
+                    </p>
+                  </div>
 
-              <div className="flex justify-between items-center w-full text-main2 font-medium">
-                <p>
-                  VAT ({((cost?.vat / cost?.baseAmount) * 100).toFixed(1)}%)
-                </p>
-                <p>
-                  {cost?.currency === "eur" ? (
-                    <span>€{cost?.vat?.toFixed(2)}</span>
-                  ) : (
-                    <>
-                      <span className="line-through">N</span>
-                      {cost?.vat?.toFixed(2)}
-                    </>
+                  <div className="flex justify-between items-center w-full text-main2 font-medium">
+                    <p>
+                      VAT ({((cost?.vat / cost?.baseAmount) * 100).toFixed(1)}%)
+                    </p>
+                    <p>
+                      {cost?.currency === "eur" ? (
+                        <span>€{cost?.vat?.toFixed(2)}</span>
+                      ) : (
+                        <>
+                          <span className="line-through">N</span>
+                          {cost?.vat?.toFixed(2)}
+                        </>
+                      )}
+                    </p>
+                  </div>
+
+                  {cost?.insurance > 0 && (
+                    <div className="flex justify-between items-center w-full text-main2 font-medium">
+                      <p>Insurance Coverage</p>
+                      <p>
+                        {cost?.currency === "eur" ? (
+                          <span>€{cost?.insurance?.toFixed(2)}</span>
+                        ) : (
+                          <>
+                            <span className="line-through">N</span>
+                            {cost?.insurance?.toFixed(2)}
+                          </>
+                        )}
+                      </p>
+                    </div>
                   )}
-                </p>
-              </div>
+                </div>
 
-              {cost?.insurance > 0 && (
-                <div className="flex justify-between items-center w-full text-main2 font-medium">
-                  <p>Insurance Coverage</p>
-                  <p>
+                <div className="flex justify-between items-center w-full">
+                  <p className="md:text-[13px] ss:text-[15px] text-[14px]">
+                    Subtotal:
+                  </p>
+                  <p className="text-primary md:text-[23px] ss:text-[24px] text-[22px] font-bold">
                     {cost?.currency === "eur" ? (
-                      <span>€{cost?.insurance?.toFixed(2)}</span>
+                      <span>€{cost?.total?.toFixed(2)}</span>
                     ) : (
                       <>
                         <span className="line-through">N</span>
-                        {cost?.insurance?.toFixed(2)}
+                        {cost?.total?.toFixed(2)}
                       </>
                     )}
                   </p>
                 </div>
-              )}
-            </div>
-
-            <div className="flex justify-between items-center w-full">
-              <p className="md:text-[13px] ss:text-[15px] text-[14px]">
-                Subtotal:
-              </p>
-              <p className="text-primary md:text-[23px] ss:text-[24px] text-[22px] font-bold">
-                {cost?.currency === "eur" ? (
-                  <span>€{cost?.total?.toFixed(2)}</span>
-                ) : (
-                  <>
-                    <span className="line-through">N</span>
-                    {cost?.total?.toFixed(2)}
-                  </>
-                )}
-              </p>
-            </div>
+              </>
+            )}
 
             <div className="w-full h-[1px] bg-main5" />
 

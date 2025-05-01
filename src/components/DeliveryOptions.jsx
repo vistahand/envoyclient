@@ -42,13 +42,14 @@ const DeliveryCard = ({
   totalOptions,
   baseAmount,
   shipmentType,
+  hasCustomPackage,
   date,
   isSelected,
 }) => {
   // Calculate estimated delivery date
   const estimatedDate = new Date(date);
   estimatedDate.setDate(estimatedDate.getDate() + option.daysToAdd);
-
+  console.log("hasCustomPackage", hasCustomPackage);
   const formattedDate = estimatedDate.toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -142,28 +143,32 @@ const DeliveryCard = ({
             {option.percentageMarkup > 0 ? "Priority Rate" : "Standard Rate"}
           </p>
 
-          <h1
-            className={`md:text-[25px] ss:text-[25px] text-[28px] text-right
+          {hasCustomPackage ? (
+            ""
+          ) : (
+            <h1
+              className={`md:text-[25px] ss:text-[25px] text-[28px] text-right
             font-bold tracking-tight ${isStandard ? "text-primary" : ""}`}
-          >
-            {shipmentType === "international" ? (
-              <>
-                €
-                {totalCost.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </>
-            ) : (
-              <>
-                <span>₦</span>{" "}
-                {totalCost.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </>
-            )}
-          </h1>
+            >
+              {shipmentType === "international" ? (
+                <>
+                  €
+                  {totalCost.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </>
+              ) : (
+                <>
+                  <span>₦</span>{" "}
+                  {totalCost.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </>
+              )}
+            </h1>
+          )}
 
           <div className="flex justify-end">
             <HiOutlineArrowRight
@@ -221,7 +226,7 @@ const DeliveryOptions = ({
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   const [selectedDeliveryOption, setSelectedDeliveryOption] = useState(null);
   const [isloading, setLoading] = useState(true);
-  const [shipmentData, setShipmentData] = useState(null);
+  const [shipmentData, setShipmentData] = useState({});
   const formRef = useRef();
   const { updateDeliveryOptions, loading, error, loadShipmentDraft } =
     useShipment();
@@ -496,6 +501,13 @@ const DeliveryOptions = ({
                     onNext={() => handleSelectOption(option)}
                     totalOptions={deliveryOptions.length}
                     baseAmount={baseShippingCost || 0}
+                    hasCustomPackage={
+                      shipmentData?.package?.packages.some(
+                        (pkg) => pkg.isCustom == true
+                      )
+                        ? true
+                        : false
+                    }
                     shipmentType={selectedTab}
                     date={formik.values.date}
                     isSelected={selectedDeliveryOption?._id === option._id}

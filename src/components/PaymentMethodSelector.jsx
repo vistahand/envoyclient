@@ -1,14 +1,28 @@
 // Create a new component for payment method selection
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const PaymentMethodSelector = ({ onSelect, defaultMethod = "immediate" }) => {
+const PaymentMethodSelector = ({
+  onSelect,
+  defaultMethod = "immediate",
+  hasCustom,
+}) => {
   const [selectedMethod, setSelectedMethod] = useState(defaultMethod);
 
   const handleSelection = (method) => {
     setSelectedMethod(method);
     onSelect(method);
   };
+
+  useEffect(() => {
+    if (hasCustom) {
+      setSelectedMethod("cash_on_pickup");
+      onSelect("cash_on_pickup");
+    } else {
+      setSelectedMethod(defaultMethod);
+      onSelect(defaultMethod);
+    }
+  }, [hasCustom, defaultMethod, onSelect]);
 
   return (
     <div className="w-full bg-white rounded-lg p-4 border border-main7">
@@ -22,7 +36,7 @@ const PaymentMethodSelector = ({ onSelect, defaultMethod = "immediate" }) => {
             selectedMethod === "immediate"
               ? "border-primary bg-primary1"
               : "border-main7"
-          }`}
+          } ${hasCustom ? "hidden" : ""}`}
           onClick={() => handleSelection("immediate")}
         >
           <div
