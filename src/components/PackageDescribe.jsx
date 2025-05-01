@@ -11,7 +11,11 @@ import { useNotifications } from "../context/NotificationContext";
 // Reusable components
 const FormField = ({ label, children, error }) => (
   <div className="relative flex flex-col">
-    {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
+    {label && (
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label}
+      </label>
+    )}
     {children}
     {error && (
       <p className="text-mainRed md:text-[12px] flex justify-end ss:text-[12px] text-[11px] mt-1 font-medium">
@@ -21,18 +25,18 @@ const FormField = ({ label, children, error }) => (
   </div>
 );
 
-const InputField = ({ 
-  label, 
-  type = "text", 
-  name, 
-  value, 
-  onChange, 
-  onBlur, 
-  disabled, 
+const InputField = ({
+  label,
+  type = "text",
+  name,
+  value,
+  onChange,
+  onBlur,
+  disabled,
   placeholder = " ",
   error,
   className = "",
-  hint
+  hint,
 }) => (
   <FormField error={error}>
     <div className="relative z-10">
@@ -75,14 +79,14 @@ const InputField = ({
   </FormField>
 );
 
-const CustomSelect = ({ 
-  name, 
-  value, 
-  onChange, 
-  onBlur, 
-  options, 
-  placeholder, 
-  error 
+const CustomSelect = ({
+  name,
+  value,
+  onChange,
+  onBlur,
+  options,
+  placeholder,
+  error,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
   const selectRef = React.useRef(null);
@@ -123,8 +127,18 @@ const CustomSelect = ({
           ) : (
             <span className="text-main6 capitalize">{placeholder}</span>
           )}
-          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          <svg
+            className="w-4 h-4 text-gray-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </div>
 
@@ -136,12 +150,20 @@ const CustomSelect = ({
                 className={`md:py-3.5 py-3 md:px-3.5 px-3 cursor-pointer 
                   hover:bg-primary flex items-center justify-between hover:text-white 
                   md:text-[14px] ss:text-[14px] text-[12px] text-main2 capitalize font-medium
-                  ${index === 0 ? "rounded-t-md" : index === options.length - 1 ? "rounded-b-md" : ""}`}
+                  ${
+                    index === 0
+                      ? "rounded-t-md"
+                      : index === options.length - 1
+                      ? "rounded-b-md"
+                      : ""
+                  }`}
                 onClick={() => handleSelect(option.value)}
               >
                 <span>{option.value}</span>
                 {option.price !== undefined && (
-                  <span className="text-main4">{option.currency} {option.price}</span>
+                  <span className="text-main4">
+                    {option.currency} {option.price}
+                  </span>
                 )}
               </div>
             ))}
@@ -152,25 +174,26 @@ const CustomSelect = ({
   );
 };
 
-const Button = ({ 
-  variant = "primary", 
-  onClick, 
-  children, 
-  type = "button", 
+const Button = ({
+  variant = "primary",
+  onClick,
+  children,
+  type = "button",
   disabled = false,
-  className = ""
+  className = "",
 }) => {
-  const baseClasses = "rounded-full px-14 py-3.5 text-[13px] flex items-center justify-center gap-3";
-  
-  const variantClasses = 
-    variant === "primary" 
-      ? "bg-primary text-white grow4" 
+  const baseClasses =
+    "rounded-full px-14 py-3.5 text-[13px] flex items-center justify-center gap-3";
+
+  const variantClasses =
+    variant === "primary"
+      ? "bg-primary text-white grow4"
       : "border border-primary text-primary grow2";
-    
+
   return (
-    <button 
-      type={type} 
-      className={`${baseClasses} ${variantClasses} ${className}`} 
+    <button
+      type={type}
+      className={`${baseClasses} ${variantClasses} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -192,17 +215,50 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
     { id: 3, name: "Box freezer", price: 120, currency: "Euro" },
     { id: 4, name: "Washing machine", price: 120, currency: "Euro" },
     { id: 5, name: "Drum", price: 160, currency: "Euro" },
-    { id: 6, name: "TV", price: 0, currency: "Euro", requiresSize: true, tvSize: "32", isCustom: true },
-    { id: 7, name: "TV", price: 0, currency: "Euro", requiresSize: true, tvSize: "43", isCustom: true },
-    { id: 8, name: "TV", price: 0, currency: "Euro", requiresSize: true, tvSize: "55", isCustom: true },
-    { id: 9, name: "Car", price: 0, currency: "Euro", requiresDetails: true, isQuotable: true, carMake: "", carModel: "" },
-    { id: 10, name: "Other", price: 0, currency: "Euro", isCustom: true }
+    {
+      id: 6,
+      name: "TV",
+      price: 0,
+      currency: "Euro",
+      requiresSize: true,
+      tvSize: "32",
+      isCustom: true,
+    },
+    {
+      id: 7,
+      name: "TV",
+      price: 0,
+      currency: "Euro",
+      requiresSize: true,
+      tvSize: "43",
+      isCustom: true,
+    },
+    {
+      id: 8,
+      name: "TV",
+      price: 0,
+      currency: "Euro",
+      requiresSize: true,
+      tvSize: "55",
+      isCustom: true,
+    },
+    {
+      id: 9,
+      name: "Car",
+      price: 0,
+      currency: "Euro",
+      requiresDetails: true,
+      isQuotable: true,
+      carMake: "",
+      carModel: "",
+    },
+    { id: 10, name: "Other", price: 0, currency: "Euro", isCustom: true },
   ]);
 
   // Extract TV sizes for dropdown
   const tvSizes = packageItems
-    .filter(item => item.name === "TV")
-    .map(tv => tv.tvSize)
+    .filter((item) => item.name === "TV")
+    .map((tv) => tv.tvSize)
     .filter(Boolean);
 
   // Form validation
@@ -212,28 +268,28 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
         packageType: Yup.string().required("Package type is required"),
         customPackageType: Yup.string().when("packageType", {
           is: "Other",
-          then: Yup.string().required("Please specify the package type"),
-          otherwise: Yup.string(),
+          then: () => Yup.string().required("Please specify the package type"),
+          otherwise: () => Yup.string(),
         }),
         tvSize: Yup.string().when("packageType", {
           is: "TV",
-          then: Yup.string().required("TV size is required"),
-          otherwise: Yup.string(),
+          then: () => Yup.string().required("TV size is required"),
+          otherwise: () => Yup.string(),
         }),
         carMake: Yup.string().when("packageType", {
           is: "Car",
-          then: Yup.string().required("Car make is required"),
-          otherwise: Yup.string(),
+          then: () => Yup.string().required("Car make is required"),
+          otherwise: () => Yup.string(),
         }),
         carModel: Yup.string().when("packageType", {
           is: "Car",
-          then: Yup.string().required("Car model is required"),
-          otherwise: Yup.string(),
+          then: () => Yup.string().required("Car model is required"),
+          otherwise: () => Yup.string(),
         }),
         carYear: Yup.string().when("packageType", {
           is: "Car",
-          then: Yup.string().required("Car year is required"),
-          otherwise: Yup.string(),
+          then: () => Yup.string().required("Car year is required"),
+          otherwise: () => Yup.string(),
         }),
       })
     ),
@@ -258,44 +314,62 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
     onSubmit: async (values) => {
       try {
         if (!shipmentData?.id) {
-          throw new Error("No shipment ID found. Please try again from step 1.");
+          throw new Error(
+            "No shipment ID found. Please try again from step 1."
+          );
         }
 
         const data = {
           packages: values.packages.map((packageItem) => {
             // Find the selected item from admin-defined packages
             const selectedPackage = packageItems.find(
-              item => item.name === packageItem.packageType
+              (item) => item.name === packageItem.packageType
             );
-            
+
             // For TV items, find the specific TV with matching size
             let matchedItem = selectedPackage;
             if (packageItem.packageType === "TV" && packageItem.tvSize) {
-              matchedItem = packageItems.find(
-                item => item.name === "TV" && item.tvSize === packageItem.tvSize
-              ) || selectedPackage;
+              matchedItem =
+                packageItems.find(
+                  (item) =>
+                    item.name === "TV" && item.tvSize === packageItem.tvSize
+                ) || selectedPackage;
             }
-            
+
             // Build the package data
             const packageData = {
-              packageType: packageItem.packageType === "Other" && packageItem.customPackageType
-                ? packageItem.customPackageType
-                : packageItem.packageType,
-              price: matchedItem ? matchedItem.price : 0,
-              currency: matchedItem ? matchedItem.currency : "Euro",
+              packageType:
+                packageItem.packageType === "Other" &&
+                packageItem.customPackageType
+                  ? packageItem.customPackageType
+                  : packageItem.packageType,
+              otherOptions:
+                {
+                  tv:
+                    {
+                      size: packageItem.tvSize || null,
+                    } || {},
+                  car:
+                    {
+                      make: packageItem.carMake || null,
+                      model: packageItem.carModel || null,
+                      year: packageItem.carYear || null,
+                    } || {},
+                } || {},
+              descriptions: matchedItem?.description || "",
             };
-            
+
             // Add additional fields based on package type
-            if (packageItem.packageType === "TV" && packageItem.tvSize) {
-              packageData.tvSize = packageItem.tvSize;
-            }
-            
-            if (packageItem.packageType === "Car") {
-              packageData.carMake = packageItem.carMake;
-              packageData.carModel = packageItem.carModel;
-              packageData.carYear = packageItem.carYear;
-            }
-            
+            // if (packageItem.packageType === "TV" && packageItem.tvSize) {
+            //   packageData.otherOptions.size = packageItem.tvSize;
+            // }
+
+            // if (packageItem.packageType === "Car") {
+            //   packageData.otherOptions.car.make = packageItem.carMake;
+            //   packageData.otherOptions.car.model = packageItem.carModel;
+            //   packageData.otherOptions.car.year = packageItem.carYear;
+            // }
+
             return packageData;
           }),
         };
@@ -346,15 +420,17 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
     // For TV items, get price based on size
     if (packageType === "TV" && tvSize) {
       const tvItem = packageItems.find(
-        item => item.name === "TV" && item.tvSize === tvSize
+        (item) => item.name === "TV" && item.tvSize === tvSize
       );
-      return tvItem ? `${tvItem.currency} ${tvItem.price}` : "Price will be provided";
-    } 
-    
+      return tvItem
+        ? `${tvItem.currency} ${tvItem.price}`
+        : "Price will be provided";
+    }
+
     // For other items
-    const package1 = packageItems.find(item => item.name === packageType);
+    const package1 = packageItems.find((item) => item.name === packageType);
     if (!package1) return "";
-    
+
     if (package1.isQuotable) {
       return "Quote based";
     } else if (package1.isCustom) {
@@ -368,22 +444,28 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
   const getItemOptions = () => {
     const uniqueItems = packageItems.reduce((acc, item) => {
       // For TV, only add it once
-      if (item.name === "TV" && acc.find(i => i.name === "TV")) {
+      if (item.name === "TV" && acc.find((i) => i.name === "TV")) {
         return acc;
       }
       return [...acc, item];
     }, []);
-    
-    return uniqueItems.map(item => ({
+
+    return uniqueItems.map((item) => ({
       value: item.name,
       currency: item.currency,
-      price: item.price !== 0 && !item.isCustom && !item.isQuotable ? item.price : undefined
+      price:
+        item.price !== 0 && !item.isCustom && !item.isQuotable
+          ? item.price
+          : undefined,
     }));
   };
 
   // Helper to get form error at specific path
   const getFormError = (index, field) => {
-    return formik.touched.packages?.[index]?.[field] && formik.errors.packages?.[index]?.[field];
+    return (
+      formik.touched.packages?.[index]?.[field] &&
+      formik.errors.packages?.[index]?.[field]
+    );
   };
 
   // Render the fields for each package type
@@ -397,7 +479,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
               value={pkg.tvSize}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              options={tvSizes.map(size => ({ value: size }))}
+              options={tvSizes.map((size) => ({ value: size }))}
               placeholder="Select TV size"
               error={getFormError(index, "tvSize")}
             />
@@ -406,7 +488,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
             </p>
           </FormField>
         );
-      
+
       case "Car":
         return (
           <div className="grid grid-cols-3 gap-4">
@@ -418,7 +500,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
               onBlur={formik.handleBlur}
               error={getFormError(index, "carMake")}
             />
-            
+
             <InputField
               label="Car Model"
               name={`packages[${index}].carModel`}
@@ -427,7 +509,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
               onBlur={formik.handleBlur}
               error={getFormError(index, "carModel")}
             />
-            
+
             <InputField
               label="Car Year"
               name={`packages[${index}].carYear`}
@@ -436,7 +518,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
               onBlur={formik.handleBlur}
               error={getFormError(index, "carYear")}
             />
-            
+
             <div className="col-span-3">
               <p className="text-main4 md:text-[12px] ss:text-[12px] text-[11px]">
                 Our team will contact you with pricing based on the Car details
@@ -444,7 +526,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
             </div>
           </div>
         );
-      
+
       case "Other":
         return (
           <InputField
@@ -456,7 +538,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
             error={getFormError(index, "customPackageType")}
           />
         );
-      
+
       default:
         return null;
     }
@@ -478,38 +560,64 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
         {/* Shipping Type Tabs */}
         <div className="flex justify-center items-center md:gap-3 ss:gap-3 gap-2.5 md:w-[43%] ss:w-[70%] w-full md:mt-10 ss:mt-10 mt-8">
           {/* International Tab */}
-          <div className={`py-3.5 px-4 flex items-center mobship
-              ${currentTab === "international" ? "bg-primary text-white" : "border-main5 border-[1px] text-primary"}  
-              rounded-lg md:w-1/2 ss:w-1/2 w-full gap-2 transition-all duration-300 ease-in-out`}>
+          <div
+            className={`py-3.5 px-4 flex items-center mobship
+              ${
+                currentTab === "international"
+                  ? "bg-primary text-white"
+                  : "border-main5 border-[1px] text-primary"
+              }  
+              rounded-lg md:w-1/2 ss:w-1/2 w-full gap-2 transition-all duration-300 ease-in-out`}
+          >
             <img
               src={internationalIcon}
-              className={`w-[2.3rem] h-auto object-contain ${currentTab === "international" ? "stroke-white" : "stroke-primary"}`}
+              className={`w-[2.3rem] h-auto object-contain ${
+                currentTab === "international"
+                  ? "stroke-white"
+                  : "stroke-primary"
+              }`}
               alt="International shipping"
             />
             <div className="flex flex-col">
               <h2 className="md:text-[13px] ss:text-[13px] text-[12px] font-bold">
                 International Shipping
               </h2>
-              <p className={`${currentTab === "local" ? "text-main4" : "font-light"} md:text-[11px] ss:text-[11px] text-[10px]`}>
+              <p
+                className={`${
+                  currentTab === "local" ? "text-main4" : "font-light"
+                } md:text-[11px] ss:text-[11px] text-[10px]`}
+              >
                 Ship between countries
               </p>
             </div>
           </div>
 
           {/* Local Tab */}
-          <div className={`py-3.5 px-4 flex items-center mobship
-              ${currentTab === "local" ? "bg-primary text-white" : "border-main5 border-[1px] text-primary"}  
-              rounded-lg md:w-1/2 ss:w-1/2 w-full gap-2 transition-all duration-300 ease-in-out`}>
+          <div
+            className={`py-3.5 px-4 flex items-center mobship
+              ${
+                currentTab === "local"
+                  ? "bg-primary text-white"
+                  : "border-main5 border-[1px] text-primary"
+              }  
+              rounded-lg md:w-1/2 ss:w-1/2 w-full gap-2 transition-all duration-300 ease-in-out`}
+          >
             <img
               src={localIcon}
-              className={`w-[2.3rem] h-auto object-contain ${currentTab === "local" ? "stroke-white" : "stroke-primary"}`}
+              className={`w-[2.3rem] h-auto object-contain ${
+                currentTab === "local" ? "stroke-white" : "stroke-primary"
+              }`}
               alt="Local shipping"
             />
             <div className="flex flex-col">
               <h2 className="md:text-[13px] ss:text-[13px] text-[12px] font-bold">
                 Local Shipping
               </h2>
-              <p className={`${currentTab === "international" ? "text-main4" : "font-light"} md:text-[11px] ss:text-[11px] text-[10px]`}>
+              <p
+                className={`${
+                  currentTab === "international" ? "text-main4" : "font-light"
+                } md:text-[11px] ss:text-[11px] text-[10px]`}
+              >
                 Ship within your country
               </p>
             </div>
@@ -524,18 +632,24 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
         </div>
 
         {/* Form */}
-        <form onSubmit={formik.handleSubmit} className="md:w-[70%] w-full md:mt-5 ss:mt-4 mt-3">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="md:w-[70%] w-full md:mt-5 ss:mt-4 mt-3"
+        >
           <div className="flex flex-col w-full items-center gap-8">
             {/* Package Items */}
             {formik.values.packages.map((pkg, index) => (
-              <div key={index} className="flex flex-col w-full items-center gap-4">
+              <div
+                key={index}
+                className="flex flex-col w-full items-center gap-4"
+              >
                 <div className="w-full flex justify-between items-center">
                   <h2 className="text-main2 font-semibold md:text-[20px] ss:text-[20px] text-[17px] tracking-tight">
                     Item {index + 1}
                   </h2>
 
                   {formik.values.packages.length > 1 && (
-                    <div 
+                    <div
                       className="flex items-center md:gap-2 ss:gap-2 gap-1.5 cursor-pointer grow6"
                       onClick={() => handleRemovePackage(index)}
                     >
@@ -560,17 +674,21 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
                       error={getFormError(index, "packageType")}
                     />
                   </div>
-                  
+
                   {/* Price Display */}
                   <div className="col-span-1">
                     <InputField
                       label="Price"
-                      value={pkg.packageType ? getPackagePrice(pkg.packageType, pkg.tvSize) : ""}
+                      value={
+                        pkg.packageType
+                          ? getPackagePrice(pkg.packageType, pkg.tvSize)
+                          : ""
+                      }
                       disabled={true}
                       className="bg-gray-50"
                     />
                   </div>
-                  
+
                   {/* Conditional fields based on package type */}
                   {pkg.packageType && (
                     <div className="col-span-3">
@@ -589,7 +707,11 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
                 className="inline-flex items-center gap-3 grow8 cursor-pointer"
                 onClick={handleAddPackage}
               >
-                <img src={addicon} alt="addpackage" className="w-[1.8rem] h-auto" />
+                <img
+                  src={addicon}
+                  alt="addpackage"
+                  className="w-[1.8rem] h-auto"
+                />
                 <h2 className="text-main2 font-semibold md:text-[18px] ss:text-[18px] text-[15px] tracking-tight">
                   Add Another Item
                 </h2>
