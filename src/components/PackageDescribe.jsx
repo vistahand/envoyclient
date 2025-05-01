@@ -243,9 +243,14 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
 
   // Extract TV sizes for dropdown
   const tvSizes = packageItems
-    .filter((item) => item.name === "TV")
-    .map((tv) => tv.otherOptions.size)
-    .filter(Boolean);
+    .filter((item) => item.packageType === "TV")
+    .reduce((sizes, tv) => {
+      if (tv.otherOptions?.tv?.size && Array.isArray(tv.otherOptions.tv.size)) {
+        return [...new Set([...sizes, ...tv.otherOptions.tv.size])];
+      }
+      return sizes;
+    }, [])
+    .sort((a, b) => a - b); // Sort sizes numerically
 
   // Form validation
   const validationSchema = Yup.object({
@@ -469,18 +474,44 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
       case "TV":
         return (
           <FormField>
-            <CustomSelect
-              name={`packages[${index}].tvSize`}
-              value={pkg.tvSize}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              options={tvSizes.map((size) => ({ value: size }))}
-              placeholder="Select TV size"
-              error={getFormError(index, "tvSize")}
-            />
-            <p className="text-main4 md:text-[12px] ss:text-[12px] text-[11px] mt-1">
-              Our team will contact you with pricing based on the TV size
-            </p>
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-1">
+                  <CustomSelect
+                    name={`packages[${index}].tvSize`}
+                    value={pkg.tvSize}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    options={[
+                      { value: "", label: "Select TV size" },
+                      { value: "custom", label: "Enter custom size" },
+                      ...tvSizes.map((size) => ({
+                        value: size.toString(),
+                        label: `${size} inches`,
+                      })),
+                    ]}
+                    placeholder="Select TV size"
+                    error={getFormError(index, "tvSize")}
+                  />
+                </div>
+                {pkg.tvSize === "custom" && (
+                  <div className="col-span-1">
+                    <InputField
+                      label="Custom TV Size (inches)"
+                      type="number"
+                      name={`packages[${index}].tvSize`}
+                      value={pkg.tvSize === "custom" ? "" : pkg.tvSize}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={getFormError(index, "tvSize")}
+                    />
+                  </div>
+                )}
+              </div>
+              <p className="text-main4 md:text-[12px] ss:text-[12px] text-[11px]">
+                Our team will contact you with pricing based on the TV size
+              </p>
+            </div>
           </FormField>
         );
 
