@@ -133,9 +133,9 @@ const ShipmentApproval = () => {
               approved: false,
               isCustom: pkg.isCustom || false,
               isQuotable: pkg.isCustom || false,
-              carMake: pkg.otherFields?.car?.make || "",
-              carModel: pkg.otherFields?.car?.model || "",
-              tvSize: pkg.otherFields?.tv?.size || "",
+              carMake: pkg.otherOptions?.car?.make || "",
+              carModel: pkg.otherOptions?.car?.model || "",
+              tvSize: pkg.otherOptions?.tv?.size || "",
               customPackageType: pkg.packageType || "Custom Item"
             };
           }) : []
