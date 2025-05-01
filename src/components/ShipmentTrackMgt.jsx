@@ -711,7 +711,10 @@ const ShipmentTrackMgt = ({
                               : "text-blue-800"
                           }`}
                         >
-                          {getFormattedStatus(shipment.status)}
+                          {shipment.status === "awaiting_pickup" &&
+                          shipment.payment?.method === "cash_on_pickup"
+                            ? "Pending Payment Approval"
+                            : getFormattedStatus(shipment.status)}
                         </span>
                       </td>
                       <td className="p-0 text-xs">
@@ -955,7 +958,10 @@ const ShipmentTrackMgt = ({
                               : "bg-blue-100 text-blue-800"
                           }`}
                         >
-                          {getFormattedStatus(shipment.status)}
+                          {shipment.status === "awaiting_pickup" &&
+                          shipment.payment?.method === "cash_on_pickup"
+                            ? "Pending Payment Approval"
+                            : getFormattedStatus(shipment.status)}
                         </span>
                       </div>
                       <div>
