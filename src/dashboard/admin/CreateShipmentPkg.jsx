@@ -57,39 +57,6 @@ const InputField = ({
   </FormField>
 );
 
-// const SelectField = ({ label, name, value, onChange, options }) => (
-//   <FormField label={label}>
-//     <select
-//       name={name}
-//       value={value}
-//       onChange={onChange}
-//       className="py-2 px-3 w-full border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-//     >
-//       {options.map((option) => (
-//         <option key={option.value} value={option.value}>
-//           {option.label}
-//         </option>
-//       ))}
-//     </select>
-//   </FormField>
-// );
-
-// const CheckboxField = ({ id, name, checked, onChange, label }) => (
-//   <div className="flex items-center">
-//     <input
-//       type="checkbox"
-//       id={id}
-//       name={name}
-//       checked={checked}
-//       onChange={onChange}
-//       className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-//     />
-//     <label htmlFor={id} className="ml-2 text-sm text-gray-700">
-//       {label}
-//     </label>
-//   </div>
-// );
-
 const ActionButton = ({ variant, onClick, children }) => {
   const baseClasses = "rounded-full px-4 py-2 text-sm flex items-center gap-2";
   const variantClasses =
@@ -186,7 +153,7 @@ const CreateShipmentPkg = () => {
         packageType: "TV",
         amount: 0,
         description: "TV Package",
-        otherOptions: { size: "" },
+        otherOptions: { tv: { size: [] } },
       }));
     } else if (itemType === "Car") {
       setFormData((prev) => ({
@@ -194,7 +161,7 @@ const CreateShipmentPkg = () => {
         packageType: "Car",
         amount: 0,
         description: "Car Package",
-        otherOptions: { make: "", model: "", year: "" },
+        otherOptions: { car: { make: "", model: "", year: "" } },
       }));
     } else {
       // Standard item
@@ -212,12 +179,15 @@ const CreateShipmentPkg = () => {
     const { name, value, type, checked } = e.target;
 
     if (name.startsWith("otherOptions.")) {
-      const optionKey = name.split(".")[1];
+      const [_, category, field] = name.split(".");
       setFormData((prev) => ({
         ...prev,
         otherOptions: {
           ...prev.otherOptions,
-          [optionKey]: value,
+          [category]: {
+            ...prev.otherOptions[category],
+            [field]: value,
+          },
         },
       }));
     } else if (name === "amount" && value !== "") {
@@ -231,6 +201,44 @@ const CreateShipmentPkg = () => {
         [name]: type === "checkbox" ? checked : value,
       }));
     }
+  };
+
+  const handleAddTVSize = () => {
+    const sizeInput = document.getElementById("tvSizeInput");
+    const size = Number(sizeInput.value);
+
+    if (!size || size <= 0) {
+      toast.error("Please enter a valid TV size");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      otherOptions: {
+        ...prev.otherOptions,
+        tv: {
+          ...prev.otherOptions.tv,
+          size: [...prev.otherOptions.tv.size, size],
+        },
+      },
+    }));
+
+    sizeInput.value = ""; // Clear input after adding
+  };
+
+  const handleRemoveTVSize = (indexToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      otherOptions: {
+        ...prev.otherOptions,
+        tv: {
+          ...prev.otherOptions.tv,
+          size: prev.otherOptions.tv.size.filter(
+            (_, index) => index !== indexToRemove
+          ),
+        },
+      },
+    }));
   };
 
   const validateForm = (formData) => {
@@ -249,21 +257,25 @@ const CreateShipmentPkg = () => {
       return false;
     }
 
-    if (formData.packageType === "TV" && !formData.otherOptions.size) {
-      toast.error("Please enter TV size");
+    if (
+      formData.packageType === "TV" &&
+      (!formData.otherOptions.tv?.size ||
+        formData.otherOptions.tv.size.length === 0)
+    ) {
+      toast.error("Please add at least one TV size");
       return false;
     }
 
     if (formData.packageType === "Car") {
-      if (!formData.otherOptions.make) {
+      if (!formData.otherOptions.car?.make) {
         toast.error("Please enter car make");
         return false;
       }
-      if (!formData.otherOptions.model) {
+      if (!formData.otherOptions.car?.model) {
         toast.error("Please enter car model");
         return false;
       }
-      if (!formData.otherOptions.year) {
+      if (!formData.otherOptions.car?.year) {
         toast.error("Please enter car year");
         return false;
       }
@@ -333,42 +345,42 @@ const CreateShipmentPkg = () => {
   //   }
   // };
 
-  const startEdit = (item) => {
-    setFormData({
-      packageType: item.packageType,
-      amount: item.amount,
-      description: item.description,
-      otherOptions: item.otherOptions || {},
-    });
-    setEditingItem(item);
-    setShowEditModal(true);
-  };
+  // const startEdit = (item) => {
+  //   setFormData({
+  //     packageType: item.packageType,
+  //     amount: item.amount,
+  //     description: item.description,
+  //     otherOptions: item.otherOptions || {},
+  //   });
+  //   setEditingItem(item);
+  //   setShowEditModal(true);
+  // };
 
-  const handleDeleteItem = async (id) => {
-    if (window.confirm("Are you sure you want to delete this package?")) {
-      setIsLoading(true);
-      setError(null);
+  // const handleDeleteItem = async (id) => {
+  //   if (window.confirm("Are you sure you want to delete this package?")) {
+  //     setIsLoading(true);
+  //     setError(null);
 
-      try {
-        const response = await fetch(`/api/packages/${id}`, {
-          method: "DELETE",
-        });
+  //     try {
+  //       const response = await fetch(`/api/packages/${id}`, {
+  //         method: "DELETE",
+  //       });
 
-        const result = await response.json();
+  //       const result = await response.json();
 
-        if (result.success) {
-          setPackages(packages.filter((pkg) => pkg._id !== id));
-        } else {
-          setError(result.message || "Failed to delete package");
-        }
-      } catch (err) {
-        setError("Error deleting package: " + err.message);
-        console.error("Error deleting package:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  };
+  //       if (result.success) {
+  //         setPackages(packages.filter((pkg) => pkg._id !== id));
+  //       } else {
+  //         setError(result.message || "Failed to delete package");
+  //       }
+  //     } catch (err) {
+  //       setError("Error deleting package: " + err.message);
+  //       console.error("Error deleting package:", err);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // };
 
   const resetForm = () => {
     setFormData({
@@ -466,13 +478,41 @@ const CreateShipmentPkg = () => {
       </FormField>
 
       {formData.packageType === "TV" && (
-        <InputField
-          label="TV Size (inches)"
-          type="text"
-          name="otherOptions.size"
-          value={formData.otherOptions.size || ""}
-          onChange={handleInputChange}
-        />
+        <div className="space-y-4">
+          <div className="flex gap-2">
+            <input
+              type="number"
+              id="tvSizeInput"
+              placeholder="Enter TV size in inches"
+              className="py-2 px-3 flex-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleAddTVSize}
+              className="bg-primary text-white px-3 py-2 rounded-md hover:bg-blue-600"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+          </div>
+
+          {formData.otherOptions.tv?.size?.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {formData.otherOptions.tv.size.map((size, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full"
+                >
+                  <span className="text-sm">{size}"</span>
+                  <button
+                    onClick={() => handleRemoveTVSize(index)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       {formData.packageType === "Car" && (
@@ -480,22 +520,22 @@ const CreateShipmentPkg = () => {
           <InputField
             label="Car Make"
             type="text"
-            name="otherOptions.make"
-            value={formData.otherOptions.make || ""}
+            name="otherOptions.car.make"
+            value={formData.otherOptions.car?.make || ""}
             onChange={handleInputChange}
           />
           <InputField
             label="Car Model"
             type="text"
-            name="otherOptions.model"
-            value={formData.otherOptions.model || ""}
+            name="otherOptions.car.model"
+            value={formData.otherOptions.car?.model || ""}
             onChange={handleInputChange}
           />
           <InputField
             label="Car Year"
             type="number"
-            name="otherOptions.year"
-            value={formData.otherOptions.year || ""}
+            name="otherOptions.car.year"
+            value={formData.otherOptions.car?.year || ""}
             onChange={handleInputChange}
           />
         </div>
