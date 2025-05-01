@@ -554,6 +554,7 @@ export const shipments = {
         params: {
           paymentStatus: "awaiting_confirmation",
           paymentMethod: "cash",
+          removeShipmentsToBeReviewed: true,
         },
       });
       return response.data;
