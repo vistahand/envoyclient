@@ -63,7 +63,11 @@ const PaymentsAdmin = () => {
               ? "Successful"
               : item.status === "awaiting_confirmation"
               ? "Pending"
-              : "Unsuccessful",
+              : item.status === "pending"
+              ? "Unverified"
+              : item.status === "failed"
+              ? "Unsuccessful"
+              : "",
           _id: item._id,
         }));
 
@@ -359,7 +363,7 @@ const PaymentsAdmin = () => {
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-end gap-2">
-                            {payment.status === "Pending" &&
+                            {payment.status === "Unverified" &&
                               payment.rawMethod === "stripe" && (
                                 <button
                                   onClick={(e) =>
