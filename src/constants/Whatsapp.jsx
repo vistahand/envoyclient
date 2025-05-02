@@ -18,7 +18,7 @@ const WhatsappLink = () => {
   const forgot =
     location.startsWith("/forgot-password") ||
     location.startsWith("/forgot-password/");
-  const whatsappNumber = import.meta.env.VITE_ADMIN_NUMBER; // Admin's WhatsApp number
+  const whatsappNumber = import.meta.env.VITE_ADMIN_NUMBER || "+353877792894"; 
 
   const openWhatsApp = () => {
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hello, I have an enquiry about Envoy Angel's services.`;
