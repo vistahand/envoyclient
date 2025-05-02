@@ -174,6 +174,22 @@ const PaymentsAdmin = () => {
     navigate(`/admin/payments/${paymentId}`);
   };
 
+  const handleVerifyPayment = async (e, paymentId) => {
+    e.stopPropagation();
+    try {
+      setLoading(true);
+      const response = await admin.payments.verifyPayment(paymentId);
+      if (response.success) {
+        // Refresh the payments list
+        await fetchPayments();
+      }
+    } catch (error) {
+      setError(error.message || "Failed to verify payment");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case "Successful":
@@ -341,13 +357,23 @@ const PaymentsAdmin = () => {
                             {payment.status}
                           </span>
                         </td>
-                        <td
-                          className="py-4 px-4 text-center"
-                          onClick={(e) => handleActionClick(e, payment._id)}
-                        >
-                          <button className="p-1 rounded-full hover:bg-gray-200 transition-colors">
-                            <HiDotsHorizontal className="text-gray-600 text-lg" />
-                          </button>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center justify-end gap-2">
+                            {payment.status === "Pending" &&
+                              payment.rawMethod === "stripe" && (
+                                <button
+                                  onClick={(e) =>
+                                    handleVerifyPayment(e, payment._id)
+                                  }
+                                  className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium hover:bg-blue-200 transition-colors"
+                                >
+                                  Verify Payment
+                                </button>
+                              )}
+                            <button className="p-1 rounded-full hover:bg-gray-200 transition-colors">
+                              <HiDotsHorizontal className="text-gray-600 text-lg" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))

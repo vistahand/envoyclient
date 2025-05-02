@@ -611,6 +611,18 @@ export const payments = {
       );
     }
   },
+
+  verifyPayment: async (shipmentId) => {
+    try {
+      const response = await api.post(`/payments/${shipmentId}/verify`);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(err.response?.data?.error || "Failed to verify payment");
+    }
+  },
 };
 
 // Delivery Options endpoints
@@ -802,6 +814,20 @@ export const admin = {
         }
         throw new Error(
           err.response?.data?.error || "Failed to fetch admin payment detail"
+        );
+      }
+    },
+
+    verifyPayment: async (shipmentId) => {
+      try {
+        const response = await api.post(`/payments/${shipmentId}/verify`);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to verify payment"
         );
       }
     },
