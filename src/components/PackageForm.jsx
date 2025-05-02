@@ -16,6 +16,7 @@ const PackageForm = forwardRef(
       calculatedCost,
       meetsMinimumPayment,
       currentTab,
+      loading,
     },
     ref
   ) => {
@@ -121,9 +122,7 @@ const PackageForm = forwardRef(
                 )}
               </div>
 
-              <div
-                className="grid md:grid-cols-3 ss:grid-cols-3 grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full"
-              >
+              <div className="grid md:grid-cols-3 ss:grid-cols-3 grid-cols-2 md:gap-5 ss:gap-5 gap-4 w-full">
                 <div className="relative flex flex-col col-span-2">
                   <div className="relative flex items-center">
                     <div className="w-full relative">
@@ -240,10 +239,44 @@ const PackageForm = forwardRef(
           <div className="w-full flex justify-center mt-6">
             <button
               type="submit"
-              disabled={!meetsMinimumPayment}
-              className="bg-primary text-[13px] py-3.5 px-14 text-white rounded-full grow4 cursor-pointer flex items-center justify-center gap-3"
+              disabled={loading}
+              className={`bg-primary text-[13px] py-3.5 px-14 flex
+                text-white rounded-full grow4
+                items-center justify-center gap-3 w-full md:w-auto
+                ${
+                  loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                }`}
             >
-              Continue
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Processing...
+                </div>
+              ) : (
+                <>
+                  <p>Continue</p>
+                  <HiOutlineArrowRight className="text-[14px]" />
+                </>
+              )}
             </button>
           </div>
         </div>

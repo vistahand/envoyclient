@@ -220,6 +220,22 @@ const Payments = () => {
     console.log("Report problem for", id);
   };
 
+  const handleVerifyPayment = async (e, id) => {
+    e.stopPropagation();
+    try {
+      setLoading(true);
+      const response = await payments.verifyPayment(id);
+      if (response.success) {
+        // Refresh the payments list
+        await fetchPayments();
+      }
+    } catch (error) {
+      setError(error.message || "Failed to verify payment");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const PendingFinalization = () => {
     const [pendingShipment, setPendingShipment] = useState(null);
 
@@ -461,14 +477,27 @@ const Payments = () => {
                           {data.payMethod}
                         </td>
                         <td className="text-left pl-5 md:py-5 ss:py-5 py-4 whitespace-nowrap">
-                          <span
-                            className={`inline-block w-2.5 h-2.5 rounded-full mr-3 ${
-                              data.payStat === "Completed"
-                                ? "bg-greenSuccess"
-                                : "bg-logRed"
-                            }`}
-                          ></span>
-                          {data.payStat}
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`inline-block w-2.5 h-2.5 rounded-full mr-3 ${
+                                data.payStat === "Completed"
+                                  ? "bg-greenSuccess"
+                                  : "bg-logRed"
+                              }`}
+                            ></span>
+                            {data.payStat}
+                            {data.payStat === "Pending" &&
+                              data.payMethod === "Stripe" && (
+                                <button
+                                  onClick={(e) =>
+                                    handleVerifyPayment(e, data._id)
+                                  }
+                                  className="ml-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium hover:bg-blue-200 transition-colors"
+                                >
+                                  Verify Payment
+                                </button>
+                              )}
+                          </div>
                         </td>
 
                         <td

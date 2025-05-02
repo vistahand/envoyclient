@@ -319,79 +319,26 @@ const CreateShipmentPkg = () => {
     }
   };
 
-  // const handleEditItem = async () => {
-  //   if (!validateForm(formData)) return;
+  const handleDeleteItem = async (id) => {
+    if (window.confirm("Are you sure you want to delete this package?")) {
+      setIsLoading(true);
+      setError(null);
 
-  //   setIsLoading(true);
-  //   setError(null);
+      try {
+        await admin.packages.deletePackage(id);
 
-  //   try {
-  //     const response = await fetch(`/api/packages/${editingItem._id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     const result = await response.json();
-
-  //     if (result.success) {
-  //       // Update packages list with edited package
-  //       const updatedPackages = packages.map((pkg) =>
-  //         pkg._id === editingItem._id ? result.data.updatedPackage : pkg
-  //       );
-
-  //       setPackages(updatedPackages);
-  //       resetForm();
-  //       setShowEditModal(false);
-  //     } else {
-  //       setError(result.message || "Failed to update package");
-  //     }
-  //   } catch (err) {
-  //     setError("Error updating package: " + err.message);
-  //     console.error("Error updating package:", err);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const startEdit = (item) => {
-  //   setFormData({
-  //     packageType: item.packageType,
-  //     amount: item.amount,
-  //     description: item.description,
-  //     otherOptions: item.otherOptions || {},
-  //   });
-  //   setEditingItem(item);
-  //   setShowEditModal(true);
-  // };
-
-  // const handleDeleteItem = async (id) => {
-  //   if (window.confirm("Are you sure you want to delete this package?")) {
-  //     setIsLoading(true);
-  //     setError(null);
-
-  //     try {
-  //       const response = await fetch(`/api/packages/${id}`, {
-  //         method: "DELETE",
-  //       });
-
-  //       const result = await response.json();
-
-  //       if (result.success) {
-  //         setPackages(packages.filter((pkg) => pkg._id !== id));
-  //       } else {
-  //         setError(result.message || "Failed to delete package");
-  //       }
-  //     } catch (err) {
-  //       setError("Error deleting package: " + err.message);
-  //       console.error("Error deleting package:", err);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
-  // };
+        // Update the packages list after successful deletion
+        setPackages(packages.filter((pkg) => pkg._id !== id));
+        toast.success("Package deleted successfully");
+      } catch (err) {
+        setError("Error deleting package: " + err.message);
+        console.error("Error deleting package:", err);
+        toast.error(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -648,9 +595,9 @@ const CreateShipmentPkg = () => {
                       <th className="py-3 px-4 border-b border-gray-200 text-sm font-semibold text-gray-600">
                         Created At
                       </th>
-                      {/* <th className="py-3 px-4 border-b border-gray-200 text-sm font-semibold text-gray-600">
+                      <th className="py-3 px-4 border-b border-gray-200 text-sm font-semibold text-gray-600">
                         Actions
-                      </th> */}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -668,14 +615,8 @@ const CreateShipmentPkg = () => {
                         <td className="py-3 px-4 border-b border-gray-100 text-sm">
                           {new Date(pkg.createdAt).toLocaleDateString()}
                         </td>
-                        {/* <td className="py-3 px-4 border-b border-gray-100">
+                        <td className="py-3 px-4 border-b border-gray-100">
                           <div className="flex gap-3">
-                            <button
-                              className="text-primary hover:text-blue-800"
-                              onClick={() => startEdit(pkg)}
-                            >
-                              <Pencil className="w-4 h-4" />
-                            </button>
                             <button
                               className="text-red-600 hover:text-red-800"
                               onClick={() => handleDeleteItem(pkg._id)}
@@ -683,7 +624,7 @@ const CreateShipmentPkg = () => {
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
-                        </td> */}
+                        </td>
                       </tr>
                     ))}
                     {filteredPackages.length === 0 && (
@@ -735,38 +676,6 @@ const CreateShipmentPkg = () => {
           </ActionButton>
         </div>
       </Modal>
-
-      {/* Edit Item Modal */}
-      {/* <Modal
-        isOpen={showEditModal}
-        onClose={() => setShowEditModal(false)}
-        title="Edit Package"
-        modalRef={modalRef}
-      >
-        {renderFormFields()}
-        <div className="flex justify-end gap-3 mt-4">
-          <ActionButton
-            variant="secondary"
-            onClick={() => setShowEditModal(false)}
-          >
-            Cancel
-          </ActionButton>
-          <ActionButton
-            variant="primary"
-            onClick={handleEditItem}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              "Saving..."
-            ) : (
-              <>
-                <Save className="w-4 h-4" />
-                Save Changes
-              </>
-            )}
-          </ActionButton>
-        </div>
-      </Modal> */}
     </div>
   );
 };
