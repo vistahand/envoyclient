@@ -25,10 +25,17 @@ const WhatsappLink = () => {
         `}
         onClick={openWhatsApp}
       >
-        <IoLogoWhatsapp
-          className="text-white md:text-[24px] ss:text-[26px]
+        <div className="flex items-center gap-2 ps-1">
+          <span
+            className={` text-white md:text-[14px] ss:text-[20px] text-[16px]`}
+          >
+            <strong>Reach us →</strong>
+          </span>
+          <IoLogoWhatsapp
+            className="text-white md:text-[30px] ss:text-[26px]
           text-[22px]"
-        />
+          />
+        </div>
       </div>
     </>
   );
