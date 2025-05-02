@@ -364,7 +364,7 @@ const PaymentsAdmin = () => {
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-end gap-2">
                             {payment.status === "Unverified" &&
-                              payment.rawMethod === "stripe" && (
+                              payment.rawMethod === "Stripe" && (
                                 <button
                                   onClick={(e) =>
                                     handleVerifyPayment(e, payment._id)
@@ -374,9 +374,6 @@ const PaymentsAdmin = () => {
                                   Verify Payment
                                 </button>
                               )}
-                            <button className="p-1 rounded-full hover:bg-gray-200 transition-colors">
-                              <HiDotsHorizontal className="text-gray-600 text-lg" />
-                            </button>
                           </div>
                         </td>
                       </tr>
