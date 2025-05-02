@@ -29,7 +29,7 @@ const Navbar = () => {
   if (isAuthenticated) {
     console.log("User is authenticated:", user);
   } else {
-    console.log("User is not authenticated", user);
+    console.log("User is not authenticated");
   }
   useEffect(() => {
     if (user) {
@@ -463,7 +463,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-6">
                   <h1
                     className="text-primary cursor-pointer ss:text-[20px] 
-                            text-[8px]"
+                            text-[16px] font-bold"
                     onClick={(e) => {
                       e.preventDefault();
                       navigate("/login");
