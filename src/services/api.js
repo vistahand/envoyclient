@@ -831,6 +831,23 @@ export const admin = {
         );
       }
     },
+
+    processRefund: async (paymentId, refundData) => {
+      try {
+        const response = await api.post(
+          `/payments/${paymentId}/refund`,
+          refundData
+        );
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to process refund"
+        );
+      }
+    },
   },
 
   shippingRates: {
@@ -915,6 +932,34 @@ export const admin = {
           response: err,
           status: false,
         };
+      }
+    },
+
+    updatePackage: async (id, formData) => {
+      try {
+        const response = await api.put(`/admin/packages/${id}`, formData);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to update package"
+        );
+      }
+    },
+
+    deletePackage: async (id) => {
+      try {
+        const response = await api.delete(`/admin/packages/${id}`);
+        return response.data;
+      } catch (err) {
+        if (!err.response) {
+          throw new Error("Network error. Please check your connection.");
+        }
+        throw new Error(
+          err.response?.data?.error || "Failed to delete package"
+        );
       }
     },
   },

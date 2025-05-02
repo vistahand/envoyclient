@@ -11,6 +11,7 @@ import {
   FiFileText,
 } from "react-icons/fi";
 import api, { admin } from "../services/api";
+import { useNotifications } from "../context/NotificationContext";
 
 const AdminPaymentDetail = () => {
   const { paymentId } = useParams();
@@ -18,6 +19,12 @@ const AdminPaymentDetail = () => {
   const [payment, setPayment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [showRefundModal, setShowRefundModal] = useState(false);
+  const [refundAmount, setRefundAmount] = useState("");
+  const [refundReason, setRefundReason] = useState("");
+  const [processingRefund, setProcessingRefund] = useState(false);
+  const { addNotification } = useNotifications();
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -120,6 +127,46 @@ const AdminPaymentDetail = () => {
   // Handle back button click
   const handleBackClick = () => {
     navigate("/admin/payments");
+  };
+
+  const handleRefund = async (e) => {
+    e.preventDefault();
+
+    if (!refundAmount || !refundReason) {
+      addNotification({
+        type: "error",
+        title: "Validation Error",
+        message: "Please provide both refund amount and reason",
+      });
+      return;
+    }
+
+    try {
+      setProcessingRefund(true);
+      const response = await admin.payments.processRefund(payment._id, {
+        amount: parseFloat(refundAmount),
+        reason: refundReason,
+      });
+
+      if (response.success) {
+        addNotification({
+          type: "success",
+          title: "Refund Processed",
+          message: "Payment has been successfully refunded",
+        });
+        setShowRefundModal(false);
+        // Refresh payment details
+        await fetchPaymentDetails();
+      }
+    } catch (error) {
+      addNotification({
+        type: "error",
+        title: "Refund Failed",
+        message: error.message || "Failed to process refund",
+      });
+    } finally {
+      setProcessingRefund(false);
+    }
   };
 
   if (loading) {
@@ -391,17 +438,85 @@ const AdminPaymentDetail = () => {
           </div>
         )}
 
-        {/* Refund Section - Conditional rendering
-        {payment.status === "completed" && (
+        {/* Refund Section */}
+        {payment?.status === "completed" && !payment?.refunded && (
           <div className="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
-            <h4 className="text-lg font-medium text-gray-800 mb-4">Refund Options</h4>
-            <p className="text-gray-600 mb-4">Issue a refund for this payment if necessary</p>
-            
-            <button className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+            <h4 className="text-lg font-medium text-gray-800 mb-4">
+              Refund Options
+            </h4>
+            <p className="text-gray-600 mb-4">
+              Issue a refund for this payment if necessary. Please note that
+              refunds cannot be undone.
+            </p>
+            <button
+              onClick={() => setShowRefundModal(true)}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            >
               Process Refund
             </button>
           </div>
-        )} */}
+        )}
+
+        {/* Refund Modal */}
+        {showRefundModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-xl font-semibold mb-4">Process Refund</h3>
+              <form onSubmit={handleRefund}>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Refund Amount ({payment?.currency?.toUpperCase() || "EUR"})
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0.01"
+                    max={payment?.amount || 0}
+                    value={refundAmount}
+                    onChange={(e) => setRefundAmount(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Maximum amount:{" "}
+                    {formatCurrency(payment?.amount, payment?.currency)}
+                  </p>
+                </div>
+                <div className="mb-6">
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Reason for Refund
+                  </label>
+                  <textarea
+                    value={refundReason}
+                    onChange={(e) => setRefundReason(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    rows="3"
+                    required
+                    maxLength="500"
+                    placeholder="Please provide a reason for the refund..."
+                  ></textarea>
+                </div>
+                <div className="flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowRefundModal(false)}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                    disabled={processingRefund}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50"
+                    disabled={processingRefund}
+                  >
+                    {processingRefund ? "Processing..." : "Confirm Refund"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1897,29 +1897,34 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
               md:gap-5 ss:gap-5 gap-3"
               >
                 <button
-                  className="bg-none text-[13px] py-3.5 w-[50%]
-                text-primary rounded-full grow2 cursor-pointer
-                items-center justify-center border border-primary"
+                  className={`bg-none text-[13px] py-3.5 w-[50%]
+                text-primary rounded-full grow2
+                items-center justify-center border border-primary ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                }`}
                   onClick={() => {
                     onClose();
                     enableScroll();
                   }}
+                  disabled={isLoading}
                 >
                   <p className="font-semibold">Cancel</p>
                 </button>
 
                 <button
-                  className="bg-primary text-[13px] py-3.5 w-[50%] flex
-                text-white rounded-full grow4 cursor-pointer
-                items-center justify-center gap-3"
+                  className={`bg-primary text-[13px] py-3.5 w-[50%] flex
+                text-white rounded-full grow4
+                items-center justify-center gap-3 ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                }`}
                   onClick={() => {
                     formik.handleSubmit();
                     enableScroll();
                   }}
-                  disabled={isLoading}
+                  disabled={isLoading || formik.isSubmitting}
                 >
-                  {isLoading ? (
-                    <p>Confirming...</p>
+                  {isLoading || formik.isSubmitting ? (
+                    <p>Processing...</p>
                   ) : (
                     <>
                       <p>Confirm</p>

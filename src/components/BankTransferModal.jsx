@@ -322,15 +322,24 @@ const BankTransferModal = ({ onClose, shipment }) => {
               >
                 <button
                   type="button"
-                  disabled={loading}
+                  disabled={loading || isCalculating}
                   className={`bg-primary text-[13px] py-3.5 px-14
-                                      text-white rounded-full grow4 cursor-pointer
-                                      items-center justify-center mobbut ${
-                                        loading ? "opacity-70" : ""
+                                      text-white rounded-full grow4
+                                      items-center justify-center mobbut 
+                                      ${
+                                        loading || isCalculating
+                                          ? "opacity-70 cursor-not-allowed"
+                                          : "cursor-pointer"
                                       }`}
                   onClick={initializePayment}
                 >
-                  <p>{loading ? "Initializing..." : "Proceed to Payment"}</p>
+                  <p>
+                    {loading
+                      ? "Processing Payment..."
+                      : isCalculating
+                      ? "Calculating..."
+                      : "Proceed to Payment"}
+                  </p>
                 </button>
               </div>
             )}

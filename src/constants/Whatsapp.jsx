@@ -1,0 +1,37 @@
+import React from "react";
+import { IoLogoWhatsapp } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
+
+const WhatsappLink = () => {
+  const location = useLocation().pathname;
+  const user = location.startsWith("/user");
+  const admin = location.startsWith("/admin");
+  const whatsappNumber = import.meta.env.VITE_ADMIN_NUMBER; // Admin's WhatsApp number
+
+  const openWhatsApp = () => {
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hello, I have an enquiry about Envoy Angel's services.`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  return (
+    <>
+      {/* WhatsApp Button */}
+      <div
+        className={`${
+          admin || user ? "hidden" : "block"
+        } bg-[#25D366] py-3 px-3 fixed md:bottom-10 z-20
+        ss:bottom-8 bottom-6 md:right-20 ss:right-16 right-5 rounded-full 
+        transition-opacity duration-400 cursor-pointer grow2 hover:scale-110
+        `}
+        onClick={openWhatsApp}
+      >
+        <IoLogoWhatsapp
+          className="text-white md:text-[24px] ss:text-[26px]
+          text-[22px]"
+        />
+      </div>
+    </>
+  );
+};
+
+export default WhatsappLink;

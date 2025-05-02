@@ -49,7 +49,6 @@ import ShipmentSuccessScene from "./scenes/ShipmentSuccessScene";
 import AdminPaymentDetail from "./components/AdminPaymentDtl";
 import { Toaster } from "react-hot-toast";
 import AdminUserDetail from "./components/AdminUsersDetail";
-// import TidioChat from "./components/TidioChat";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import ContactPage from "./scenes/ContactPage";
@@ -60,6 +59,7 @@ import CareerPage from "./dashboard/admin/CareerPage";
 import AdminVerify from "./dashboard/AdminVerify";
 import CreateShipmentPkg from "./dashboard/admin/CreateShipmentPkg";
 import ShipmentApproval from "./dashboard/admin/ShipmentApproval";
+import WhatsappLink from "./constants/Whatsapp";
 
 const App = () => {
   return (
@@ -219,7 +219,7 @@ const App = () => {
 
               <NotificationToast />
               <ScrollToTopButton />
-              {/* <TidioChat /> */}
+              <WhatsappLink />
             </div>
           </BrowserRouter>
         </ShipmentProvider>
