@@ -315,9 +315,6 @@ const PaymentsAdmin = () => {
                     <th className="py-3 px-4 font-medium text-center">
                       Status
                     </th>
-                    <th className="py-3 px-4 font-medium text-center">
-                      Actions
-                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
