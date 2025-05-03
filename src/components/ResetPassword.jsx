@@ -12,7 +12,7 @@ import { auth } from "../services/api"; // Import auth service
 const ResetPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const params = new URLSearchParams(location.search) // Add useParams hook
+  const params = new URLSearchParams(location.search); // Add useParams hook
   const formRef = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,10 +28,15 @@ const ResetPassword = () => {
     const validateToken = async () => {
       try {
         // Try to get token from path parameter (the part after /reset-password/)
-        const pathEmail = String(params.get('email'))
-        const pathToken = String(params.get('token'))
+        const pathEmail = String(params.get("email"));
+        const pathToken = String(params.get("token"));
 
-        if (pathToken) {
+        if (pathToken === "force-reset") {
+          // This is a forced password reset after login
+          setTokenValue("force-reset");
+          setEmailValue(pathEmail);
+          setTokenValidated(true);
+        } else if (pathToken) {
           setTokenValue(pathToken);
           setEmailValue(pathEmail);
           setTokenValidated(true);
@@ -41,7 +46,7 @@ const ResetPassword = () => {
         setTokenValidated(false);
       }
     };
-    
+
     validateToken();
   }, [location]);
 
@@ -68,7 +73,7 @@ const ResetPassword = () => {
         )
         .required("Password is required"),
       confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], "Passwords must match")
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Please confirm your password"),
     }),
 
@@ -76,18 +81,17 @@ const ResetPassword = () => {
       try {
         setIsLoading(true);
         setResetError("");
-        
-        // Log for debugging
-        console.log("Submitting password reset with token:", tokenValue);
-        
+
         // Call the API to reset the password
         await auth.resetPassword(tokenValue, values.password, emailValue);
-        
+
         // If successful, show success state
         setResetComplete(true);
       } catch (err) {
         console.error("Password reset error:", err);
-        setResetError(err.message || "Failed to reset password. Please try again.");
+        setResetError(
+          err.message || "Failed to reset password. Please try again."
+        );
       } finally {
         setIsLoading(false);
       }
@@ -112,10 +116,11 @@ const ResetPassword = () => {
             Invalid or Missing Reset Link
           </h1>
           <p className="text-main4 md:text-[15px] ss:text-[14px] text-[13px] mb-8 text-center max-w-md">
-            The password reset link is invalid or has expired. Please request a new password reset link.
+            The password reset link is invalid or has expired. Please request a
+            new password reset link.
           </p>
           <button
-            onClick={() => navigate('/forgot-password')}
+            onClick={() => navigate("/forgot-password")}
             className="bg-primary text-[13px] py-3.5 px-14
             flex text-white rounded-full grow4 cursor-pointer
             items-center justify-center gap-3 mobbut"
@@ -148,7 +153,9 @@ const ResetPassword = () => {
                   className="text-primary font-semibold md:text-[37px]
                 ss:text-[35px] text-[32px] tracking-tight mobline"
                 >
-                  {resetComplete ? "Password Reset Complete" : "Create New Password"}
+                  {resetComplete
+                    ? "Password Reset Complete"
+                    : "Create New Password"}
                 </h1>
 
                 <h2
@@ -156,7 +163,7 @@ const ResetPassword = () => {
                 tracking-tight font-medium text-main4 md:leading-[22px]
                 ss:leading-[22px] leading-[20px] md:mt-0 ss:mt-0 mt-1"
                 >
-                  {resetComplete 
+                  {resetComplete
                     ? "Your password has been successfully reset. You can now log in with your new password."
                     : "Please create a new password for your account. Make sure it's secure and easy to remember."}
                 </h2>
@@ -253,7 +260,8 @@ const ResetPassword = () => {
                             md:text-[14px] ss:text-[14px] text-[12px] outline-[1px]
                             bg-transparent w-full focus:outline-primary
                             ${
-                              formik.touched.confirmPassword && formik.errors.confirmPassword
+                              formik.touched.confirmPassword &&
+                              formik.errors.confirmPassword
                                 ? "outline-mainRed"
                                 : "outline-main6"
                             }
@@ -301,7 +309,8 @@ const ResetPassword = () => {
                           className="text-mainRed md:text-[12px] flex justify-end
                         ss:text-[12px] text-[11px] md:mt-2 ss:mt-2 mt-1 font-medium"
                         >
-                          {formik.touched.confirmPassword && formik.errors.confirmPassword}
+                          {formik.touched.confirmPassword &&
+                            formik.errors.confirmPassword}
                         </p>
                       </div>
                     </div>
@@ -338,13 +347,14 @@ const ResetPassword = () => {
                   <div className="bg-primary bg-opacity-10 rounded-full p-6 mb-6">
                     <BsCheckCircleFill className="text-primary text-5xl" />
                   </div>
-                  
+
                   <p className="text-center text-main4 md:text-[15px] ss:text-[14px] text-[13px] mb-8">
-                    Your password has been updated successfully. You can now log in to your account with your new password.
+                    Your password has been updated successfully. You can now log
+                    in to your account with your new password.
                   </p>
-                  
+
                   <button
-                    onClick={() => navigate('/login')}
+                    onClick={() => navigate("/login")}
                     className="bg-primary text-[13px] py-3.5 px-14
                     flex text-white rounded-full grow4 cursor-pointer
                     items-center justify-center gap-3 mobbut"

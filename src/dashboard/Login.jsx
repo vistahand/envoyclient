@@ -8,6 +8,7 @@ import { login as loginImage } from "../assets";
 import { HiOutlineArrowRight, HiOutlineArrowLeft } from "react-icons/hi";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,11 +46,22 @@ const Login = () => {
       try {
         setIsLoading(true);
         setLoginError("");
- 
-        
+
         const response = await login(values);
-        
+
         if (response.success) {
+          // Check for password reset requirement
+          if (response.data.user.passwordResetRequired) {
+            // Redirect to password reset with special flag
+            toast.error("Immediate password reset is required");
+            setTimeout(() => {
+              navigate(
+                `/reset-password?token=force-reset&email=${response.data.user.email}`
+              );
+            }, 2000);
+            return;
+          }
+
           // For admin users, always navigate to the verification page
           if (response.data.user.role === "admin") {
             navigate(`/admin-verify?email=${response.data.user.email}`);
