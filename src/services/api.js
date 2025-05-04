@@ -938,7 +938,11 @@ export const admin = {
     updatePackage: async (id, formData) => {
       try {
         const response = await api.put(`/admin/packages/${id}`, formData);
-        return response.data;
+        return {
+          success: true,
+          data: response.data,
+          message: "Package updated successfully",
+        };
       } catch (err) {
         if (!err.response) {
           throw new Error("Network error. Please check your connection.");

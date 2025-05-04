@@ -25,6 +25,43 @@ const Modal = ({ isOpen, onClose, title, children, modalRef }) => {
   );
 };
 
+const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, itemName }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg w-full max-w-md p-6">
+        <div className="text-center">
+          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+            <Trash2 className="h-6 w-6 text-red-600" />
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Delete Package
+          </h3>
+          <p className="text-sm text-gray-500 mb-6">
+            Are you sure you want to delete this package? This action cannot be
+            undone.
+          </p>
+        </div>
+        <div className="flex justify-end gap-3">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const FormField = ({ label, children }) => (
   <div className="relative">
     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -88,8 +125,7 @@ const ItemTypeButton = ({ icon, label, selected, onClick }) => {
 };
 
 const CreateShipmentPkg = () => {
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [formData, setFormData] = useState({
     packageType: "",
@@ -108,6 +144,9 @@ const CreateShipmentPkg = () => {
     direction: "asc",
   });
   const modalRef = useRef(null);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [packageToDelete, setPackageToDelete] = useState(null);
 
   // Fetch packages on component mount
   useEffect(() => {
@@ -137,8 +176,7 @@ const CreateShipmentPkg = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setShowAddModal(false);
-        setShowEditModal(false);
+        setShowModal(false);
       }
     };
 
@@ -291,7 +329,7 @@ const CreateShipmentPkg = () => {
     return true;
   };
 
-  const handleAddItem = async () => {
+  const handleSubmit = async () => {
     if (!validateForm(formData)) return;
 
     setIsLoading(true);
@@ -302,41 +340,74 @@ const CreateShipmentPkg = () => {
         ...formData,
         amount: Number(formData.amount),
       };
-      const result = await admin.packages.createPackage(formDataToSend);
+
+      let result;
+      if (editingItem) {
+        result = await admin.packages.updatePackage(
+          editingItem._id,
+          formDataToSend
+        );
+      } else {
+        result = await admin.packages.createPackage(formDataToSend);
+      }
 
       if (result.success) {
-        setPackages([...packages, result.data.newPackage]);
+        if (editingItem) {
+          setPackages(
+            packages.map((pkg) =>
+              pkg._id === editingItem._id ? { ...pkg, ...formDataToSend } : pkg
+            )
+          );
+          toast.success("Package updated successfully");
+        } else {
+          setPackages([...packages, result.data.newPackage]);
+          toast.success("Package created successfully");
+        }
         resetForm();
-        setShowAddModal(false);
+        setShowModal(false);
       } else {
-        setError(result.message || "Failed to add package");
+        setError(result.message || "Failed to save package");
       }
     } catch (err) {
-      setError("Error adding package: " + err.message);
-      console.error("Error adding package:", err);
+      setError(err.message || "Error saving package");
+      console.error("Error saving package:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const startEdit = (pkg) => {
+    setEditingItem(pkg);
+    setFormData({
+      packageType: pkg.packageType,
+      amount: pkg.amount,
+      description: pkg.description,
+      otherOptions: pkg.otherOptions || {},
+    });
+    setShowModal(true);
+  };
+
   const handleDeleteItem = async (id) => {
-    if (window.confirm("Are you sure you want to delete this package?")) {
-      setIsLoading(true);
-      setError(null);
+    setPackageToDelete(id);
+    setShowDeleteModal(true);
+  };
 
-      try {
-        await admin.packages.deletePackage(id);
+  const confirmDelete = async () => {
+    setIsLoading(true);
+    setError(null);
 
-        // Update the packages list after successful deletion
-        setPackages(packages.filter((pkg) => pkg._id !== id));
-        toast.success("Package deleted successfully");
-      } catch (err) {
-        setError("Error deleting package: " + err.message);
-        console.error("Error deleting package:", err);
-        toast.error(err.message);
-      } finally {
-        setIsLoading(false);
-      }
+    try {
+      await admin.packages.deletePackage(packageToDelete);
+      setPackages(packages.filter((pkg) => pkg._id !== packageToDelete));
+      toast.success("Package deleted successfully");
+    } catch (err) {
+      setError("Error deleting package: " + err.message);
+      console.error("Error deleting package:", err);
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+      setShowDeleteModal(false);
+      setPackageToDelete(null);
     }
   };
 
@@ -541,7 +612,7 @@ const CreateShipmentPkg = () => {
                 className="bg-primary text-sm py-2 px-5 text-white rounded-full transition-transform hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
                 onClick={() => {
                   resetForm();
-                  setShowAddModal(true);
+                  setShowModal(true);
                 }}
                 disabled={isLoading}
               >
@@ -618,6 +689,12 @@ const CreateShipmentPkg = () => {
                         <td className="py-3 px-4 border-b border-gray-100">
                           <div className="flex gap-3">
                             <button
+                              className="text-blue-600 hover:text-blue-800"
+                              onClick={() => startEdit(pkg)}
+                            >
+                              <Pencil className="w-4 h-4" />
+                            </button>
+                            <button
                               className="text-red-600 hover:text-red-800"
                               onClick={() => handleDeleteItem(pkg._id)}
                             >
@@ -645,24 +722,30 @@ const CreateShipmentPkg = () => {
         </div>
       </div>
 
-      {/* Add Item Modal */}
+      {/* Add/Edit Item Modal */}
       <Modal
-        isOpen={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        title="Add New Package"
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+          resetForm();
+        }}
+        title={editingItem ? "Edit Package" : "Add New Package"}
         modalRef={modalRef}
       >
         {renderFormFields()}
         <div className="flex justify-end gap-3 mt-4">
           <ActionButton
             variant="secondary"
-            onClick={() => setShowAddModal(false)}
+            onClick={() => {
+              setShowModal(false);
+              resetForm();
+            }}
           >
             Cancel
           </ActionButton>
           <ActionButton
             variant="primary"
-            onClick={handleAddItem}
+            onClick={handleSubmit}
             disabled={isLoading}
           >
             {isLoading ? (
@@ -670,12 +753,23 @@ const CreateShipmentPkg = () => {
             ) : (
               <>
                 <Save className="w-4 h-4" />
-                Save Package
+                {editingItem ? "Update Package" : "Save Package"}
               </>
             )}
           </ActionButton>
         </div>
       </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setPackageToDelete(null);
+        }}
+        onConfirm={confirmDelete}
+        itemName="package"
+      />
     </div>
   );
 };
