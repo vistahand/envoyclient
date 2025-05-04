@@ -24,16 +24,29 @@ api.interceptors.request.use(
   }
 );
 
-// Handle token expiration
+// Add a response interceptor to handle suspension globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Only redirect to login for 401 errors that aren't from /auth/me
+    // Handle suspension errors
+    if (
+      error.response?.status === 403 &&
+      error.response?.data?.message?.includes("suspended")
+    ) {
+      // Clear any local state
+      localStorage.clear();
+      // Redirect to login with suspension message
+      window.location.href = `/login?error=${encodeURIComponent(
+        error.response.data.message
+      )}`;
+      return Promise.reject(error);
+    }
+
+    // Handle token expiration (existing code)
     if (
       error.response?.status === 401 &&
       !error.config.url.endsWith("/auth/me")
     ) {
-      // Clear any local state
       localStorage.clear();
       window.location.href = "/login";
     }

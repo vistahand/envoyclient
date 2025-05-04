@@ -71,6 +71,14 @@ export const AuthProvider = ({ children }) => {
             setUser(response.data.user);
           }
         }
+
+        console.log(response);
+        // if (
+        //   response?.status === 403 &&
+        //   response?.data?.message?.includes("suspended")
+        // ) {
+        //   return "User account is suspended";
+        // }
         return response;
       },
       "login",
