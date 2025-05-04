@@ -7,6 +7,7 @@ import {
 } from "../services/api";
 import LoadingScreen from "../components/LoadingScreen";
 import { handleApiError } from "../utils/errorHandler";
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext(null);
 
@@ -49,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         if (response?.success) {
           setUser(response.data.user);
         } else {
+          toast.error(response.error)
           logoutUser(); // 🔥 Call logoutUser() if verification fails
         }
       } catch (err) {
@@ -71,6 +73,14 @@ export const AuthProvider = ({ children }) => {
             setUser(response.data.user);
           }
         }
+
+        console.log(response);
+        // if (
+        //   response?.status === 403 &&
+        //   response?.data?.message?.includes("suspended")
+        // ) {
+        //   return "User account is suspended";
+        // }
         return response;
       },
       "login",
