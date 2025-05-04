@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiEdit, FiTrash, FiUser} from "react-icons/fi";
+import { FiArrowLeft, FiUser, FiClock, FiUserX, FiUserCheck, FiUserMinus } from "react-icons/fi";
 import { HiOutlineStatusOnline } from "react-icons/hi";
 import axios from "axios";
+import Modal from "./Modal"; // Import the Modal component
 
 const getAuthToken = () => {
   let token = localStorage.getItem("token");
@@ -23,44 +24,54 @@ const AdminUserDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  // Modal states
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [reasonModalOpen, setReasonModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [sessionExpiredModalOpen, setSessionExpiredModalOpen] = useState(false);
+  
+  // Modal content states
+  const [currentAction, setCurrentAction] = useState("");
+  const [reasonInput, setReasonInput] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      setLoading(true);
-      try {
-        const token = getAuthToken();
-        
-        const response = await axios.get(`${apiUrl}/api/admin/users/${userId}`, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  // Function to fetch user details from the API
+  const fetchUserDetails = async () => {
+    setLoading(true);
+    try {
+      const token = getAuthToken();
+      
+      const response = await axios.get(`${apiUrl}/api/admin/users/${userId}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        setUser(response.data);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching user details:", err);
-        
-        if (err.response && err.response.status === 401) {
-          setError("Session expired. Please log in again.");
-          localStorage.removeItem("token");
-          setTimeout(() => {
-            window.location.href = "/login";
-          }, 2000);
-        } else {
-          setError(
-            `Failed to load user details. ${
-              err.response?.data?.error || "Please try again later."
-            }`
-          );
-        }
-      } finally {
-        setLoading(false);
+      setUser(response.data);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching user details:", err);
+      
+      if (err.response && err.response.status === 401) {
+        setModalMessage("Your session has expired. Please log in again.");
+        setSessionExpiredModalOpen(true);
+      } else {
+        setError(
+          `Failed to load user details. ${
+            err.response?.data?.error || "Please try again later."
+          }`
+        );
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (userId) {
       fetchUserDetails();
     }
@@ -83,37 +94,94 @@ const AdminUserDetail = () => {
     navigate('/admin/users');
   };
 
-  // Handle edit user
-  const handleEditUser = () => {
-    navigate(`/admin/users/edit/${userId}`);
+  // Handle session expired
+  const handleSessionExpired = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
-  // Handle delete user
-  const handleDeleteUser = async () => {
-    if (window.confirm(`Are you sure you want to delete this user?`)) {
-      try {
-        const token = getAuthToken();
-        await axios.delete(`${apiUrl}/api/admin/users/${userId}`, {
+  // Handle user status change
+  const handleStatusChange = (statusAction) => {
+    // Store the current action for later use
+    setCurrentAction(statusAction);
+    
+    // Reset other modal states
+    setReasonInput("");
+    
+    // Open confirmation modal
+    setConfirmModalOpen(true);
+  };
+
+  // Handle confirmation
+  const handleConfirmAction = () => {
+    // Close confirmation modal
+    setConfirmModalOpen(false);
+    
+    // Open reason modal
+    setReasonModalOpen(true);
+  };
+
+  // Handle submit with reason
+  const handleSubmitWithReason = async () => {
+    // Validate reason
+    if (!reasonInput || reasonInput.trim() === "") {
+      // If reason is empty, show error but keep modal open
+      setModalMessage("A reason is required to perform this action.");
+      setErrorModalOpen(true);
+      return;
+    }
+    
+    // Close reason modal
+    setReasonModalOpen(false);
+    
+    // Convert action to expected API status values
+    const statusMap = {
+      "activate": "active",
+      "deactivate": "inactive",
+      "suspend": "suspended"
+    };
+    
+    const statusValue = statusMap[currentAction];
+    
+    try {
+      const token = getAuthToken();
+      
+      await axios.put(`${apiUrl}/api/admin/users/${userId}/status`, 
+        { 
+          status: statusValue,
+          reason: reasonInput.trim()
+        },
+        {
           headers: {
-            Accept: "application/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        });
-
-        // Redirect back to users list after successful deletion
-        navigate('/admin/users');
-      } catch (err) {
-        console.error("Error deleting user:", err);
-
-        if (err.response && err.response.status === 401) {
-          alert("Session expired. Please log in again.");
-          localStorage.removeItem("token");
-          window.location.href = "/login";
-        } else {
-          alert("Failed to delete user. Please try again.");
         }
+      );
+      
+      // Show success message
+      setModalMessage(`User ${currentAction}d successfully`);
+      setSuccessModalOpen(true);
+      
+    } catch (err) {
+      console.error(`Error ${currentAction}ing user:`, err);
+
+      if (err.response && err.response.status === 401) {
+        setModalMessage("Your session has expired. Please log in again.");
+        setSessionExpiredModalOpen(true);
+      } else {
+        const errorMessage = err.response?.data?.error || `Failed to ${currentAction} user`;
+        setModalMessage(`${errorMessage}. Please try again.`);
+        setErrorModalOpen(true);
       }
     }
+  };
+
+  // Handle success dismiss
+  const handleSuccessDismiss = () => {
+    setSuccessModalOpen(false);
+    // Refresh the user data
+    fetchUserDetails();
   };
 
   if (loading) {
@@ -160,9 +228,128 @@ const AdminUserDetail = () => {
       </div>
     );
   }
+  
+  // Get button variant and text based on action
+  const getActionStyles = (action) => {
+    switch(action) {
+      case 'activate':
+        return { variant: 'success', color: 'green' };
+      case 'suspend':
+        return { variant: 'warning', color: 'orange' };
+      case 'deactivate':
+        return { variant: 'danger', color: 'red' };
+      default:
+        return { variant: 'primary', color: 'blue' };
+    }
+  };
 
   return (
     <div className="w-full space-y-6">
+      {/* Confirmation Modal */}
+      <Modal
+        isOpen={confirmModalOpen}
+        onClose={() => setConfirmModalOpen(false)}
+        type="warning"
+        title={`${currentAction.charAt(0).toUpperCase() + currentAction.slice(1)} User`}
+        message={`Are you sure you want to ${currentAction} this user?`}
+        buttons={[
+          {
+            label: "Cancel",
+            onClick: () => setConfirmModalOpen(false),
+            variant: "secondary"
+          },
+          {
+            label: "Continue",
+            onClick: handleConfirmAction,
+            variant: "primary",
+          }
+        ]}
+      />
+      
+      {/* Reason Input Modal */}
+      <Modal
+        isOpen={reasonModalOpen}
+        onClose={() => setReasonModalOpen(false)}
+        type="info"
+        title={`${currentAction.charAt(0).toUpperCase() + currentAction.slice(1)} User - Provide Reason`}
+        message={`Please provide a reason for ${currentAction}ing this user:`}
+        buttons={[
+          {
+            label: "Cancel",
+            onClick: () => setReasonModalOpen(false),
+            variant: "secondary"
+          },
+          {
+            label: "Submit",
+            onClick: handleSubmitWithReason,
+            variant: "primary"
+          }
+        ]}
+      >
+        <div className="mt-4">
+          <label htmlFor="reasonInput" className="block text-sm font-medium text-gray-700 mb-1">
+            Reason
+          </label>
+          <textarea
+            id="reasonInput"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            rows="3"
+            value={reasonInput}
+            onChange={(e) => setReasonInput(e.target.value)}
+            placeholder="Enter your reason here..."
+            autoFocus
+          />
+        </div>
+      </Modal>
+      
+      {/* Success Modal */}
+      <Modal
+        isOpen={successModalOpen}
+        onClose={handleSuccessDismiss}
+        type="success"
+        title="Success"
+        message={modalMessage}
+        buttons={[
+          {
+            label: "OK",
+            onClick: handleSuccessDismiss,
+            variant: "primary"
+          }
+        ]}
+      />
+      
+      {/* Error Modal */}
+      <Modal
+        isOpen={errorModalOpen}
+        onClose={() => setErrorModalOpen(false)}
+        type="error"
+        title="Error"
+        message={modalMessage}
+        buttons={[
+          {
+            label: "OK",
+            onClick: () => setErrorModalOpen(false),
+            variant: "primary"
+          }
+        ]}
+      />
+      
+      {/* Session Expired Modal */}
+      <Modal
+        isOpen={sessionExpiredModalOpen}
+        onClose={handleSessionExpired}
+        type="error"
+        title="Session Expired"
+        message={modalMessage}
+        buttons={[
+          {
+            label: "Login",
+            onClick: handleSessionExpired,
+            variant: "primary"
+          }
+        ]}
+      />
+
       {/* Header with back button */}
       <div className="flex items-center mb-6">
         <button
@@ -172,8 +359,8 @@ const AdminUserDetail = () => {
           <FiArrowLeft className="text-gray-600" />
         </button>
         <div>
-          <h2 className="text-[22px] font-semibold text-primary">User Details</h2>
-          <p className="text-[15px] text-gray-600">
+          <h2 className="text-2xl font-semibold text-primary">User Details</h2>
+          <p className="text-sm text-gray-600">
             View detailed information about {user.firstName} {user.lastName}
           </p>
         </div>
@@ -208,22 +395,40 @@ const AdminUserDetail = () => {
             </div>
           </div>
           
-          {/* Action buttons */}
+          {/* Action buttons - Modified to use status management pattern */}
           <div className="flex gap-2 mt-4 md:mt-0">
-            <button 
-              onClick={handleEditUser}
-              className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50"
-            >
-              <FiEdit size={16} />
-              <span>Edit</span>
-            </button>
-            <button 
-              onClick={handleDeleteUser}
-              className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-100"
-            >
-              <FiTrash size={16} />
-              <span>Delete</span>
-            </button>
+            {/* Show Activate button if user is suspended */}
+            {user.isSuspended && (
+              <button 
+                onClick={() => handleStatusChange("activate")}
+                className="bg-white border border-green-200 text-green-600 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-100"
+              >
+                <FiUserCheck size={16} />
+                <span>Activate</span>
+              </button>
+            )}
+            
+            {/* Show Suspend button if user is active */}
+            {!user.isSuspended && (
+              <button 
+                onClick={() => handleStatusChange("suspend")}
+                className="bg-orange-50 border border-orange-200 text-orange-600 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-orange-100"
+              >
+                <FiUserX size={16} />
+                <span>Suspend</span>
+              </button>
+            )}
+            
+            {/* Show Deactivate button if user is active */}
+            {!user.isSuspended && (
+              <button 
+                onClick={() => handleStatusChange("deactivate")}
+                className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-100"
+              >
+                <FiUserMinus size={16} />
+                <span>Deactivate</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

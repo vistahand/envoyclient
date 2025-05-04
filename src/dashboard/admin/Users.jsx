@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
-import { GoPlus } from "react-icons/go";
 import {
   FiSearch,
   FiFilter,
-  FiEdit,
-  FiTrash,
   FiEye,
+  FiUsers,
+  FiActivity
 } from "react-icons/fi";
 import { HiOutlineStatusOnline } from "react-icons/hi";
 import { RiUserSettingsLine } from "react-icons/ri";
@@ -46,6 +45,9 @@ const Users = () => {
   });
   const [showFilters, setShowFilters] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Create a ref for dropdown menus to detect outside clicks
+  const dropdownRef = useRef(null);
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -65,14 +67,11 @@ const Users = () => {
         ...(filters.role !== "all" && { role: filters.role }),
       };
 
-      // Fix for status filter - convert to boolean or string as expected by your API
+      // Fix for status filter - properly handle suspended status
       if (filters.status !== "all") {
-        // Check if the API expects isSuspended (boolean) or status (string)
-        // Option 1: If API expects isSuspended as boolean
+        // Set isSuspended=true when 'suspended' is selected
+        // Set isSuspended=false when 'active' is selected
         queryParams.isSuspended = filters.status === "suspended";
-
-        // Option 2: If API expects status as string
-        // queryParams.status = filters.status;
       }
 
       console.log("API request params:", queryParams);
@@ -159,15 +158,16 @@ const Users = () => {
   // Close action menu when clicking elsewhere
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showActions !== null) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowActions(null);
       }
     };
+    
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showActions]);
+  }, []);
 
   // Handle filter changes
   const handleFilterChange = (filterType, value) => {
@@ -180,85 +180,23 @@ const Users = () => {
 
   // Handle action button clicks
   const handleActionClick = (e, userId) => {
+    e.preventDefault();
     e.stopPropagation();
-    setShowActions(showActions === userId ? null : userId);
+    setShowActions(prevState => prevState === userId ? null : userId);
   };
 
- // Update this function in the Users.jsx file
- const handleViewUser = ( userId) => {
-  alert("Navigating to user details", userId);
-  // navigate(`${userId}`);
-  setShowActions(null);
-};
-
-  const handleEditUser = async (userId) => {
-    alert(`Edit user with ID: ${userId}`);
+  // Handle view user
+  const handleViewUser = (userId) => {
+    console.log("Navigating to user details:", userId);
+    // Explicitly set the path to include /admin prefix
+    navigate(`/admin/users/${userId}`);
     setShowActions(null);
-  };
-
-  const handleDeleteUser = async (userId) => {
-    if (window.confirm(`Are you sure you want to delete this user?`)) {
-      try {
-        const token = getAuthToken();
-        await axios.delete(`${apiUrl}/api/admin/users/${userId}`, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        // Refresh the user list
-        fetchUsers();
-        setShowActions(null);
-      } catch (err) {
-        console.error("Error deleting user:", err);
-
-        if (err.response && err.response.status === 401) {
-          alert("Session expired. Please log in again.");
-          localStorage.removeItem("token");
-          window.location.href = "/login";
-        } else {
-          alert("Failed to delete user. Please try again.");
-        }
-      }
-    }
   };
 
   // Create new user
   const handleCreateUser = () => {
     // Navigate to create user page or open modal
-    setIsCreating(true);
-  };
-
-  // Export users data
-  const handleExportUsers = () => {
-    try {
-      const token = getAuthToken();
-      // Implement export functionality with proper auth
-      alert(`Exporting ${filteredUsers.length} users to CSV`);
-
-      // Example export implementation (you would adjust based on your API)
-      /*
-      axios({
-        url: `${apiUrl}/api/admin/users/export`,
-        method: 'GET',
-        responseType: 'blob', // Important for file downloads
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      }).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'users_export.csv');
-        document.body.appendChild(link);
-        link.click();
-      });
-      */
-    } catch (err) {
-      console.error("Error exporting users:", err);
-      alert("Failed to export users. Please try again.");
-    }
+    navigate('/admin/users/create');
   };
 
   // Get status badge color
@@ -312,31 +250,80 @@ const Users = () => {
   return (
     <div className="w-full space-y-6">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full pb-4">
-        <div>
-          <h2 className="text-[22px] font-semibold text-primary">
-            User Management
-          </h2>
-          <p className="text-[15px] text-gray-600">
-            View and manage all registered users on the platform
-          </p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full pb-4 bg-gradient-to-r from-slate-100 to-slate-50 p-5 rounded-lg shadow-sm border border-slate-200">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary p-3 rounded-full text-white">
+            <FiUsers className="text-xl" />
+          </div>
+          <div>
+            <h2 className="text-[22px] font-semibold text-primary">
+              User Management
+            </h2>
+            <p className="text-[15px] text-gray-600">
+              View and manage all registered users on the platform
+            </p>
+          </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Stats Cards */}
         <div className="flex gap-3 mt-4 md:mt-0">
-          <button
-            type="button"
-            onClick={handleCreateUser}
-            className="bg-primary text-white flex items-center justify-center gap-2 rounded-lg transition-all cursor-pointer px-4 py-2.5 text-[14px]"
-          >
-            <GoPlus className="text-[16px]" />
-            <span>Create User</span>
-          </button>
+          <div className="bg-gradient-to-r from-green to-primary text-white rounded-lg p-3 shadow-md flex items-center gap-3">
+            <div className="p-2 bg-white/20 rounded-full">
+              <HiOutlineStatusOnline className="text-xl" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-blue-100">Active Users</p>
+              <p className="text-lg font-semibold">{totalUsers > 0 ? filteredUsers.filter(user => !user.isSuspended).length : 0}</p>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-pink-600 to-primary text-white rounded-lg p-3 shadow-md flex items-center gap-3">
+            <div className="p-2 bg-white/20 rounded-full">
+              <RiUserSettingsLine className="text-xl" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-red-100">Suspended Users</p>
+              <p className="text-lg font-semibold">{totalUsers > 0 ? filteredUsers.filter(user => user.isSuspended).length : 0}</p>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Overall Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center">
+          <div className="bg-blue-100 p-3 rounded-full mr-4">
+            <FiUsers className="text-blue-600" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Total Users</p>
+            <p className="text-2xl font-bold text-gray-800">{totalUsers}</p>
+          </div>
+        </div>
+        
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center">
+          <div className="bg-green-100 p-3 rounded-full mr-4">
+            <HiOutlineStatusOnline className="text-green-600" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Active Users</p>
+            <p className="text-2xl font-bold text-gray-800">{totalUsers > 0 ? filteredUsers.filter(user => !user.isSuspended).length : 0}</p>
+          </div>
+        </div>
+        
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center">
+          <div className="bg-red-100 p-3 rounded-full mr-4">
+            <FiActivity className="text-red-600" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Suspended Users</p>
+            <p className="text-2xl font-bold text-gray-800">{totalUsers > 0 ? filteredUsers.filter(user => user.isSuspended).length : 0}</p>
+          </div>
+        </div>
+      </div>
+        
       {/* Search and Filters */}
-      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center bg-white p-4 rounded-lg shadow-sm border border-slate-200">
         {/* Search Bar */}
         <div className="relative w-full md:w-1/3">
           <input
@@ -472,7 +459,7 @@ const Users = () => {
       </div>
 
       {/* User Table */}
-      <div className="overflow-x-auto bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div className="overflow-x-auto bg-white rounded-lg border border-gray-200 shadow-md">
         <table className="w-full table-auto">
           <thead className="bg-gray-50 text-[14px] font-medium text-gray-700 border-b">
             <tr>
@@ -488,8 +475,13 @@ const Users = () => {
             {filteredUsers.length > 0 ? (
               filteredUsers.map((user) => (
                 <tr key={user._id} className="hover:bg-gray-50 border-b">
-                  <td className="py-3 px-4 font-medium">
-                    {user.firstName} {user.lastName}
+                  <td className="py-3 px-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white font-medium text-xs">
+                        {user.firstName?.charAt(0)}{user.lastName?.charAt(0)}
+                      </div>
+                      <span className="font-medium">{user.firstName} {user.lastName}</span>
+                    </div>
                   </td>
                   <td className="py-3 px-4">{user.email}</td>
                   <td className="py-3 px-4">
@@ -497,16 +489,19 @@ const Users = () => {
                   </td>
                   <td className="py-3 px-4">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(
-                        user.isSuspended
-                      )}`}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium inline-flex items-center gap-1 ${
+                        user.isSuspended 
+                          ? "bg-red-100 text-red-800" 
+                          : "bg-green-100 text-green-800"
+                      }`}
                     >
+                      <span className={`w-1.5 h-1.5 rounded-full ${user.isSuspended ? "bg-red-500" : "bg-green-500"}`}></span>
                       {user.isSuspended ? "Suspended" : "Active"}
                     </span>
                   </td>
                   <td className="py-3 px-4">{formatDate(user.lastLogin)}</td>
                   <td className="py-3 px-4">
-                    <div className="flex justify-center items-center relative">
+                    <div className="flex justify-center items-center relative" ref={showActions === user._id ? dropdownRef : null}>
                       <button
                         onClick={(e) => handleActionClick(e, user._id)}
                         className="p-1 hover:bg-gray-100 rounded-full"
@@ -514,37 +509,23 @@ const Users = () => {
                         <BsThreeDots className="text-gray-600 text-xl" />
                       </button>
 
-                      {/* Actions Dropdown */}
+                      {/* Actions Dropdown - Simplified with only View option */}
                       {showActions === user._id && (
                         <div
                           className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 w-40"
                         >
                           <ul>
                             <li>
-                            <a href={`/admin/users/${user._id}`}
-  // onClick={() => navigate(`/admin/users/${user._id}`)}
-  className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
->
-  <FiEye size={14} />
-  <span>View</span>
-</a>
-                            </li>
-                            <li>
                               <button
-                                onClick={() => handleEditUser(user._id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  handleViewUser(user._id);
+                                }}
                                 className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                               >
-                                <FiEdit size={14} />
-                                <span>Edit</span>
-                              </button>
-                            </li>
-                            <li className="border-t border-gray-100">
-                              <button
-                                onClick={() => handleDeleteUser(user._id)}
-                                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center gap-2"
-                              >
-                                <FiTrash size={14} />
-                                <span>Delete</span>
+                                <FiEye size={14} />
+                                <span>View</span>
                               </button>
                             </li>
                           </ul>
