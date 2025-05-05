@@ -331,56 +331,94 @@ const ShipmentPay = ({ onPrev, shipment, hasCustom }) => {
               hasCustom={hasCustom}
             />
 
-            <div
-              className="flex flex-col w-full gap-2.5 md:text-[13px] 
+            {!hasCustom ? (
+              <div
+                className="flex flex-col w-full gap-2.5 md:text-[13px] 
                         ss:text-[15px] text-[14px] tracking-tight"
-            >
-              <div
-                className="flex justify-between items-center w-full
-                            text-main2 font-medium"
               >
-                <p>Shipment Cost</p>
-
-                <p>
-                  {formatCurrency(
-                    shipment?.cost?.baseAmount,
-                    shipment?.cost?.currency
-                  )}
-                </p>
-              </div>
-
-              <div
-                className="flex justify-between items-center w-full
-                            text-main2 font-medium"
-              >
-                <p>VAT ({calculateVatPercentage()}%)</p>
-
-                <p>
-                  {formatCurrency(
-                    shipment?.cost?.vat,
-                    shipment?.cost?.currency
-                  )}
-                </p>
-              </div>
-
-              {shipment?.cost?.insurance > 0 && (
                 <div
                   className="flex justify-between items-center w-full
-                              text-main2 font-medium"
+                            text-main2 font-medium"
                 >
-                  <p>
-                    Insurance Coverage ({shipment.insurance?.type || "Basic"})
-                  </p>
+                  <p>Shipment Cost</p>
 
                   <p>
                     {formatCurrency(
-                      shipment?.cost?.insurance,
+                      shipment?.cost?.baseAmount,
                       shipment?.cost?.currency
                     )}
                   </p>
                 </div>
-              )}
-            </div>
+
+                <div
+                  className="flex justify-between items-center w-full
+                            text-main2 font-medium"
+                >
+                  <p>VAT ({calculateVatPercentage()}%)</p>
+
+                  <p>
+                    {formatCurrency(
+                      shipment?.cost?.vat,
+                      shipment?.cost?.currency
+                    )}
+                  </p>
+                </div>
+
+                {shipment?.cost?.insurance > 0 && (
+                  <div
+                    className="flex justify-between items-center w-full
+                              text-main2 font-medium"
+                  >
+                    <p>
+                      Insurance Coverage ({shipment.insurance?.type || "Basic"})
+                    </p>
+
+                    <p>
+                      {formatCurrency(
+                        shipment?.cost?.insurance,
+                        shipment?.cost?.currency
+                      )}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div
+                className="flex flex-col w-full gap-2.5 md:text-[13px] 
+                        ss:text-[15px] text-[14px] tracking-tight"
+              >
+                <div
+                  className="flex justify-between items-center w-full
+                            text-main2 font-medium"
+                >
+                  <p>Shipment Cost</p>
+
+                  <p>0.00</p>
+                </div>
+
+                <div
+                  className="flex justify-between items-center w-full
+                            text-main2 font-medium"
+                >
+                  <p>VAT</p>
+
+                  <p>0.00</p>
+                </div>
+
+                {shipment?.cost?.insurance > 0 && (
+                  <div
+                    className="flex justify-between items-center w-full
+                              text-main2 font-medium"
+                  >
+                    <p>
+                      Insurance Coverage ({shipment.insurance?.type || "Basic"})
+                    </p>
+
+                    <p>0.00</p>
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="flex justify-between items-center w-full">
               <p className="md:text-[13px] ss:text-[15px] text-[14px]">
@@ -391,10 +429,7 @@ const ShipmentPay = ({ onPrev, shipment, hasCustom }) => {
                 className="text-primary md:text-[23px] ss:text-[24px] 
                             text-[22px] font-bold"
               >
-                {formatCurrency(
-                  shipment?.cost?.total,
-                  shipment?.cost?.currency
-                )}
+                0.00
               </p>
             </div>
 
