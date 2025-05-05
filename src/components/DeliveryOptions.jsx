@@ -307,15 +307,19 @@ const DeliveryOptions = ({
     // 3. calculatedCost from previous page
     // 4. Default to 0
 
-    if (shipmentData?.cost?.baseAmount) {
-      setBaseShippingCost(shipmentData.cost.baseAmount);
-      console.log("Got my data from the server");
-    } else if (initialData?.options?.baseAmount) {
-      setBaseShippingCost(initialData.options.baseAmount);
-    } else if (calculatedCost) {
-      setBaseShippingCost(calculatedCost);
-    } else {
+    if (shipmentData?.package?.packages.some((pkg) => pkg.isCustom === true)) {
       setBaseShippingCost(0);
+    } else {
+      if (shipmentData?.cost?.baseAmount) {
+        setBaseShippingCost(shipmentData.cost.baseAmount);
+        console.log("Got my data from the server");
+      } else if (initialData?.options?.baseAmount) {
+        setBaseShippingCost(initialData.options.baseAmount);
+      } else if (calculatedCost) {
+        setBaseShippingCost(calculatedCost);
+      } else {
+        setBaseShippingCost(0);
+      }
     }
 
     // If there's a saved delivery option, preselect it
