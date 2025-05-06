@@ -267,6 +267,12 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
           then: () => Yup.string().required("TV size is required"),
           otherwise: () => Yup.string(),
         }),
+        customTvSize: Yup.string().when(["packageType", "tvSize"], {
+          is: (packageType, tvSize) =>
+            packageType === "TV" && tvSize === "custom",
+          then: () => Yup.string().required("Custom TV size is required"),
+          otherwise: () => Yup.string(),
+        }),
         carMake: Yup.string().when("packageType", {
           is: "Car",
           then: () => Yup.string().required("Car make is required"),
@@ -294,6 +300,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
           packageType: "",
           customPackageType: "",
           tvSize: "",
+          customTvSize: "",
           carMake: "",
           carModel: "",
           carYear: "",
@@ -338,7 +345,10 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
             // Add otherOptions based on package type
             if (packageItem.packageType === "TV") {
               packageData.otherOptions = {
-                size: packageItem.tvSize,
+                size:
+                  packageItem.tvSize === "custom"
+                    ? packageItem.customTvSize
+                    : packageItem.tvSize,
               };
             } else if (packageItem.packageType === "Car") {
               packageData.otherOptions = {
@@ -386,6 +396,7 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
         packageType: "",
         customPackageType: "",
         tvSize: "",
+        customTvSize: "",
         carMake: "",
         carModel: "",
         carYear: "",
@@ -483,12 +494,11 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     options={[
-                      { value: "", label: "Select TV size" },
-                      { value: "custom", label: "Enter custom size" },
                       ...tvSizes.map((size) => ({
                         value: size.toString(),
                         label: `${size} inches`,
                       })),
+                      { value: "custom", label: "Enter custom size" },
                     ]}
                     placeholder="Select TV size"
                     error={getFormError(index, "tvSize")}
@@ -499,11 +509,11 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
                     <InputField
                       label="Custom TV Size (inches)"
                       type="number"
-                      name={`packages[${index}].tvSize`}
-                      value={pkg.tvSize === "custom" ? "" : pkg.tvSize}
+                      name={`packages[${index}].customTvSize`}
+                      value={pkg.customTvSize}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={getFormError(index, "tvSize")}
+                      error={getFormError(index, "customTvSize")}
                     />
                   </div>
                 )}
