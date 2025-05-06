@@ -122,13 +122,6 @@ const ShipmentPay = ({ onPrev, shipment, hasCustom }) => {
     }
   };
 
-  const calculateVatPercentage = () => {
-    if (shipment?.cost?.vat && shipment?.cost?.baseAmount) {
-      return ((shipment.cost.vat / shipment.cost.baseAmount) * 100).toFixed(1);
-    }
-    return "7.5";
-  };
-
   return (
     <section className="w-full flex justify-center mt-20">
       <div className="w-full flex md:flex-row flex-col gap-14 md:justify-between">
@@ -345,20 +338,6 @@ const ShipmentPay = ({ onPrev, shipment, hasCustom }) => {
                   <p>
                     {formatCurrency(
                       shipment?.cost?.baseAmount,
-                      shipment?.cost?.currency
-                    )}
-                  </p>
-                </div>
-
-                <div
-                  className="flex justify-between items-center w-full
-                            text-main2 font-medium"
-                >
-                  <p>VAT ({calculateVatPercentage()}%)</p>
-
-                  <p>
-                    {formatCurrency(
-                      shipment?.cost?.vat,
                       shipment?.cost?.currency
                     )}
                   </p>
