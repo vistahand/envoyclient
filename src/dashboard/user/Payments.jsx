@@ -482,12 +482,14 @@ const Payments = () => {
                               className={`inline-block w-2.5 h-2.5 rounded-full mr-3 ${
                                 data.payStat === "Completed"
                                   ? "bg-greenSuccess"
+                                  : data.payStat === "Pending"
+                                  ? "bg-yellow-200"
                                   : "bg-logRed"
                               }`}
                             ></span>
                             {data.payStat}
                             {data.payStat === "Pending" &&
-                              data.payMethod === "Stripe" && (
+                              data.payMethod === "Online (Stripe)" && (
                                 <button
                                   onClick={(e) =>
                                     handleVerifyPayment(e, data._id)
