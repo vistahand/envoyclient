@@ -392,7 +392,7 @@ const PaymentDetails = () => {
                     </div>
                   )}
 
-                  <div className="flex flex-col gap-1">
+                  {/* <div className="flex flex-col gap-1">
                     <h3
                       className="font-medium md:text-[14px] ss:text-[14px] text-[13px] 
                   tracking-tight text-main4"
@@ -405,7 +405,7 @@ const PaymentDetails = () => {
                         payment.shipmentDetails.cost.currency
                       )}
                     </p>
-                  </div>
+                  </div> */}
 
                   {payment.processingFee > 0 && (
                     <div className="flex flex-col gap-1">
