@@ -169,6 +169,7 @@ const TrackShipment = () => {
     const paymentMethod = shipmentData.payment?.method;
     const paymentStatus = shipmentData.payment?.status;
     const isPaid = paymentStatus === "completed";
+    const pending = paymentStatus === "pending";
     const isCashOnPickup = paymentMethod === "cash_on_pickup";
     const isCancelled = shipmentData.status === "cancelled";
 
@@ -553,14 +554,16 @@ const TrackShipment = () => {
             className={`md:w-[4.5rem] w-[4rem] ${
               step.isCompleted
                 ? step.isCancelled
-                  ? "h-auto bg-red-100" // Red background for cancellation
+                  ? "h-auto bg-red-100"
+                  : shipmentData?.payment?.status === "pending" &&
+                    !shipmentData?.payment?.paidAt
+                  ? "h-auto bg-yellow-100"
                   : "h-auto bg-primary1"
                 : "md:h-[4.5rem] h-[4rem] bg-mainalt items-center justify-center flex"
             } rounded-full`}
           >
             {step.isCompleted ? (
               step.isCancelled ? (
-                // Using X icon or another appropriate icon for cancellation
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="md:w-[4.5rem] w-[4rem] h-auto text-red-500 md:p-4 p-3"
@@ -584,13 +587,24 @@ const TrackShipment = () => {
           </div>
 
           <div className="flex flex-col gap-0.5">
-            <h3
-              className={`md:text-[17px] ss:text-[17px] text-[15px] tracking-tight font-bold ${
-                step.isCancelled ? "text-red-500" : "text-main2"
-              } leading-[20px]`}
-            >
-              {step.title}
-            </h3>
+            <div className="flex items-center gap-4">
+              <h3
+                className={`md:text-[17px] ss:text-[17px] text-[15px] tracking-tight font-bold ${
+                  step.isCancelled ? "text-red-500" : "text-main2"
+                } leading-[20px]`}
+              >
+                {step.title}
+              </h3>
+              {shipmentData?.payment?.status === "pending" &&
+                !shipmentData?.payment?.paidAt && (
+                  <button
+                    onClick={() => navigate("/user/payments")}
+                    className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white text-sm rounded-md transition-colors"
+                  >
+                    Verify Payment
+                  </button>
+                )}
+            </div>
 
             <div className="flex items-center gap-3.5">
               <p className="font-medium md:text-[14px] ss:text-[14px] text-[13px] tracking-tight text-main4">
