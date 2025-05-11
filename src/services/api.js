@@ -1023,6 +1023,23 @@ export const pickup = {
       };
     }
   },
+
+  updatePickupLocation: async (id, pickupData) => {
+    try {
+      const response = await api.put(
+        `/admin/pickup-locations/${id}`,
+        pickupData
+      );
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error(
+        err.response?.data?.error || "Failed to update pickup location"
+      );
+    }
+  },
 };
 
 export default api;
