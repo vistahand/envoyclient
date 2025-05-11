@@ -555,10 +555,6 @@ const TrackShipment = () => {
               step.isCompleted
                 ? step.isCancelled
                   ? "h-auto bg-red-100"
-                  : shipmentData?.payment?.status === "pending" &&
-                    !shipmentData?.payment?.paidAt &&
-                    step.title === "Payment Completed"
-                  ? "h-auto bg-yellow-100"
                   : "h-auto bg-primary1"
                 : "md:h-[4.5rem] h-[4rem] bg-mainalt items-center justify-center flex"
             } rounded-full`}
@@ -598,15 +594,14 @@ const TrackShipment = () => {
               </h3>
               {shipmentData?.payment?.status === "pending" &&
                 !shipmentData?.payment?.paidAt &&
-                step.title ===
-                  "Payment Completed"(
-                    <button
-                      onClick={() => navigate("/user/payments")}
-                      className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white text-sm rounded-md transition-colors"
-                    >
-                      Verify Payment
-                    </button>
-                  )}
+                step.title === "Payment Completed" && (
+                  <button
+                    onClick={() => navigate("/user/payments")}
+                    className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white text-sm rounded-md transition-colors"
+                  >
+                    Verify Payment
+                  </button>
+                )}
             </div>
 
             <div className="flex items-center gap-3.5">
