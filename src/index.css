@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -13,8 +13,9 @@
   );
   --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
 }
-  
-body, html {
+
+body,
+html {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -39,21 +40,19 @@ body, html {
 }
 
 .custom-select option:checked {
-  color: #1E3F76;
+  color: #1e3f76;
 }
 
-.flag-icon { 
+.flag-icon {
   width: 20px;
   height: auto;
-  margin-right: 5px; 
-  vertical-align: middle; 
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
-  /* ol {
+/* ol {
     list-style: decimal;
   } */
-
-
 
 /* @media screen and (max-width: 480px) {
   .mobile {
@@ -70,14 +69,37 @@ body, html {
 }
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-modalSlideIn {
+  animation: modalSlideIn 0.3s ease-out forwards;
 }
 
 .fade-in {
   animation: fadeIn ease 0.4s;
 }
-  
+
 .navsmooth {
   transition: all 0.2s ease-in-out;
 }
@@ -100,20 +122,20 @@ body, html {
 }
 
 .move {
-  background-color: #122A53;
+  background-color: #122a53;
 }
 
 .cta {
-  background-color: #1E3F76;
+  background-color: #1e3f76;
 }
 
 .footer {
-  background-color: #F7F7F7;
+  background-color: #f7f7f7;
 }
 
 .heroShipment {
   position: relative;
-  background-image: url('./assets/movecard1.jpg');
+  background-image: url("./assets/movecard1.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -296,12 +318,12 @@ body, html {
 }
 
 .custom-checkbox:checked {
-  background-color: #1E3F76;
-  border-color: #1E3F76;
+  background-color: #1e3f76;
+  border-color: #1e3f76;
 }
 
 .custom-checkbox:checked::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 40%;
   left: 50%;
@@ -314,14 +336,14 @@ body, html {
 }
 
 .custom-checkbox-head::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
   height: 1px;
-  background-color: #DEDEDE;
+  background-color: #dedede;
 }
 
 @media (max-width: 480px) {
@@ -400,7 +422,7 @@ body, html {
 }
 
 .grow {
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 .grow:hover {
   transform: scale(1.02);
@@ -408,14 +430,14 @@ body, html {
 }
 
 .grow2 {
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 .grow2:hover {
   transform: scale(0.98);
 }
 
 .grow3 {
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 .grow3:hover {
   transform: scale(1.01);
@@ -434,15 +456,16 @@ body, html {
 }
 
 .grow5 > :last-child {
-  transition: transform 0.4s ease-in-out, background-color 0.4s ease-in-out, color 0.4s ease-in-out;
-  color: #1E3F76;
+  transition: transform 0.4s ease-in-out, background-color 0.4s ease-in-out,
+    color 0.4s ease-in-out;
+  color: #1e3f76;
   border-radius: 50%;
   font-size: 12px;
 }
 
 .grow5:hover > :last-child {
   transform: translateX(3px);
-  background-color: #1E3F76;
+  background-color: #1e3f76;
   font-size: 20px;
   padding: 4px;
   border-radius: 50%;
@@ -459,7 +482,7 @@ body, html {
 
 .grow7 > :last-child {
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  color: #1E3F76;
+  color: #1e3f76;
   border-radius: 50%;
   font-size: 13px;
 }
@@ -473,10 +496,10 @@ body, html {
 }
 
 .grow7:hover > :last-child {
-  background-color: #1E3F76;
+  background-color: #1e3f76;
   font-size: 20px;
   padding: 4px;
-  color: #F7F7F7;
+  color: #f7f7f7;
 }
 
 .grow8 > * {
