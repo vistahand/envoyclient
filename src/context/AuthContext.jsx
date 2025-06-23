@@ -92,7 +92,10 @@ export const AuthProvider = ({ children }) => {
         const response = await auth.adminLogin(credentials);
         if (response.success) {
           // Later on attach sessions to the user object for the admin
-          localStorage.setItem("authToken", JSON.stringify(response.data.token));
+          localStorage.setItem(
+            "authToken",
+            JSON.stringify(response.data.token)
+          );
           localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user data
           setUser(response.data.user);
         }
@@ -125,7 +128,10 @@ export const AuthProvider = ({ children }) => {
       const response = await apiUpdatePassword(currentPassword, newPassword);
       if (response.success) {
         if (response.data?.token) {
-          localStorage.setItem("authToken", JSON.stringify(response.data.token));
+          localStorage.setItem(
+            "authToken",
+            JSON.stringify(response.data.token)
+          );
         }
         if (response.data?.user) {
           updateUser(response.data.user);

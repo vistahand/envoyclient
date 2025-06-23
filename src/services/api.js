@@ -66,7 +66,10 @@ export const auth = {
       const response = await api.post("/auth/login", credentials);
       if (response.data.data.user.role === "user") {
         localStorage.setItem("user", JSON.stringify(response.data.data.user));
-        localStorage.setItem("authToken", JSON.stringify(response.data.data.token));
+        localStorage.setItem(
+          "authToken",
+          JSON.stringify(response.data.data.token)
+        );
       }
       return response.data;
     } catch (err) {
@@ -84,7 +87,10 @@ export const auth = {
         token,
       });
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
-      localStorage.setItem("authToken", JSON.stringify(response.data.data.token));
+      localStorage.setItem(
+        "authToken",
+        JSON.stringify(response.data.data.token)
+      );
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -761,7 +767,7 @@ export const updateProfile = async ({
 export const updateProfileImage = async (file) => {
   const API_BASE_URL = import.meta.env.VITE_API_URL; // ✅ Fix API_BASE_URL reference
   const token = localStorage.getItem("authToken");
-
+  console.log(token);
   if (!token)
     throw new Error("Authentication token is missing. Please log in.");
 
@@ -774,7 +780,7 @@ export const updateProfileImage = async (file) => {
       formData,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(token)}`,
           "Content-Type": "multipart/form-data",
         },
       }
