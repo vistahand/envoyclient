@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -16,22 +17,22 @@ const RecipientModal = ({ onClose, shipmentData, onUpdate }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import("../data/countries.json");
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   const getInitialValues = () => {
@@ -446,7 +447,7 @@ const RecipientModal = ({ onClose, shipmentData, onUpdate }) => {
                         ${formik.values.fullNameRec ? "z-10 px-2" : ""}
                         `}
                         >
-                          Enter the recipient's full name
+                          Enter the recipient&apos;s full name
                         </label>
 
                         <p
@@ -490,7 +491,7 @@ const RecipientModal = ({ onClose, shipmentData, onUpdate }) => {
                         ${formik.values.phoneRec ? "z-10 px-2" : ""}
                         `}
                         >
-                          Enter the recipient's phone number
+                          Enter the recipient&apos;s phone number
                         </label>
 
                         <p
@@ -533,7 +534,7 @@ const RecipientModal = ({ onClose, shipmentData, onUpdate }) => {
                         ${formik.values.mailRec ? "z-10 px-2" : ""}
                         `}
                         >
-                          Enter the recipient's email
+                          Enter the recipient&apos;s email
                         </label>
 
                         <p

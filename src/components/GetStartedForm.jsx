@@ -1,3 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -13,7 +17,7 @@ const GetStartedForm = ({ onNext, initialData }) => {
   const formRef = useRef();
   const [currentTab, setCurrentTab] = useState("international");
   const [countries, setCountries] = useState([]);
-  const { initializeShipment, loading, error, shipmentData } = useShipment();
+  const { initializeShipment, loading } = useShipment();
   const { addNotification } = useNotifications();
   const [submitting, setSubmitting] = useState(false);
 
@@ -48,20 +52,20 @@ const GetStartedForm = ({ onNext, initialData }) => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import("../data/countries.json");
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
         addNotification({
           type: "error",
           title: "Error",
-          message: "Failed to fetch countries. Please refresh the page.",
+          message: "Failed to load countries. Please refresh the page.",
         });
       }
     };
@@ -615,7 +619,7 @@ const GetStartedForm = ({ onNext, initialData }) => {
                             ss:text-[11px] text-[10px] tracking-tight hidden
                             ss:flex md:flex"
                 >
-                  This is the country/region we'll be shipping to
+                  This is the country/region we&apos;ll be shipping to
                 </p>
               </div>
 

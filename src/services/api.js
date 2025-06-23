@@ -1,5 +1,4 @@
 import axios from "axios";
-import toast from "react-hot-toast";
 
 // Create axios instance with default config
 const api = axios.create({
@@ -13,9 +12,15 @@ const api = axios.create({
 // Add a request interceptor to include the token in the headers
 api.interceptors.request.use(
   (config) => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const tokenString = localStorage.getItem("authToken");
+    if (tokenString) {
+      try {
+        const token = JSON.parse(tokenString);
+        config.headers.Authorization = `Bearer ${token}`;
+      } catch (error) {
+        console.error("Error parsing auth token:", error);
+        localStorage.removeItem("authToken");
+      }
     }
     return config;
   },
@@ -61,7 +66,7 @@ export const auth = {
       const response = await api.post("/auth/login", credentials);
       if (response.data.data.user.role === "user") {
         localStorage.setItem("user", JSON.stringify(response.data.data.user));
-        localStorage.setItem("token", JSON.stringify(response.data.data.token));
+        localStorage.setItem("authToken", JSON.stringify(response.data.data.token));
       }
       return response.data;
     } catch (err) {
@@ -79,7 +84,7 @@ export const auth = {
         token,
       });
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
-      localStorage.setItem("token", JSON.stringify(response.data.data.token));
+      localStorage.setItem("authToken", JSON.stringify(response.data.data.token));
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -528,7 +533,6 @@ export const shipments = {
   // Set payment method for shipment
   setPaymentMethod: async (shipmentId, paymentMethodData) => {
     try {
-      console.log(paymentMethodData);
       const response = await api.post(
         `/shipments/${shipmentId}/payment-method`,
         paymentMethodData
@@ -661,7 +665,8 @@ export const deliveryOptions = {
     try {
       const response = await api.get("/admin/delivery-options");
       return response.data;
-    } catch (err) {
+    } catch (error) {
+      console.error("Error fetching delivery options:", error);
       throw new Error("Error fetching delivery options from server");
     }
   },
@@ -1005,7 +1010,8 @@ export const pickup = {
         }`
       );
       return response.data;
-    } catch (err) {
+    } catch (error) {
+      console.error("Error fetching pickup locations:", error);
       throw new Error("Failed to fetch pickup locations");
     }
   },

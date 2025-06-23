@@ -159,7 +159,6 @@ const CreateShipmentPkg = () => {
 
     try {
       const result = await admin.packages.getAll();
-      console.log(result);
       if (result.success) {
         setPackages(result.data.packages);
       } else {

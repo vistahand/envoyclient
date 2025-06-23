@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import CreatePickupLocation from "./CreatePickupLocation";

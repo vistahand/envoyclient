@@ -11,7 +11,6 @@ import { format, parseISO } from "date-fns";
 const ShipmentDetails = ({ onNext }) => {
   const params = new URLSearchParams(window.location.search);
   const shipmentId = params.get("shipmentId");
-  console.log(shipmentId);
   const [countries, setCountries] = useState([]);
   const [isShippingModalOpen, setIsShippingModalOpen] = useState(false);
   const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
@@ -84,7 +83,6 @@ const ShipmentDetails = ({ onNext }) => {
 
         // Fetch shipment data from API
         const response = await shipments.getDraftById(shipmentId);
-        console.log(response);
 
         if (response.success && response.data.shipment) {
           setShipmentData(response.data.shipment);
@@ -99,21 +97,22 @@ const ShipmentDetails = ({ onNext }) => {
       }
     };
 
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import("../data/countries.json");
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
     fetchShipmentData();
-    fetchCountries();
+    loadCountries();
 
     return () => {
       document.body.style.overflow = "auto";
@@ -485,22 +484,6 @@ const ShipmentDetails = ({ onNext }) => {
                     </p>
                   </div>
 
-                  <div className="flex justify-between items-center w-full text-main2 font-medium">
-                    <p>
-                      VAT ({((cost?.vat / cost?.baseAmount) * 100).toFixed(1)}%)
-                    </p>
-                    <p>
-                      {cost?.currency === "eur" ? (
-                        <span>€{cost?.vat?.toFixed(2)}</span>
-                      ) : (
-                        <>
-                          <span className="line-through">N</span>
-                          {cost?.vat?.toFixed(2)}
-                        </>
-                      )}
-                    </p>
-                  </div>
-
                   {cost?.insurance > 0 && (
                     <div className="flex justify-between items-center w-full text-main2 font-medium">
                       <p>Insurance Coverage</p>
@@ -511,6 +494,21 @@ const ShipmentDetails = ({ onNext }) => {
                           <>
                             <span className="line-through">N</span>
                             {cost?.insurance?.toFixed(2)}
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  )}
+                  {cost?.deliveryMarkup > 0 && (
+                    <div className="flex justify-between items-center w-full text-main2 font-medium">
+                      <p>Delivery Charge</p>
+                      <p>
+                        {cost?.currency === "eur" ? (
+                          <span>€{cost?.deliveryMarkup?.toFixed(2)}</span>
+                        ) : (
+                          <>
+                            <span className="line-through">N</span>
+                            {cost?.deliveryMarkup?.toFixed(2)}
                           </>
                         )}
                       </p>

@@ -21,7 +21,6 @@ const ShipmentReview = ({ currentStep, onStepChange }) => {
   const handleNextStep = ({ shipmentDetails, hasCustom }) => {
     // Store payment details if needed
     if (shipmentDetails) {
-      console.log("Shipment Details:", shipmentDetails);
       setShipment(shipmentDetails);
     }
 

@@ -217,7 +217,7 @@ const Payments = () => {
   const handleReportProblem = (e, id) => {
     e.stopPropagation();
     // Implement report problem functionality
-    console.log("Report problem for", id);
+ 
   };
 
   const handleVerifyPayment = async (e, id) => {

@@ -30,7 +30,7 @@ const AdminPaymentDetail = () => {
 
   // Function to get auth token
   const getAuthToken = () => {
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("authToken");
     if (!token) {
       throw new Error("Authentication token not found. Please log in again.");
     }
@@ -48,7 +48,7 @@ const AdminPaymentDetail = () => {
     setLoading(true);
     try {
       const response = await admin.payments.getById(String(paymentId));
-      console.log(response);
+     
       const data = response;
       setPayment(data);
       setError(null);

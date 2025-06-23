@@ -24,22 +24,22 @@ const SenderForm = ({
   const { addNotification } = useNotifications();
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import('../data/countries.json');
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   useEffect(() => {
@@ -180,7 +180,7 @@ const SenderForm = ({
                   email: values.mailBus,
                 },
               };
-        console.log("senderData: ", senderData);
+
         const response = await updateSenderInfo(senderData);
         if (response?.success && response?.data?.shipment?._id) {
           onNext(currentTab, senderTab);
@@ -1173,8 +1173,8 @@ const SenderForm = ({
                                         bg-transparent w-full focus:outline-primary
                                         ${
                                           formik.touched.businessName &&
-                                          formik.errors.businessName
-                       ``                     ? "outline-mainRed"
+                                          formik.errors.businessName``
+                                            ? "outline-mainRed"
                                             : "outline-main6"
                                         }
                                         `}

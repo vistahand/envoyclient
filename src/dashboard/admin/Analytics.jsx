@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -10,15 +12,14 @@ import {
   Legend,
   // LineChart, Line,
 } from "recharts";
-import { HiOutlineRefresh, HiOutlineDownload } from "react-icons/hi";
+import { HiOutlineRefresh } from "react-icons/hi";
 import RecentActivities from "../../components/recentActivities";
 import SecondaryCharts from "../../components/SecondaryCharts";
 
 
 const Analytics = () => {
   const [shipmentFilter, setShipmentFilter] = useState("weekly");
-  const [dateRange, setDateRange] = useState("last30");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dateRange] = useState("last30");
   const [chartData, setChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,7 +45,7 @@ const Analytics = () => {
   // Get auth token safely
   const getAuthToken = () => {
     // Get token from localStorage or wherever it's stored
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     // Remove quotes if they exist
     return token ? token.replace(/^"|"$/g, "") : "";
   };

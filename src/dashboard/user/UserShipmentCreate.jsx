@@ -16,7 +16,8 @@ const UserShipmentCreate = () => {
   // Load draft data from query parameter if present and set initial step
   useEffect(() => {
     if (shipmentId) {
-      console.log(`UserShipmentCreate: Loading draft with ID ${shipmentId}`);
+     
+
 
       // Check if we have a saved step in sessionStorage
       const savedStep = sessionStorage.getItem(`shipment_step_${shipmentId}`);

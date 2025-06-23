@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import LocationSelector from "../../components/LocationSelector";
 import { toast } from "react-hot-toast";
@@ -60,10 +61,10 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
   const [createdLocationId, setCreatedLocationId] = useState(null);
 
   // Get token from localStorage and remove quotes if they exist
-  const getAuthToken = () => {
-    const token = localStorage.getItem("token");
-    return token ? token.replace(/^"|"$/g, "") : "";
-  };
+  // const getAuthToken = () => {
+  //   const token = localStorage.getItem("authToken");
+  //   return token ? token.replace(/^"|"$/g, "") : "";
+  // };
 
   // Format time from 24h to 12h with AM/PM
   const formatTime = (time) => {
@@ -90,7 +91,7 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
 
     // Handle operating hours
     if (name.includes("operatingHours")) {
-      const [_, day, timeType] = name.split(".");
+      const [, day, timeType] = name.split(".");
 
       setFormData((prev) => ({
         ...prev,
@@ -274,7 +275,8 @@ const CreatePickupLocation = ({ onBack, onNavigateToView }) => {
         </button>
       </div>
       <p className="text-sm md:text-base text-gray-600">
-        Create a new delivery location for recipients to pick-up parcels and packages.
+        Create a new delivery location for recipients to pick-up parcels and
+        packages.
       </p>
 
       {/* Display success or error messages */}

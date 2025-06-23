@@ -17,7 +17,6 @@ const BankTransferModal = ({ onClose, shipment }) => {
     shipment: null,
   });
   const navigate = useNavigate();
-  console.log(shipment);
 
   const initializePayment = async () => {
     setLoading(true);
@@ -25,7 +24,6 @@ const BankTransferModal = ({ onClose, shipment }) => {
     const paymentData = {
       shipmentId: String(storedShipmentId),
     };
-    console.log("Initializing payment for shipment:", paymentData);
 
     try {
       const response = await payments.create(paymentData);
@@ -57,14 +55,14 @@ const BankTransferModal = ({ onClose, shipment }) => {
       const finalizeResponse = await shipments.finalizeShipment(
         storedShipmentId
       );
-      console.log("Finalize response:", finalizeResponse);
+     
 
       if (!finalizeResponse.success) {
         throw new Error("Failed to finalize shipment after payment");
       }
 
       const trackingNumber = finalizeResponse.data.shipment.trackingNumber;
-      console.log("Tracking number after finalization:", trackingNumber);
+    
 
       // Save complete shipment information to localStorage
       const shipmentData = {
@@ -113,21 +111,22 @@ const BankTransferModal = ({ onClose, shipment }) => {
   };
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import('../data/countries.json');
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   return (

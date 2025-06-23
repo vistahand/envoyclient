@@ -49,7 +49,7 @@ const DeliveryCard = ({
   // Calculate estimated delivery date
   const estimatedDate = new Date(date);
   estimatedDate.setDate(estimatedDate.getDate() + option.daysToAdd);
-  console.log("hasCustomPackage", hasCustomPackage);
+
   const formattedDate = estimatedDate.toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -236,7 +236,7 @@ const DeliveryOptions = ({
     const fetchShipmentData = async () => {
       try {
         const data = await loadShipmentDraft(shipmentId);
-        console.log("shipmentData from server: ", data);
+
         setShipmentData(data);
       } catch (err) {
         console.error("Error loading shipment draft:", err);
@@ -260,7 +260,6 @@ const DeliveryOptions = ({
       try {
         console.log("Starting");
         deliveryOptionsApi.getAll().then((response) => {
-          console.log("Delivery Options response:", response);
           if (response && response.data.deliveryOptions) {
             // Transform the data structure to match component expectations
             const transformedOptions = response.data.deliveryOptions.map(

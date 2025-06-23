@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import InternationalIcon from "../../assets/int-ship.svg";
 import LocalIcon from "../../assets/loc-ship.svg";
@@ -71,21 +72,22 @@ const ShipmentDetails = () => {
       }
     };
 
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import("../../data/countries.json");
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
     fetchShipmentDetails();
-    fetchCountries();
+    loadCountries();
 
     return () => {
       document.body.style.overflow = "auto";

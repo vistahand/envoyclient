@@ -98,12 +98,6 @@ const ResetPassword = () => {
     },
   });
 
-  // For debugging
-  useEffect(() => {
-    console.log("Current token value:", tokenValue);
-    console.log("Token validated:", tokenValidated);
-  }, [tokenValue, tokenValidated]);
-
   // Check if token is missing
   if (!tokenValidated && !resetComplete) {
     return (

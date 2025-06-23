@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiUser, FiClock, FiUserX, FiUserCheck, FiUserMinus } from "react-icons/fi";
 import { HiOutlineStatusOnline } from "react-icons/hi";
@@ -6,7 +7,7 @@ import axios from "axios";
 import Modal from "./Modal"; // Import the Modal component
 
 const getAuthToken = () => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("authToken");
   if (!token) {
     throw new Error("Authentication token not found. Please log in again.");
   }
@@ -96,7 +97,7 @@ const AdminUserDetail = () => {
 
   // Handle session expired
   const handleSessionExpired = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
     window.location.href = "/login";
   };
 
@@ -230,18 +231,18 @@ const AdminUserDetail = () => {
   }
   
   // Get button variant and text based on action
-  const getActionStyles = (action) => {
-    switch(action) {
-      case 'activate':
-        return { variant: 'success', color: 'green' };
-      case 'suspend':
-        return { variant: 'warning', color: 'orange' };
-      case 'deactivate':
-        return { variant: 'danger', color: 'red' };
-      default:
-        return { variant: 'primary', color: 'blue' };
-    }
-  };
+  // const getActionStyles = (action) => {
+  //   switch(action) {
+  //     case 'activate':
+  //       return { variant: 'success', color: 'green' };
+  //     case 'suspend':
+  //       return { variant: 'warning', color: 'orange' };
+  //     case 'deactivate':
+  //       return { variant: 'danger', color: 'red' };
+  //     default:
+  //       return { variant: 'primary', color: 'blue' };
+  //   }
+  // };
 
   return (
     <div className="w-full space-y-6">

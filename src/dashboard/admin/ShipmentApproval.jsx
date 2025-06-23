@@ -26,7 +26,7 @@ const api = axios.create({
 // Add a request interceptor to include the token in the headers
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     if (token) {
       try {
         const parsedToken = JSON.parse(token);
@@ -142,7 +142,7 @@ const ShipmentApproval = () => {
         };
       });
       
-      console.log("Processed shipments data:", formattedShipments);
+  
       setShipments(formattedShipments);
     } catch (err) {
       console.error("Error fetching shipments:", err);
@@ -219,14 +219,14 @@ const ShipmentApproval = () => {
           comment: comment
         };
         
-        console.log(`Approving package in shipment ${shipmentId}:`, packagePayload);
+     
         
         // API call to approve each package and set its price
         await api.post(`/admin/shipments/${shipmentId}/approve`, packagePayload);
       }
       
       // Then approve the whole shipment
-      console.log(`Approving shipment ${shipmentId}`);
+    
       
       // Get admin review comment from state or use default
       const comment = adminNotes[shipmentId] || "Shipment approved by admin";
@@ -240,7 +240,7 @@ const ShipmentApproval = () => {
       // API call to approve the shipment
       const response = await api.post(`/api/admin/shipments/${shipmentId}/approve`, shipmentPayload);
       
-      console.log("Shipment approval response:", response.data);
+    
       
       // Update local state
       setShipments(shipments.map(s => {

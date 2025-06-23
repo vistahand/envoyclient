@@ -17,7 +17,7 @@ const RecentActivities = () => {
     setLoading(true);
     try {
       // Get token from local storage or context
-      let token = localStorage.getItem("token"); // Adjust based on how you store tokens
+      let token = localStorage.getItem("authToken"); // Adjust based on how you store tokens
 
       if (!token) {
         throw new Error("Authentication token not found");
@@ -26,7 +26,6 @@ const RecentActivities = () => {
       // Fix: Remove quotes if they exist around the token
       if (token.startsWith('"') && token.endsWith('"')) {
         token = token.slice(1, -1);
-        console.log("Removed quotes from token");
       }
 
       // Log token info (first few characters) for debugging
@@ -37,8 +36,6 @@ const RecentActivities = () => {
       const apiUrl = import.meta.env.VITE_API_URL;
       const endpoint = `${apiUrl}/api/admin/recent-activity`;
 
-      console.log(`Attempting to fetch from: ${endpoint}`);
-
       const response = await fetch(endpoint, {
         method: "GET",
         headers: {
@@ -47,13 +44,11 @@ const RecentActivities = () => {
         },
       });
 
-      console.log(`Response status: ${response.status}`);
       const responseText = await response.text();
 
       try {
         // Try to parse as JSON
         const responseData = responseText ? JSON.parse(responseText) : [];
-        console.log("Response data:", responseData);
 
         if (!response.ok) {
           if (response.status === 401) {
@@ -72,7 +67,6 @@ const RecentActivities = () => {
         setError(null);
       } catch (jsonError) {
         // Handle non-JSON responses
-        console.log("Non-JSON response:", responseText);
 
         if (!response.ok) {
           if (response.status === 401) {

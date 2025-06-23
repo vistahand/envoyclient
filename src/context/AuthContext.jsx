@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         if (response?.success) {
           setUser(response.data.user);
         } else {
-          toast.error(response.error)
+          toast.error(response.error);
           logoutUser(); // 🔥 Call logoutUser() if verification fails
         }
       } catch (err) {
@@ -68,13 +68,12 @@ export const AuthProvider = ({ children }) => {
         const response = await auth.login(credentials);
         if (response.success) {
           if (response.data.user.role === "user") {
-            localStorage.setItem("authToken", response.data.token);
+            localStorage.setItem("authToken", JSON.stringify(response.data.token));
             localStorage.setItem("user", JSON.stringify(response.data.user));
             setUser(response.data.user);
           }
         }
 
-        console.log(response);
         // if (
         //   response?.status === 403 &&
         //   response?.data?.message?.includes("suspended")
@@ -93,7 +92,7 @@ export const AuthProvider = ({ children }) => {
         const response = await auth.adminLogin(credentials);
         if (response.success) {
           // Later on attach sessions to the user object for the admin
-          localStorage.setItem("authToken", response.data.token);
+          localStorage.setItem("authToken", JSON.stringify(response.data.token));
           localStorage.setItem("user", JSON.stringify(response.data.user)); // Store user data
           setUser(response.data.user);
         }
@@ -126,7 +125,7 @@ export const AuthProvider = ({ children }) => {
       const response = await apiUpdatePassword(currentPassword, newPassword);
       if (response.success) {
         if (response.data?.token) {
-          localStorage.setItem("authToken", response.data.token);
+          localStorage.setItem("authToken", JSON.stringify(response.data.token));
         }
         if (response.data?.user) {
           updateUser(response.data.user);
@@ -164,22 +163,12 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async ({ phone, lastName, country, firstName }) => {
     try {
-      // Debug log to check what's being sent to the API
-      console.log("Sending to API:", {
-        firstName,
-        lastName,
-        phone,
-        country,
-      });
-
       const response = await apiUpdateProfile({
         phone,
         country,
         firstName,
         lastName,
       });
-
-      console.log("API response:", response);
 
       if (response.success) {
         // The user data is under response.data.user, not directly in response.data
@@ -194,15 +183,12 @@ export const AuthProvider = ({ children }) => {
             country: response.data.country,
           };
 
-          console.log("Updating user state with:", updatedUser);
           localStorage.setItem("user", JSON.stringify(updatedUser));
           return updatedUser;
         });
       }
       return response;
     } catch (error) {
-      console.log(error);
-      // toast.error("Profile update failed:", error);
       throw error;
     }
   };

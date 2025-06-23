@@ -24,9 +24,7 @@ const SettingsPage = () => {
   const [fileError, setFileError] = useState("");
 
   // Log user data when component mounts
-  useEffect(() => {
-    console.log("Current user data:", user);
-  }, [user]);
+  useEffect(() => {}, [user]);
 
   // Handle profile image selection and upload
   const handleImageChange = async (e) => {

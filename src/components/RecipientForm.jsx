@@ -17,22 +17,21 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
   // const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import('../data/countries.json');
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
-
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   const formik = useFormik({
@@ -94,8 +93,6 @@ const RecipientForm = ({ onNext, onPrev, selectedTab, senderTab }) => {
           },
           vatId: values.vatRec || null,
         };
-
-        // console.log('recipientData: ', recipientData);
 
         const response = await updateRecipientInfo(recipientData);
         if (response?.success && response?.data?.shipment?._id) {

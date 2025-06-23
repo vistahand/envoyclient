@@ -15,7 +15,6 @@ const PaymentSuccess = () => {
   useEffect(() => {
     const currentShipment = getCurrentShipment();
     if (currentShipment?.trackingNumber) {
-      console.log("Retrieved tracking number:", currentShipment.trackingNumber);
       setTrackingNumber(currentShipment.trackingNumber);
     } else {
       console.warn("No tracking number found in storage");
@@ -85,7 +84,6 @@ const PaymentSuccess = () => {
               className="bg-primary text-[13px] py-3.5 px-8 mt-4 w-fit
               text-white rounded-full cursor-pointer"
               onClick={() => {
-                console.log("Navigating with tracking:", trackingNumber);
                 if (trackingNumber) {
                   navigate(
                     `/createshipment-payment/finish?tracking=${trackingNumber}`

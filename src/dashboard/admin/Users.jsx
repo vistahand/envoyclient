@@ -14,7 +14,7 @@ import axios from "axios";
 
 // Fixed authentication helper function
 const getAuthToken = () => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("authToken");
   if (!token) {
     throw new Error("Authentication token not found. Please log in again.");
   }
@@ -57,7 +57,7 @@ const Users = () => {
     try {
       // Get token from our dedicated auth function
       const token = getAuthToken();
-      console.log("Fetching users data with token:", token);
+   
 
       // Prepare query parameters based on filters
       const queryParams = {
@@ -74,7 +74,7 @@ const Users = () => {
         queryParams.isSuspended = filters.status === "suspended";
       }
 
-      console.log("API request params:", queryParams);
+  
 
       const response = await axios.get(`${apiUrl}/api/admin/users`, {
         headers: {
@@ -103,7 +103,7 @@ const Users = () => {
         if (err.response.status === 401) {
           setError("Session expired or invalid token. Redirecting to login...");
           // Clear auth token and redirect to login
-          localStorage.removeItem("token");
+          localStorage.removeItem("authToken");
 
           // Redirect to login page - use your app's navigation method
           setTimeout(() => {
@@ -187,7 +187,7 @@ const Users = () => {
 
   // Handle view user
   const handleViewUser = (userId) => {
-    console.log("Navigating to user details:", userId);
+  
     // Explicitly set the path to include /admin prefix
     navigate(`/admin/users/${userId}`);
     setShowActions(null);

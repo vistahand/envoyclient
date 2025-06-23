@@ -23,11 +23,6 @@ const ShipmentFinish = () => {
         const currentShipment = getCurrentShipment();
 
         if (currentShipment?.trackingNumber) {
-          console.log(
-            "Using tracking number from localStorage:",
-            currentShipment.trackingNumber
-          );
-
           const shipmentDetails = await shipments.getByTrackingId(
             currentShipment.trackingNumber
           );

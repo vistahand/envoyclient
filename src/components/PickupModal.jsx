@@ -11,7 +11,6 @@ const PickupModal = ({ onClose, values, onUpdate }) => {
   const formRef = useRef();
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  console.log("PickupModal values:", values);
   // Modified to handle case when context isn't available
   const { updatePickupLocation } = useShipment();
 
@@ -231,22 +230,23 @@ const PickupModal = ({ onClose, values, onUpdate }) => {
     }
   };
 
-  // Fetch countries on component mount
+  // Load countries on component mount
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import('../data/countries.json');
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   // Helper function to get the minimum datetime for datetime-local input
@@ -286,8 +286,6 @@ const PickupModal = ({ onClose, values, onUpdate }) => {
     onSubmit: async (formValues) => {
       setIsLoading(true);
       try {
-        console.log("Form values being submitted:", formValues);
-
         // Structure data to match server schema
         const pickupPayload = {
           id: values._id,

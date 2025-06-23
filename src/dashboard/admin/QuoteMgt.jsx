@@ -190,12 +190,8 @@ const QuoteMgt = ({ onBack }) => {
         active: true,
       };
 
-      console.log("Sending delivery option payload:", payload);
-
       // Send data to API
       const responseData = await deliveryOptionsApi.create(payload);
-
-      console.log("Delivery option created successfully:", responseData);
 
       // Refresh delivery options
       await fetchDeliveryOptions();
@@ -336,7 +332,7 @@ const QuoteMgt = ({ onBack }) => {
         );
       }
 
-      console.log("Delivery option deleted successfully:", responseData);
+    
 
       showModal("success", "Success", "Delivery option deleted successfully!", [
         { label: "OK", onClick: closeModal, variant: "primary" },
@@ -772,9 +768,7 @@ const QuoteMgt = ({ onBack }) => {
               />
             </div>
 
-            <div className="flex items-center space-x-4 mt-6">
-             
-            </div>
+            <div className="flex items-center space-x-4 mt-6"></div>
           </div>
 
           <button

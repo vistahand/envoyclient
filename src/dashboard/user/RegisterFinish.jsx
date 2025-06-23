@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "../../context/RegisterContext";
@@ -26,22 +27,22 @@ const RegisterFinish = () => {
   }, []);
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import("../../data/countries.json");
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   const formik = useFormik({

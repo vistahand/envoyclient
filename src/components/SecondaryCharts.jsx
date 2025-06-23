@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -59,7 +60,7 @@ const SecondaryCharts = () => {
 
   // Get auth token safely
   const getAuthToken = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     return token ? token.replace(/^"|"$/g, "") : "";
   };
 
@@ -156,6 +157,7 @@ const SecondaryCharts = () => {
   );
 
   // Component to show when there's an error
+  // eslint-disable-next-line react/prop-types
   const ErrorDisplay = ({ message }) => (
     <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
       <div className="bg-red-50 border border-red-200 rounded-md p-4 max-w-xs">
@@ -171,16 +173,16 @@ const SecondaryCharts = () => {
   );
 
   // Component to show when a chart has no data
-  const NoDataDisplay = () => (
-    <div className="flex h-full items-center justify-center">
-      <div className="text-center">
-        <p className="text-gray-500 text-sm">No data available</p>
-        <p className="text-gray-400 text-xs mt-1">
-          Using sample data for demonstration
-        </p>
-      </div>
-    </div>
-  );
+  // const NoDataDisplay = () => (
+  //   <div className="flex h-full items-center justify-center">
+  //     <div className="text-center">
+  //       <p className="text-gray-500 text-sm">No data available</p>
+  //       <p className="text-gray-400 text-xs mt-1">
+  //         Using sample data for demonstration
+  //       </p>
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">

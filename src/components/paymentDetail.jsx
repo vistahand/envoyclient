@@ -11,13 +11,11 @@ const PaymentDetail = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("Payment ID from params:", id);
     fetchPaymentDetail();
   }, [id]);
 
   const getAuthToken = () => {
-    const token = localStorage.getItem("token");
-    console.log("Raw token from storage:", token);
+    const token = localStorage.getItem("authToken");
     
     // Handle different token formats
     if (!token) return '';
@@ -28,7 +26,6 @@ const PaymentDetail = () => {
   const fetchPaymentDetail = async () => {
     try {
       const response = await admin.payments.getById(String(id));
-      console.log(response);
       const data = response;
       // Transform the payment data
       if (data) {
@@ -69,7 +66,6 @@ const PaymentDetail = () => {
             shipmentType: data.shipmentDetails?.type || 'N/A'
           };
           
-          console.log("Transformed payment data:", transformedPayment);
           setPayment(transformedPayment);
         } catch (transformError) {
           console.error("Data transformation error:", transformError);

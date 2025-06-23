@@ -17,24 +17,24 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
     shipmentData?.sender?.type === "business" ? "business" : "individual"
   );
   const { addNotification } = useNotifications();
-  console.log(shipmentData);
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
 
-        const data = await response.json();
+  useEffect(() => {
+    const loadCountries = async () => {
+      try {
+        // Import local countries data
+        const countriesData = await import('../data/countries.json');
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
 
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   const individualSchema = Yup.object().shape({
@@ -224,7 +224,7 @@ const ShippingModal = ({ onClose, shipmentData, onUpdate }) => {
                   },
                 },
               };
-        console.log("senderData: ", senderData);
+
         const response = await updateSenderInfo(senderData);
         if (response?.success && response?.data?.shipment?._id) {
           addNotification({

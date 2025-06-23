@@ -220,7 +220,6 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
       try {
         const response = await admin.packages.getAll();
         if (response?.success) {
-          console.log("response, ", response);
           setPackageItems(response?.data?.packages || []);
         } else {
           addNotification({
@@ -363,11 +362,11 @@ const PackageDetails = ({ onPrev, onNext, selectedTab }) => {
           cost: { baseAmount: baseAmount, currency }, // Include calculated cost in the payload
         };
 
-        console.log("Submitting data:", data); // Debugging log
+     
 
         const response = await updatePackageDetails(data); // Ensure this function is awaited
 
-        console.log("Response received:", response); // Debugging log
+     
 
         if (response?.success) {
           onNext(currentTab);

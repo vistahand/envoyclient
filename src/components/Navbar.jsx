@@ -27,7 +27,7 @@ const Navbar = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   if (isAuthenticated) {
-    console.log("User is authenticated:", user);
+    console.log("User is authenticated:");
   } else {
     console.log("User is not authenticated");
   }

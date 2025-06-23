@@ -78,7 +78,7 @@ const ShippingForm = ({ handlePrevious, currentTab }) => {
     validationSchema,
     onSubmit: (values) => {
       setLoading(true);
-      console.log("Form submitted with values:", values);
+     
       // Handle submission logic here
       setTimeout(() => {
         setLoading(false);

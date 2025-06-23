@@ -68,22 +68,23 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
     { value: "fct", label: "Federal Capital Territory" },
   ];
 
-  // Fetch countries
+  // Load countries
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
+        // Import local countries data
+        const countriesData = await import('../data/countries.json');
+        const data = countriesData.default;
         const sortedCountries = [...data].sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
         setCountries(sortedCountries);
       } catch (error) {
-        console.error("Error fetching countries:", error);
+        console.error("Error loading countries:", error);
       }
     };
 
-    fetchCountries();
+    loadCountries();
   }, []);
 
   // Fetch pickup locations
@@ -93,7 +94,6 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
       try {
         console.log("Starting");
         await pickup.fetchPickupLocation().then((response) => {
-          console.log("Pickup locations response:", response);
           if (response && response.items) {
             // Transform the data structure to match component expectations
             const transformedLocations = response.items.map((item) => ({
@@ -269,7 +269,7 @@ const PickupLocation = ({ onNext, onPrev, selectedTab, senderTab }) => {
       };
 
       const response = await selectPickupLocation(shipmentData?.id, pickupData);
-      console.log(response);
+
       if (response?.success && response?.data?.shipment?._id) {
         addNotification({
           type: "success",

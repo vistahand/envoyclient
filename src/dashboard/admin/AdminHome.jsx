@@ -49,7 +49,6 @@ const AdminHome = () => {
       try {
         setPaymentsLoading(true);
         const response = await admin.payments.getAll();
-        console.log("Payment response:", response);
 
         if (response && response.items && Array.isArray(response.items)) {
           const transformedPayments = response.items.map((item) => ({
@@ -79,8 +78,6 @@ const AdminHome = () => {
         console.error("Error fetching payments:", error);
         setPaymentsError(error.message);
         setPaymentsLoading(false);
-
-       
       }
     };
 
@@ -148,7 +145,6 @@ const AdminHome = () => {
           setPayments(transformedPayments.slice(0, 3));
         } else {
           console.warn("Unexpected API response format:", response);
-          
         }
         setPaymentsError(null);
       })
@@ -347,52 +343,47 @@ const AdminHome = () => {
                 </div>
               </div>
 
-         
-         
-                <table className="w-full">
-                  <thead
-                    className="md:text-[13px] ss:text-[14px] text-[13px] 
+              <table className="w-full">
+                <thead
+                  className="md:text-[13px] ss:text-[14px] text-[13px] 
                   font-medium text-main4 tracking-tight"
-                  >
-                    <tr>
-                      <th className="py-3 pr-4 text-left w-1/3">Amount</th>
-                      <th className="py-3 pr-4 text-left w-1/3">
-                        Tracking No.
-                      </th>
-                      <th className="py-3 pr-4 text-left w-1/3">Date</th>
-                    </tr>
-                  </thead>
+                >
+                  <tr>
+                    <th className="py-3 pr-4 text-left w-1/3">Amount</th>
+                    <th className="py-3 pr-4 text-left w-1/3">Tracking No.</th>
+                    <th className="py-3 pr-4 text-left w-1/3">Date</th>
+                  </tr>
+                </thead>
 
-                  <tbody
-                    className="md:text-[14px] ss:text-[15px] text-[13px] 
+                <tbody
+                  className="md:text-[14px] ss:text-[15px] text-[13px] 
                   text-main2 font-bold"
-                  >
-                    {payments.length > 0 ? (
-                      payments.map((payment, index) => (
-                        <tr
-                          key={payment._id || index}
-                          className="hover:bg-main7 border-b border-main7 cursor-pointer"
+                >
+                  {payments.length > 0 ? (
+                    payments.map((payment, index) => (
+                      <tr
+                        key={payment._id || index}
+                        className="hover:bg-main7 border-b border-main7 cursor-pointer"
+                      >
+                        <td className="pr-4 py-3">
+                          {formatCurrency(
+                            payment.amount || 0,
+                            payment.currency || "eur"
+                          )}
+                        </td>
+                        <td
+                          className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]"
+                          title={payment.trackingNumber}
                         >
-                          <td className="pr-4 py-3">
-                            {formatCurrency(
-                              payment.amount || 0,
-                              payment.currency || "eur"
-                            )}
-                          </td>
-                          <td
-                            className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]"
-                            title={payment.trackingNumber}
-                          >
-                            {payment.trackingNumber || "N/A"}
-                          </td>
-                          <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">
-                            {payment.date || "Invalid date"}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-
-                     <>
+                          {payment.trackingNumber || "N/A"}
+                        </td>
+                        <td className="pr-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap max-w-[13ch]">
+                          {payment.date || "Invalid date"}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <>
                       {paymentsLoading ? (
                         <div className="flex justify-center items-center h-24">
                           <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-primary"></div>
@@ -410,20 +401,19 @@ const AdminHome = () => {
                           </button>
                         </div>
                       ) : (
-                      <tr>
-                        <td
-                          colSpan="3"
-                          className="text-center py-4 text-main4 font-normal"
-                        >
-                          No payment records found
-                        </td>
-                      </tr>
-                    )}
-                     </>
-                    )}
-                  </tbody>
-                </table>
-            
+                        <tr>
+                          <td
+                            colSpan="3"
+                            className="text-center py-4 text-main4 font-normal"
+                          >
+                            No payment records found
+                          </td>
+                        </tr>
+                      )}
+                    </>
+                  )}
+                </tbody>
+              </table>
 
               <div>
                 <a

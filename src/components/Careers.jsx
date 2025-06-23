@@ -27,7 +27,7 @@ const Careers = () => {
       setIsLoading(true);
       // Make API call to get published, active jobs
       const response = await api.get('/api/admin/jobs/active');
-      console.log("API response:", response);
+    
       
       let jobsData = [];
       
@@ -73,7 +73,7 @@ const Careers = () => {
       
       // If no jobs found, fall back to mock data for development purposes
       if (!publishedJobs || publishedJobs.length === 0) {
-        console.log("No published jobs found, using mock data for development");
+        toast.error("No published job listings found");
         
         // Only use mock data in development
         if (process.env.NODE_ENV === "development") {

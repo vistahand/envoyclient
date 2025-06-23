@@ -52,8 +52,6 @@ const GetStarted = ({ stepOverride, onStepChange }) => {
     const fetchDraftData = async () => {
       if (shipmentId && initialLoad) {
         try {
-          console.log(`Loading draft shipment with ID: ${shipmentId}`);
-
           // Validate shipment ID format
           if (
             !shipmentId ||
@@ -64,7 +62,6 @@ const GetStarted = ({ stepOverride, onStepChange }) => {
           }
 
           const loadedData = await loadShipmentDraft(shipmentId);
-          console.log("Draft shipment loaded successfully");
 
           // Set currentStep from either sessionStorage (if available) or the lastSavedStep from server
           const savedStep = sessionStorage.getItem(
@@ -190,7 +187,6 @@ const GetStarted = ({ stepOverride, onStepChange }) => {
     }
 
     if (costData) {
-      console.log("Received cost data:", costData);
       setCost(costData);
     }
 

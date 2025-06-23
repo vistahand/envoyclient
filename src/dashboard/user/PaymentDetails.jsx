@@ -50,7 +50,7 @@ const PaymentDetails = () => {
       if (!dateString) return "N/A";
       const date = new Date(dateString);
       return format(date, "dd MMM yyyy");
-    } catch (e) {
+    } catch {
       return dateString || "N/A";
     }
   };
@@ -60,7 +60,7 @@ const PaymentDetails = () => {
       if (!dateString) return "N/A";
       const date = new Date(dateString);
       return format(date, "hh:mm a");
-    } catch (e) {
+    } catch {
       return "N/A";
     }
   };

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown } from 'lucide-react';
+/* eslint-disable react/prop-types */
+import { useState, useEffect, useRef } from "react";
+import { ChevronDown } from "lucide-react";
 
 const LocationSelector = ({ onSelection }) => {
   const [countries, setCountries] = useState([]);
@@ -9,7 +10,7 @@ const LocationSelector = ({ onSelection }) => {
   const [selectedState, setSelectedState] = useState(null);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [showStateDropdown, setShowStateDropdown] = useState(false);
-  
+
   // Refs for click outside detection
   const countryRef = useRef(null);
   const stateRef = useRef(null);
@@ -25,47 +26,50 @@ const LocationSelector = ({ onSelection }) => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch('https://restcountries.com/v3.1/all');
-        if (!res.ok) {
-          throw new Error(`Failed to fetch countries: ${res.status}`);
-        }
-        const data = await res.json();
-        
+        // Import local countries data
+        const countriesData = await import("../data/countries.json");
+        const data = countriesData.default;
+
         const sorted = data
-          .filter(country => country.name && country.name.common && country.flags) // Filter out invalid entries
+          .filter(
+            (country) => country.name && country.name.common && country.flags
+          ) // Filter out invalid entries
           .sort((a, b) => a.name.common.localeCompare(b.name.common));
-        
+
         setCountries(sorted);
       } catch (error) {
-        console.error("Failed to fetch countries", error);
+        console.error("Failed to load countries", error);
         setCountries([]);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchCountries();
+    loadCountries();
   }, []);
 
   const fetchStates = async (countryName) => {
     try {
-      const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ country: countryName })
-      });
-      
+      const res = await fetch(
+        "https://countriesnow.space/api/v0.1/countries/states",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ country: countryName }),
+        }
+      );
+
       const data = await res.json();
-      
+
       if (data.data?.states && Array.isArray(data.data.states)) {
-        const sortedStates = data.data.states.sort((a, b) => 
+        const sortedStates = data.data.states.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
         setStates(sortedStates);
@@ -83,27 +87,29 @@ const LocationSelector = ({ onSelection }) => {
     setSelectedState(null);
     setShowCountryDropdown(false);
     fetchStates(country.name.common);
-    
+
     // Modified to match CreatePickupLocation's expected format
-    if (onSelection) onSelection({
-      origin: {
-        country: country.name.common,
-        state: null
-      }
-    });
+    if (onSelection)
+      onSelection({
+        origin: {
+          country: country.name.common,
+          state: null,
+        },
+      });
   };
 
   const handleStateSelect = (state) => {
     setSelectedState(state);
     setShowStateDropdown(false);
-    
+
     // Modified to match CreatePickupLocation's expected format
-    if (onSelection) onSelection({
-      origin: {
-        country: selectedCountry.name.common,
-        state: state.name
-      }
-    });
+    if (onSelection)
+      onSelection({
+        origin: {
+          country: selectedCountry.name.common,
+          state: state.name,
+        },
+      });
   };
 
   const renderCountryDropdown = () => {
@@ -114,7 +120,7 @@ const LocationSelector = ({ onSelection }) => {
         </div>
       );
     }
-    
+
     if (!countries || countries.length === 0) {
       return (
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-4">
@@ -128,7 +134,7 @@ const LocationSelector = ({ onSelection }) => {
         {countries.map((country) => {
           const countryName = country.name?.common || "Unknown";
           const flagUrl = country.flags?.png || country.flags?.svg;
-          
+
           return (
             <div
               key={countryName}
@@ -140,7 +146,7 @@ const LocationSelector = ({ onSelection }) => {
                   src={flagUrl}
                   alt={`${countryName} flag`}
                   className="w-6 h-4 object-cover rounded"
-                  onError={(e) => e.target.style.display = 'none'}
+                  onError={(e) => (e.target.style.display = "none")}
                 />
               )}
               <span>{countryName}</span>
@@ -159,7 +165,7 @@ const LocationSelector = ({ onSelection }) => {
         </div>
       );
     }
-    
+
     return (
       <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
         {states.map((state) => (
@@ -187,14 +193,17 @@ const LocationSelector = ({ onSelection }) => {
             className="flex items-center justify-between border border-gray-300 rounded-md p-3 cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              {selectedCountry && (selectedCountry.flags?.png || selectedCountry.flags?.svg) && (
-                <img
-                  src={selectedCountry.flags?.png || selectedCountry.flags?.svg}
-                  className="w-6 h-4 rounded"
-                  alt="flag"
-                  onError={(e) => e.target.style.display = 'none'}
-                />
-              )}
+              {selectedCountry &&
+                (selectedCountry.flags?.png || selectedCountry.flags?.svg) && (
+                  <img
+                    src={
+                      selectedCountry.flags?.png || selectedCountry.flags?.svg
+                    }
+                    className="w-6 h-4 rounded"
+                    alt="flag"
+                    onError={(e) => (e.target.style.display = "none")}
+                  />
+                )}
               <span>{selectedCountry?.name?.common || "Select country"}</span>
             </div>
             <ChevronDown className="w-5 h-5 text-gray-500" />
@@ -205,8 +214,14 @@ const LocationSelector = ({ onSelection }) => {
         {/* State */}
         <div className="relative w-full" ref={stateRef}>
           <div
-            onClick={() => selectedCountry && setShowStateDropdown(!showStateDropdown)}
-            className={`flex items-center justify-between border border-gray-300 rounded-md p-3 ${selectedCountry ? 'cursor-pointer' : 'cursor-not-allowed bg-gray-100'}`}
+            onClick={() =>
+              selectedCountry && setShowStateDropdown(!showStateDropdown)
+            }
+            className={`flex items-center justify-between border border-gray-300 rounded-md p-3 ${
+              selectedCountry
+                ? "cursor-pointer"
+                : "cursor-not-allowed bg-gray-100"
+            }`}
           >
             <span>{selectedState?.name || "Select state"}</span>
             <ChevronDown className="w-5 h-5 text-gray-500" />
